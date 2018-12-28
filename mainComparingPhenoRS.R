@@ -26,7 +26,7 @@ n.cores <- 5
 #register the cores.
 registerDoParallel(cores=n.cores)
 #i <- 14
-iseq <- c(18)
+i <- 18
 output <- 
 foreach(i=1:nrow(siteData)) %dopar% {
 #for(i in 1:nrow(siteData)){
@@ -43,14 +43,12 @@ foreach(i=1:nrow(siteData)) %dopar% {
     startDay <- 182
     endDay <- 546
     xseq <- seq(startDay,endDay,1)
-    #fileName <- paste(siteName,"_",startDay,"_",endDay,"_PC_varBurn.RData",sep="")
-    #if(!file.exists(fileName)){
-    #  j.model.PC <- createBayesModel.DB(dataSource="PC.GCC",siteName=siteName,URL=URL,startDay = startDay,endDay = endDay)
-    #  PC.md.out <- runMCMC_Model(j.model=j.model.PC,variableNames = DB.vars,maxGBR=50)
-    #  if(typeof(PC.md.out)!=typeof(FALSE)){
-    #     save(PC.md.out,file=fileName)
-    #  }
-    #}
+    fileName <- paste(siteName,"_",startDay,"_",endDay,"_PC_varBurn.RData",sep="")
+    if(!file.exists(fileName)){
+      j.model.PC <- createBayesModel.DB(dataSource="PC.GCC",siteName=siteName,URL=URL,startDay = startDay,endDay = endDay)
+      PC.md.out <- runMCMC_Model(j.model=j.model.PC,variableNames = DB.vars)
+      save(PC.md.out,file=fileName)
+    }
     ##****************
     fileName <- paste(siteName,"_",startDay,"_",endDay,"_MODIS_DQF_NDVI_varBurn.RData",sep="")
     print(fileName)
