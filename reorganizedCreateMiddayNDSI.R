@@ -119,7 +119,7 @@ checkFileExists <- function(siteName,day){
 createMissingFilesList <- function(siteName){
   diurnal.files <- dir(pattern=paste("GOES_NDSIMidday",siteName,sep=""))
   days <- numeric()
-  print(paste("Length of diurnal.files:"),length(diurnal.files))
+  #print(paste("Length of diurnal.files:"),length(diurnal.files))
   if(length(diurnal.files)!= 0){
     for(i in 1:length(diurnal.files)){
       #print(diurnal.files[i])
@@ -153,9 +153,9 @@ createMissingFilesList <- function(siteName){
 createNDSI_GOES_MiddayMAIN <- function(day,siteData,orbitVersion,year,TZ){
   #print("Inside Main")
   ##hours for Midday calculations
-  print(TZ)
+  #print(TZ)
   hrs <- as.character(seq(10+as.numeric(TZ),(13+as.numeric(TZ)),1))
-  print(hrs)
+  #print(hrs)
   if(as.numeric(day)<10){
     day <- paste("00",as.character(day),sep="")
   }
@@ -167,7 +167,7 @@ createNDSI_GOES_MiddayMAIN <- function(day,siteData,orbitVersion,year,TZ){
   }
   ##
   filestrACM <- paste("OR_ABI-L2-ACMC-M3_G16_s",year,day,sep="")
-  print(filestrACM)
+  #print(filestrACM)
   ACM.files <- character()
   for(q in 1:length(hrs)){
     if(as.numeric(hrs[q])<10){
@@ -186,17 +186,17 @@ createNDSI_GOES_MiddayMAIN <- function(day,siteData,orbitVersion,year,TZ){
         day <- as.character(day)
       }
     }
-    print(c("hrs[q]",hrs[q]))
+    #print(c("hrs[q]",hrs[q]))
     newFiles <- intersect(dir(path="GOES_Data2017",pattern=filestrACM),dir(path="GOES_Data2017",pattern=paste("s",year,day,hrs[q],sep="")))
     ACM.files <- c(ACM.files,newFiles)
   }
-  print(ACM.files)
+  #print(ACM.files)
   
   if(!dir.exists((paste("GOES_Data2017/",dir(path="GOES_Data2017",pattern=filestrACM),sep="")))){
     if(length(ACM.files>1)){
       day.time.vals <- character()
       NDSI.vals <- matrix(ncol=nrow(siteData),nrow=0)
-      print(dim(NDSI.vals))
+      #print(dim(NDSI.vals))
       for(j in 1:length(ACM.files)){
         ##Open Files
         day.time <- substr(ACM.files[j],24,34)
@@ -209,9 +209,9 @@ createNDSI_GOES_MiddayMAIN <- function(day,siteData,orbitVersion,year,TZ){
       for(i in 1:nrow(siteData)){
         siteName <- as.character(siteData[i,1])
         fileName <- paste("GOES_NDSI_Midday",siteName,"_",day,"_",day,"_kappaDQF.csv",sep="")
-        print("Printing NDSI.vals[,i]:")
-        print(NDSI.vals[,i])
-        print(dim(NDSI.vals[,i]))
+        #print("Printing NDSI.vals[,i]:")
+        #print(NDSI.vals[,i])
+        #print(dim(NDSI.vals[,i]))
         output <- rbind(day.time.vals,NDSI.vals[,i])
         write.table(output,file=fileName,sep=",",col.names=FALSE,row.names=FALSE)
       }
@@ -244,7 +244,7 @@ for(s in 1:nrow(siteData)){
 }
 print("Done creating missing day files")
 #all.days <- c(seq(321,333,1),seq(348,365,1))
-all.days <- c(seq(1,333,1),seq(348,365,1))
+all.days <- c(seq(1,151,1),seq(274,333,1),seq(348,365,1))
 #all.days <- seq(158,181)
 #year <- 2017
 #output <- 
