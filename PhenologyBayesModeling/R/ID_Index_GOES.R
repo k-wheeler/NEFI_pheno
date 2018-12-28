@@ -41,33 +41,33 @@ getDataIndex <- function(vals,ch,orbitVersion){
       y.scale_factor <- -2.80000003840541e-05
       y.add_offset <- 0.126545995473862
     }
-    if(ch==2){
+    else if(ch==2){
       x.scale_factor <- 1.40000001920271e-05
       x.add_offset <- -0.075033001601696
       y.scale_factor <- -1.40000001920271e-05
       y.add_offset <- 0.126552999019623
     }
-    if(ch=="ACM"){
+    else if(ch=="ACM"){
       x.scale_factor <- 5.60000007681083e-05
       x.add_offset <- -0.0750119984149933
       y.scale_factor <- -5.60000007681083e-05
       y.add_offset <- 0.126532003283501
     }
   }
-  else{
+  else if(orbitVersion=="NEW"){
     if(ch==3 || ch==5){
       x.scale_factor <- 2.80000003840541e-05 #values from netcdf files under dimensions:x:scale_factor
       x.add_offset <- -0.101346001029015
       y.scale_factor <- -2.80000003840541e-05
       y.add_offset <- 0.12822599709034
     }
-    if(ch==2){
+    else if(ch==2){
       x.scale_factor <- 1.40000001920271e-05
       x.add_offset <- -0.101352997124195
       y.scale_factor <- -1.40000001920271e-05
       y.add_offset <- 0.128233000636101
     }
-    if(ch=="ACM"){
+    else if(ch=="ACM"){
       x.scale_factor <- 5.60000007681083e-05
       x.add_offset <- -0.101332001388073
       y.scale_factor <- -5.60000007681083e-05
