@@ -50,7 +50,7 @@ createNDSI_sub <- function(siteData,orbitVersion,day.time,year){
       R2 <- R2 * R2.kappa0
       clouds <- ncvar_get(ACM.file,"BCM")
       clouds.DQF <- ncvar_get(ACM.file,"DQF")
-      print(paste("R5.DQF Dim"),dim(R5.DQF))
+      print(dim(R5.DQF))
       
       for(i in 1:nrow(siteData)){
         ##General Site Data
