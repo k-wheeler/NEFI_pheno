@@ -1,13 +1,13 @@
 #!/usr/bin/env Rscript
 
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
 library("ncdf4")
 library(plyr)
 library("PhenologyBayesModeling")
 library(doParallel)
 
 #detect cores.
-n.cores <- 6
+n.cores <- 5
 
 #register the cores.
 registerDoParallel(cores=n.cores)
@@ -15,7 +15,7 @@ registerDoParallel(cores=n.cores)
 ##Can only do for same TZ
 
 createNDSI_sub <- function(siteData,orbitVersion,day.time,year){
-  print(orbitVersion)
+  #print(orbitVersion)
   ##Will need to return a vector of the NDSI values
   
   ##Create File Paths
@@ -66,7 +66,7 @@ createNDSI_sub <- function(siteData,orbitVersion,day.time,year){
         Ind2 <- getDataIndex(getABI_Index(lat.rd,long.rd,orbitVersion=orbitVersion),2,orbitVersion=orbitVersion)
         Ind5 <- getDataIndex(getABI_Index(lat.rd,long.rd,orbitVersion=orbitVersion),5,orbitVersion=orbitVersion)
         ACM.ind <- getDataIndex(getABI_Index(lat.rd,long.rd,orbitVersion=orbitVersion),"ACM",orbitVersion=orbitVersion)
-        print(paste("Ind5:",Ind5))
+        #print(paste("Ind5:",Ind5))
         i2 <- Ind2[1]
         j2 <- Ind2[2]
         i5 <- Ind5[1]
@@ -153,7 +153,7 @@ createMissingFilesList <- function(siteName){
 
 
 createNDSI_GOES_MiddayMAIN <- function(day,siteData,orbitVersion,year,TZ){
-  print(orbitVersion)
+  #print(orbitVersion)
   #print("Inside Main")
   ##hours for Midday calculations
   #print(TZ)
@@ -208,7 +208,7 @@ createNDSI_GOES_MiddayMAIN <- function(day,siteData,orbitVersion,year,TZ){
         NDSI.vals <- rbind(NDSI.vals,createNDSI_sub(siteData=siteData,orbitVersion=orbitVersion,day.time=day.time) )
         #print(NDSI.vals)
       }
-      print(dim(NDSI.vals))
+      #print(dim(NDSI.vals))
       for(i in 1:nrow(siteData)){
         siteName <- as.character(siteData[i,1])
         fileName <- paste("GOES_NDSI_Midday",siteName,"_",day,"_",day,"_kappaDQF.csv",sep="")
@@ -250,9 +250,9 @@ print("Done creating missing day files")
 all.days <- c(seq(1,151,1),seq(274,333,1),seq(348,365,1))
 #all.days <- seq(158,181)
 #year <- 2017
-#output <- 
-#foreach (d = 1:length(all.days)) %dopar% {
-for(d in 1:length(all.days)){
+output <- 
+foreach (d = 1:length(all.days)) %dopar% {
+#for(d in 1:length(all.days)){
   print(paste("Starting Day:",all.days[d],sep=" "))
   iseq <- numeric()
   if(PFT=="SH"){
@@ -290,7 +290,7 @@ for(d in 1:length(all.days)){
       iseq <- c(iseq,s)
     }
   }
-  print(iseq)
+  #print(iseq)
 
   if(length(iseq)>0){
     createNDSI_GOES_MiddayMAIN(day=all.days[d],siteData=siteData[iseq,],orbitVersion = orbitVersion,year = year,TZ = TZ)
