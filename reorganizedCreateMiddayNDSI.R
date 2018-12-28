@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
+install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
 library("ncdf4")
 library(plyr)
 library("PhenologyBayesModeling")
