@@ -56,7 +56,7 @@ createNDSI_sub <- function(siteData,orbitVersion,day.time,year){
         ##General Site Data
         siteName <- as.character(siteData[i,1])
         lat <- as.numeric(siteData[i,2])
-        long <- as.numeric(siteData[i,5])
+        long <- as.numeric(siteData[i,3])
         TZ <- as.numeric(siteData[i,6])
         
         ##Determine index values
