@@ -15,6 +15,7 @@ registerDoParallel(cores=n.cores)
 ##Can only do for same TZ
 
 createNDSI_sub <- function(siteData,orbitVersion,day.time,year){
+  print(orbitVersion)
   ##Will need to return a vector of the NDSI values
   
   ##Create File Paths
@@ -49,6 +50,7 @@ createNDSI_sub <- function(siteData,orbitVersion,day.time,year){
       R2 <- R2 * R2.kappa0
       clouds <- ncvar_get(ACM.file,"BCM")
       clouds.DQF <- ncvar_get(ACM.file,"DQF")
+      print(paste("R5.DQF Dim"),dim(R5.DQF))
       
       for(i in 1:nrow(siteData)){
         ##General Site Data
@@ -64,7 +66,7 @@ createNDSI_sub <- function(siteData,orbitVersion,day.time,year){
         Ind2 <- getDataIndex(getABI_Index(lat.rd,long.rd,orbitVersion=orbitVersion),2,orbitVersion=orbitVersion)
         Ind5 <- getDataIndex(getABI_Index(lat.rd,long.rd,orbitVersion=orbitVersion),5,orbitVersion=orbitVersion)
         ACM.ind <- getDataIndex(getABI_Index(lat.rd,long.rd,orbitVersion=orbitVersion),"ACM",orbitVersion=orbitVersion)
-        
+        print(paste("Ind5:",Ind5))
         i2 <- Ind2[1]
         j2 <- Ind2[2]
         i5 <- Ind5[1]
@@ -151,6 +153,7 @@ createMissingFilesList <- function(siteName){
 
 
 createNDSI_GOES_MiddayMAIN <- function(day,siteData,orbitVersion,year,TZ){
+  print(orbitVersion)
   #print("Inside Main")
   ##hours for Midday calculations
   #print(TZ)
@@ -273,7 +276,7 @@ for(d in 1:length(all.days)){
     else{
       year <- 2017
     }
-    if(all.days[d]<334 && all.days[d]>181){##Need to change for DB
+    if(all.days[d]<334 && all.days[d]>181){
       orbitVersion <- "OLD"
     }
     else{
