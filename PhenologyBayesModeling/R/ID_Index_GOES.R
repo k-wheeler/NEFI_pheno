@@ -35,7 +35,7 @@ getDataIndex <- function(vals,ch,orbitVersion){
   #NDVI should use channel 3
   #All add_offset values changed when they moved the satellite
   if(orbitVersion=="OLD"){
-    if(ch==3){
+    if(ch==3 || ch==5){ ##Ch 3 and Ch 5 have the same scaling numbers (I checked) probably because they are both NIR
       x.scale_factor <- 2.80000003840541e-05 #values from netcdf files under dimensions:x:scale_factor
       x.add_offset <- -0.0750259980559349
       y.scale_factor <- -2.80000003840541e-05
@@ -52,11 +52,10 @@ getDataIndex <- function(vals,ch,orbitVersion){
       x.add_offset <- -0.0750119984149933
       y.scale_factor <- -5.60000007681083e-05
       y.add_offset <- 0.126532003283501
-
     }
   }
   else{
-    if(ch==3){
+    if(ch==3 || ch==5){
       x.scale_factor <- 2.80000003840541e-05 #values from netcdf files under dimensions:x:scale_factor
       x.add_offset <- -0.101346001029015
       y.scale_factor <- -2.80000003840541e-05
