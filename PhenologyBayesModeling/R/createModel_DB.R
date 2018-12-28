@@ -18,6 +18,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
   inits <- list()
   if(dataSource=="PC.GCC"){
     data <- PC_data(siteName=siteName,URL=URL,startDay=startDay,endDay=endDay)
+    data$x[data$x<181] <- data$x[data$x<181]+365
     inits.mu <- createInits(data=data,PFT=PFT)
     for(i in 1:nchain){
       inits[[i]] <- list(TranS=rnorm(1,480,10),bS=rnorm(1,-0.10,0.015),TranF=rnorm(1,280,10),bF=rnorm(1,0.11,0.05),c=rnorm(1,inits.mu$c,0.02),d=rnorm(1,inits.mu$d,0.001),k=rnorm(1,365,10))
@@ -26,6 +27,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     data$mean.d <- 0.35
     data$p.c <- 1/(0.1**2)
     data$p.d <- 1/(0.1**2)
+    print(range(data$x))
   }
   else if(dataSource == "MODIS.NDVI"){
     data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="NDVI")

@@ -2,12 +2,14 @@ createCI <- function(PFT,var.mat,xseq,doRescale=TRUE){
   ycred <- matrix(0,nrow=10000,ncol=length(xseq))
   if(PFT=="DB"){
     TranF<-var.mat[,1]
-    TranS<-var.mat[,2]
-    bF <- var.mat[,3]
-    bS <- var.mat[,4]
-    c <- var.mat[,5]
-    d <- var.mat[,6]
-    k <- var.mat[,7]
+    rndNums <- sample(1:length(TranF),10000,replace=T)
+    TranF <- TranF[rndNums]
+    TranS<-var.mat[rndNums,2]
+    bF <- var.mat[rndNums,3]
+    bS <- var.mat[rndNums,4]
+    c <- var.mat[rndNums,5]
+    d <- var.mat[rndNums,6]
+    k <- var.mat[rndNums,7]
     for(g in 1:10000){
       if(doRescale){
         Ey <- rescale(c=c[g],d=d[g],yseq=deciduousYvals(TranS=TranS[g],bS=bS[g],TranF=TranF[g],bF=bF[g],c=c[g],d=d[g],k=k[g],xseq=xseq))
@@ -20,11 +22,13 @@ createCI <- function(PFT,var.mat,xseq,doRescale=TRUE){
   }
   else if(PFT=="SH"){
     Tran<-var.mat[,1]
-    b<-var.mat[,2]
-    c <- var.mat[,3]
-    d <- var.mat[,4]
-    k <- var.mat[,5]
-    r <- var.mat[,7]
+    rndNums <- sample(1:length(Tran),10000,replace=T)
+    Tran <- Tran[rndNums]
+    b<-var.mat[rndNums,2]
+    c <- var.mat[rndNums,3]
+    d <- var.mat[rndNums,4]
+    k <- var.mat[rndNums,5]
+    r <- var.mat[rndNums,7]
 
     for(g in 1:10000){
       if(doRescale){
