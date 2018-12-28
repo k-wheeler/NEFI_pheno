@@ -16,6 +16,7 @@ registerDoParallel(cores=n.cores)
 
 createNDSI_sub <- function(siteData,orbitVersion,day.time,year){
   #print(orbitVersion)
+  print(day.time)
   ##Will need to return a vector of the NDSI values
   
   ##Create File Paths
@@ -50,7 +51,7 @@ createNDSI_sub <- function(siteData,orbitVersion,day.time,year){
       R2 <- R2 * R2.kappa0
       clouds <- ncvar_get(ACM.file,"BCM")
       clouds.DQF <- ncvar_get(ACM.file,"DQF")
-      print(dim(R5.DQF))
+      #print(dim(R5.DQF))
       
       for(i in 1:nrow(siteData)){
         ##General Site Data
