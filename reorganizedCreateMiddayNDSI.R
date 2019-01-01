@@ -235,8 +235,8 @@ createNDSI_GOES_MiddayMAIN <- function(day,siteData,orbitVersion,year,TZ){
 #siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)[c(1,2,3,4,5,8,11,16,17,18,19,20,21,22),] ##TZ 5 sites
 #siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)[c(8,11,16,17,18,19,20),]#[c(2,3,4),]
 #siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)[c(1,2,3,4,5),]
-siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)[c(6,9,10,15),] ##TZ 6 sites
-#siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)[c(7,13,14),]##TZ 7 sites
+#siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)[c(6,9,10,15),] ##TZ 6 sites
+siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)[c(7,13,14),]##TZ 7 sites
 #siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)[c(12),] ##TZ 8
 #siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)[c(21,22),]
 TZ <- as.numeric(siteData[1,6])
