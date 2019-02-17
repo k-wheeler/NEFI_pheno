@@ -7,6 +7,7 @@
 ##' @param endDay The end day counted as the day number after 2016-12-31
 ##' @param TZ The timezone off of UTC
 ##' @param window Boolean of if you want to average out over a 4 hour window
+##' @export
 GOES_data <- function(siteName,lat,long,startDay,endDay,TZ,window=FALSE,maxValue=FALSE) {
   startDate <- as.Date(startDay,origin="2016-12-31")
   endDate <- as.Date(endDay,origin="2016-12-31")

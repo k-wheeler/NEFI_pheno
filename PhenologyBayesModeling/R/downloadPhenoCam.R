@@ -1,6 +1,7 @@
 ##' Download Phenocam data
 ##'
 ##' @param URL  web address where data is located
+##' @export
 download.phenocam <- function(URL) {
   ## check that we've been passed a URL
   if (length(URL) == 1 & is.character(URL) & substr(URL,1,4)=="http") {

@@ -1,3 +1,9 @@
+##' Creates an output summary (not finalized)
+##'
+##' @param siteFileName The desired output file name
+##' @param siteName iseq The row numbers of the sites in the data file to include in the summary
+##' @param startDay The start day
+##' @param endDay The end day
 createOutputSummary <- function(siteFileName,iseq,startDay,endDay){
   siteData <- read.csv(siteFileName,header=FALSE)
   xseq <- seq(startDay,endDay,1)

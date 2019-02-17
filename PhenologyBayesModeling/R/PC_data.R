@@ -2,22 +2,30 @@
 ##'
 ##' @param URL PhenoCam network URL
 ##' @param siteName The site name
-##' @param startDay The start day counted as the day number after 2016-12-31
-##' @param endDay The end day counted as the day number after 2016-12-31
-PC_data <- function(siteName,URL,startDay,endDay) {
+##' @param startDate The start date
+##' @param endDate The end date
+##' @export
+PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS") {
   ##Data
-  startDate <- as.Date(startDay,origin="2016-12-31")
-  endDate <- as.Date(endDay,origin="2016-12-31")
   fileName <- paste(siteName,"_",startDate,"_",endDate,"PC.RData",sep="")
+  years <- seq(lubridate::year(startDate),lubridate::year(endDate))
   if(!file.exists(fileName)){
-    PC.data <- subset(download.phenocam(URL),year%in%c(2017,2018))
-    PC.data <- PC.data[1:endDay,]
-    PC.time = as.Date(PC.data$date)
-    y <- PC.data$midday_gcc[startDay:endDay]
-    x <- lubridate::yday(PC.time[startDay:endDay])
-    bk <- which(xseq==366)
-    for(i in bk:length(x)){
-      x[i] <- x[i]+365
+    ##Download all data for those years
+    PC.data <- subset(download.phenocam(URL),year%in%years)
+    ##Index for the startDate and endDate
+    PC.startDayIndex <- which(as.Date(PC.data$date)==startDate)
+    PC.endDayIndex <- which(as.Date(PC.data$date)==endDate)
+    ##Subset data for specific date range
+    PC.data <- PC.data[PC.startDayIndex:PC.endDayIndex,]
+    PC.time <-  as.Date(PC.data$date)
+    y <- PC.data$midday_gcc
+    x <- lubridate::yday(PC.time)
+    ##If the season order is autumn and then spring, it adds 365 to DOY of spring
+    if(seasonOrder=="AS"){
+      bk <- which(x==365)+1
+      for(i in bk:length(x)){
+        x[i] <- x[i]+365
+      }
     }
     data <- list(x=x,y=y,n=length(y))
     save(data,file=fileName)

@@ -6,8 +6,12 @@ library("runjags")
 ##' @param dataSource data source (GOES.NDVI, MODIS.NDVI, PC.GCC)
 ##' @param siteName Site Name
 ##' @param URL PhenoCam network URL
+##' @import rjags
+##' @import runjags
+##' @export
 createBayesModel.EN <- function(dataSource,siteName="",URL="") {
-  siteName <- "niwot"
+  ##NOTE: Haven't gotten this to work well
+  #siteName <- "niwot"
   dataSource <- "PC.GCC"
   nchain = 10
   if(dataSource=="PC.GCC"){

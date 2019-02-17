@@ -1,6 +1,3 @@
-#install.packages("MODISTools",repo="https://cloud.r-project.org/")
-library("MODISTools")
-
 ##' For MODIS EVI data, construct the data object for input into MCMC
 ##'
 ##' @param siteName Site Name
@@ -9,6 +6,8 @@ library("MODISTools")
 ##' @param startDay The start day counted as the day number after 2016-12-31
 ##' @param endDay The end day counted as the day number after 2016-12-31
 ##' @param metric "NDVI" or "EVI"
+##' @import MODISTools
+##' @export
 MODIS_data <- function(siteName,lat,long,startDay,endDay,metric) {
   startDate <- as.Date(startDay,origin="2016-12-31")
   endDate <- as.Date(endDay,origin="2016-12-31")

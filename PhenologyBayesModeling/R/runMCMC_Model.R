@@ -1,7 +1,18 @@
-library("rjags")
-library("runjags")
-
-runMCMC_Model <- function(j.model,variableNames,maxIter=1000000000,baseNum=80000,iterSize =40000,maxGBR=10,ID="",sampleCutoff=5000){
+##' Continues to run MCMC until convergence and large enough effective sample size
+##'
+##' @param j.model The jags model
+##' @param variableNames A vector of the variable names that need to converge
+##' @param maxIter The maximum number of iterations to run
+##' @param baseNum The number of initial iterations to run
+##' @param iterSize The number of iterations per each run (between when GBR values are checked)
+##' @param maxGBR The maximum allowable GBR value after the baseNum of iterations are run
+##' @param ID An optional identifier to print if it doesn't converge
+##' @param sampleCutoff The minimum desired effective sample size for testing (default is 5000)
+##' @import rjags
+##' @import runjags
+##' @import coda
+##' @export
+runMCMC_Model <- function(j.model,variableNames,maxIter=1000000000,baseNum=80000,iterSize=40000,maxGBR=10,ID="",sampleCutoff=5000){
   var.out   <- coda.samples (model = j.model,
                              variable.names = variableNames,
                              n.iter = baseNum)

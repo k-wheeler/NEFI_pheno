@@ -1,3 +1,14 @@
+##' Plot the MCMC outputs with data (rough and not generalized)
+##'
+##' @param outputFileName The filename for the graphs
+##' @param siteFileName The file name of the site data
+##' @param iseq The row numbers for the desired sites in the siteFileName
+##' @param startDaySH The start day for the shrubland sites
+##' @param endDaySH The end day for the shrubland sites
+##' @param startDayDB The start day for the deciduous broadleaf sites
+##' @param endDayDB The end day for the deciduous broadleaf sites
+##' @import rjags
+##' @export
 graphMCMC_Outputs_withData <- function(outputFileName,siteFileName,iseq,startDaySH,endDaySH,startDayDB,endDayDB){
   pdf(file=outputFileName,width=8,height=8)
   siteData <- read.csv(siteFileName,header=TRUE)

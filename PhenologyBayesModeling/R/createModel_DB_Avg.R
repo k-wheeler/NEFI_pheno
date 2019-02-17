@@ -1,9 +1,4 @@
-#!/usr/bin/env Rscript
-
-library("rjags")
-library("runjags")
-
-##' Create a Bayes Model for a deciduous broadleaf site
+##' Create a Bayes Model for a deciduous broadleaf site using the window average GOES values
 ##'
 ##' @param dataSource data source (GOES.NDVI, MODIS.NDVI, PC.GCC)
 ##' @param siteName Site Name
@@ -13,6 +8,9 @@ library("runjags")
 ##' @param startDay the day of year since 2017-01-01 to start the model
 ##' @param endDay the day of year since 2017-01-01 to end the model
 ##' @param niter the maximum number of iterations you want to give the model to converge within
+##' @import rjags
+##' @import runjags
+##' @export
 createBayesModel.DB_Avg <- function(dataSource="GOES.NDVI",siteName="",URL="",niter=100000,startDay,endDay,lat,long,TZ=5) {
   nchain = 5
   inits <- list()

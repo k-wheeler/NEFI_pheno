@@ -1,10 +1,11 @@
-library("rjags")
-library("runjags")
-library("MODISTools")
-#library("doParallel")
-
+##' Create a diurnal model for a deciduous broadleaf site
+##'
+##' @param siteName Site Name
+##' @param data Data object
+##' @import rjags
+##' @import runjags
+##' @export
 createBayesModel.Diurnal <- function(siteName,data){
-  print("entered model")
   nchain <-  5
   inits <- list()
 

@@ -1,3 +1,10 @@
+##' Create the credible interval from MCMC output matrix
+##'
+##' @param PFT The plant functional type (DB or SH)
+##' @param var.mat The MCMC output as a matrix
+##' @param xseq The sequence of x values you want to calculate the CI for
+##' @param doRescale Boolean for if you want to rescale the CI to be between 0 and 1 (default=True)
+##' @export
 createCI <- function(PFT,var.mat,xseq,doRescale=TRUE){
   ycred <- matrix(0,nrow=10000,ncol=length(xseq))
   if(PFT=="DB"){

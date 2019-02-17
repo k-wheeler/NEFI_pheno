@@ -1,7 +1,4 @@
-library("rjags")
-library("runjags")
-
-##' Create a Bayes Model for a shrubland site
+##' Create a Bayes Model for a shrubland site based on the window average data
 ##'
 ##' @param dataSource data source (GOES.NDVI, MODIS.NDVI, PC.GCC)
 ##' @param siteName Site Name
@@ -11,6 +8,9 @@ library("runjags")
 ##' @param startDay the day of year since 2017-01-01 to start the model
 ##' @param endDay the day of year since 2017-01-01 to end the model
 ##' @param niter the maximum number of iterations you want to give the model to converge within
+##' @import rjags
+##' @import runjags
+##' @export
 createBayesModel.SH_Avg <- function(dataSource,siteName="",URL="",startDay,endDay,lat,long,TZ=5) {
   nchain = 10
   inits <- list()

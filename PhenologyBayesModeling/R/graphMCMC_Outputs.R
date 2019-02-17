@@ -1,3 +1,12 @@
+##' Plot the MCMC outputs (rough and not generalized)
+##'
+##' @param outputFileName The filename for the graphs
+##' @param siteFileName The file name of the site data
+##' @param iseq The row numbers for the desired sites in the siteFileName
+##' @param startDay The start day
+##' @param endDay The end day
+##' @import rjags
+##' @export
 graphMCMC_Outputs <- function(outputFileName,siteFileName,iseq,startDay,endDay){
   pdf(file=outputFileName,width=8,height=8)
   siteData <- read.csv(siteFileName,header=FALSE)
