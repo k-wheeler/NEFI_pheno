@@ -12,6 +12,11 @@ library(doParallel)
 endDate <- as.Date("2019-01-27")
 forecastLength <- 0
 
+n.cores <- 6
+
+#register the cores.
+registerDoParallel(cores=n.cores)
+
 i <- 10
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 siteName <- as.character(siteData[i,1])
