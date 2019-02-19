@@ -86,7 +86,7 @@ j=1
 years <- seq(2013,2018)
 #output <- 
 #  foreach(j=1:6) %dopar% {
-for(j in 1:6){
+for(j in 4:6){
   ##PhenoCam Fits
   p.yr <- p[,j]
   #plot(DOYs,p.yr,pch=20)
