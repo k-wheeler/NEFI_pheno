@@ -88,6 +88,8 @@ years <- seq(2013,2018)
 #  foreach(j=1:6) %dopar% {
 for(j in 4:6){
   ##PhenoCam Fits
+  outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
+  if(!file.exists(outFileName)){
   p.yr <- p[,j]
   #plot(DOYs,p.yr,pch=20)
   data <- list(x=DOYs,y=p.yr,n=length(p.yr))
@@ -97,12 +99,13 @@ for(j in 4:6){
   #cMeans <- c(cMeans,mean(out.mat[,5]))
   #dMeans <- c(dMeans,mean(out.mat[,6]))
   #kMeans <- c(kMeans,mean(out.mat[,7]))
-  outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
+
   save(varBurn,file=outFileName)
+  }
   
   ##MODIS NDVI Fits
   outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_MN_",years[j],"_varBurn.RData",sep="")
-  if(!file.exists){
+  if(!file.exists(outFileName)){
     mn.yr <- mn[,j]
     data <- list(x=DOYs,y=mn.yr,n=length(mn.yr))
     j.model <- createModel_DB(data=data,dataSource = "MODIS.NDVI",seasonOrder = "SF")
@@ -112,7 +115,7 @@ for(j in 4:6){
   
   ##MODIS EVI Fits
   outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_ME_",years[j],"_varBurn.RData",sep="")
-  if(!file.exists){
+  if(!file.exists(outFileName)){
   me.yr <- me[,j]
   data <- list(x=DOYs,y=me.yr,n=length(me.yr))
   j.model <- createModel_DB(data=data,dataSource = "MODIS.EVI",seasonOrder = "SF")
