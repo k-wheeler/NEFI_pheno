@@ -86,7 +86,7 @@ j=1
 years <- seq(2013,2018)
 #output <- 
 #  foreach(j=1:6) %dopar% {
-for(j in 1:2){
+for(j in 1:6){
   ##PhenoCam Fits
   outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
   if(!file.exists(outFileName)){
