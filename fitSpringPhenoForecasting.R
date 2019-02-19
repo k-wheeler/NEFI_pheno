@@ -15,7 +15,7 @@ forecastLength <- 0
 n.cores <- 6
 
 #register the cores.
-registerDoParallel(cores=n.cores)
+#registerDoParallel(cores=n.cores)
 
 i <- 10
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
@@ -84,9 +84,9 @@ DB.vars <- c("TranF","bF","TranS","bS","c","d","prec","k")
 #kMeans <- numeric()
 j=1
 years <- seq(2013,2018)
-output <- 
-  foreach(j=1:6) %dopar% {
-#for(j in 1:6){
+#output <- 
+#  foreach(j=1:6) %dopar% {
+for(j in 1:6){
   ##PhenoCam Fits
   p.yr <- p[,j]
   #plot(DOYs,p.yr,pch=20)
