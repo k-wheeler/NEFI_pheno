@@ -70,7 +70,7 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
     if(forecastType=="logisticCov"){
       Tairs <- download_US_WCr_met(start_date=startDate,end_date=endDate)
       for(G in 1:length(GEFS_Files)){
-        TairsForecast <- load_GEFS_Forecast(paste("PhenologyForecastData/",GEFS_Files[G],sep=""))
+        TairsForecast <- load_GEFS_Forecast(paste(GEFS_Directory,GEFS_Files[G],sep=""))
         fileTairs <- c(Tairs,TairsForecast)
         Sfs <- calSf(Tairs=fileTairs,days=as.Date(dat2$dates))
         SfsALL <- rbind(SfsALL,Sfs)
