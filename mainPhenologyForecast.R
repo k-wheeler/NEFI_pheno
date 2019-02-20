@@ -25,7 +25,8 @@ i <- 10
 #  foreach(i=1:nrow(siteData)) %dopar% {
 siteName <- as.character(siteData[i,1])
 print(siteName)
-GEFS_files <- dir(path=paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/willowcreek/2019-01-25",sep=""),pattern="NOAA_GEFS")
+GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/willowcreek/2019-01-25",sep="")
+GEFS_files <- dir(path=GEFS_Directory,pattern="NOAA_GEFS")
 print(GEFS_files)
 URL <- as.character(siteData[i,4])
 lat <- as.numeric(siteData[i,2])
@@ -72,7 +73,7 @@ if(siteName=="willowCreek"){
   if(!file.exists(outputFile)){
     #########################
     forecastLength=16
-    varBurnLC <- phenologyForecast(forecastType = "logisticCov",forecastLength = forecastLength,siteName="willowCreek",URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
+    varBurnLC <- phenologyForecast(forecastType = "logisticCov",forecastLength = forecastLength,siteName="willowCreek",URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory)
     save(outBurnLC,file=outputFile)
     #   variableNames <- c("p.PC","p.MN","p.ME","p.proc","x","b0","b1")
     #   
