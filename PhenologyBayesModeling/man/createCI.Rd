@@ -4,7 +4,7 @@
 \alias{createCI}
 \title{Create the credible interval from MCMC output matrix}
 \usage{
-createCI(PFT, var.mat, xseq, doRescale = TRUE)
+createCI(PFT, var.mat, xseq, doRescale = TRUE, seasonOrder = "FS")
 }
 \arguments{
 \item{PFT}{The plant functional type (DB or SH)}
@@ -14,6 +14,8 @@ createCI(PFT, var.mat, xseq, doRescale = TRUE)
 \item{xseq}{The sequence of x values you want to calculate the CI for}
 
 \item{doRescale}{Boolean for if you want to rescale the CI to be between 0 and 1 (default=True)}
+
+\item{seasonOrder}{the order of seasons FS or SF}
 }
 \description{
 Create the credible interval from MCMC output matrix

@@ -4,7 +4,7 @@
 \alias{deciduousYvals}
 \title{Compute the double logistic curve (autumn then spring) for phenology values}
 \usage{
-deciduousYvals(TranF, bF, TranS, bS, c, d, k, xseq)
+deciduousYvals(TranF, bF, TranS, bS, c, d, k, xseq, seasonOrder = "FS")
 }
 \arguments{
 \item{TranF}{DOY of autumn/fall transition date}
@@ -22,6 +22,8 @@ deciduousYvals(TranF, bF, TranS, bS, c, d, k, xseq)
 \item{k}{k (changepoint) parameter}
 
 \item{xseq}{the sequence of x values to compute the double logistic curve for}
+
+\item{seasonOrder}{the order of seasons FS or SF}
 }
 \description{
 Compute the double logistic curve (autumn then spring) for phenology values

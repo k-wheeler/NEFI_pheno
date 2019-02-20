@@ -11,34 +11,41 @@
 #' @import MODISTools
 downloadMODIS <- function(startDate,endDate,metric,dataDirectory,lat,long,siteName){
   fileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
-  #print(fileName)
   if(!file.exists(fileName)){
     files <- intersect(dir(path=dataDirectory,pattern=paste(siteName,"_",metric,sep="")),dir(path=dataDirectory,pattern="MOD13Q1")) #Current downloaded data files
     if(length(files>0)){ #If there is a data file, identify what the last date you have downloaded
       firstDate <- strsplit(files[length(files)],split="_")[[1]][4]
       lastDate <- strsplit(strsplit(files[length(files)],split="_")[[1]][5],split=".c")[[1]][1]
-      #print(lastDate)
     }
     else{
       lastDate <- (as.Date(startDate) - 1) #If no data files have been downloaded, the last date you have downloaded is your start date - 1
     }
-    #print(lastDate)
-    print("Downloading MODIS File")
     directory=paste(getwd(),"/",dataDirectory,sep="")
-    #print(directory)
+    newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
+    if(!file.exists(newDQFFileName)){
+      print("Downloading MODIS DQF File")
+      try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = directory,internal=FALSE),silent=TRUE)
+    }
+     print("Downloading MODIS Index File")
     try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_",metric,sep=""),start=(lastDate+1),end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = directory,internal=FALSE),silent=TRUE)
-    #print(lastDate)
     newFileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new data downloaded
 
     if(length(files>0)){
       dat <- read.csv(paste(dataDirectory,files[length(files)],sep=""),header=TRUE) ##Reads the old data file
       if(file.exists(newFileName)){ ##If additional available MODIS data was downloaded
         newDat <- read.csv(newFileName,header=TRUE,skip=15) ##The new data
+        newDQFDat <- read.csv(newDQFFileName,header=TRUE,skip=15) ##The new DQF data
+        DQFdata <- newDQFDat$data
+        newDat <- cbind(newDat,DQFdata)
         dat <- rbind(dat,newDat) ##Combine the new and old data files
       }
     }
     else{ #If there were no data files to start with than your new data file will be your final one
-      dat <- read.csv(newFileName,header=TRUE,skip=15)
+      newDat <- read.csv(newFileName,header=TRUE,skip=15)
+      newDQFDat <- read.csv(newDQFFileName,header=TRUE,skip=15) ##The new DQF data
+      DQFdata <- newDQFDat$data
+      newDat <- cbind(newDat,DQFdata)
+      dat <- newDat
     }
     write.table(dat,file=fileName,row.names = FALSE,col.names = TRUE,sep=",")
   }

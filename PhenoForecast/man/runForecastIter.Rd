@@ -4,7 +4,7 @@
 \alias{runForecastIter}
 \title{Adds additional iterations until convergence and large enough effective sample size are met}
 \usage{
-runForecastIter(j.model, variableNames, maxIter = 10^9, baseNum = 10000,
+runForecastIter(j.model, variableNames, maxIter = 10^9, baseNum = 5000,
   iterSize = 5000, ID = "")
 }
 \arguments{

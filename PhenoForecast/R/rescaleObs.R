@@ -10,31 +10,45 @@
 rescaleObs <- function(times,vals,cVals,dVals,partialStart=FALSE){
   new.ys <- numeric()
   years <- seq((lubridate::year(times[1])),2019)
-  print(lubridate::year(times))
   if(partialStart){
     yr <- 1
-    year.vals <- vals[(lubridate::year(times)==(years[yr]-1))] ##The observations for first partial year
-    year.d <- cVals[1]
-    year.c <- dVals[1]
-    year.vals.new <- rescale(c=year.c,d=year.d,yseq=vals)
+    year.vals <- vals[(lubridate::year(times)==(years[yr]))] ##The observations for first partial year
+    year.c <- cVals[1]
+    year.d <- dVals[1]
+    year.vals.new <- rescale(c=year.c,d=year.d,yseq=year.vals)
     new.ys <- c(new.ys,year.vals.new)
+    for(yr in 2:(length(years)-1)){
+      #print(years[yr])
+      year.vals <- vals[(lubridate::year(times)==years[yr])] ##The observations for each year
+      if(years[yr]==2018){
+        #print(year.vals)
+      }
+      year.c <- cVals[(yr-1)]
+      year.d <- dVals[(yr-1)]
+
+      year.vals.new <- rescale(c=year.c,d=year.d,yseq=year.vals)
+      new.ys <- c(new.ys,year.vals.new)
+      #print(range(year.vals,na.rm = TRUE))
+      #print(range(year.vals.new,na.rm=TRUE))
+    }
   }
-  for(yr in 1:(length(years)-1)){
-    print(years[yr])
-    year.vals <- vals[(lubridate::year(times)==years[yr])] ##The observations for each year
-    print(length(year.vals))
-    year.d <- cVals[yr]
-    year.c <- dVals[yr]
-    year.vals.new <- rescale(c=year.c,d=year.d,yseq=vals)
-    new.ys <- c(new.ys,year.vals.new)
+  else{
+    for(yr in 1:(length(years)-1)){
+      year.vals <- vals[(lubridate::year(times)==years[yr])] ##The observations for each year
+      year.c <- cVals[yr]
+      year.d <- dVals[yr]
+      year.vals.new <- rescale(c=year.c,d=year.d,yseq=year.vals)
+      new.ys <- c(new.ys,year.vals.new)
+    }
   }
+
   yr <- length(years)
   year.vals <- vals[(lubridate::year(times)==years[yr])] ##The observations for the new year
-  year.d <- cVals[length(cVals)]
-  year.c <- dVals[length(dVals)]
-  year.vals.new <- rescale(c=year.c,d=year.d,yseq=vals)
+  year.c <- cVals[length(cVals)]
+  year.d <- dVals[length(dVals)]
+  year.vals.new <- rescale(c=year.c,d=year.d,yseq=year.vals)
   new.ys <- c(new.ys,year.vals.new)
-  plot(times,new.ys,pch=20,main="Inside rescale")
+  #plot(times,new.ys,pch=20,main="Inside rescale")
   # new.ys <- numeric()
   # for(yr in ((lubridate::year(times[1])+1):2018)){
   #   year.vals <- vals[(lubridate::year(times)==yr)] ##The observations for each year

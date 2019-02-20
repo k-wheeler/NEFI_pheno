@@ -11,7 +11,7 @@
 ##' @import runjags
 ##' @import ecoforecastR
 ##' @import coda
-runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=10000,iterSize =5000,ID=""){
+runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,iterSize =5000,ID=""){
   jags.out   <- coda.samples (model = j.model,
                               variable.names = variableNames,
                               n.iter = baseNum)
@@ -36,6 +36,7 @@ runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=10000,it
       chain.col = which(colnames(mfit)=="CHAIN")
       out$params = ecoforecastR::mat2mcmc.list(mfit[,-pred.cols])
       GBR.vals <- gelman.diag(out$params)
+      print(GBR.vals$psrf)
       for(i in 1:nrow(GBR.vals$psrf)){ #Checking to see if any of the parameters haven't converged yet
         for(j in 1:ncol(GBR.vals$psrf)){
           if(!is.nan(GBR.vals$psrf[i,j])){
@@ -59,6 +60,7 @@ runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=10000,it
       chain.col = which(colnames(mfit)=="CHAIN")
       out.burn$params = ecoforecastR::mat2mcmc.list(mfit[,-pred.cols])
       effsize <- effectiveSize(out.burn$params)
+      print(effsize)
       for(i in 1:length(effsize)){
         if(effsize[i]<5000){
           continue = TRUE

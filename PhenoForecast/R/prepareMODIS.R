@@ -12,14 +12,21 @@
 #' @import MODISTools
 prepareMODIS <- function(startDate,endDate,metric,timeForecast,dataDirectory,lat="",long="",siteName){
   fileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
-  #print(fileName)
   if(!file.exists(fileName)){ ##If data file is not present, download (Note: This sometimes throws an time out error if it has to be called here)
     downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
   }
   ##Read in MODIS data and reformat
   dat <- read.csv(fileName,header=TRUE)
+  #print(colnames(dat))
   MODIS.x <- as.Date(dat$calendar_date)
   MODIS.y <- as.numeric(dat$data)/10000
+  MODIS.DQF <- as.numeric(dat$DQFdata)
+
+  for(i in 1:length(MODIS.x)){ ##Applying DQF
+    if(MODIS.DQF[i]!= 0 && MODIS.DQF[i] != 1){
+      MODIS.y[i] <- NA
+    }
+  }
 
   ##Prepare for phenology forecast
   m <- rep(NA,length(timeForecast))

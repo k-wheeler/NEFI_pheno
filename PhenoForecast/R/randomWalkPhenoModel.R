@@ -20,19 +20,11 @@ randomWalkPhenoModel <- function(data,nchain){
   RandomWalk = "
   model{
 
-  #### PhenoCam Data Model
+  #### Data Models
   for(i in 1:n){
-  p[i] ~ dnorm(x[i],p.PC)
-  }
-
-  #### MODIS NDVI Data Model
-  for(i in 1:n){
-  mn[i] ~ dnorm(x[i],p.MN)
-  }
-
-  #### MODIS EVI Data Model
-  for(i in 1:n){
-  me[i] ~ dnorm(x[i],p.ME)
+    p[i] ~ dnorm(x[i],p.PC) #PhenoCam Data Model
+    mn[i] ~ dnorm(x[i],p.MN) # MODIS NDVI Data Model
+    me[i] ~ dnorm(x[i],p.ME) # MODIS EVI Data Model
   }
 
   #### Process Model

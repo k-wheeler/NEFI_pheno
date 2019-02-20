@@ -32,6 +32,7 @@ rescale <- function(c,d,yseq){
 ##' @export
 shrublandYvals <- function(Tran,b,c,d,k,r,xseq){
   bk <- which(xseq==round(k,digits=0))
+
   if(k<110){
     bk <- 1
   }
@@ -51,13 +52,23 @@ shrublandYvals <- function(Tran,b,c,d,k,r,xseq){
 ##' @param d d parameter (from Zhang et al., 2003)
 ##' @param k k (changepoint) parameter
 ##' @param xseq the sequence of x values to compute the double logistic curve for
+##' @param seasonOrder the order of seasons FS or SF
 ##' @export
-deciduousYvals <- function(TranF,bF,TranS,bS,c,d,k,xseq){
+deciduousYvals <- function(TranF,bF,TranS,bS,c,d,k,xseq,seasonOrder="FS"){
   bk <- which(xseq==round(k,digits=0))
-  greendown <- pheno.logistic(Tran=TranF,b=bF,c=c,d=d,xseq[1:bk])
-  gu.xseq <- xseq[(bk+1):length(xseq)]
-  greenup <- pheno.logistic(Tran=TranS,b=bS,c=c,d=d,gu.xseq)
-  return(c(greendown,greenup))
+  if(seasonOrder=="FS"){
+    greendown <- pheno.logistic(Tran=TranF,b=bF,c=c,d=d,xseq[1:bk])
+    gu.xseq <- xseq[(bk+1):length(xseq)]
+    greenup <- pheno.logistic(Tran=TranS,b=bS,c=c,d=d,gu.xseq)
+    return(c(greendown,greenup))
+  }
+  else if(seasonOrder=="SF"){
+    greenup <- pheno.logistic(Tran=TranS,b=bS,c=c,d=d,xseq[1:bk])
+    gd.xseq <- xseq[(bk+1):length(xseq)]
+    greendown <- pheno.logistic(Tran=TranF,b=bF,c=c,d=d,gd.xseq)
+    return(c(greenup,greendown))
+  }
+
 }
 
 ##' Compute the gaussian curve values
