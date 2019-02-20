@@ -15,8 +15,7 @@ library("rjags")
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 dataDirectory="PhenologyForecastData/"
 forecastLength <- 16
-GEFS_files <- dir(path=paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/2019-01-25",sep=""),pattern="NOAA_GEFS")
-print(GEFS_files)
+
 #endDate <- (Sys.Date()-1)
 #startDate <- as.Date("2013-01-01")
 endDate <- as.Date("2019-01-27")
@@ -26,6 +25,8 @@ i <- 10
 #  foreach(i=1:nrow(siteData)) %dopar% {
 siteName <- as.character(siteData[i,1])
 print(siteName)
+GEFS_files <- dir(path=paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/2019-01-25",sep=""),pattern="NOAA_GEFS")
+print(GEFS_files)
 URL <- as.character(siteData[i,4])
 lat <- as.numeric(siteData[i,2])
 long <- as.numeric(siteData[i,3])
