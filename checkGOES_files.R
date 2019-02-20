@@ -1,4 +1,5 @@
-days <- c(seq(1,333),seq(348,365))
+#days <- c(seq(1,333),seq(348,365))
+days <- c(seq(98,120),seq(221-232),seq(360-365))
 missingC02_0 <- character()
 missingC03_0 <- character()
 missingACM_0 <- character()
