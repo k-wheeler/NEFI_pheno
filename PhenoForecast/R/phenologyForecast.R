@@ -24,7 +24,12 @@
 phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files=""){
   nchain=5
   ###Download PhenoCam data and format
-  phenoData <- download.phenocam(URL)
+  PCfileName <- paste(siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
+  if(!file.exists(PCfileName)){
+    phenoData <- download.phenocam(URL)
+    save(phenoData,file=PCfileName)
+  }
+  load(PCfileName)
   p.old <- phenoData$gcc_mean
   time.old <-  as.Date(phenoData$date)
   days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
