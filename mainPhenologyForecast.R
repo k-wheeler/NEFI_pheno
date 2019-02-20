@@ -16,7 +16,7 @@ siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=T
 dataDirectory="PhenologyForecastData/"
 forecastLength <- 16
 GEFS_files <- dir(path=paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/2019-01-25",sep=""),pattern="NOAA_GEFS")
-
+print(GEFS_files)
 #endDate <- (Sys.Date()-1)
 #startDate <- as.Date("2013-01-01")
 endDate <- as.Date("2019-01-27")
