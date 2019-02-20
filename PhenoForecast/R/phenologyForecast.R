@@ -16,15 +16,16 @@
 #' @param cValsME The c values for rescaling for MODIS EVI
 #' @param dValsME The d values for rescaling for MODIS EVI
 #' @param GEFS_Files The filenames for the GEFS files
+#' @param GEFS_Directory The directory where the GEFS files are located
 #' @import rjags
 #' @import runjags
 #' @import coda
 #' @import PhenologyBayesModeling
 #' @export
-phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files=""){
+phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files="",GEFS_Directory){
   nchain=5
   ###Download PhenoCam data and format
-  PCfileName <- paste(siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
+  PCfileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
   if(!file.exists(PCfileName)){
     phenoData <- download.phenocam(URL)
     save(phenoData,file=PCfileName)
