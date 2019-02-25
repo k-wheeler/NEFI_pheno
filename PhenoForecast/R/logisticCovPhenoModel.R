@@ -13,8 +13,12 @@ logisticCovPhenoModel <- function(data,nchain){
   #data$max.b0 <- 0 ##Intercept as always negative
   #data$min.b1 <- 0 ##Slope is always positive
   #data$max.b1 <- 1000
-  data$mu.b1 <- 0.0085 #Based off of slope with points (sf=0,r=0) and (sf=177 and r = 1.5)
-  data$prec.b1 <- 1/(0.0015**2)
+  #data$mu.b1 <- 0.0085 #Based off of slope with points (sf=0,r=0) and (sf=177 and r = 1.5)
+  #data$prec.b1 <- 1/(0.0015**2)
+  data$mu.b1 <- 0.0205 #Based off of slope with points (sf=0,r=0) and (sf=177 and r = 1.5)
+  data$prec.b1 <- 1/(0.005**2)
+  data$mu.b0 <- -3.625 #Based off of slope with points (sf=0,r=0) and (sf=177 and r = 1.5)
+  data$prec.b0 <- 1/(0.5**2)
 
   ##JAGS code
   LogisticModel = "
@@ -37,7 +41,7 @@ logisticCovPhenoModel <- function(data,nchain){
   #### Process Model
   for(yr in 1:(N-1)){
     for(i in 2:n){
-      r[i,yr] <- b1 * Sf[i,yr]
+      r[i,yr] <- b0 + b1 * Sf[i,yr]
       color[i,yr] <- x[(i-1),yr] + r[i,yr] * x[(i-1),yr] * (1-x[(i-1),yr])  ## latent process
       Sf[i,yr] ~ dnorm(Sfmu[i,yr],Sfprec[i,yr])
       xl[i,yr] ~ dnorm(color[i,yr],p.proc)  ## process error
@@ -45,7 +49,7 @@ logisticCovPhenoModel <- function(data,nchain){
     }
   }
   for(i in 2:q){ ##Done for the current year forecast. Excluded from previous because n != q
-      r[i,N] <- b1 * Sf[i,N]
+      r[i,N] <- b0 + b1 * Sf[i,N]
       color[i,N] <- x[(i-1),N] + r[i,N] * x[(i-1),N] * (1-x[(i-1),N])  ## latent process
       Sf[i,N] ~ dnorm(Sfmu[i,N],Sfprec[i,N])
       xl[i,N] ~ dnorm(color[i,N],p.proc)  ## process error
@@ -64,6 +68,7 @@ logisticCovPhenoModel <- function(data,nchain){
   #b0 ~ dunif(min.b0,max.b0) ##Need to change to normal
   #b1 ~ dunif(min.b1,max.b1)
   b1 ~ dnorm(mu.b1,prec.b1)
+  b0 ~ dnorm(mu.b0,prec.b0)
   }"
 
   ###Create the JAGS model using the basic RandomWalk Model

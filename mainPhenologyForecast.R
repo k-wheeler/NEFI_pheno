@@ -70,7 +70,7 @@ dMeans.me <- rescaleData$dMeans.me
 # }
 ##Create a Logistic with Covariate Model
 if(siteName=="willowCreek"){
-  outputFile <- paste("PhenologyForecastData/",siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
+  outputFile <- paste("PhenologyForecastData/",siteName,"_",startDate,"_",endDate,"_LC_outBurn2.RData",sep="")
   if(!file.exists(outputFile)){
     #########################
     forecastLength=16
