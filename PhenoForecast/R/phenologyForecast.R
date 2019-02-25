@@ -138,7 +138,7 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
       #print(dataFinal$Sfmu[,7])
       #print(dataFinal$Sfprec[,7])
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
-      variableNames <- c("p.PC","p.MN","p.ME","p.proc","x","b0","b1")
+      variableNames <- c("p.PC","p.MN","p.ME","p.proc","x","b1")
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=100000,iterSize=50000)
     }
   }
