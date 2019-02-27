@@ -9,15 +9,9 @@ logisticCovPhenoModel <- function(data,nchain){
   ##Set priors
   data$s1 <- 0.5
   data$s2 <- 0.2
-  #data$min.b0 <- -1000
-  #data$max.b0 <- 0 ##Intercept as always negative
-  #data$min.b1 <- 0 ##Slope is always positive
-  #data$max.b1 <- 1000
-  #data$mu.b1 <- 0.0085 #Based off of slope with points (sf=0,r=0) and (sf=177 and r = 1.5)
-  #data$prec.b1 <- 1/(0.0015**2)
-  data$mu.b1 <- 0.0205 #Based off of slope with points (sf=0,r=0) and (sf=177 and r = 1.5)
+  data$mu.b1 <- 0.0205 #Based off of slope with points (sf=177,r=0) and (sf=250 and r = 1.5)
   data$prec.b1 <- 1/(0.005**2)
-  data$mu.b0 <- -3.625 #Based off of slope with points (sf=0,r=0) and (sf=177 and r = 1.5)
+  data$mu.b0 <- -3.625 #Based off of slope with points (sf=177,r=0) and (sf=250 and r = 1.5)
   data$prec.b0 <- 1/(0.5**2)
 
   ##JAGS code

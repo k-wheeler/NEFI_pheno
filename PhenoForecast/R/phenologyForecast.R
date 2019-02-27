@@ -39,7 +39,6 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
   for(i in 1:length(p.old)){
     p[which(days==time.old[i])] <- p.old[i]
   }
-  #plot(days,p)
 
   ##Download and format MODIS NDVI data
   mn <- prepareMODIS(startDate=startDate,endDate=endDate,metric="NDVI",timeForecast=days,dataDirectory=dataDirectory,siteName=siteName)
@@ -54,13 +53,10 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
     data$n <- length(data$p)
     data$mn <- rescaleObs(times=days,vals=mn,partialStart=TRUE,cVals=cValsMN,dVals=dValsMN)
     data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
-    print("done with formatting data")
+    print("Done with formatting data")
 
-    #plot(days,data$p,main="p",pch=20)
-    #plot(days,data$mn,main="p",pch=20)
-    #plot(days,data$me,main="p",pch=20)
     j.model <- randomWalkPhenoModel(data=data,nchain=nchain)
-    print("done with creating the model")
+    print("Done with creating the  random walk model")
     variableNames <- c("p.PC","p.MN","p.ME","p.proc","x")
     out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)
   }
@@ -70,7 +66,8 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
     if(forecastType=="logisticCov"){
       Tairs <- download_US_WCr_met(start_date=startDate,end_date=endDate)
       for(G in 1:length(GEFS_Files)){
-        TairsForecast <- load_GEFS_Forecast(paste(GEFS_Directory,GEFS_Files[G],sep=""))
+        TairsForecast <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[G])
+        ##will need to fill in the missing (assume everything is current/up to date now)
         fileTairs <- c(Tairs,TairsForecast)
         Sfs <- calSf(Tairs=fileTairs,days=as.Date(dat2$dates))
         SfsALL <- rbind(SfsALL,Sfs)
@@ -84,8 +81,6 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
     }
 
     dat2 <- dat2[dat2$months%in%seq(1,6,1),]
-    print("After removing months")
-    #print(range(dat2$Sfprec))
     p <- matrix(nrow=181,ncol=0)
     Sf <- matrix(nrow=181,ncol=0)
     mn <- matrix(nrow=181,ncol=0)
@@ -103,8 +98,6 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
 
       p <- cbind(p,rescale(yseq=subDat$p,c=c,d=d))
       if(forecastType=="logisticCov"){
-        #print(i)
-        #print(range(subDat$Sfprec))
         Sf <- cbind(Sf,subDat$Sf)
         Sfprecs <- cbind(Sfprecs,subDat$Sfprec)
       }
@@ -125,25 +118,23 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
     dataFinal$q <- lubridate::day(as.Date(endDate))+forecastLength
     print("Done with formating data")
     if(forecastType=="logistic"){
-      #plot(seq(1,length(dataFinal$p[,1]),1),dataFinal$p[,1],pch=20)
       j.model <- logisticPhenoModel(data=dataFinal,nchain=nchain)
+      print("Done creating the basic logistic model")
       variableNames <- c("p.proc","p.PC","p.ME","p.MN","x","r")
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=10000,iterSize=5000)
     }
 
     if(forecastType=="logisticCov"){
-      #print(range(Sfprecs))
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-      #print(dataFinal$Sfmu[,7])
-      #print(dataFinal$Sfprec[,7])
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
+      print("Done creating the logistic with covariate model")
       variableNames <- c("p.PC","p.MN","p.ME","p.proc","x","b1","b0")
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
     }
   }
 
-  print("done with iterations")
+  print("Done with iterations")
   return(out.burn)
 
 }

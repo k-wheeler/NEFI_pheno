@@ -4,10 +4,12 @@
 \alias{load_GEFS_Forecast}
 \title{Loads the GEFS weather forecast data}
 \usage{
-load_GEFS_Forecast(fileName)
+load_GEFS_Forecast(fileName, dataDirectory)
 }
 \arguments{
 \item{fileName}{The GEFS filename}
+
+\item{dataDirectory}{The directory that the data is stored in}
 }
 \description{
 Loads the GEFS weather forecast data
