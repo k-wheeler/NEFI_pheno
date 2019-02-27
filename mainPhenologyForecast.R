@@ -56,7 +56,7 @@ dMeans.me <- rescaleData$dMeans.me
 outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
 if(!file.exists(outputFile)){
   outBurnRW <- phenologyForecast(forecastType = "randomWalk",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
-  if(typeof(outBurn)!=typeof(FALSE)){
+  if(typeof(outBurnRW)!=typeof(FALSE)){
     save(outBurnRW,file=outputFile)
   }
 }
@@ -65,7 +65,7 @@ if(!file.exists(outputFile)){
 outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
 if(!file.exists(outputFile)){
   outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
-  if(typeof(outBurn)!=typeof(FALSE)){
+  if(typeof(outBurnL)!=typeof(FALSE)){
     save(outBurn,file=outputFile)
   }
 }
@@ -75,6 +75,8 @@ if(siteName=="willowCreek"){
   outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
   if(!file.exists(outputFile)){
     outBurnLC <- phenologyForecast(forecastType = "logisticCov",forecastLength = forecastLength,siteName="willowCreek",URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory)
-    save(outBurnLC,file=outputFile)
+    if(typeof(outBurnLC)!=typeof(FALSE)){
+      save(outBurnLC,file=outputFile)
+    }
   }
 }
