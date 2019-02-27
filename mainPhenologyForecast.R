@@ -66,7 +66,7 @@ outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_logistic_
 if(!file.exists(outputFile)){
   outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
   if(typeof(outBurnL)!=typeof(FALSE)){
-    save(outBurn,file=outputFile)
+    save(outBurnL,file=outputFile)
   }
 }
 
