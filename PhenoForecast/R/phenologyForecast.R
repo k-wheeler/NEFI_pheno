@@ -115,7 +115,7 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
     dataFinal$N <- ncol(dataFinal$p)
     dataFinal$x_ic <- 0
     dataFinal$tau_ic <- 1/(phenoData$g_std[1]**2)
-    dataFinal$q <- lubridate::day(as.Date(endDate))+forecastLength
+    dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength
     print("Done with formating data")
     if(forecastType=="logistic"){
       j.model <- logisticPhenoModel(data=dataFinal,nchain=nchain)
