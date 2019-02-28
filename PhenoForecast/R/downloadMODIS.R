@@ -20,14 +20,13 @@ downloadMODIS <- function(startDate,endDate,metric,dataDirectory,lat,long,siteNa
     else{
       lastDate <- (as.Date(startDate) - 1) #If no data files have been downloaded, the last date you have downloaded is your start date - 1
     }
-    directory=paste(getwd(),"/",dataDirectory,sep="")
     newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
     if(!file.exists(newDQFFileName)){
       print("Downloading MODIS DQF File")
-      try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = directory,internal=FALSE),silent=TRUE)
+      try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = dataDirectory,internal=FALSE),silent=TRUE)
     }
      print("Downloading MODIS Index File")
-    try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_",metric,sep=""),start=(lastDate+1),end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = directory,internal=FALSE),silent=TRUE)
+    try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_",metric,sep=""),start=(lastDate+1),end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = dataDirectory,internal=FALSE),silent=TRUE)
     newFileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new data downloaded
 
     if(length(files>0)){
