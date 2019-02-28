@@ -7,6 +7,7 @@ library("PhenologyBayesModeling")
 library("coda")
 library("dplyr")
 library("rjags")
+library("MODISTools")
 #library(doParallel)
 
 ##Set and register cores for parallel
