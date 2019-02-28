@@ -42,7 +42,7 @@ if(length(files)==0){
   directory=paste(getwd(),"/",dataDirectory,sep="")
   newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",startDate,"_",endDate,".csv",sep="") #File name for new DQF data downloaded
   if(!file.exists(newDQFFileName)){
-    print("Downloading MODIS DQF File")
+    print("Downloading MODIS DQF File because no files are present")
     try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=startDate,end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = directory,internal=FALSE),silent=TRUE)
   }
 }
