@@ -28,7 +28,7 @@ i <- 10
 #  foreach(i=1:nrow(siteData)) %dopar% {
 siteName <- as.character(siteData[i,1])
 print(siteName)
-GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/willowcreek/2019-01-25/",sep="")
+GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/willowcreek/",endDate,sep="")
 GEFS_files <- dir(path=GEFS_Directory,pattern="NOAA_GEFS")
 
 URL <- as.character(siteData[i,4])
