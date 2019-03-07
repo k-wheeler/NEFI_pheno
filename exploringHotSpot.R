@@ -1,87 +1,95 @@
 library("suncalc")
+library(doParallel)
+
+##Set and register cores for parallel
+n.cores <- 6
+registerDoParallel(cores=n.cores)
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
-i <- 9
-siteName <- siteData$siteName[i]
-lat <- siteData$Lat[i]
-long <- siteData$Long[i]
-#lat <- 0 #Bay of Fundy approximate
-#long <- -75.2
+iseq <- c(seq(1,6),8,10,11,seq(15,20))
+#i <- 9
+output <- 
+  foreach(i=iseq) %dopar% {
+    siteName <- siteData$siteName[i]
+    lat <- siteData$Lat[i]
+    long <- siteData$Long[i]
+
+    ##Probably should loop through days 
+    dates <- seq(as.Date("2017-07-01"),as.Date("2018-06-30"),"day")
+    #dates <- seq(as.Date("2017-07-01"),as.Date("2017-07-14"),"day")
+    days <- format(dates,"%j")
+    for(d in 1:length(days)){
+      if(as.numeric(days[d])<10){
+        days[d] <- paste("00",days[d],sep="")
+      }
+      else if(as.numeric(days[d])<100){
+        days[d] <- paste("0",days[d],sep="")
+      }
+    }
+    alts <- numeric()
+    azms <- numeric()
+    timeVals <- numeric()
+    class(timeVals) <- "Date"
+    
+    for(d in 1:length(days)){
+      if(days[d]<182){
+        yr <- 2018
+      }
+      else{
+        yr <- 2017
+      }
+      yrDay <- paste("OR_ABI-L1b-RadC-M3C02_G16_s",yr,days[d],sep="")
+      print(yrDay)
+      files <- dir(path="GOES_Data2017",pattern=yrDay)
+      for(f in 1:length(files)){
+        hr <- substr(strsplit(files[f],split="_")[[1]][4],9,10)
+        mn <- substr(strsplit(files[f],split="_")[[1]][4],11,12)
+        timeVal <- paste(dates[d]," ",hr,":",mn,":00",sep="")
+        pos <- getSunlightPosition(date=timeVal,lat=lat,lon=long)
+        alts <- c(alts,pos$altitude)
+        azms <- c(azms,pos$azimuth)
+        timeVals <- c(timeVals,timeVal)
+      }
+      
+    }
+    
+    outFileName <- paste(siteName,"_sunAngles.csv",sep="")
+    write.table(cbind(timeVals,alts,azms),file=outFileName,row.names=FALSE,col.names=TRUE)
+  }
+
+
 
 ##Calculating the satellite viewing angles
 
-calSatAlt <- function(lat,long){
-  ##Define constants
-  satLat <- 0
-  satLong <- -75.2
-  
-  R <- 6378140 #(in m from class notes)
-  Rheight <- 35800*1000 #https://noaasis.noaa.gov/NOAASIS/ml/genlsatl.html
-  Rsat <- R + Rheight
-  
-  term1 <- Rsat*(cos(satLong-long)*cos(satLat)*cos(lat)+sin(satLat)*sin(lat))-R
-  term2 <- Rsat**2+R**2-2*R*Rsat*(cos(satLong - long)*cos(satLat)*cos(lat)+sin(satLat)*sin(lat))
-  product <- term1 * term2**(-1/2)
-  return(1.5708-acos(product))
-}
-calSatAzm <- function(lat,long){
-  ##Define constants
-  satLat <- 0
-  satLong <- -75.2
-  
-  R <- 6378140 #(in m from class notes)
-  Rheight <- 35800*1000 #https://noaasis.noaa.gov/NOAASIS/ml/genlsatl.html
-  Rsat <- R + Rheight
-  
-  num <- sin(satLong-long)*cos(satLat)
-  den <- cos(satLong - long)*cos(satLat)*sin(lat)-sin(satLat)*cos(lat)
-  quot <- num/den
-  return(atan(quot))
-}
-satAlt <- calSatAlt(lat=lat,long=long)
-satAzm <- calSatAzm(lat=lat,long=long)
-
-##Probably should loop through days 
-dates <- seq(as.Date("2017-07-01"),as.Date("2018-06-30"),"day")
-#dates <- seq(as.Date("2017-07-01"),as.Date("2017-07-14"),"day")
-days <- format(dates,"%j")
-for(d in 1:length(days)){
-  if(as.numeric(days[d])<10){
-    days[d] <- paste("00",days[d],sep="")
-  }
-  else if(as.numeric(days[d])<100){
-    days[d] <- paste("0",days[d],sep="")
-  }
-}
-alts <- numeric()
-azms <- numeric()
-timeVals <- numeric()
-class(timeVals) <- "Date"
-
-for(d in 1:length(days)){
-  if(days[d]<182){
-    yr <- 2018
-  }
-  else{
-    yr <- 2017
-  }
-  yrDay <- paste("OR_ABI-L1b-RadC-M3C02_G16_s",yr,days[d],sep="")
-  print(yrDay)
-  files <- dir(path="GOES_Data2017",pattern=yrDay)
-  for(f in 1:length(files)){
-    hr <- substr(strsplit(files[f],split="_")[[1]][4],9,10)
-    mn <- substr(strsplit(files[f],split="_")[[1]][4],11,12)
-    timeVal <- paste(dates[d]," ",hr,":",mn,":00",sep="")
-    pos <- getSunlightPosition(date=timeVal,lat=lat,lon=long)
-    alts <- c(alts,pos$altitude)
-    azms <- c(azms,pos$azimuth)
-    timeVals <- c(timeVals,timeVal)
-  }
-
-}
-
-outFileName <- paste(siteName,"_sunAngles.csv",sep="")
-write.table(cbind(timeVals,alts,azms),file=outFileName,row.names=FALSE,col.names=TRUE)
-
+# calSatAlt <- function(lat,long){
+#   ##Define constants
+#   satLat <- 0
+#   satLong <- -75.2
+#   
+#   R <- 6378140 #(in m from class notes)
+#   Rheight <- 35800*1000 #https://noaasis.noaa.gov/NOAASIS/ml/genlsatl.html
+#   Rsat <- R + Rheight
+#   
+#   term1 <- Rsat*(cos(satLong-long)*cos(satLat)*cos(lat)+sin(satLat)*sin(lat))-R
+#   term2 <- Rsat**2+R**2-2*R*Rsat*(cos(satLong - long)*cos(satLat)*cos(lat)+sin(satLat)*sin(lat))
+#   product <- term1 * term2**(-1/2)
+#   return(1.5708-acos(product))
+# }
+# calSatAzm <- function(lat,long){
+#   ##Define constants
+#   satLat <- 0
+#   satLong <- -75.2
+#   
+#   R <- 6378140 #(in m from class notes)
+#   Rheight <- 35800*1000 #https://noaasis.noaa.gov/NOAASIS/ml/genlsatl.html
+#   Rsat <- R + Rheight
+#   
+#   num <- sin(satLong-long)*cos(satLat)
+#   den <- cos(satLong - long)*cos(satLat)*sin(lat)-sin(satLat)*cos(lat)
+#   quot <- num/den
+#   return(atan(quot))
+# }
+# satAlt <- calSatAlt(lat=lat,long=long)
+# satAzm <- calSatAzm(lat=lat,long=long)
 # 
 # ##Identify files
 # days <- seq(as.Date("2018-01-01"),as.Date("2018-12-31"),"day")
