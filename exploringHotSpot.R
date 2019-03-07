@@ -71,7 +71,7 @@ for(d in 1:length(days)){
   for(f in 1:length(files)){
     hr <- substr(strsplit(files[f],split="_")[[1]][4],9,10)
     mn <- substr(strsplit(files[f],split="_")[[1]][4],11,12)
-    timeVal <- paste(dates[f]," ",hr,":",mn,":00",sep="")
+    timeVal <- paste(dates[d]," ",hr,":",mn,":00",sep="")
     pos <- getSunlightPosition(date=timeVal,lat=lat,lon=long)
     alts <- c(alts,pos$altitude)
     azms <- c(azms,pos$azimuth)
