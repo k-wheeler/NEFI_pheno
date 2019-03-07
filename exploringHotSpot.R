@@ -5,7 +5,7 @@ library(doParallel)
 n.cores <- 6
 registerDoParallel(cores=n.cores)
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
-iseq <- c(seq(1,6),8,10,11,seq(15,20))
+iseq <- c(seq(1,6),8,9,10,11,seq(15,20))
 #i <- 9
 output <- 
   foreach(i=iseq) %dopar% {
