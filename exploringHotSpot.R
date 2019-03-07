@@ -41,9 +41,8 @@ satAlt <- calSatAlt(lat=lat,long=long)
 satAzm <- calSatAzm(lat=lat,long=long)
 
 ##Probably should loop through days 
-#dates <- seq(as.Date("2017-07-01"),as.Date("2018-06-30"),"day")
-#days <- as.character(seq(1,365,1))
-dates <- seq(as.Date("2017-07-01"),as.Date("2017-07-14"),"day")
+dates <- seq(as.Date("2017-07-01"),as.Date("2018-06-30"),"day")
+#dates <- seq(as.Date("2017-07-01"),as.Date("2017-07-14"),"day")
 days <- format(dates,"%j")
 for(d in 1:length(days)){
   if(as.numeric(days[d])<10){
