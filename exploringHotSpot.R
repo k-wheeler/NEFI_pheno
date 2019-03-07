@@ -12,7 +12,7 @@ output <-
     siteName <- siteData$siteName[i]
     lat <- siteData$Lat[i]
     long <- siteData$Long[i]
-
+    
     ##Probably should loop through days 
     dates <- seq(as.Date("2017-07-01"),as.Date("2018-06-30"),"day")
     #dates <- seq(as.Date("2017-07-01"),as.Date("2017-07-14"),"day")
@@ -40,14 +40,16 @@ output <-
       yrDay <- paste("OR_ABI-L1b-RadC-M3C02_G16_s",yr,days[d],sep="")
       print(yrDay)
       files <- dir(path="GOES_Data2017",pattern=yrDay)
-      for(f in 1:length(files)){
-        hr <- substr(strsplit(files[f],split="_")[[1]][4],9,10)
-        mn <- substr(strsplit(files[f],split="_")[[1]][4],11,12)
-        timeVal <- paste(dates[d]," ",hr,":",mn,":00",sep="")
-        pos <- getSunlightPosition(date=timeVal,lat=lat,lon=long)
-        alts <- c(alts,pos$altitude)
-        azms <- c(azms,pos$azimuth)
-        timeVals <- c(timeVals,timeVal)
+      if(length(files)>0){ ##There are some days with no data (i.e. when they moved the satellite)
+        for(f in 1:length(files)){
+          hr <- substr(strsplit(files[f],split="_")[[1]][4],9,10)
+          mn <- substr(strsplit(files[f],split="_")[[1]][4],11,12)
+          timeVal <- paste(dates[d]," ",hr,":",mn,":00",sep="")
+          pos <- getSunlightPosition(date=timeVal,lat=lat,lon=long)
+          alts <- c(alts,pos$altitude)
+          azms <- c(azms,pos$azimuth)
+          timeVals <- c(timeVals,timeVal)
+        }
       }
       
     }
