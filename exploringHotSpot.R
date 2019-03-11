@@ -19,10 +19,10 @@ output <-
     days <- format(dates,"%j")
     for(d in 1:length(days)){
       if(as.numeric(days[d])<10){
-        days[d] <- paste("00",days[d],sep="")
+        days[d] <- paste("00",as.numeric(days[d]),sep="")
       }
       else if(as.numeric(days[d])<100){
-        days[d] <- paste("0",days[d],sep="")
+        days[d] <- paste("0",as.numeric(days[d]),sep="")
       }
     }
     alts <- numeric()
@@ -55,9 +55,8 @@ output <-
     }
     
     outFileName <- paste(siteName,"_sunAngles.csv",sep="")
-    write.table(cbind(timeVals,alts,azms),file=outFileName,row.names=FALSE,col.names=TRUE)
+    write.table(cbind(timeVals,alts,azms),file=outFileName,row.names=FALSE,col.names=TRUE,sep="")
   }
-
 
 
 ##Calculating the satellite viewing angles
