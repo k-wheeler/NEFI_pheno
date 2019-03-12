@@ -22,15 +22,16 @@ outputFileName <- "ALL_DiurnalFits.pdf"
 #pdf(file=outputFileName,width=45,height=40)
 xseq <- seq(0,25,0.1)
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
-#iseq <- c(seq(1,6),seq(8,11),seq(15,20))
-#iseq <- c(seq(4,6),seq(8,11),seq(15,20))
-iseq <- seq(15,20)
+#print(siteData[,1])
+iseq <- c(13,14)
 for(s in iseq){
+  print(s)
   siteName <- as.character(siteData[s,1])
-  outputFileName <- paste(siteName,"_ALL_DiurnalFits2.pdf",sep="")
+  print(siteName)
+  outputFileName <- paste(siteName,"_ALL_DiurnalFits3.pdf",sep="")
   pdf(file=outputFileName,width=45,height=40)
   par(mfrow=c(5,5))
-  diurnalFiles <- intersect(dir(pattern="varBurn2.RData"),dir(pattern=siteName))
+  diurnalFiles <- intersect(dir(pattern="varBurn4.RData"),dir(pattern=siteName))
   
   for(i in 1:length(diurnalFiles)){
     load(diurnalFiles[i])
@@ -44,9 +45,9 @@ for(s in iseq){
     else{
       yr <- "2017"
     }
-    dayDataFile <- paste("dailyNDVI_GOES/GOES_Diurnal_",siteName,"_",yr,dy,".csv",sep="")
+    dayDataFile <- paste("dailyNDVI_GOES/",siteName,"_GOES_diurnal_",yr,dy,".csv",sep="")
     if(file.exists(dayDataFile)){
-      dat <- read.csv(paste("dailyNDVI_GOES/GOES_Diurnal_",siteName,"_",yr,dy,".csv",sep=""),header=FALSE)
+      dat <- read.csv(dayDataFile,header=FALSE)
     }
     else{
       dat <- matrix(ncol=5,nrow=3)
@@ -73,7 +74,7 @@ for(s in iseq){
       ci <- apply(ycred,2,quantile,c(0.025,0.5, 0.975), na.rm= TRUE)
       #plot(x=list(),y=list(),main=diurnalFiles[i],xlab="Time",ylab="NDVI",ylim=c(0,1),xlim=c(0,25))
       if(length(na.omit(as.numeric(dat[2,])))>0){
-        plot(as.numeric(dat[3,]),as.numeric(dat[2,]),main=diurnalFiles[i],xlim=c(0,25),pch=20,cex=2)
+        plot(as.numeric(dat[3,]),as.numeric(dat[2,]),main=diurnalFiles[i],xlim=c(0,25),pch=20,cex=2,ylim=c(0,1))
         ciEnvelope(xseq,ci[1,],ci[3,],col="lightBlue")
         lines(xseq,ci[2,],col="black")
         points(as.numeric(dat[3,]),as.numeric(dat[2,]),pch=20,cex=2)
