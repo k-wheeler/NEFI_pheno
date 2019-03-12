@@ -5,6 +5,7 @@
 #install_github("EcoForecast/ecoforecastR")
 library("ecoforecastR")
 library("rjags")
+library("suncalc")
 
 diurnalExp <- function(a,c,k,xseq){
   k <- round(k,digits=1)
@@ -18,19 +19,82 @@ diurnalExp <- function(a,c,k,xseq){
   return(c(left,right))
 }
 
-outputFileName <- "ALL_DiurnalFits.pdf"
+# calSatAlt <- function(lat,long){
+#   ##Define constants
+#   satLat <- 0
+#   satLong <- -75.2
+#   
+#   R <- 6378140 #(in m from class notes)
+#   Rheight <- 35800*1000 #https://noaasis.noaa.gov/NOAASIS/ml/genlsatl.html
+#   Rsat <- R + Rheight
+#   
+#   term1 <- Rsat*(cos(satLong-long)*cos(satLat)*cos(lat)+sin(satLat)*sin(lat))-R
+#   term2 <- Rsat**2+R**2-2*R*Rsat*(cos(satLong - long)*cos(satLat)*cos(lat)+sin(satLat)*sin(lat))
+#   product <- term1 * term2**(-1/2)
+#   return(1.5708-acos(product))
+# }
+# calSatAzm <- function(lat,long){
+#   ##Define constants
+#   satLat <- 0
+#   satLong <- -75.2
+#   
+#   R <- 6378140 #(in m from class notes)
+#   Rheight <- 35800*1000 #https://noaasis.noaa.gov/NOAASIS/ml/genlsatl.html
+#   Rsat <- R + Rheight
+#   
+#   num <- sin(satLong-long)*cos(satLat)
+#   den <- cos(satLong - long)*cos(satLat)*sin(lat)-sin(satLat)*cos(lat)
+#   quot <- num/den
+#   return(atan(quot))
+# }
+
+#outputFileName <- "ALL_DiurnalFits.pdf"
 #pdf(file=outputFileName,width=45,height=40)
 xseq <- seq(0,25,0.1)
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 #iseq <- c(seq(1,6),seq(8,11),seq(15,20))
 #iseq <- c(seq(4,6),seq(8,11),seq(15,20))
 iseq <- seq(15,20)
-for(s in iseq){
+s <- 9
+#for(s in iseq){
   siteName <- as.character(siteData[s,1])
-  outputFileName <- paste(siteName,"_ALL_DiurnalFits2.pdf",sep="")
+  outputFileName <- paste(siteName,"_ALL_DiurnalFits5.pdf",sep="")
+  lat <- as.numeric(siteData$Lat[s])
+  long <- as.numeric(siteData$Long[s])
   pdf(file=outputFileName,width=45,height=40)
   par(mfrow=c(5,5))
-  diurnalFiles <- intersect(dir(pattern="varBurn2.RData"),dir(pattern=siteName))
+  diurnalFiles <- intersect(dir(pattern="varBurn5.RData"),dir(pattern=siteName))
+  #sunAngleFile <- paste(siteName,"_sunAngles.csv",sep="")
+  #sunAngles <- read.csv(sunAngleFile,header=TRUE,sep=" ")
+  
+  #satAlt <- calSatAlt(lat=lat,long=long)
+  #satAzm <- calSatAzm(lat=lat,long=long)
+  # timeStr <- character()
+  # for(a in 1:nrow(sunAngles)){
+  #   if(a %% 1000 == 0){
+  #     print(a)
+  #     print(paste(yr,dy,hr,mn,sep=""))
+  #   }
+  #   yr <- as.character(lubridate::year(sunAngles[a,1]))
+  #   dy <- as.character(format(as.Date(sunAngles[a,1]),"%j"))
+  #   hr <- as.character(lubridate::hour(sunAngles[a,1]))
+  #   mn <- as.character(lubridate::minute(sunAngles[a,1]))
+  #   if(as.numeric(dy)<10){
+  #     dy <- paste("00",as.numeric(dy),sep="")
+  #   }
+  #   else if(as.numeric(dy)<100){
+  #     dy <- paste("0",as.numeric(dy),sep="")
+  #   }
+  #   if(as.numeric(hr)<10){
+  #     hr <- paste("0",as.numeric(hr),sep="")
+  #   }
+  #   if(as.numeric(mn)<10){
+  #     mn <- paste("0",as.numeric(mn),sep="")
+  #   }
+  # 
+  #   timeStr <- c(timeStr,paste(yr,dy,hr,mn,sep=""))
+  # }
+  # sunAngles <- cbind(sunAngles,timeStr)
   
   for(i in 1:length(diurnalFiles)){
     load(diurnalFiles[i])
@@ -41,7 +105,8 @@ for(s in iseq){
     if(as.numeric(dy)<182){
       yr <- "2018"
     }
-    else{
+    if(as.numeric(dy)>181){
+    #else{
       yr <- "2017"
     }
     dayDataFile <- paste("dailyNDVI_GOES/GOES_Diurnal_",siteName,"_",yr,dy,".csv",sep="")
@@ -54,32 +119,51 @@ for(s in iseq){
       dat[2,] <- c(NA,NA,NA,NA,NA)
       dat[3,] <- c(5,6,7,8,9)
     }
+    ##Check for hot spot potentials:
+    # for(c in 1:ncol(dat)){
+    #   which(as.character(sunAngles$timeStr)==as.character(dat[1,c]))
+    # }
+    # as.character(dat[1,c])
+    
     if(typeof(var.burn)==typeof(FALSE)){
       print(paste(diurnalFiles[i], " did not converge",sep=""))
       #plot(as.numeric(dat[3,]),as.numeric(dat[2,]),main=paste("Didn't",diurnalFiles[i],sep=" "),xlab="Time",ylab="NDVI",ylim=c(0,1),xlim=c(0,25))
     }
     else{
-      out.mat <- as.matrix(var.burn)
-      a <- out.mat[,1]
+      out.mat <- data.frame(as.matrix(var.burn))
+      a <- out.mat$a
       rndNums <- sample(1:length(a),10000,replace=T)
       a <- a[rndNums]
-      c <- out.mat[rndNums,2]
-      k <- out.mat[rndNums,3]
+      c <- out.mat$c[rndNums]
+      alp <- out.mat$alp[rndNums]
+      bet <- out.mat$bet[rndNums]
+      p.cloud <- out.mat$p.cloud[rndNums]
+      #k <- out.mat[rndNums,3]
+      solarNoon <- (getSunlightTimes(date=as.Date(as.numeric(i),origin=as.Date(paste((as.numeric(yr)-1),"-12-31",sep=""))),lat=lat,lon=long,keep="solarNoon",tz="America/Chicago"))$solarNoon
+      solarNoonTime <- lubridate::hour(solarNoon)+(lubridate::minute(solarNoon)/60)
       ycred <- matrix(0,nrow=10000,ncol=length(xseq))
       for(g in 1:10000){
-        Ey <- diurnalExp(a=a[g],c=c[g],k=k[g],xseq=xseq)
+        Ey <- diurnalExp(a=a[g],c=c[g],k=solarNoonTime,xseq=xseq)
         ycred[g,] <- Ey
       }
       ci <- apply(ycred,2,quantile,c(0.025,0.5, 0.975), na.rm= TRUE)
       #plot(x=list(),y=list(),main=diurnalFiles[i],xlab="Time",ylab="NDVI",ylim=c(0,1),xlim=c(0,25))
       if(length(na.omit(as.numeric(dat[2,])))>0){
-        plot(as.numeric(dat[3,]),as.numeric(dat[2,]),main=diurnalFiles[i],xlim=c(0,25),pch=20,cex=2)
+        plot(as.numeric(dat[3,]),as.numeric(dat[2,]),main=diurnalFiles[i],xlim=c(0,25),pch=20,cex=2,ylim=c(0,1.2))
         ciEnvelope(xseq,ci[1,],ci[3,],col="lightBlue")
         lines(xseq,ci[2,],col="black")
         points(as.numeric(dat[3,]),as.numeric(dat[2,]),pch=20,cex=2)
-        abline(v=12,col="red")
-      }
+        #abline(v=12,col="red")
+        abline(v=solarNoonTime,col="purple")
+      #}
+    }
+  #}
     }
   }
   dev.off()
-}
+#}
+    
+#plot(density(rbeta(10000,1,25)))
+#abline(v=0.13,col="red")
+    
+#sum(rbeta(1000000,1,17)<0.13)/10000
