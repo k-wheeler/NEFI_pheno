@@ -61,7 +61,7 @@ s <- 9
   outputFileName <- paste(siteName,"_ALL_DiurnalFits5.pdf",sep="")
   lat <- as.numeric(siteData$Lat[s])
   long <- as.numeric(siteData$Long[s])
-  pdf(file=outputFileName,width=45,height=40)
+  pdf(file=outputFileName,width=20,height=20)
   par(mfrow=c(5,5))
   diurnalFiles <- intersect(dir(pattern="varBurn5.RData"),dir(pattern=siteName))
   #sunAngleFile <- paste(siteName,"_sunAngles.csv",sep="")
