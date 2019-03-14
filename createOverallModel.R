@@ -20,6 +20,7 @@ siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 #iseq <- c(4,11,16,18)
 #iseq <- c(seq(1,6),seq(8,11),seq(15,20))
 iseq <- c(9)
+s <- 9
 #iseq <- c(9,10,11,17,18)
 #iseq <- c(15,seq(17,20))
 #print(iseq)
@@ -41,10 +42,11 @@ for(s in iseq){
       print(diurnalFits[i])
       load(diurnalFits[i])
       if(typeof(var.burn)!=typeof(FALSE)){
-        out.mat <- as.matrix(var.burn)
+        out.mat <- data.frame(as.matrix(var.burn))
         print(colnames(out.mat))
-        c <- mean(out.mat[,2])
-        prec <- 1/var(out.mat[,2])
+        c <- mean(out.mat$c)
+        prec <- 1/var(out.mat$c)
+        
         dy <- strsplit(diurnalFits[i],"_")[[1]][2]
         dayDataFile <- intersect(intersect(dir(path="dailyNDVI_GOES",pattern="GOES_diurnal"),dir(path="dailyNDVI_GOES",pattern=siteName)),dir(path="dailyNDVI_GOES",pattern=paste(dy,".csv",sep="")))
         print(dayDataFile)
