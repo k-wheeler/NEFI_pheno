@@ -70,6 +70,10 @@ output <- foreach(i = iseq) %dopar% {
     solarNoon <- (getSunlightTimes(date=as.Date(as.numeric(i),origin=as.Date(paste((year-1),"-12-31",sep=""))),lat=lat,lon=long,keep="solarNoon",tz="America/Chicago"))$solarNoon
     solarNoonTime <- lubridate::hour(solarNoon)+(lubridate::minute(solarNoon)/60)
   }
+  else if(TZ==5){
+    solarNoon <- (getSunlightTimes(date=as.Date(as.numeric(i),origin=as.Date(paste((year-1),"-12-31",sep=""))),lat=lat,lon=long,keep="solarNoon",tz="America/New_York"))$solarNoon
+    solarNoonTime <- lubridate::hour(solarNoon)+(lubridate::minute(solarNoon)/60)
+  }
   data$k <- solarNoonTime
   plot(data$x,data$y,pch=20,ylim=c(0,1))
   xseq <- seq(5,20,0.01)
