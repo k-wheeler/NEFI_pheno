@@ -129,7 +129,7 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
       dataFinal$Sfprec <- Sfprecs
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model")
-      variableNames <- c("p.PC","p.MN","p.ME","p.proc","x","b1","b0")
+      variableNames <- c("p.PC","p.MN","p.ME","p.proc","x","b1","b0","r","Sf")
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
     }
   }

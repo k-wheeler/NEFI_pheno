@@ -17,6 +17,11 @@ library("MODISTools")
 ##Read in data
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
+
+if (!dir.exists(dataDirectory)) {
+  dir.create(dataDirectory, recursive=TRUE, showWarnings = FALSE)
+}
+
 forecastLength <- 15
 
 endDate <- (Sys.Date()-1)
