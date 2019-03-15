@@ -74,15 +74,16 @@ output <- foreach(i = iseq) %dopar% {
     solarNoon <- (getSunlightTimes(date=as.Date(as.numeric(i),origin=as.Date(paste((year-1),"-12-31",sep=""))),lat=lat,lon=long,keep="solarNoon",tz="America/New_York"))$solarNoon
     solarNoonTime <- lubridate::hour(solarNoon)+(lubridate::minute(solarNoon)/60)
   }
-  data$k <- solarNoonTime
+  data$mean.k <- solarNoonTime
+  data$p.k <- 1
   plot(data$x,data$y,pch=20,ylim=c(0,1))
   xseq <- seq(5,20,0.01)
   #points(xseq,diurnalExp(a=0.004,c=0.2,k=12,xseq=xseq),col="red")
   
-  outFileName <- paste(siteName,"_",as.character(i),"_varBurn5.RData",sep="")
+  outFileName <- paste(siteName,"_",as.character(i),"_varBurn6.RData",sep="")
   if(!file.exists(outFileName)){
     j.model <- createBayesModel.Diurnal(siteName=siteName,data)
-    var.burn <- runMCMC_Model(j.model = j.model,variableNames=c("a","c","prec"),baseNum = 300000,iterSize=50000,maxGBR=20,maxIter=10000000)#,baseNum = 1000000,iterSize = 70000)
+    var.burn <- runMCMC_Model(j.model = j.model,variableNames=c("a","c","prec","k"),baseNum = 300000,iterSize=50000,maxGBR=20,maxIter=10000000)#,baseNum = 1000000,iterSize = 70000)
     if(typeof(var.burn)!=typeof(FALSE)){
       save(var.burn,file=outFileName)
     }

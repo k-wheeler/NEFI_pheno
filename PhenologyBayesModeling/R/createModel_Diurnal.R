@@ -37,7 +37,7 @@ createBayesModel.Diurnal <- function(siteName,data){
   a ~ dnorm(mean.a,p.a) I(0,)
   c ~ dbeta(alpha.c,beta.c)
   #c ~ dunif(min.c,max.c)
-  #k ~ dnorm(mean.k,p.k)
+  k ~ dnorm(mean.k,p.k)
   prec ~ dgamma(s1,s2)
   alp ~ dunif(1,100)
   bet ~ dunif(1,100)
