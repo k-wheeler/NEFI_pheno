@@ -54,16 +54,16 @@ xseq <- seq(0,25,0.1)
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 #iseq <- c(seq(1,6),seq(8,11),seq(15,20))
 #iseq <- c(seq(4,6),seq(8,11),seq(15,20))
-iseq <- seq(15,20)
-s <- 9
-#for(s in iseq){
+iseq <- c(8,9)
+#s <- 9
+for(s in iseq){
   siteName <- as.character(siteData[s,1])
-  outputFileName <- paste(siteName,"_ALL_DiurnalFits5.pdf",sep="")
+  outputFileName <- paste(siteName,"_ALL_DiurnalFits6.pdf",sep="")
   lat <- as.numeric(siteData$Lat[s])
   long <- as.numeric(siteData$Long[s])
   pdf(file=outputFileName,width=20,height=20)
   par(mfrow=c(5,5))
-  diurnalFiles <- intersect(dir(pattern="varBurn5.RData"),dir(pattern=siteName))
+  diurnalFiles <- intersect(dir(pattern="varBurn6.RData"),dir(pattern=siteName))
   #sunAngleFile <- paste(siteName,"_sunAngles.csv",sep="")
   #sunAngles <- read.csv(sunAngleFile,header=TRUE,sep=" ")
   
@@ -161,7 +161,7 @@ s <- 9
     }
   }
   dev.off()
-#}
+}
     
 #plot(density(rbeta(10000,1,25)))
 #abline(v=0.13,col="red")
