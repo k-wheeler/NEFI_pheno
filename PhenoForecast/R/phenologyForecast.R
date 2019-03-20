@@ -75,9 +75,10 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
       SfsMeans <- colMeans(SfsALL)
       SfsVar <- apply(SfsALL,MARGIN=2,FUN=var)
       SfsVar[SfsVar==0] <- 0.001
+      datSf <- createSf(lat=lat,long=long,years=years,siteName=siteName,dataDirectory=dataDirectory,endDate=endDate,GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory)
 
-      dat2$Sf <- SfsMeans
-      dat2$Sfprec <- 1/SfsVar
+      dat2$Sf <- datSf$Sf
+      dat2$Sfprec <- datSf$Sfprec
     }
 
     dat2 <- dat2[dat2$months%in%seq(1,6,1),]
@@ -129,7 +130,7 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
       dataFinal$Sfprec <- Sfprecs
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model")
-      variableNames <- c("p.PC","p.MN","p.ME","p.proc","x","b1","b0","r","Sf")
+      variableNames <- c("p.PC","p.MN","p.ME","p.proc","x","b1","b0")
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
     }
   }

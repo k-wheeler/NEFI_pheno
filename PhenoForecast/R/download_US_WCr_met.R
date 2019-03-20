@@ -93,6 +93,5 @@ download_US_WCr_met <- function(start_date, end_date) {
   #   print(length(subDat$Tairs))
   #   Tair <- cbind(Tair,subDat$Tairs)
   # }
-
   return(newTairs)
 }

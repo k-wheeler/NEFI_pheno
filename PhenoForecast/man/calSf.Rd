@@ -4,12 +4,12 @@
 \alias{calSf}
 \title{Calculates cummulative Tair}
 \usage{
-calSf(Tairs, days)
+calSf(Tairs, dates)
 }
 \arguments{
-\item{Tairs}{The start date of desired data download}
+\item{Tairs}{The air temperature values in a vector}
 
-\item{days}{The desired dates}
+\item{dates}{The desired dates}
 }
 \description{
 Calculates cummulative Tair
