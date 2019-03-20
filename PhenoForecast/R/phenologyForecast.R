@@ -34,6 +34,7 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
   p.old <- phenoData$gcc_mean
   time.old <-  as.Date(phenoData$date)
   days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
+
   p <- rep(NA,length(days))
 
   for(i in 1:length(p.old)){
@@ -69,6 +70,7 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
     }
 
     dat2 <- dat2[dat2$months%in%seq(1,6,1),]
+    dat2 <- dat2[as.numeric(format(dates,"%j"))%in% seq(1,181),]
     p <- matrix(nrow=181,ncol=0)
     Sf <- matrix(nrow=181,ncol=0)
     mn <- matrix(nrow=181,ncol=0)
