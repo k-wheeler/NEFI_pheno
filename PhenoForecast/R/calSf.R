@@ -5,6 +5,7 @@
 ##' @export
 calSf <- function(Tairs,dates) {
   #print(dates)
+  print(dates[is.na(Tairs)])
   Rf <- calRf(Tairs[1])
   cumTotal <- Rf
   Sfs <- Rf

@@ -22,7 +22,7 @@
 #' @import coda
 #' @import PhenologyBayesModeling
 #' @export
-phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files="",GEFS_Directory){
+phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files="",GEFS_Directory){
   nchain=5
   ###Download PhenoCam data and format
   PCfileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
