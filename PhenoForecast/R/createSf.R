@@ -1,15 +1,17 @@
 ##' Creates data object with the desired Sf means and variances
 ##'
-##' @param latitude The desired latitude if not willowCreek
-##' @param longitude The desired longitude if not willowCreek
+##' @param lat The desired latitude if not willowCreek
+##' @param long The desired longitude if not willowCreek
+##' @param dates The desired dates
 ##' @param siteName The site name
 ##' @param dataDirectory The data directory
 ##' @param endDate The end date
 ##' @param GEFS_Files A vector of the file names for the GEFS files
 ##' @param GEFS_Directory The directory where the GEFS files are located
 ##' @export
-createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory) {
-  calDates <- seq(as.Date(paste(years[1],"-01-01",sep="")),as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
+createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory) {
+  years <- lubridate::year(dates)
+  calDates <- seq(dates[1],as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
   #calDates <- calDates[as.numeric(format(calDates,"%j"))%in% seq(1,181)]
 
   ##The sources of the calibration and current measurements differ between willowCreek and other sites
