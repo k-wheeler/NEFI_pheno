@@ -4,6 +4,7 @@
 ##' @param dates The desired dates
 ##' @export
 calSf <- function(Tairs,dates) {
+  print(dates)
   Rf <- calRf(Tairs[1])
   cumTotal <- Rf
   Sfs <- Rf
