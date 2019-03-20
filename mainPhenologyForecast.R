@@ -18,9 +18,9 @@ library("MODISTools")
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 
-if (!dir.exists(dataDirectory)) {
-  dir.create(dataDirectory, recursive=TRUE, showWarnings = FALSE)
-}
+# if (!dir.exists(dataDirectory)) {
+#   dir.create(dataDirectory, recursive=TRUE, showWarnings = FALSE)
+# }
 
 forecastLength <- 15
 
@@ -39,7 +39,8 @@ GEFS_files <- dir(path=GEFS_Directory,pattern="NOAA_GEFS")
 URL <- as.character(siteData[i,4])
 lat <- as.numeric(siteData[i,2])
 long <- as.numeric(siteData[i,3])
-startDate <- as.Date(siteData[i,7])
+#startDate <- as.Date(siteData[i,7])
+startDate <- as.Date("2016-12-01")
 ##Download new MODIS data
 ##Download DQF file if there are no previous ones 
 files <- intersect(dir(path=dataDirectory,pattern=paste(siteName,"_rel",sep="")),dir(path=dataDirectory,pattern="MOD13Q1")) #Current downloaded data files

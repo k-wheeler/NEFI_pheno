@@ -32,7 +32,6 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
   TairsForecast <- numeric()
   for(e in 1:length(GEFS_Files)){
     TairsForecastInd <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[e])
-    print(length(TairsForecastInd))
     TairsForecast <- cbind(TairsForecast,TairsForecastInd)
     TairsCurrent[,e] <- TairsCurrentInd
   }
@@ -53,9 +52,9 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
     SfsALL <- rbind(SfsALL,Sfs)
   }
 
-    SfsMeans <- colMeans(SfsALL)
-    SfsVar <- apply(SfsALL,MARGIN=2,FUN=var)
-    SfsVar[SfsVar==0] <- 0.001
-    dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
-    return(dat)
+  SfsMeans <- colMeans(SfsALL)
+  SfsVar <- apply(SfsALL,MARGIN=2,FUN=var)
+  SfsVar[SfsVar==0] <- 0.001
+  dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
+  return(dat)
 }

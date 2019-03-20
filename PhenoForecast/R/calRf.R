@@ -3,7 +3,6 @@
 ##' @param Tair The air temperature
 ##' @export
 calRf <- function(Tair){
-  print(Tair)
   if(Tair>0){
     Rf <- 28.4/(1+exp(3.4-0.185*Tair))
   }
