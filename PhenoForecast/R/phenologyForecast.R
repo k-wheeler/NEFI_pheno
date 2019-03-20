@@ -64,7 +64,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
   else if(forecastType=="logistic" || forecastType== "logisticCov"){
     dat2 <- data.frame(dates=days,years=years,months=months,p=p,mn=mn,me=me)
     if(forecastType=="logisticCov"){
-      datSf <- createSf(lat=lat,long=long,years=years,siteName=siteName,dataDirectory=dataDirectory,endDate=endDate,GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory)
+      datSf <- createSf(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,endDate=endDate,GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory)
       print(length(dat2$dates))
       print(length(datSf$Sf))
       dat2$Sf <- datSf$Sf
