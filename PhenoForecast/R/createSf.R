@@ -22,11 +22,11 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
     for(e in 1:10){
       TairsCal[,e] <- TairsCalInd
     }
-    TairsCurrentInd <- download_US_WCr_met(start_date=as.Date("2019-01-01"),end_date=endDate)
+    currentInd <- download_US_WCr_met(start_date=as.Date("2019-01-01"),end_date=endDate)
   }
   else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=years,dataDirectory=dataDirectory) ##columns are each an ensemble (not divided by year)
-    TairsCurrentInd <- load_NOAA_met(lat=lat,long=long,years=years) ##Array of numeric values
+    currentInd <- load_NOAA_met(lat=lat,long=long,years=years) ##Array of numeric values
   }
 
   ##GEFS Forecast (same for all sites) and pad TairsCurrent to be ensembles
@@ -51,10 +51,10 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
   curDates=seq(as.Date("2019-01-01"),endDate,"day")
   for(e in 1:length(GEFS_Files)){
     print(length(curDates))
-    print(length(c(TairsCur[,e],TairsForecast[,e])))
+    print(length(c(TairsCurrent[,e],TairsForecast[,e])))
     curDates <- na.omit(curDates)
     print(curDates)
-    Tairs <- c(TairsCur[,e],TairsForecast[,e])[1:length(curDates)]
+    Tairs <- c(TairsCurrent[,e],TairsForecast[,e])[1:length(curDates)]
     print(length(curDates))
     print(length(Tairs))
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
