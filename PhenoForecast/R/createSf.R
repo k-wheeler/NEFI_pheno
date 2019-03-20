@@ -9,7 +9,7 @@
 ##' @param GEFS_Files A vector of the file names for the GEFS files
 ##' @param GEFS_Directory The directory where the GEFS files are located
 ##' @export
-createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory) {
+createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory,forecastLength) {
   years <- lubridate::year(dates)
   calDates <- seq(dates[1],as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
   #calDates <- calDates[as.numeric(format(calDates,"%j"))%in% seq(1,181)]
@@ -22,11 +22,11 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     for(e in 1:10){
       TairsCal[,e] <- TairsCalInd
     }
-    TairsCurrentInd <- download_US_WCr_met(start_date=as.Date("2019-01-01"),end_date=endDate)
+    TairsCurrentInd <- download_US_WCr_met(start_date=as.Date("2019-01-01"),end_date=(endDate-forecastLength))
   }
   else{
-    TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=years,dataDirectory=dataDirectory) ##columns are each an ensemble (not divided by year)
-    TairsCurrentInd <- load_NOAA_met(lat=lat,long=long,years=years) ##Array of numeric values
+    TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018),dataDirectory=dataDirectory) ##columns are each an ensemble (not divided by year)
+    TairsCurrentInd <- load_NOAA_met(lat=lat,long=long,years=seq(years[1],2018)) ##Array of numeric values
   }
 
   ##GEFS Forecast (same for all sites) and pad TairsCurrent to be ensembles
