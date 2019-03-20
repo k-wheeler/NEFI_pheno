@@ -46,8 +46,11 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   }
   ##Current year
   curDates=seq(as.Date("2019-01-01"),endDate,"day")
+  print(curDates)
+  print(length(curDates))
   for(e in 1:length(GEFS_Files)){
     Tairs <- c(TairsCurrent[,e],TairsForecast[,e])
+    print(length(Tairs))
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
     Sfs <- c(Sfs,rep(NA,(365-length(Sfs)))) ##Done to make all years 365 days
     SfsALL <- rbind(SfsALL,Sfs)
