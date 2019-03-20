@@ -47,6 +47,7 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
   for(e in 1:length(GEFS_Files)){
     print(length(curDates))
     print(length(c(TairsCurr[,e],TairsForecast[,e])))
+    curDates <- na.omit(curDates)
     Sfs <- calSf(Tairs=c(TairsCurr[,e],TairsForecast[,e])[1:length(curDates)],dates=curDates)
     Sfs <- c(Sfs,rep(NA,(181-length(Sfs)))) ##Done to make all springs 181 days
     SfsALL <- rbind(SfsALL,Sfs)
