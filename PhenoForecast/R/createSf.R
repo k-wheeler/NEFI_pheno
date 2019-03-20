@@ -31,7 +31,7 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
   TairsForecast <- matrix(ncol=length(GEFS_Files),nrow=15)
   for(e in 1:length(GEFS_Files)){
     TairsForecastInd <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[e])
-    print(length(TairsForecastInd))
+    #print(length(TairsForecastInd))
     TairsForecast[,e] <- TairsForecastInd[1:15]
     TairsCurrent[,e] <- TairsCurrentInd
   }
@@ -48,7 +48,11 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
     print(length(curDates))
     print(length(c(TairsCurr[,e],TairsForecast[,e])))
     curDates <- na.omit(curDates)
-    Sfs <- calSf(Tairs=c(TairsCurr[,e],TairsForecast[,e])[1:length(curDates)],dates=curDates)
+    print(curDates)
+    Tairs <- c(TairsCurr[,e],TairsForecast[,e])[1:length(curDates)]
+    print(length(curDates))
+    print(length(Tairs))
+    Sfs <- calSf(Tairs=Tairs,dates=curDates)
     Sfs <- c(Sfs,rep(NA,(181-length(Sfs)))) ##Done to make all springs 181 days
     SfsALL <- rbind(SfsALL,Sfs)
   }
