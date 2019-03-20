@@ -8,6 +8,7 @@ calSf <- function(Tairs,dates) {
   cumTotal <- Rf
   Sfs <- Rf
   for(i in 2:length(Tairs)){
+    print(dates[i])
     if((lubridate::day(dates[i])==1)&&(lubridate::month(dates[i])==1)){ ##Reset every year
       cumTotal <- 0
     }
