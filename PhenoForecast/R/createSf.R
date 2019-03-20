@@ -10,7 +10,10 @@
 ##' @export
 createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory) {
   calDates <- seq(as.Date(paste(years[1],"-01-01",sep="")),as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
+  print(paste("length of calDates:",length(calDates)))
   calDates <- calDates[as.numeric(format(calDates,"%j"))%in% seq(1,181)]
+  print(paste("length of spring calDates:",length(calDates)))
+
   ##The sources of the calibration and current measurements differ between willowCreek and other sites
   if(siteName=="willowCreek"){
     TairsCalInd <- download_US_WCr_met(start_date=calDates[1],end_date=calDates[length(calDates)])
@@ -48,10 +51,10 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
   curDates=seq(as.Date("2019-01-01"),endDate,"day")
   for(e in 1:length(GEFS_Files)){
     print(length(curDates))
-    print(length(c(TairsCurr[,e],TairsForecast[,e])))
+    print(length(c(TairsCur[,e],TairsForecast[,e])))
     curDates <- na.omit(curDates)
     print(curDates)
-    Tairs <- c(TairsCurr[,e],TairsForecast[,e])[1:length(curDates)]
+    Tairs <- c(TairsCur[,e],TairsForecast[,e])[1:length(curDates)]
     print(length(curDates))
     print(length(Tairs))
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
