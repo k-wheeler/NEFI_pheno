@@ -85,7 +85,7 @@ download_US_WCr_met <- function(start_date, end_date) {
   newYears <- lubridate::year(days)
   dat2 <- data.frame(dates=days,years=newYears,months=newMonths,Tairs=newTairs)
 
-  dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(1,181)]
+  dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(1,181),]
   #dat2 <- dat2[dat2$months%in%seq(1,6,1),]
 #
 #   Tair <- matrix(nrow=181,ncol=0)
