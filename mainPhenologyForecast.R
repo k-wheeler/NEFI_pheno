@@ -70,22 +70,22 @@ cMeans.me <- rescaleData$cMeans.me
 dMeans.me <- rescaleData$dMeans.me
 
 ##Create Random Walk forecast if needed
-outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
-if(!file.exists(outputFile)){
-  outBurnRW <- phenologyForecast(forecastType = "randomWalk",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
-  if(typeof(outBurnRW)!=typeof(FALSE)){
-    save(outBurnRW,file=outputFile)
-  }
-}
-
-##Create logistic forecast if needed
-outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
-if(!file.exists(outputFile)){
-  outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
-  if(typeof(outBurnL)!=typeof(FALSE)){
-    save(outBurnL,file=outputFile)
-  }
-}
+# outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
+# if(!file.exists(outputFile)){
+#   outBurnRW <- phenologyForecast(forecastType = "randomWalk",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
+#   if(typeof(outBurnRW)!=typeof(FALSE)){
+#     save(outBurnRW,file=outputFile)
+#   }
+# }
+# 
+# ##Create logistic forecast if needed
+# outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
+# if(!file.exists(outputFile)){
+#   outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
+#   if(typeof(outBurnL)!=typeof(FALSE)){
+#     save(outBurnL,file=outputFile)
+#   }
+# }
 
 ##Create a Logistic with Covariate Model
 if(siteName=="willowCreek"){
