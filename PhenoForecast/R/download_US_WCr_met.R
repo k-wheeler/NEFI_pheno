@@ -77,21 +77,22 @@ download_US_WCr_met <- function(start_date, end_date) {
 
   days <- seq(as.Date(start_date),as.Date(end_date),"day")
   print(length(days))
-  newTairs <- rep(NA,length(days))
+  newTairs <- rep(NA,length(days)) ##Averaged values
   for(i in 1:nrow(dat)){
     newTairs[which(days==dat[i,1])] <- dat[i,4]
   }
-  # newMonths <- lubridate::month(days)
-  # newYears <- lubridate::year(days)
-  # dat2 <- data.frame(dates=days,years=newYears,months=newMonths,Tairs=newTairs)
-  #
-  # dat2 <- dat2[dat2$months%in%seq(1,6,1),]
-  #
-  # Tair <- matrix(nrow=181,ncol=0)
-  # for(yr in lubridate::year(startDate):lubridate::year(endDate)){
-  #   subDat <- dat2[dat2$years==yr,]
-  #   print(length(subDat$Tairs))
-  #   Tair <- cbind(Tair,subDat$Tairs)
-  # }
-  return(newTairs)
+  newMonths <- lubridate::month(days)
+  newYears <- lubridate::year(days)
+  dat2 <- data.frame(dates=days,years=newYears,months=newMonths,Tairs=newTairs)
+
+  dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(1,181)]
+  #dat2 <- dat2[dat2$months%in%seq(1,6,1),]
+#
+#   Tair <- matrix(nrow=181,ncol=0)
+#   for(yr in lubridate::year(startDate):lubridate::year(endDate)){
+#     subDat <- dat2[dat2$years==yr,]
+#     print(length(subDat$Tairs))
+#     Tair <- cbind(Tair,subDat$Tairs)
+#   }
+  return(dat2$Tairs)
 }
