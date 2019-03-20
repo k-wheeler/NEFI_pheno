@@ -10,7 +10,7 @@
 ##' @export
 createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory) {
   calDates <- seq(as.Date(paste(years[1],"-01-01",sep="")),as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
-  calDates <- calDates[as.numeric(format(calDates,"%j"))%in% seq(1,181)]
+  #calDates <- calDates[as.numeric(format(calDates,"%j"))%in% seq(1,181)]
 
   ##The sources of the calibration and current measurements differ between willowCreek and other sites
   if(siteName=="willowCreek"){
@@ -29,10 +29,10 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
 
   ##GEFS Forecast (same for all sites) and pad TairsCurrent to be ensembles
   TairsCurrent <- matrix(ncol=length(GEFS_Files),nrow=length(TairsCurrentInd))
-  TairsForecast <- matrix(ncol=length(GEFS_Files),nrow=15)
+  TairsForecast <- matrix(ncol=length(GEFS_Files),nrow=14)
   for(e in 1:length(GEFS_Files)){
     TairsForecastInd <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[e])
-    TairsForecast[,e] <- TairsForecastInd[1:15]
+    TairsForecast[,e] <- TairsForecastInd[1:14]
     TairsCurrent[,e] <- TairsCurrentInd
   }
 
@@ -48,7 +48,7 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
     curDates <- na.omit(curDates)
     Tairs <- c(TairsCurrent[,e],TairsForecast[,e])[1:length(curDates)]
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
-    Sfs <- c(Sfs,rep(NA,(181-length(Sfs)))) ##Done to make all springs 181 days
+    Sfs <- c(Sfs,rep(NA,(365-length(Sfs)))) ##Done to make all years 365 days
     SfsALL <- rbind(SfsALL,Sfs)
   }
 
