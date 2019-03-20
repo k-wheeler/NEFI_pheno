@@ -30,7 +30,7 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
   GEFS_Tairs <- matrix(ncol=length(GEFS_Files),nrow=15) ##columns are each an ensemble
   TairsCurrent <- matrix(ncol=length(GEFS_Files),nrow=length(TairsCurrentInd))
   for(e in 1:length(GEFS_Files)){
-    TairsForecast <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[G])
+    TairsForecast <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[e])
     TairsForecast[,e] <- TairsForecast
     TairsCurrent[,e] <- TairsCurrentInd
   }
