@@ -62,21 +62,8 @@ phenologyForecast <- function(forecastType,forecastLength=16,siteName,URL,lat,lo
   }
   else if(forecastType=="logistic" || forecastType== "logisticCov"){
     dat2 <- data.frame(dates=days,years=years,months=months,p=p,mn=mn,me=me)
-    SfsALL <- matrix(nrow=0,ncol=length(dat2$dates))
     if(forecastType=="logisticCov"){
-      Tairs <- download_US_WCr_met(start_date=startDate,end_date=endDate)
-      for(G in 1:length(GEFS_Files)){
-        TairsForecast <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[G])
-        ##will need to fill in the missing (assume everything is current/up to date now)
-        fileTairs <- c(Tairs,TairsForecast)
-        Sfs <- calSf(Tairs=fileTairs,days=as.Date(dat2$dates))
-        SfsALL <- rbind(SfsALL,Sfs)
-      }
-      SfsMeans <- colMeans(SfsALL)
-      SfsVar <- apply(SfsALL,MARGIN=2,FUN=var)
-      SfsVar[SfsVar==0] <- 0.001
       datSf <- createSf(lat=lat,long=long,years=years,siteName=siteName,dataDirectory=dataDirectory,endDate=endDate,GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory)
-
       dat2$Sf <- datSf$Sf
       dat2$Sfprec <- datSf$Sfprec
     }
