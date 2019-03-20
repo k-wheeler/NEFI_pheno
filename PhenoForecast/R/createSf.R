@@ -22,11 +22,11 @@ createSf <- function(lat="",long="",years,siteName,dataDirectory,endDate,GEFS_Fi
     for(e in 1:10){
       TairsCal[,e] <- TairsCalInd
     }
-    currentInd <- download_US_WCr_met(start_date=as.Date("2019-01-01"),end_date=endDate)
+    TairsCurrentInd <- download_US_WCr_met(start_date=as.Date("2019-01-01"),end_date=endDate)
   }
   else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=years,dataDirectory=dataDirectory) ##columns are each an ensemble (not divided by year)
-    currentInd <- load_NOAA_met(lat=lat,long=long,years=years) ##Array of numeric values
+    TairsCurrentInd <- load_NOAA_met(lat=lat,long=long,years=years) ##Array of numeric values
   }
 
   ##GEFS Forecast (same for all sites) and pad TairsCurrent to be ensembles
