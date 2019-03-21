@@ -61,10 +61,10 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   }
 
   SfsMeans <- colMeans(SfsALL)
-  print(paste("SfsMeans:",SfsMeans))
+  print(paste("SfsMeans:",length(SfsMeans)))
   SfsVar <- apply(SfsALL,MARGIN=2,FUN=var)
   SfsVar[SfsVar==0] <- 0.001
-  print(paste("SfsVar:",SfsVar))
+  print(paste("SfsVar:",length(SfsVar)))
   dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
   return(dat)
 }
