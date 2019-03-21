@@ -22,7 +22,7 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 #   dir.create(dataDirectory, recursive=TRUE, showWarnings = FALSE)
 # }
 
-forecastLength <- 15
+forecastLength <- 14
 
 endDate <- (Sys.Date()-1)
 #startDate <- as.Date("2013-01-01")
