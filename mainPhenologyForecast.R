@@ -41,6 +41,7 @@ lat <- as.numeric(siteData[i,2])
 long <- as.numeric(siteData[i,3])
 #startDate <- as.Date(siteData[i,7])
 startDate <- as.Date("2016-12-01")
+startDate <- as.Date("2017-01-01")
 ##Download new MODIS data
 ##Download DQF file if there are no previous ones 
 files <- intersect(dir(path=dataDirectory,pattern=paste(siteName,"_rel",sep="")),dir(path=dataDirectory,pattern="MOD13Q1")) #Current downloaded data files
