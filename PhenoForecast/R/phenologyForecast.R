@@ -72,7 +72,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     }
 
     #dat2 <- dat2[dat2$months%in%seq(1,6,1),]
-    dat2 <- dat2[as.numeric(format(dates,"%j"))%in% seq(1,181),]
+    dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(1,181),]
     p <- matrix(nrow=181,ncol=0)
     Sf <- matrix(nrow=181,ncol=0)
     mn <- matrix(nrow=181,ncol=0)
