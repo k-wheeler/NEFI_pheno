@@ -52,10 +52,15 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     Sfs <- calSf(Tairs=TairsCal[,e],dates=calDates)
     SfsALL <- rbind(SfsALL,Sfs)
   }
+  SfsMeansCal <- colMeans(SfsALL)
+  SfsVarCal <- apply(SfsALL,MARGIN=2,FUN=var)
+  SfsVarCal[SfsVarCal==0] <- 0.001
+
   ##Current year
   curDates=seq(as.Date("2019-01-01"),endDate,"day") ##Includes forecasted period
   print(paste("curDates:",curDates))
   print(paste("length(curDates):",length(curDates)))
+  SfsALL <- matrix(nrow=0,ncol=length(curDates))
   for(e in 1:length(GEFS_Files)){
     Tairs <- c(TairsCurrent[,e],TairsForecast[,e])
     print(length(Tairs))
@@ -64,11 +69,12 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     SfsALL <- rbind(SfsALL,Sfs)
   }
 
-  SfsMeans <- colMeans(SfsALL)
-  print(paste("SfsMeans:",length(SfsMeans)))
-  SfsVar <- apply(SfsALL,MARGIN=2,FUN=var)
-  SfsVar[SfsVar==0] <- 0.001
-  print(paste("SfsVar:",length(SfsVar)))
+  SfsMeansCur <- colMeans(SfsALL)
+  SfsVarCur <- apply(SfsALL,MARGIN=2,FUN=var)
+  SfsVarCur[SfsVarCur==0] <- 0.001
+  SfsMeans <- c(SfsMeansCal,SfsMeansCur)
+  SfsVar <- c(SfsVarCal,SfsVarCur)
+
   dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
   return(dat)
 }
