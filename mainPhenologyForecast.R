@@ -25,8 +25,6 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 forecastLength <- 14
 
 endDate <- (Sys.Date()-1)
-#startDate <- as.Date("2013-01-01")
-#endDate <- as.Date("2019-01-27")
 i <- 10
 #Create Forecast outputs
 #output <- 
@@ -39,9 +37,7 @@ GEFS_files <- dir(path=GEFS_Directory,pattern="NOAA_GEFS")
 URL <- as.character(siteData[i,4])
 lat <- as.numeric(siteData[i,2])
 long <- as.numeric(siteData[i,3])
-#startDate <- as.Date(siteData[i,7])
-#startDate <- as.Date("2016-12-01")
-startDate <- as.Date("2017-01-01")
+startDate <- as.Date(siteData[i,7])
 ##Download new MODIS data
 ##Download DQF file if there are no previous ones 
 files <- intersect(dir(path=dataDirectory,pattern=paste(siteName,"_rel",sep="")),dir(path=dataDirectory,pattern="MOD13Q1")) #Current downloaded data files
@@ -71,22 +67,22 @@ cMeans.me <- rescaleData$cMeans.me
 dMeans.me <- rescaleData$dMeans.me
 
 ##Create Random Walk forecast if needed
-# outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
-# if(!file.exists(outputFile)){
-#   outBurnRW <- phenologyForecast(forecastType = "randomWalk",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
-#   if(typeof(outBurnRW)!=typeof(FALSE)){
-#     save(outBurnRW,file=outputFile)
-#   }
-# }
-# 
-# ##Create logistic forecast if needed
-# outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
-# if(!file.exists(outputFile)){
-#   outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
-#   if(typeof(outBurnL)!=typeof(FALSE)){
-#     save(outBurnL,file=outputFile)
-#   }
-# }
+outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
+if(!file.exists(outputFile)){
+  outBurnRW <- phenologyForecast(forecastType = "randomWalk",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
+  if(typeof(outBurnRW)!=typeof(FALSE)){
+    save(outBurnRW,file=outputFile)
+  }
+}
+
+##Create logistic forecast if needed
+outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
+if(!file.exists(outputFile)){
+  outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
+  if(typeof(outBurnL)!=typeof(FALSE)){
+    save(outBurnL,file=outputFile)
+  }
+}
 
 ##Create a Logistic with Covariate Model
 if(siteName=="willowCreek"){
