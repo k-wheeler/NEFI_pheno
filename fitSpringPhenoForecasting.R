@@ -5,6 +5,7 @@ library(PhenologyBayesModeling)
 library(coda)
 library(rjags)
 library(doParallel)
+library(ecoforecastR)
 ##Create Phenology Fits for willow Creek spring data (should actually fit spring and autumn together)
 #season <- "spring"
 #endDate <- (Sys.Date()-1)
@@ -12,19 +13,19 @@ library(doParallel)
 endDate <- as.Date("2019-01-27")
 forecastLength <- 0
 
-n.cores <- 6
+#n.cores <- 6
 
 #register the cores.
 #registerDoParallel(cores=n.cores)
 
-i <- 10
+i <- 1
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 siteName <- as.character(siteData[i,1])
 print(siteName)
 URL <- as.character(siteData[i,4])
 lat <- as.numeric(siteData[i,2])
 long <- as.numeric(siteData[i,3])
-startDate <- as.Date(siteData[i,7])
+startDate <- (as.Date(siteData[i,7])-30)
 days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
 dataDirectory="PhenologyForecastData/"
 
@@ -84,48 +85,88 @@ DB.vars <- c("TranF","bF","TranS","bS","c","d","prec","k")
 #kMeans <- numeric()
 j=1
 years <- seq(2013,2018)
+cMeans.p <- numeric()
+dMeans.p <- numeric()
+kMeans.p <- numeric()
+cMeans.mn <- numeric()
+dMeans.mn <- numeric()
+kMeans.mn <- numeric()
+cMeans.me <- numeric()
+dMeans.me <- numeric()
+kMeans.me <- numeric()
+
+pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
 #output <- 
 #  foreach(j=1:6) %dopar% {
 for(j in 1:6){
+  print(years[j])
   ##PhenoCam Fits
   outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
-  if(!file.exists(outFileName)){
   p.yr <- p[,j]
-  #plot(DOYs,p.yr,pch=20)
-  data <- list(x=DOYs,y=p.yr,n=length(p.yr))
-  j.model <- createModel_DB(data=data,dataSource = "PC.GCC",seasonOrder = "SF")
-  varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
-  #out.mat <- as.matrix(varBurn)
-  #cMeans <- c(cMeans,mean(out.mat[,5]))
-  #dMeans <- c(dMeans,mean(out.mat[,6]))
-  #kMeans <- c(kMeans,mean(out.mat[,7]))
-
-  save(varBurn,file=outFileName)
+  if(!file.exists(outFileName)){
+    data <- list(x=DOYs,y=p.yr,n=length(p.yr))
+    j.model <- createModel_DB(data=data,dataSource = "PC.GCC",seasonOrder = "SF")
+    varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
+    save(varBurn,file=outFileName)
   }
+  load(outFileName)
+  var.mat <- as.matrix(varBurn)
+  var.mat.DF <- data.frame(var.mat)
+  cMeans.p <- c(cMeans.p,mean(var.mat.DF$c))
+  dMeans.p <- c(dMeans.p,mean(var.mat.DF$d))
+  kMeans.p <- c(kMeans.p,mean(var.mat.DF$k))
+  
+  CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
+  plot(DOYs,p.yr,pch=20,main=paste(years[j],"ME"))
+  ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
+  points(DOYs,p.yr,pch=20)
+  
   
   ##MODIS NDVI Fits
   outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_MN_",years[j],"_varBurn.RData",sep="")
+  mn.yr <- mn[,j]
   if(!file.exists(outFileName)){
-    mn.yr <- mn[,j]
     data <- list(x=DOYs,y=mn.yr,n=length(mn.yr))
     j.model <- createModel_DB(data=data,dataSource = "MODIS.NDVI",seasonOrder = "SF")
     varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
     save(varBurn,file=outFileName)
   }
+  load(outFileName)
+  var.mat <- as.matrix(varBurn)
+  var.mat.DF <- data.frame(var.mat)
+  cMeans.mn <- c(cMeans.mn,mean(var.mat.DF$c))
+  dMeans.mn <- c(dMeans.mn,mean(var.mat.DF$d))
+  kMeans.mn <- c(kMeans.mn,mean(var.mat.DF$k))
+  
+  CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
+  plot(DOYs,mn.yr,pch=20,main=paste(years[j],"MN"))
+  ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
+  points(DOYs,mn.yr,pch=20)
   
   ##MODIS EVI Fits
   outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_ME_",years[j],"_varBurn.RData",sep="")
-  if(!file.exists(outFileName)){
   me.yr <- me[,j]
-  data <- list(x=DOYs,y=me.yr,n=length(me.yr))
-  j.model <- createModel_DB(data=data,dataSource = "MODIS.EVI",seasonOrder = "SF")
-  varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
-  save(varBurn,file=outFileName)
+  if(!file.exists(outFileName)){
+    data <- list(x=DOYs,y=me.yr,n=length(me.yr))
+    j.model <- createModel_DB(data=data,dataSource = "MODIS.EVI",seasonOrder = "SF")
+    varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
+    save(varBurn,file=outFileName)
   }
+  load(outFileName)
+  var.mat <- as.matrix(varBurn)
+  var.mat.DF <- data.frame(var.mat)
+  cMeans.me <- c(cMeans.me,mean(var.mat.DF$c))
+  dMeans.me <- c(dMeans.me,mean(var.mat.DF$d))
+  kMeans.me <- c(kMeans.me,mean(var.mat.DF$k))
   
+  CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
+  plot(DOYs,me.yr,pch=20,main=paste(years[j],"ME"))
+  ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
+  points(DOYs,me.yr,pch=20)
 }
-#plot(DOYs,p.yr,pch=20)
-#years <- c(2013,2014,2015,2016,2017,2018)
-#write.table(cbind(cMeans,dMeans,kMeans,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits.csv",sep=",")
+dev.off()
 
-##Run phenology fits
+##Write files of c, d, and k means
+write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_PC.csv",sep=",")
+write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_MN.csv",sep=",")
+write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_ME.csv",sep=",")
