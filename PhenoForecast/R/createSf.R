@@ -17,12 +17,14 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   ##The sources of the calibration and current measurements differ between willowCreek and other sites
   if(siteName=="willowCreek"){
     TairsCalInd <- download_US_WCr_met(start_date=calDates[1],end_date=calDates[length(calDates)])
+    print(paste("length of TairsCalInd:",TairsCalInd))
     ##Need to pad TairsCal to have ensembles
     TairsCal <- matrix(ncol=10,nrow=length(TairsCalInd))
     for(e in 1:10){
       TairsCal[,e] <- TairsCalInd
     }
     TairsCurrentInd <- download_US_WCr_met(start_date=as.Date("2019-01-01"),end_date=(endDate-forecastLength))
+    print(paste("length of TairsCurrentInd:", TairsCurrentInd))
   }
   else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018),dataDirectory=dataDirectory) ##columns are each an ensemble (not divided by year)
@@ -34,20 +36,22 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   TairsForecast <- numeric()
   for(e in 1:length(GEFS_Files)){
     TairsForecastInd <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[e])
+    print(paste("length(TairsForecastInd:",length(TairsForecastInd)))
     TairsForecast <- cbind(TairsForecast,TairsForecastInd)
     TairsCurrent[,e] <- TairsCurrentInd
   }
 
   ##Create Sfs
   SfsALL <- matrix(nrow=0,ncol=length(calDates))
+  print(paste("length(calDates):",length(calDates)))
   for(e in 1:ncol(TairsCal)){
     Sfs <- calSf(Tairs=TairsCal[,e],dates=calDates)
     SfsALL <- rbind(SfsALL,Sfs)
   }
   ##Current year
-  curDates=seq(as.Date("2019-01-01"),endDate,"day")
-  print(curDates)
-  print(length(curDates))
+  curDates=seq(as.Date("2019-01-01"),endDate,"day") ##Includes forecasted period
+  print(paste("curDates:",curDates))
+  print(paste("length(curDates):",length(curDates)))
   for(e in 1:length(GEFS_Files)){
     Tairs <- c(TairsCurrent[,e],TairsForecast[,e])
     print(length(Tairs))
@@ -57,8 +61,10 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   }
 
   SfsMeans <- colMeans(SfsALL)
+  print(paste("SfsMeans:",SfsMeans))
   SfsVar <- apply(SfsALL,MARGIN=2,FUN=var)
   SfsVar[SfsVar==0] <- 0.001
+  print(paste("SfsVar:",SfsVar))
   dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
   return(dat)
 }
