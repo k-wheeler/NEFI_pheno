@@ -12,6 +12,10 @@
 createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory,forecastLength) {
   years <- lubridate::year(dates)
   calDates <- seq(dates[1],as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
+  print(paste("length(calDates):",length(calDates)))
+  print(calDates[1])
+  print(calDates[length(calDates)])
+
   #calDates <- calDates[as.numeric(format(calDates,"%j"))%in% seq(1,181)]
 
   ##The sources of the calibration and current measurements differ between willowCreek and other sites
