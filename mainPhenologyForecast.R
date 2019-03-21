@@ -25,13 +25,14 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 forecastLength <- 14
 
 endDate <- (Sys.Date()-1)
-i <- 10
+i <- 1
 #Create Forecast outputs
 #output <- 
 #  foreach(i=1:nrow(siteData)) %dopar% {
 siteName <- as.character(siteData[i,1])
 print(siteName)
 GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/willowcreek/",endDate,"/",sep="")
+GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/harvardbarn/",endDate,"/",sep="")
 GEFS_files <- dir(path=GEFS_Directory,pattern="NOAA_GEFS")
 
 URL <- as.character(siteData[i,4])
