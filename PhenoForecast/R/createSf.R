@@ -17,14 +17,14 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   ##The sources of the calibration and current measurements differ between willowCreek and other sites
   if(siteName=="willowCreek"){
     TairsCalInd <- download_US_WCr_met(start_date=calDates[1],end_date=calDates[length(calDates)])
-    print(paste("length of TairsCalInd:",TairsCalInd))
+    print(paste("length of TairsCalInd:",length(TairsCalInd)))
     ##Need to pad TairsCal to have ensembles
     TairsCal <- matrix(ncol=10,nrow=length(TairsCalInd))
     for(e in 1:10){
       TairsCal[,e] <- TairsCalInd
     }
     TairsCurrentInd <- download_US_WCr_met(start_date=as.Date("2019-01-01"),end_date=(endDate-forecastLength))
-    print(paste("length of TairsCurrentInd:", TairsCurrentInd))
+    print(paste("length of TairsCurrentInd:", length(TairsCurrentInd)))
   }
   else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018),dataDirectory=dataDirectory) ##columns are each an ensemble (not divided by year)
