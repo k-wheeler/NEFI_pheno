@@ -26,7 +26,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   }
   else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018),dataDirectory=dataDirectory) ##columns are each an ensemble (not divided by year)
-    TairsCurrentInd <- load_NOAA_met(lat=lat,long=long,years=seq(years[1],2018)) ##Array of numeric values
+    TairsCurrentInd <- load_NOAA_met(lat=lat,long=long,years=seq(2019,2019)) ##Array of numeric values
   }
 
   ##GEFS Forecast (same for all sites) and pad TairsCurrent to be ensembles
@@ -52,7 +52,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     Tairs <- c(TairsCurrent[,e],TairsForecast[,e])
     print(length(Tairs))
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
-    Sfs <- c(Sfs,rep(NA,(365-length(Sfs)))) ##Done to make all years 365 days
+    #Sfs <- c(Sfs,rep(NA,(365-length(Sfs)))) ##Done to make all years 365 days
     SfsALL <- rbind(SfsALL,Sfs)
   }
 
