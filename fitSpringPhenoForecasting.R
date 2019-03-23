@@ -6,6 +6,7 @@ library(coda)
 library(rjags)
 library(doParallel)
 library(ecoforecastR)
+library("MODISTools")
 ##Create Phenology Fits for willow Creek spring data (should actually fit spring and autumn together)
 #season <- "spring"
 #endDate <- (Sys.Date()-1)
@@ -32,6 +33,7 @@ dataDirectory="PhenologyForecastData/"
 
 ##Download/load data
 ##Download new MODIS data
+lastDate <- (as.Date(startDate) - 1)
 newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
 if(!file.exists(newDQFFileName)){
   print("Downloading MODIS DQF File")
