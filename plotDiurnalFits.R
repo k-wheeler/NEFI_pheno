@@ -135,15 +135,15 @@ for(s in iseq){
       rndNums <- sample(1:length(a),10000,replace=T)
       a <- a[rndNums]
       c <- out.mat$c[rndNums]
-      alp <- out.mat$alp[rndNums]
-      bet <- out.mat$bet[rndNums]
-      p.cloud <- out.mat$p.cloud[rndNums]
-      #k <- out.mat[rndNums,3]
+      #alp <- out.mat$alp[rndNums]
+      #bet <- out.mat$bet[rndNums]
+      #p.cloud <- out.mat$p.cloud[rndNums]
+      k <- out.mat$k[rndNums]
       solarNoon <- (getSunlightTimes(date=as.Date(as.numeric(i),origin=as.Date(paste((as.numeric(yr)-1),"-12-31",sep=""))),lat=lat,lon=long,keep="solarNoon",tz="America/Chicago"))$solarNoon
       solarNoonTime <- lubridate::hour(solarNoon)+(lubridate::minute(solarNoon)/60)
       ycred <- matrix(0,nrow=10000,ncol=length(xseq))
       for(g in 1:10000){
-        Ey <- diurnalExp(a=a[g],c=c[g],k=solarNoonTime,xseq=xseq)
+        Ey <- diurnalExp(a=a[g],c=c[g],k=k[g],xseq=xseq)
         ycred[g,] <- Ey
       }
       ci <- apply(ycred,2,quantile,c(0.025,0.5, 0.975), na.rm= TRUE)
