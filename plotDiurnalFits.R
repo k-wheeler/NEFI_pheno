@@ -61,9 +61,9 @@ siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 #iseq <- c(seq(1,6),seq(8,11),seq(15,20))
 #iseq <- c(seq(4,6),seq(8,11),seq(15,20))
 #iseq <- c(8,9)
-iseq <- c(seq(1,7),9,10,11,12,seq(16,20))
+sseq <- c(seq(1,7),9,10,11,12,seq(16,20))
 #s <- 9
-output <- foreach(i = iseq) %dopar% {
+output <- foreach(s = sseq) %dopar% {
 #for(s in iseq){
   siteName <- as.character(siteData[s,1])
   outputFileName <- paste(siteName,"_ALL_DiurnalFits6.pdf",sep="")
