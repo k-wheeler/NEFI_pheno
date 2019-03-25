@@ -20,6 +20,7 @@ endDate <- (Sys.Date()-1)
 #startDate <- as.Date("2013-01-01")
 #endDate <- as.Date("2019-01-27")
 i <- 10
+i <- 1
 siteName <- as.character(siteData[i,1])
 print(siteName)
 URL <- as.character(siteData[i,4])
@@ -71,6 +72,8 @@ for(i in seq(offset,dayNumber,365)){
   abline(v=i,col="red")
 }
 abline(v=(dayNumber-forecastLength+1),col="purple")
+
+
 ##Plot Current year
 lengthLastYear <- (as.numeric(format(endDate,"%j"))+forecastLength)
 print(lengthLastYear)
@@ -195,5 +198,10 @@ points(time.p,p,pch=20,col="red")
 points(time.p,mn,col="green",pch=3)
 points(time.p,me,col="green",pch=1)
 legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
+
+##Plot Sf vs R
+
+
+
 
 dev.off()
