@@ -31,7 +31,7 @@ i <- 1
 #  foreach(i=1:nrow(siteData)) %dopar% {
 siteName <- as.character(siteData[i,1])
 print(siteName)
-GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/willowcreek/",endDate,"/",sep="")
+#GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/willowcreek/",endDate,"/",sep="")
 GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/harvardbarn/",endDate,"/",sep="")
 GEFS_files <- dir(path=GEFS_Directory,pattern="NOAA_GEFS")
 
@@ -88,7 +88,7 @@ if(file.exists(outputFile)){
 ##Create a Logistic with Covariate Model
   outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
   if(!file.exists(outputFile)){
-    outBurnLC <- phenologyForecast(forecastType = "logisticCov",forecastLength = forecastLength,siteName="willowCreek",URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory)
+    outBurnLC <- phenologyForecast(forecastType = "logisticCov",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory)
     if(typeof(outBurnLC)!=typeof(FALSE)){
       save(outBurnLC,file=outputFile)
     }
