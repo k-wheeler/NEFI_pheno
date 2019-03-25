@@ -1,5 +1,5 @@
 ##Install latest versions of packages
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
 install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL)
 
 library("PhenoForecast")
@@ -69,7 +69,7 @@ dMeans.me <- rescaleData$dMeans.me
 
 ##Create Random Walk forecast if needed
 outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
-if(!file.exists(outputFile)){
+if(file.exists(outputFile)){
   outBurnRW <- phenologyForecast(forecastType = "randomWalk",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
   if(typeof(outBurnRW)!=typeof(FALSE)){
     save(outBurnRW,file=outputFile)
@@ -78,7 +78,7 @@ if(!file.exists(outputFile)){
 
 ##Create logistic forecast if needed
 outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
-if(!file.exists(outputFile)){
+if(file.exists(outputFile)){
   outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
   if(typeof(outBurnL)!=typeof(FALSE)){
     save(outBurnL,file=outputFile)
