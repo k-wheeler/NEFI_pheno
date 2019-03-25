@@ -1,5 +1,5 @@
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL)
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL)
 library(PhenoForecast)
 library(PhenologyBayesModeling)
 library(coda)
@@ -7,6 +7,7 @@ library(rjags)
 library(doParallel)
 library(ecoforecastR)
 library("MODISTools")
+library("doParallel")
 ##Create Phenology Fits for willow Creek spring data (should actually fit spring and autumn together)
 #season <- "spring"
 #endDate <- (Sys.Date()-1)
@@ -14,10 +15,10 @@ library("MODISTools")
 endDate <- as.Date("2019-01-27")
 forecastLength <- 0
 
-#n.cores <- 6
+n.cores <- 6
 
 #register the cores.
-#registerDoParallel(cores=n.cores)
+registerDoParallel(cores=n.cores)
 
 i <- 1
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
