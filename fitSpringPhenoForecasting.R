@@ -26,7 +26,7 @@ print(siteName)
 URL <- as.character(siteData[i,4])
 lat <- as.numeric(siteData[i,2])
 long <- as.numeric(siteData[i,3])
-startDate <- (as.Date(siteData[i,7])-30)
+startDate <- (as.Date(siteData[i,7]))
 days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
 dataDirectory="PhenologyForecastData/"
 
@@ -49,7 +49,7 @@ newYears <- lubridate::year(days)
 #print("Done with newYears")
 PC.fileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
 if(!file.exists(PC.fileName)){
-  phenoData <- download.phenocam(URL) #<- doesn't work on the cluster I think (so need to download all of the phenodata and save it)
+  phenoData <- download.phenocam(URL) 
   save(phenoData,file=PC.fileName)
 }
 load(PC.fileName)
@@ -67,7 +67,6 @@ dat2$me <- prepareMODIS(startDate=startDate,endDate=endDate,metric="EVI",timeFor
 #print(dim(dat2))
 #dat2 <- dat2[dat2$months%in%seq(1,7,1),]
 #print(dim(dat2))
-
 
 data2 <- data.frame(p=dat2$p)
 
@@ -92,7 +91,8 @@ DB.vars <- c("TranF","bF","TranS","bS","c","d","prec","k")
 #dMeans <- numeric()
 #kMeans <- numeric()
 j=1
-years <- seq(2013,2018)
+#years <- seq(2013,2018)
+years <- seq(lubridate::year(startDate),2018)
 cMeans.p <- numeric()
 dMeans.p <- numeric()
 kMeans.p <- numeric()
@@ -103,10 +103,10 @@ cMeans.me <- numeric()
 dMeans.me <- numeric()
 kMeans.me <- numeric()
 
-pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
-#output <- 
-#  foreach(j=1:6) %dopar% {
-for(j in 1:6){
+#pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
+output <- 
+  foreach(j=1:length(years)) %dopar% {
+#for(j in 1:length(years)){
   print(years[j])
   ##PhenoCam Fits
   outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
@@ -172,9 +172,9 @@ for(j in 1:6){
   ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
   points(DOYs,me.yr,pch=20)
 }
-dev.off()
+#dev.off()
 
 ##Write files of c, d, and k means
-write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_PC.csv",sep=",")
-write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_MN.csv",sep=",")
-write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_ME.csv",sep=",")
+#write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_PC.csv",sep=",")
+#write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_MN.csv",sep=",")
+#write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_ME.csv",sep=",")
