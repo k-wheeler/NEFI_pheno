@@ -104,7 +104,7 @@ cMeans.me <- numeric()
 dMeans.me <- numeric()
 kMeans.me <- numeric()
 
-#pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
+pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
 output <- 
   foreach(j=1:length(years)) %dopar% {
 #for(j in 1:length(years)){
@@ -173,9 +173,9 @@ output <-
   ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
   points(DOYs,me.yr,pch=20)
 }
-#dev.off()
+dev.off()
 
 ##Write files of c, d, and k means
-#write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_PC.csv",sep=",")
-#write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_MN.csv",sep=",")
-#write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file="willowCreek_forecast_phenoFits_ME.csv",sep=",")
+write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste(siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
+write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste(siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
+write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste(siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
