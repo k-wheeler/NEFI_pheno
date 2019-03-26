@@ -18,7 +18,7 @@ forecastLength <- 0
 n.cores <- 6
 
 #register the cores.
-registerDoParallel(cores=n.cores)
+#registerDoParallel(cores=n.cores)
 
 i <- 1
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
@@ -105,9 +105,9 @@ dMeans.me <- numeric()
 kMeans.me <- numeric()
 
 pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
-output <- 
-  foreach(j=1:length(years)) %dopar% {
-#for(j in 1:length(years)){
+#output <- 
+ # foreach(j=1:length(years)) %dopar% {
+for(j in 1:length(years)){
   print(years[j])
   ##PhenoCam Fits
   outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
