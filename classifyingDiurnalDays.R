@@ -3,6 +3,7 @@
   ##into each of the functions, which will return true or false depending on if the classification holds or not
 
 library("rjags")
+library("suncalc")
 days <- seq(as.Date("2017-07-01"),as.Date("2018-06-30"),"day")
 #iseq <- as.character(c(seq(1,333,1),seq(348,364,1)))
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
