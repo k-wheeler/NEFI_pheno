@@ -160,7 +160,7 @@ s <- 1
       #plot(x=list(),y=list(),main=diurnalFiles[i],xlab="Time",ylab="NDVI",ylim=c(0,1),xlim=c(0,25))
       if(length(na.omit(as.numeric(dat[2,])))>10){
         ##Calculate 
-        classDat <- classData[classData$dayObs==dy,]
+        classDat <- classData[as.numeric(classData$dayObs)==as.numeric(dy),]
         print(classDat)
         if(classDat$winLength<10){
           if(classDat$fitCI<0.1){
