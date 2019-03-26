@@ -42,11 +42,11 @@ fitCI <- numeric()
       winLength <- c(winLength,length(na.omit(midWindow)))
       
       if(TZ==6){
-        solarNoon <- (getSunlightTimes(date=as.Date(as.numeric(i),origin=as.Date(paste((year-1),"-12-31",sep=""))),lat=lat,lon=long,keep="solarNoon",tz="America/Chicago"))$solarNoon
+        solarNoon <- (getSunlightTimes(date=as.Date(as.numeric(dy),origin=as.Date(paste((year-1),"-12-31",sep=""))),lat=lat,lon=long,keep="solarNoon",tz="America/Chicago"))$solarNoon
         solarNoonTime <- lubridate::hour(solarNoon)+(lubridate::minute(solarNoon)/60)
       }
       else if(TZ==5){
-        solarNoon <- (getSunlightTimes(date=as.Date(as.numeric(i),origin=as.Date(paste((year-1),"-12-31",sep=""))),lat=lat,lon=long,keep="solarNoon",tz="America/New_York"))$solarNoon
+        solarNoon <- (getSunlightTimes(date=as.Date(as.numeric(dy),origin=as.Date(paste((year-1),"-12-31",sep=""))),lat=lat,lon=long,keep="solarNoon",tz="America/New_York"))$solarNoon
         solarNoonTime <- lubridate::hour(solarNoon)+(lubridate::minute(solarNoon)/60)
       }
       fitFileName <- paste(siteName,"_",dy,"_varBurn6.RData",sep="")
