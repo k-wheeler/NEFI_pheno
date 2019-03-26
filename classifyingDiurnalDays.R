@@ -32,7 +32,7 @@ fitCI <- numeric()
       print(dim(dat))
       data$x <- as.numeric(dat[3,])
       data$y <- as.numeric(dat[2,])
-      totalLength <- c(totalLength,length(na.omit(data$x)))
+      totalLength <- c(totalLength,length(na.omit(data$y)))
       ##Calculate noise:
       #plot(data$x,data$y,pch=20)
       midWindow <- data$y[data$x>10 &data$x<14]
@@ -65,6 +65,6 @@ fitCI <- numeric()
   }
   output <- cbind(dayObs,totalLength,winLength,winCI,fitCI)
   outFileName <- paste(siteName,"_diurnal_characteristics.csv",sep="")
-  write.table(output,file="outFileName",sep=",",row.names=FALSE,col.names = TRUE)
+  write.table(output,file=outFileName,sep=",",row.names=FALSE,col.names = TRUE)
   
 #}
