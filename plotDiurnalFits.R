@@ -61,9 +61,11 @@ siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 #iseq <- c(seq(1,6),seq(8,11),seq(15,20))
 #iseq <- c(seq(4,6),seq(8,11),seq(15,20))
 #iseq <- c(8,9)
-sseq <- c(seq(1,7),9,10,11,12,seq(16,20))
-#s <- 9
-output <- foreach(s = sseq) %dopar% {
+#sseq <- c(seq(1,6),8,9,10,11,seq(15,20))
+classData <- read.csv("HarvardForest_diurnal_characteristics.csv",header=TRUE)
+s <- 1
+
+#output <- foreach(s = sseq) %dopar% {
 #for(s in iseq){
   siteName <- as.character(siteData[s,1])
   outputFileName <- paste(siteName,"_ALL_DiurnalFits6.pdf",sep="")
@@ -156,8 +158,37 @@ output <- foreach(s = sseq) %dopar% {
       }
       ci <- apply(ycred,2,quantile,c(0.025,0.5, 0.975), na.rm= TRUE)
       #plot(x=list(),y=list(),main=diurnalFiles[i],xlab="Time",ylab="NDVI",ylim=c(0,1),xlim=c(0,25))
-      if(length(na.omit(as.numeric(dat[2,])))>0){
-        plot(as.numeric(dat[3,]),as.numeric(dat[2,]),main=diurnalFiles[i],xlim=c(0,25),pch=20,cex=2,ylim=c(0,1.2))
+      if(length(na.omit(as.numeric(dat[2,])))>10){
+        ##Calculate 
+        classDat <- classData[classData$dayObs==dy,]
+        if(classDat$winLength<10){
+          if(classDat$fitCI<0.1){
+            clf <- "No window, tight fit"
+          }
+          else{
+            clf <- "No window, wide fit"
+          }
+        }
+        else{
+          if(classDat$fitCI<0.1){
+            if(classDat$winCI<0.1){
+              clf <- "Low noise, tight fit"
+            }
+            else{
+              clf <- "High noise, tight fit"
+            }
+          }
+          else{
+            if(classDat$winCI<0.1){
+              clf <- "Low noise, wide fit"
+            }
+            else{
+              clf <- "High noise, wide fit"
+            }
+          }
+        }
+        
+        plot(as.numeric(dat[3,]),as.numeric(dat[2,]),main=paste(siteName,dy,clf),xlim=c(0,25),pch=20,cex=2,ylim=c(0,1.2))
         ciEnvelope(xseq,ci[1,],ci[3,],col="lightBlue")
         lines(xseq,ci[2,],col="black")
         points(as.numeric(dat[3,]),as.numeric(dat[2,]),pch=20,cex=2)
@@ -169,7 +200,7 @@ output <- foreach(s = sseq) %dopar% {
     }
   }
   dev.off()
-}
+#}
     
 #plot(density(rbeta(10000,1,25)))
 #abline(v=0.13,col="red")
