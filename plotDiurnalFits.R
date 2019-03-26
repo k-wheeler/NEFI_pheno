@@ -161,6 +161,7 @@ s <- 1
       if(length(na.omit(as.numeric(dat[2,])))>10){
         ##Calculate 
         classDat <- classData[classData$dayObs==dy,]
+        print(classDat)
         if(classDat$winLength<10){
           if(classDat$fitCI<0.1){
             clf <- "No window, tight fit"
