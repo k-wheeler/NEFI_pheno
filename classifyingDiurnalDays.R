@@ -58,44 +58,43 @@ for(s in 1:nrow(siteData)){
           rndNums <- sample(1:length(c),10000,replace=T)
           c <- c[rndNums]
           fitCI <- as.numeric(quantile(c,0.975))-as.numeric(quantile(c,0.025))
+          ##Classify day:
+          if(totalLength<10){
+            clf <- "NoData"
+          }
+          else{
+            if(winLength<5){
+              if(fitCI<0.1){
+                clf <- "NoWindow_tightFit"
+              }
+              else{
+                clf <- "NoWindow_wideFit"
+              }
+            }
+            else{
+              if(fitCI<0.1){
+                if(winCI<0.1){
+                  clf <- "LowNoise_tightFit"
+                }
+                else{
+                  clf <- "HighNoise_tightFit"
+                }
+              }
+              else{
+                if(winCI<0.1){
+                  clf <- "LowNoise_wideFit"
+                }
+                else{
+                  clf <- "HighNoise_wideFit"
+                }
+              }
+            }
+          } ##Ends the totalLength>=10
         }
         else{
           fitCI <- NA
           clf <- "NoFit"
         }
-        ##Classify day:
-        if(totalLength<10){
-          clf <- "NoData"
-        }
-        else{
-          if(winLength<5){
-            if(fitCI<0.1){
-              clf <- "NoWindow_tightFit"
-            }
-            else{
-              clf <- "NoWindow_wideFit"
-            }
-          }
-          else{
-            if(fitCI<0.1){
-              if(winCI<0.1){
-                clf <- "LowNoise_tightFit"
-              }
-              else{
-                clf <- "HighNoise_tightFit"
-              }
-            }
-            else{
-              if(winCI<0.1){
-                clf <- "LowNoise_wideFit"
-              }
-              else{
-                clf <- "HighNoise_wideFit"
-              }
-            }
-          }
-        } ##Ends the totalLength>=10
-        
       } ##Ends if file.exists()
       else{
         clf <- "NoData"
