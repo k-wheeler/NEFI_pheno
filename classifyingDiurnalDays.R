@@ -10,9 +10,10 @@ siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 s <- 1
 
 for(s in 1:nrow(siteData)){
-  TZ <- as.character(siteData$TZ[s])
-  if(TZ=="DB"){
+  PFT <- as.character(siteData$PFT[s])
+  if(PFT=="DB"){
     siteName <- as.character(siteData$siteName[s])
+    TZ <- as.character(siteData$TZ[s])
     print(siteName)
     dayObs <- numeric()
     clfts <- character() #List of diurnal pattern classifications
