@@ -60,6 +60,7 @@ for(s in 1:nrow(siteData)){
         }
         else{
           fitCI <- NA
+          clf <- "NoFit"
         }
         ##Classify day:
         if(totalLength<10){
