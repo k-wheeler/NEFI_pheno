@@ -27,7 +27,6 @@ for(s in 1:nrow(siteData)){
       print(fileName)
       if(file.exists(fileName)){
         dat <- read.csv(fileName,header=FALSE)
-        dayObs <- c(dayObs,dy)
         data <- list()
         print(dim(dat))
         data$x <- as.numeric(dat[3,])
@@ -109,46 +108,19 @@ for(s in 1:nrow(siteData)){
     
   }
 }
+
+# for(s in 1:nrow(siteData)){
+#   siteName <- as.character(siteData$siteName[s])
+#   print(siteName)
+#   inFileName <- paste(siteName,"_diurnal_classifications.csv",sep="")
+#   dat <- read.csv(inFileName,header=TRUE)
+#   noDatNum <- nrow(dat[dat$clfts=="NoData",])
 #   
+#   noWin_TFNum <- nrow(dat[dat$clfts=="NoWindow_tightFit",])
+#   noWin_WFNum <- nrow(dat[dat$clfts=="NoWindow_wideFit",])
 #   
-# dat <- read.csv(outFileName,header=TRUE) 
-# 
-# nrow(dat[dat$winLength==0,])
-# nrow(dat[dat$totalLength>10,])
-# newDat <- dat[dat$totalLength>10,]
-# 
-# nrow(newDat[newDat$fitCI<0.1,])
-# nrow(newDat[newDat$winCI<0.1,])
-# hist(newDat$winCI)
-# hist(newDat$winLength[newDat$winLength!=0])
-# newDat2 <- newDat[newDat$winLength>5,]
-# nrow(newDat2[newDat2$winCI<0.05,])
-# 
-# nrow(newDat[newDat$fitCI<0.05,])
-# 
-# avg.sd <- sqrt(var(as.numeric(midday[2,]),na.rm=TRUE))
-# avg.bot <- avg-1.96*(avg.sd/sqrt(length(na.omit(as.numeric(midday[2,])))))
-# 
-# ##A) Number with >10 observations
-# 
-# ##B) From A Number with >5 observations within the mid-window range
-# 
-# ##c) From B, number with winCI < 0.05 <- low noise
-# 
-# ##
-# 
-# ##Classifications
-# missingMid_tightFit <- newDat[(newDat$winLength<5&newDat$fitCI<0.1),]
-# 
-# highNoise_tightFit <- newDat[(newDat$winCI>0.1 & newDat$fitCI<0.1 & !is.na(newDat$winCI)),]
-# 
-# highNoise_loseFit <- newDat[(newDat$winCI>0.1 & newDat$fitCI>0.1 & !is.na(newDat$winCI)),]
-# 
-# lowNoise_tightFit <- newDat[(newDat$winCI<0.1 & newDat$fitCI<0.1 & !is.na(newDat$winCI)),]
-# 
-# lowNoise_loseFit <- newDat[(newDat$winCI<0.1 & newDat$fitCI>0.1 & !is.na(newDat$winCI)),]
-# 
-# 
+# }
+
 
 
 
