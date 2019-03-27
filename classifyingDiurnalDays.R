@@ -11,6 +11,7 @@ s <- 1
 
 for(s in 1:nrow(siteData)){
   TZ <- as.character(siteData$TZ[s])
+  print(TZ)
   if(TZ=="DB"){
     siteName <- as.character(siteData$siteName[s])
     print(siteName)
