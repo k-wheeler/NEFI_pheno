@@ -20,8 +20,8 @@ n.cores <- 6
 #register the cores.
 #registerDoParallel(cores=n.cores)
 
-iseq <- c(seq(2,6),8,9,11,seq(15,20))
-
+#iseq <- c(seq(2,6),8,9,11,seq(15,20))
+iseq <- 1
 for(i in iseq){
   siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
   siteName <- as.character(siteData[i,1])
@@ -35,12 +35,12 @@ for(i in iseq){
   
   ##Download/load data
   ##Download new MODIS data
-  lastDate <- (as.Date(startDate) - 1)
-  newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
-  if(!file.exists(newDQFFileName)){
-    print("Downloading MODIS DQF File")
-    try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = dataDirectory,internal=FALSE),silent=TRUE)
-  }
+ # lastDate <- (as.Date(startDate) - 1)
+ # newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
+ # if(!file.exists(newDQFFileName)){
+ #   print("Downloading MODIS DQF File")
+ #   try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = dataDirectory,internal=FALSE),silent=TRUE)
+ # }
 
   downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
   downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
@@ -106,9 +106,9 @@ for(i in iseq){
   kMeans.me <- numeric()
   
   #pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
-  output <- 
-    foreach(j=1:length(years)) %dopar% {
-      #for(j in 1:length(years)){
+#  output <- 
+#    foreach(j=1:length(years)) %dopar% {
+      for(j in 1:length(years)){
       print(years[j])
       ##PhenoCam Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
@@ -175,10 +175,8 @@ for(i in iseq){
       points(DOYs,me.yr,pch=20)
     }
   #dev.off()
-  
   ##Write files of c, d, and k means
-  write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste(siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
-  write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste(siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
-  write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste(siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
-  
+  write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
+  write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
+  write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
 }
