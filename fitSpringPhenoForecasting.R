@@ -18,7 +18,9 @@ forecastLength <- 0
 n.cores <- 6
 
 #register the cores.
-#registerDoParallel(cores=n.cores)
+registerDoParallel(cores=n.cores)
+
+iseq <- c(seq(1,6),8,9,11,seq(15,20))
 
 #iseq <- c(seq(2,6),8,9,11,seq(15,20))
 iseq <- 1
@@ -78,7 +80,8 @@ for(i in iseq){
   p <- matrix(nrow=365,ncol=0)
   mn <- matrix(nrow=365,ncol=0)
   me <- matrix(nrow=365,ncol=0)
-  for(i in (lubridate::year(as.Date(dat2$dates[1]))+1):lubridate::year(as.Date(dat2$dates[length(dat2$dates)]))){
+  years <- seq(lubridate::year(startDate),2018)
+  for(i in years){
     subDat <- data2[lubridate::year(as.Date(dat2$dates))==i,]
     p <- cbind(p,subDat$p)
     mn <- cbind(mn,subDat$mn)
@@ -94,7 +97,6 @@ for(i in iseq){
   #kMeans <- numeric()
   j=1
   #years <- seq(2013,2018)
-  years <- seq(lubridate::year(startDate),2018)
   cMeans.p <- numeric()
   dMeans.p <- numeric()
   kMeans.p <- numeric()
