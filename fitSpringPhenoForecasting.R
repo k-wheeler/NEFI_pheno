@@ -20,7 +20,7 @@ n.cores <- 6
 #register the cores.
 registerDoParallel(cores=n.cores)
 
-iseq <- c(seq(2,6),8,9,11,seq(15,20))
+iseq <- c(seq(1,6),8,9,11,seq(15,20))
 
 for(i in iseq){
   siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
@@ -79,7 +79,8 @@ for(i in iseq){
   p <- matrix(nrow=365,ncol=0)
   mn <- matrix(nrow=365,ncol=0)
   me <- matrix(nrow=365,ncol=0)
-  for(i in (lubridate::year(as.Date(dat2$dates[1]))+1):lubridate::year(as.Date(dat2$dates[length(dat2$dates)]))){
+  years <- seq(lubridate::year(startDate),2018)
+  for(i in years){
     subDat <- data2[lubridate::year(as.Date(dat2$dates))==i,]
     p <- cbind(p,subDat$p)
     mn <- cbind(mn,subDat$mn)
@@ -95,7 +96,6 @@ for(i in iseq){
   #kMeans <- numeric()
   j=1
   #years <- seq(2013,2018)
-  years <- seq(lubridate::year(startDate),2018)
   cMeans.p <- numeric()
   dMeans.p <- numeric()
   kMeans.p <- numeric()
@@ -178,8 +178,8 @@ for(i in iseq){
   #dev.off()
   
   ##Write files of c, d, and k means
-  write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste(siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
-  write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste(siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
-  write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste(siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
+  write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
+  write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
+  write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
   
 }
