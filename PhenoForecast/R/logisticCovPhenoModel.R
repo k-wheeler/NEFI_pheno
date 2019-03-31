@@ -25,7 +25,7 @@ logisticCovPhenoModel <- function(data,nchain){
       me[i,yr] ~ dnorm(x[i,yr],p.ME)
     }
   }
-  ##Data Model for last year
+  ##Data Model for current year
   for(i in 1:q){
       p[i,N] ~ dnorm(x[i,N],p.PC)
       mn[i,N] ~ dnorm(x[i,N],p.MN)
