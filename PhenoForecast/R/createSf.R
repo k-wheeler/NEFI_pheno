@@ -65,6 +65,8 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   }
 
   SfsMeansCur <- colMeans(SfsALL)
+  print("SFsMeansCur:")
+  print(SfsMeansCur)
   SfsVarCur <- apply(SfsALL,MARGIN=2,FUN=var)
   SfsVarCur[SfsVarCur==0] <- 0.001
   SfsMeans <- c(SfsMeansCal,SfsMeansCur)
