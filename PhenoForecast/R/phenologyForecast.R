@@ -128,7 +128,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
       pdf("testingSf.pdf",width=12,height=6)
-      plot(seq(1,length(dataFinal$Sfmu)),dataFinal$Sfmu,pch=20)
+      plot(seq(1,length(dataFinal$Sfmu[,dataFinal$N])),dataFinal$Sfmu[,dataFinal$N],pch=20)
       dev.off()
 
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
