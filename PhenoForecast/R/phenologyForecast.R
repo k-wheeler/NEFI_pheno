@@ -70,9 +70,9 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       dat2$Sf <- datSf$Sf
       dat2$Sfprec <- datSf$Sfprec
       print("dim(dat2$Sf:")
-      print(dim(dat2$Sf))
+      print(length(dat2$Sf))
       print("dat2$days:")
-      print(dim(dat2$days))
+      print(length(dat2$days))
     }
 
     #dat2 <- dat2[dat2$months%in%seq(1,6,1),]
@@ -95,6 +95,9 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
 
       p <- cbind(p,rescale(yseq=subDat$p,c=c,d=d))
       if(forecastType=="logisticCov"){
+        if(i==2019){
+          print(subDat$Sf)
+        }
         Sf <- cbind(Sf,subDat$Sf)
         Sfprecs <- cbind(Sfprecs,subDat$Sfprec)
       }
