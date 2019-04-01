@@ -119,10 +119,14 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     if(forecastType=="logisticCov"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
+      pdf("testingSf.pdf",width=12,height=6)
+      plot(seq(1,length(dataFinal$Sfmu)),dataFinal$Sfmu,pch=20)
+      dev.off()
+
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model")
       #variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","b0","r","Sf")
-      variableNames <- c("r")
+      variableNames <- c("Sf")
       print(variableNames)
       out.burn <- coda.samples(j.model, variable.names = variableNames,n.iter= 10)
       #out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
