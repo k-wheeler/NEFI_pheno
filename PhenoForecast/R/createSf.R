@@ -56,7 +56,11 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   SfsALL <- matrix(nrow=0,ncol=length(curDates))
   for(e in 1:length(GEFS_Files)){
     Tairs <- c(TairsCurrent[,e],TairsForecast[,e])
+    print("Tairs:")
+    print(Tairs)
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
+    print("Sfs:")
+    print(Sfs)
     SfsALL <- rbind(SfsALL,Sfs)
   }
 
