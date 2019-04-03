@@ -19,8 +19,8 @@ forecastLength <- 15
 endDate <- (Sys.Date()-1)
 #startDate <- as.Date("2013-01-01")
 #endDate <- as.Date("2019-01-27")
-i <- 10
 i <- 1
+#i <- 1
 siteName <- as.character(siteData[i,1])
 print(siteName)
 URL <- as.character(siteData[i,4])
