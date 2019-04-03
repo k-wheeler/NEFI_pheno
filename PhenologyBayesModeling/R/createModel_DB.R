@@ -88,7 +88,7 @@ createModel_DB <- function(data,dataSource,seasonOrder) {
   }
   else if (seasonOrder=="SF"){
     data$mean.TranS <- 110
-    data$mean.k <- 182
+    data$k <- 182
     DB_model <- "
     model{
     ##priors
@@ -98,7 +98,7 @@ createModel_DB <- function(data,dataSource,seasonOrder) {
     bF ~ dnorm(mean.bF,p.b)
     d ~ dnorm(mean.d,p.d)
     c ~ dnorm(mean.c,p.c)
-    k ~ dnorm(mean.k,p.k)
+    #k ~ dnorm(mean.k,p.k)
     prec ~ dgamma(s1,s2)
 
     for(i in 1:n){
