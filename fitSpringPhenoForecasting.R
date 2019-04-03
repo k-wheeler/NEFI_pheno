@@ -178,9 +178,9 @@ for(i in iseq){
   #dev.off()
   
   ##Write files of c, d, and k means
-  write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
-  write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
-  write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
+  #write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
+  #write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
+  #write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
   
     
 }

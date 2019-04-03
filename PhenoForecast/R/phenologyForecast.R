@@ -143,8 +143,12 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
     }
   }
-
   print("Done with iterations")
+  ##Thin the data:
+  out.mat <- as.matrix(out.burn)
+  out.burn <- window(out.burn,thin=(nrow(out.mat)/5000))
+
+  print("Done thinning")
   return(out.burn)
 
 }
