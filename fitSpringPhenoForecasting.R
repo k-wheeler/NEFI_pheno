@@ -22,10 +22,10 @@ registerDoParallel(cores=n.cores)
 
 #iseq <- c(seq(1,6),8,9,11,seq(15,20))
 iseq <- c(1)
+siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 for(i in 1:nrow(siteData)){
   if(as.character(siteData$PFT[i])=="DB"){
-    siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
     siteName <- as.character(siteData[i,1])
     print(siteName)
     URL <- as.character(siteData[i,4])
