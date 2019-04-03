@@ -78,7 +78,7 @@ abline(v=(dayNumber-forecastLength+1),col="purple")
 ##Plot Current year
 lengthLastYear <- (as.numeric(format(endDate,"%j"))+forecastLength)
 print(lengthLastYear)
-lastYearIndices <- seq(((dayNumber-lengthLastYear)+2),dayNumber,1)
+lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
 out.mat.lastYear <- out.mat.RW[,lastYearIndices]
 
 plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "randomWalk",days=seq(1,lengthLastYear,1))
@@ -150,7 +150,7 @@ legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),p
 
 
 ##Plot Current year
-lastYearIndices <- seq(((dayNumber-lengthLastYear)+2),dayNumber,1)
+lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
 out.mat.lastYear <- out.mat.L[,lastYearIndices]
 
 plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(1,lengthLastYear,1))
@@ -196,7 +196,7 @@ for(i in seq(1,2484,182)){
 abline(v=(dayNumber-forecastLength+1),col="purple")
 
 ##Plot Current year
-lastYearIndices <- seq(((dayNumber-lengthLastYear)+2),dayNumber,1)
+lastYearIndices <- seq(((dayNumber-lengthLastYear)+),dayNumber,1)
 out.mat.lastYear <- out.mat.LC[,lastYearIndices]
 
 plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",days=seq(1,lengthLastYear,1))
