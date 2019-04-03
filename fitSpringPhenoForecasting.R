@@ -18,12 +18,11 @@ forecastLength <- 0
 n.cores <- 6
 
 #register the cores.
-registerDoParallel(cores=n.cores)
+#registerDoParallel(cores=n.cores)
 
-iseq <- c(seq(1,6),8,9,11,seq(15,20))
+#iseq <- c(seq(1,6),8,9,11,seq(15,20))
+iseq <- c(1)
 
-#iseq <- c(seq(2,6),8,9,11,seq(15,20))
-iseq <- 1
 for(i in iseq){
   siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
   siteName <- as.character(siteData[i,1])
@@ -107,15 +106,15 @@ for(i in iseq){
   dMeans.me <- numeric()
   kMeans.me <- numeric()
   
-  #pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
-  output <- 
-    foreach(j=1:length(years)) %dopar% {
-      #for(j in 1:length(years)){
+  pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
+  #output <- 
+    #foreach(j=1:length(years)) %dopar% {
+      for(j in 1:length(years)){
       print(years[j])
       ##PhenoCam Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
       p.yr <- p[,j]
-      if(!file.exists(outFileName)){
+      if(file.exists(outFileName)){
         data <- list(x=DOYs,y=p.yr,n=length(p.yr))
         j.model <- createModel_DB(data=data,dataSource = "PC.GCC",seasonOrder = "SF")
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
@@ -137,7 +136,7 @@ for(i in iseq){
       ##MODIS NDVI Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_MN_",years[j],"_varBurn.RData",sep="")
       mn.yr <- mn[,j]
-      if(!file.exists(outFileName)){
+      if(file.exists(outFileName)){
         data <- list(x=DOYs,y=mn.yr,n=length(mn.yr))
         j.model <- createModel_DB(data=data,dataSource = "MODIS.NDVI",seasonOrder = "SF")
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
@@ -158,7 +157,7 @@ for(i in iseq){
       ##MODIS EVI Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_ME_",years[j],"_varBurn.RData",sep="")
       me.yr <- me[,j]
-      if(!file.exists(outFileName)){
+      if(file.exists(outFileName)){
         data <- list(x=DOYs,y=me.yr,n=length(me.yr))
         j.model <- createModel_DB(data=data,dataSource = "MODIS.EVI",seasonOrder = "SF")
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
@@ -176,7 +175,8 @@ for(i in iseq){
       ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
       points(DOYs,me.yr,pch=20)
     }
-  #dev.off()
+  dev.off()
+  
   ##Write files of c, d, and k means
   write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
   write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
