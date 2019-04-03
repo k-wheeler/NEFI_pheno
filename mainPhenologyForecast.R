@@ -68,8 +68,10 @@ for(i in iseq){
   cMeans.me <- rescaleData$cMeans.me
   dMeans.me <- rescaleData$dMeans.me
   
+  saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
+  
   ##Create Random Walk forecast if needed
-  outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
+  outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
   if(!file.exists(outputFile)){
     outBurnRW <- phenologyForecast(forecastType = "randomWalk",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
     if(typeof(outBurnRW)!=typeof(FALSE)){
@@ -78,7 +80,7 @@ for(i in iseq){
   }
   
   ##Create logistic forecast if needed
-  outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
+  outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
   if(!file.exists(outputFile)){
     outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
     if(typeof(outBurnL)!=typeof(FALSE)){
@@ -87,7 +89,7 @@ for(i in iseq){
   }
   
   ##Create a Logistic with Covariate Model
-  outputFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
+  outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
   if(!file.exists(outputFile)){
     outBurnLC <- phenologyForecast(forecastType = "logisticCov",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory)
     if(typeof(outBurnLC)!=typeof(FALSE)){
