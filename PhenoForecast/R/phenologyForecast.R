@@ -65,14 +65,9 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     dat2 <- data.frame(dates=days,years=years,months=months,p=p,mn=mn,me=me)
     if(forecastType=="logisticCov"){
       datSf <- createSf(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,forecastLength=forecastLength)
-      print(length(dat2$dates))
-      print(length(datSf$Sf))
+
       dat2$Sf <- datSf$Sf
       dat2$Sfprec <- datSf$Sfprec
-      print("dim(dat2$Sf:")
-      print(length(dat2$Sf))
-      print("dat2$days:")
-      print(length(dat2$days))
     }
 
     #dat2 <- dat2[dat2$months%in%seq(1,6,1),]
@@ -116,8 +111,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     dataFinal$x_ic <- 0
     dataFinal$tau_ic <- 1/(phenoData$g_std[1]**2)
     dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength
-    print("dataFinal$q:")
-    print(dataFinal$q)
+
     print("Done with formating data")
     if(forecastType=="logistic"){
       j.model <- logisticPhenoModel(data=dataFinal,nchain=nchain)
@@ -129,21 +123,16 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     if(forecastType=="logisticCov"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-      #dataFinal$Sf <- Sf
-      pdf("testingSf.pdf",width=12,height=6)
-      plot(seq(1,length(dataFinal$Sf)),dataFinal$Sf,pch=20)
-      dev.off()
 
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","b0")
-      #variableNames <- c("r")
       print(variableNames)
-      #out.burn <- coda.samples(j.model, variable.names = variableNames,n.iter= 10)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
     }
   }
   print("Done with iterations")
+
   ##Thin the data:
   out.mat <- as.matrix(out.burn)
   out.burn <- window(out.burn,thin=(nrow(out.mat)/5000))
