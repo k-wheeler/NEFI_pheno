@@ -13,8 +13,6 @@ siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastD
 
 dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 
-
-
 forecastLength <- 15
 #GEFS_files <- dir(path=dataDirectory,pattern="NOAA_GEFS")
 
@@ -80,7 +78,7 @@ abline(v=(dayNumber-forecastLength+1),col="purple")
 ##Plot Current year
 lengthLastYear <- (as.numeric(format(endDate,"%j"))+forecastLength)
 print(lengthLastYear)
-lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
+lastYearIndices <- seq(((dayNumber-lengthLastYear)+2),dayNumber,1)
 out.mat.lastYear <- out.mat.RW[,lastYearIndices]
 
 plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "randomWalk",days=seq(1,lengthLastYear,1))
@@ -99,11 +97,13 @@ abline(v=(lengthLastYear-forecastLength+1),col="purple")
 #}
 #load(PCfileName)
 p <- phenoData$gcc_mean[phenoData$year==2019]
+
 print(p)
 time.p.date <- as.Date(phenoData$date[phenoData$year==2019])
 time.p <-  as.numeric(format(time.p.date,"%j"))
 
 p <- rescale(c=cMeans.p[length(cMeans.p)],d=dMeans.p[length(dMeans.p)],yseq=p)
+
 print(length(time.p))
 print(length(p))
 points(time.p,p,pch=20,col="red")
@@ -143,14 +143,14 @@ for(i in seq(1,2484,182)){
   abline(v=i,col="red")
 }
 abline(v=(dayNumber-forecastLength+1),col="purple")
-points(time.p,p,pch=20,col="red")
-points(time.p,mn,col="green",pch=3)
-points(time.p,me,col="green",pch=1)
+#points(time.p,p,pch=20,col="red")
+#points(time.p,mn,col="green",pch=3)
+#points(time.p,me,col="green",pch=1)
 legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
 
 
 ##Plot Current year
-lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
+lastYearIndices <- seq(((dayNumber-lengthLastYear)+2),dayNumber,1)
 out.mat.lastYear <- out.mat.L[,lastYearIndices]
 
 plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(1,lengthLastYear,1))
@@ -196,7 +196,7 @@ for(i in seq(1,2484,182)){
 abline(v=(dayNumber-forecastLength+1),col="purple")
 
 ##Plot Current year
-lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
+lastYearIndices <- seq(((dayNumber-lengthLastYear)+2),dayNumber,1)
 out.mat.lastYear <- out.mat.LC[,lastYearIndices]
 
 plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",days=seq(1,lengthLastYear,1))
