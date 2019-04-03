@@ -22,6 +22,8 @@ plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,
 
   ci <- apply(out.mat,2,quantile,c(0.025,0.5,0.975)) #Computes the 95% credible interval (CI)
   ##Plot
+  print(length(ci[2,]))
+  print(length(days))
   plot(days,ci[2,],type='n',xlab="Time",ylab="Percent Canopy",main=paste(siteName,forecastType),cex.lab=1.5,cex.main=2,ylim=c(0,1))
 
   ciEnvelope(days,ci[1,],ci[3,],col="lightBlue")
