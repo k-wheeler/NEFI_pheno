@@ -18,7 +18,7 @@ forecastLength <- 0
 n.cores <- 6
 
 #register the cores.
-#registerDoParallel(cores=n.cores)
+registerDoParallel(cores=n.cores)
 
 #iseq <- c(seq(1,6),8,9,11,seq(15,20))
 iseq <- c(1)
@@ -109,7 +109,7 @@ for(i in iseq){
   #pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
   output <- 
     foreach(j=1:length(years)) %dopar% {
-      for(j in 1:length(years)){
+#      for(j in 1:length(years)){
       print(years[j])
       ##PhenoCam Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
@@ -182,4 +182,5 @@ for(i in iseq){
   write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
   write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
   
+    
 }
