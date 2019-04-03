@@ -106,10 +106,10 @@ for(i in iseq){
   dMeans.me <- numeric()
   kMeans.me <- numeric()
   
-  #pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
-  output <- 
-    foreach(j=1:length(years)) %dopar% {
-#      for(j in 1:length(years)){
+  pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
+#  output <- 
+#    foreach(j=1:length(years)) %dopar% {
+      for(j in 1:length(years)){
       print(years[j])
       ##PhenoCam Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
@@ -120,19 +120,19 @@ for(i in iseq){
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
         save(varBurn,file=outFileName)
       }
-      # load(outFileName)
-      # var.mat <- as.matrix(varBurn)
-      # var.mat.DF <- data.frame(var.mat)
-      # cMeans.p <- c(cMeans.p,mean(var.mat.DF$c))
-      # dMeans.p <- c(dMeans.p,mean(var.mat.DF$d))
-      # kMeans.p <- c(kMeans.p,mean(var.mat.DF$k))
-      # 
-      # CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
-      # plot(DOYs,p.yr,pch=20,main=paste(years[j],"PC"))
-      # ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
-      # points(DOYs,p.yr,pch=20)
-      # 
-      # 
+      load(outFileName)
+      var.mat <- as.matrix(varBurn)
+      var.mat.DF <- data.frame(var.mat)
+      cMeans.p <- c(cMeans.p,mean(var.mat.DF$c))
+      dMeans.p <- c(dMeans.p,mean(var.mat.DF$d))
+      kMeans.p <- c(kMeans.p,mean(var.mat.DF$k))
+
+      CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
+      plot(DOYs,p.yr,pch=20,main=paste(years[j],"PC"))
+      ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
+      points(DOYs,p.yr,pch=20)
+
+
       ##MODIS NDVI Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_MN_",years[j],"_varBurn.RData",sep="")
       mn.yr <- mn[,j]
@@ -142,17 +142,17 @@ for(i in iseq){
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
         save(varBurn,file=outFileName)
       }
-      # load(outFileName)
-      # var.mat <- as.matrix(varBurn)
-      # var.mat.DF <- data.frame(var.mat)
-      # cMeans.mn <- c(cMeans.mn,mean(var.mat.DF$c))
-      # dMeans.mn <- c(dMeans.mn,mean(var.mat.DF$d))
-      # kMeans.mn <- c(kMeans.mn,mean(var.mat.DF$k))
-      # 
-      # CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
-      # plot(DOYs,mn.yr,pch=20,main=paste(years[j],"MN"))
-      # ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
-      # points(DOYs,mn.yr,pch=20)
+      load(outFileName)
+      var.mat <- as.matrix(varBurn)
+      var.mat.DF <- data.frame(var.mat)
+      cMeans.mn <- c(cMeans.mn,mean(var.mat.DF$c))
+      dMeans.mn <- c(dMeans.mn,mean(var.mat.DF$d))
+      kMeans.mn <- c(kMeans.mn,mean(var.mat.DF$k))
+
+      CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
+      plot(DOYs,mn.yr,pch=20,main=paste(years[j],"MN"))
+      ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
+      points(DOYs,mn.yr,pch=20)
       
       ##MODIS EVI Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_ME_",years[j],"_varBurn.RData",sep="")
@@ -163,22 +163,22 @@ for(i in iseq){
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
         save(varBurn,file=outFileName)
       }
-      # load(outFileName)
-      # var.mat <- as.matrix(varBurn)
-      # var.mat.DF <- data.frame(var.mat)
-      # cMeans.me <- c(cMeans.me,mean(var.mat.DF$c))
-      # dMeans.me <- c(dMeans.me,mean(var.mat.DF$d))
-      # kMeans.me <- c(kMeans.me,mean(var.mat.DF$k))
-      # 
-      # CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
-      # plot(DOYs,me.yr,pch=20,main=paste(years[j],"ME"))
-      # ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
-      # points(DOYs,me.yr,pch=20)
+      load(outFileName)
+      var.mat <- as.matrix(varBurn)
+      var.mat.DF <- data.frame(var.mat)
+      cMeans.me <- c(cMeans.me,mean(var.mat.DF$c))
+      dMeans.me <- c(dMeans.me,mean(var.mat.DF$d))
+      kMeans.me <- c(kMeans.me,mean(var.mat.DF$k))
+
+      CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
+      plot(DOYs,me.yr,pch=20,main=paste(years[j],"ME"))
+      ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
+      points(DOYs,me.yr,pch=20)
     }
-  #dev.off()
+  dev.off()
   
   ##Write files of c, d, and k means
-  #write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
-  #write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
-  #write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
+  write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
+  write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
+  write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
 }
