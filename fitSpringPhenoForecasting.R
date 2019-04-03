@@ -21,7 +21,7 @@ n.cores <- 6
 registerDoParallel(cores=n.cores)
 
 #iseq <- c(seq(1,6),8,9,11,seq(15,20))
-iseq <- c(1)
+iseq <- c(10)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 for(i in 1:nrow(siteData)){
