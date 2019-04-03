@@ -69,6 +69,7 @@ for(i in iseq){
   dMeans.me <- rescaleData$dMeans.me
   
   saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
+  print(saveDirectory)
   dir.create(saveDirectory)
   ##Create Random Walk forecast if needed
   outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
