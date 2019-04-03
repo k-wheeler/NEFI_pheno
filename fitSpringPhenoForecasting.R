@@ -24,7 +24,7 @@ registerDoParallel(cores=n.cores)
 iseq <- c(10)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
-for(i in 1:nrow(siteData)){
+for(i in iseq){
   if(as.character(siteData$PFT[i])=="DB"){
     siteName <- as.character(siteData[i,1])
     print(siteName)
