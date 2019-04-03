@@ -92,7 +92,9 @@ PCfileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.R
 print(PCfileName)
 print(file.exists(PCfileName))
 if(!file.exists(PCfileName)){
+  print(URL)
   phenoData <- download.phenocam(URL)
+  print(dim(phenoData))
   save(phenoData,file=PCfileName)
 }
 load(PCfileName)
