@@ -1,6 +1,6 @@
 ##Install latest versions of packages
 #install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL)
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL)
 
 library("PhenoForecast")
 library("PhenologyBayesModeling")
@@ -18,10 +18,6 @@ library("MODISTools")
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 
-# if (!dir.exists(dataDirectory)) {
-#   dir.create(dataDirectory, recursive=TRUE, showWarnings = FALSE)
-# }
-
 forecastLength <- 14
 
 endDate <- (Sys.Date()-1)
@@ -32,8 +28,7 @@ iseq <- c(1,10)
 for(i in iseq){
   siteName <- as.character(siteData[i,1])
   print(siteName)
-  #GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/willowcreek/",endDate,"/",sep="")
-  GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/harvardbarn/",endDate,"/",sep="")
+  GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",endDate,"/",sep="")
   GEFS_files <- dir(path=GEFS_Directory,pattern="NOAA_GEFS")
   
   URL <- as.character(siteData[i,4])
