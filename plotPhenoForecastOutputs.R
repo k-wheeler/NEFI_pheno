@@ -196,7 +196,7 @@ for(i in seq(1,2484,182)){
 abline(v=(dayNumber-forecastLength+1),col="purple")
 
 ##Plot Current year
-lastYearIndices <- seq(((dayNumber-lengthLastYear)+),dayNumber,1)
+lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
 out.mat.lastYear <- out.mat.LC[,lastYearIndices]
 
 plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",days=seq(1,lengthLastYear,1))
