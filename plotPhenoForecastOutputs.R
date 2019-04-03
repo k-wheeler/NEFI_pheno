@@ -1,3 +1,4 @@
+install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL)
 library("PhenoForecast")
 library("PhenologyBayesModeling")
 library("coda")
@@ -98,7 +99,8 @@ time.p.date <- as.Date(phenoData$date[phenoData$year==2019])
 time.p <-  as.numeric(format(time.p.date,"%j"))
 
 p <- rescale(c=cMeans.p[length(cMeans.p)],d=dMeans.p[length(dMeans.p)],yseq=p)
-
+print(length(time.p))
+print(length(p))
 points(time.p,p,pch=20,col="red")
 
 ##MODIS NDVI and EVI
