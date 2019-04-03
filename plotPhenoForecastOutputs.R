@@ -11,6 +11,7 @@ dataDirectory="PhenologyForecastData/"
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
+saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
 
 
 forecastLength <- 15
@@ -45,7 +46,7 @@ cMeans.me <- rescaleData$cMeans.me
 dMeans.me <- rescaleData$dMeans.me
 
 ##Random Walk:
-RWFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
+RWFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
 load(RWFile)
 
 ##Plot Parameter Density Plots
@@ -107,7 +108,7 @@ points(time.p,me,col="green",pch=1)
 legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
 
 ##Basic logistic:
-LFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
+LFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
 load(LFile)
 out.mat.par <- data.frame(as.matrix(outBurnL$params))
 colnames(out.mat.par)
@@ -154,7 +155,7 @@ points(time.p,me,col="green",pch=1)
 legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
 
 ##Logistic with covariates model
-LCFile <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
+LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
 load(LCFile)
 out.mat.par <- data.frame(as.matrix(outBurnLC$params))
 colnames(out.mat.par)
