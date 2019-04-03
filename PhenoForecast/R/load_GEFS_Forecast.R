@@ -35,5 +35,6 @@ load_GEFS_Forecast<- function(fileName,dataDirectory) {
   if(startTime!="00:00"){ ##Removes the partial start and end dates
     Tairs <- Tairs[2:(length(Tairs)-1)]
   }
+  Tairs <- Tairs-273 ##Convert to C from Kelvin
   return(Tairs)
 }
