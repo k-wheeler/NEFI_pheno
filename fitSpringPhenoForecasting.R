@@ -108,9 +108,9 @@ for(i in iseq){
   kMeans.me <- numeric()
   
   #pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
-#  output <- 
-#    foreach(j=1:length(years)) %dopar% {
-      for(j in 1:length(years)){
+  output <- 
+    foreach(j=1:length(years)) %dopar% {
+      #for(j in 1:length(years)){
       print(years[j])
       ##PhenoCam Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
