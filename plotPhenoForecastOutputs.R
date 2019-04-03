@@ -11,7 +11,7 @@ dataDirectory="PhenologyForecastData/"
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
-saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
+
 
 
 forecastLength <- 15
@@ -24,6 +24,7 @@ i <- 1
 #i <- 1
 siteName <- as.character(siteData[i,1])
 print(siteName)
+saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
 URL <- as.character(siteData[i,4])
 lat <- as.numeric(siteData[i,2])
 long <- as.numeric(siteData[i,3])
