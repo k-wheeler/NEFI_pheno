@@ -127,7 +127,7 @@ for(i in iseq){
       dMeans.p <- c(dMeans.p,mean(var.mat.DF$d))
       ks <- var.mat.DF$k
       if(length(ks)==0){
-        ks <- c(0,0)
+        ks <- c(182,182)
       }
       kMeans.p <- c(kMeans.p,mean(ks))
 
@@ -153,7 +153,7 @@ for(i in iseq){
       dMeans.mn <- c(dMeans.mn,mean(var.mat.DF$d))
       ks <- var.mat.DF$k
       if(length(ks)==0){
-        ks <- c(0,0)
+        ks <- c(182,182)
       }
       kMeans.mn <- c(kMeans.mn,mean(ks))
 
@@ -178,7 +178,7 @@ for(i in iseq){
       dMeans.me <- c(dMeans.me,mean(var.mat.DF$d))
       ks <- var.mat.DF$k
       if(length(ks)==0){
-        ks <- c(0,0)
+        ks <- c(182,182)
       }
       kMeans.me <- c(kMeans.me,mean(ks))
 
