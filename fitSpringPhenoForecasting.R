@@ -44,7 +44,6 @@ for(i in 1:nrow(siteData)){
       try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = dataDirectory,internal=FALSE),silent=TRUE)
       downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
       downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
-      
     }
     
     ##PhenoCam data
@@ -107,7 +106,6 @@ for(i in 1:nrow(siteData)){
     dMeans.me <- numeric()
     kMeans.me <- numeric()
     
-    # pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
     output <- 
       foreach(j=1:length(years)) %dopar% {
         # for(j in 1:length(years)){
@@ -132,11 +130,6 @@ for(i in 1:nrow(siteData)){
         }
         kMeans.p <- c(kMeans.p,mean(ks))
         
-        CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
-        plot(DOYs,p.yr,pch=20,main=paste(years[j],"PC"))
-        ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
-        points(DOYs,p.yr,pch=20)
-        
         ##MODIS NDVI Fits
         outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_MN_",years[j],"_varBurn.RData",sep="")
         mn.yr <- mn[,j]
@@ -157,11 +150,6 @@ for(i in 1:nrow(siteData)){
         }
         kMeans.mn <- c(kMeans.mn,mean(ks))
         
-        CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
-        plot(DOYs,mn.yr,pch=20,main=paste(years[j],"MN"))
-        ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
-        points(DOYs,mn.yr,pch=20)
-        
         ##MODIS EVI Fits
         outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_ME_",years[j],"_varBurn.RData",sep="")
         me.yr <- me[,j]
@@ -181,16 +169,7 @@ for(i in 1:nrow(siteData)){
           ks <- c(182,182)
         }
         kMeans.me <- c(kMeans.me,mean(ks))
-        
-        CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
-        plot(DOYs,me.yr,pch=20,main=paste(years[j],"ME"))
-        ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
-        points(DOYs,me.yr,pch=20)
+
       }
-    #dev.off()
-    ##Write files of c, d, and k means
-    write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
-    write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
-    write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
-  }
+ }
 }
