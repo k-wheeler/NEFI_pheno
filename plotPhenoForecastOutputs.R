@@ -88,17 +88,18 @@ abline(v=(lengthLastYear-forecastLength+1),col="purple")
 
 ##Add on data:
 ##PhenoCam
-PCfileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
-print(PCfileName)
-print(file.exists(PCfileName))
-if(!file.exists(PCfileName)){
+#PCfileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
+#print(PCfileName)
+#print(file.exists(PCfileName))
+#if(!file.exists(PCfileName)){
   print(URL)
   phenoData <- download.phenocam(URL)
   print(dim(phenoData))
-  save(phenoData,file=PCfileName)
-}
-load(PCfileName)
+  #save(phenoData,file=PCfileName)
+#}
+#load(PCfileName)
 p <- phenoData$gcc_mean[phenoData$year==2019]
+print(p)
 time.p.date <- as.Date(phenoData$date[phenoData$year==2019])
 time.p <-  as.numeric(format(time.p.date,"%j"))
 
