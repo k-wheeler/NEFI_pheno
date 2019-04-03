@@ -22,6 +22,7 @@ registerDoParallel(cores=n.cores)
 
 #iseq <- c(seq(1,6),8,9,11,seq(15,20))
 iseq <- c(1)
+
 for(i in iseq){
   siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
   siteName <- as.character(siteData[i,1])
@@ -33,15 +34,14 @@ for(i in iseq){
   days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
   dataDirectory="PhenologyForecastData/"
   
-  
   ##Download/load data
   ##Download new MODIS data
-  lastDate <- (as.Date(startDate) - 1)
-  newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
-  if(!file.exists(newDQFFileName)){
-    print("Downloading MODIS DQF File")
-    try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = dataDirectory,internal=FALSE),silent=TRUE)
-  }
+ # lastDate <- (as.Date(startDate) - 1)
+ # newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
+ # if(!file.exists(newDQFFileName)){
+ #   print("Downloading MODIS DQF File")
+ #   try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = dataDirectory,internal=FALSE),silent=TRUE)
+ # }
 
   downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
   downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
@@ -114,7 +114,7 @@ for(i in iseq){
       ##PhenoCam Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
       p.yr <- p[,j]
-      if(!file.exists(outFileName)){
+      if(file.exists(outFileName)){
         data <- list(x=DOYs,y=p.yr,n=length(p.yr))
         j.model <- createModel_DB(data=data,dataSource = "PC.GCC",seasonOrder = "SF")
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
@@ -136,7 +136,7 @@ for(i in iseq){
       ##MODIS NDVI Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_MN_",years[j],"_varBurn.RData",sep="")
       mn.yr <- mn[,j]
-      if(!file.exists(outFileName)){
+      if(file.exists(outFileName)){
         data <- list(x=DOYs,y=mn.yr,n=length(mn.yr))
         j.model <- createModel_DB(data=data,dataSource = "MODIS.NDVI",seasonOrder = "SF")
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
@@ -157,7 +157,7 @@ for(i in iseq){
       ##MODIS EVI Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_ME_",years[j],"_varBurn.RData",sep="")
       me.yr <- me[,j]
-      if(!file.exists(outFileName)){
+      if(file.exists(outFileName)){
         data <- list(x=DOYs,y=me.yr,n=length(me.yr))
         j.model <- createModel_DB(data=data,dataSource = "MODIS.EVI",seasonOrder = "SF")
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
@@ -178,9 +178,18 @@ for(i in iseq){
   #dev.off()
   
   ##Write files of c, d, and k means
+<<<<<<< HEAD
   #write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
   #write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
   #write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
+=======
+  write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
+  write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
+  write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
+<<<<<<< HEAD
+=======
+>>>>>>> 64a7f0c9d4cb08e0fa01e2827fc3cea45038f041
   
     
+>>>>>>> d5db7c84f20b397d4abf5abef2c248fecda2615c
 }
