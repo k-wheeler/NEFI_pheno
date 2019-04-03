@@ -90,7 +90,7 @@ for(i in iseq){
   DOYs <- seq(1,365,1)
   ##Divide the data up into each spring
   #DB.vars <- c("TranS","bS","c","d","prec","k")
-  DB.vars <- c("TranF","bF","TranS","bS","c","d","prec","k")
+  DB.vars <- c("TranF","bF","TranS","bS","c","d","prec")
   #cMeans <- numeric()
   #dMeans <- numeric()
   #kMeans <- numeric()
@@ -106,9 +106,9 @@ for(i in iseq){
   dMeans.me <- numeric()
   kMeans.me <- numeric()
   
-  pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
-  #output <- 
-    #foreach(j=1:length(years)) %dopar% {
+  #pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
+  output <- 
+    foreach(j=1:length(years)) %dopar% {
       for(j in 1:length(years)){
       print(years[j])
       ##PhenoCam Fits
@@ -175,7 +175,7 @@ for(i in iseq){
       ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
       points(DOYs,me.yr,pch=20)
     }
-  dev.off()
+  #dev.off()
   
   ##Write files of c, d, and k means
   write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
