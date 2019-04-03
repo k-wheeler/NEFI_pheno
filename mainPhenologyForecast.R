@@ -25,7 +25,7 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 forecastLength <- 14
 
 endDate <- (Sys.Date()-1)
-iseq <- c(1,10)
+iseq <- c(10)
 #Create Forecast outputs
 #output <- 
 #  foreach(i=1:nrow(siteData)) %dopar% {
