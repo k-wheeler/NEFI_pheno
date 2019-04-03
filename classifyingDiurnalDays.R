@@ -108,19 +108,32 @@ for(s in 1:nrow(siteData)){
     
   }
 }
+noDatNum <- numeric()
+noWin_TFNum <- numeric()
+noWin_WFNum <- numeric()
+LN_WFNum <- numeric()
+LN_TFNum <- numeric()
+HN_WFNum <- numeric()
+HN_TFNum <- numeric()
+sts <- character()
+for(s in 1:20){
+  siteName <- as.character(siteData$siteName[s])
+  print(siteName)
+  inFileName <- paste(siteName,"_diurnal_classifications.csv",sep="")
+  if(file.exists(inFileName)){
+  sts <- c(sts,siteName)
+  dat <- read.csv(inFileName,header=TRUE)
+  noDatNum <- c(noDatNum,(nrow(dat[dat$clfts=="NoData",])-14))##Subtract 14 to remove the days the satellite moved
 
-# for(s in 1:nrow(siteData)){
-#   siteName <- as.character(siteData$siteName[s])
-#   print(siteName)
-#   inFileName <- paste(siteName,"_diurnal_classifications.csv",sep="")
-#   dat <- read.csv(inFileName,header=TRUE)
-#   noDatNum <- nrow(dat[dat$clfts=="NoData",])
-#   
-#   noWin_TFNum <- nrow(dat[dat$clfts=="NoWindow_tightFit",])
-#   noWin_WFNum <- nrow(dat[dat$clfts=="NoWindow_wideFit",])
-#   
-# }
-
+  noWin_TFNum <- c(noWin_TFNum,nrow(dat[dat$clfts=="NoWindow_tightFit",]))
+  noWin_WFNum <- c(noWin_WFNum,nrow(dat[dat$clfts=="NoWindow_wideFit",]))
+  LN_WFNum <- c(LN_WFNum,nrow(dat[dat$clfts=="LowNoise_wideFit",]))
+  LN_TFNum <- c(LN_TFNum,nrow(dat[dat$clfts=="LowNoise_tightFit",]))
+  HN_WFNum <- c(HN_WFNum,nrow(dat[dat$clfts=="HighNoise_wideFit",]))
+  HN_TFNum <- c(HN_TFNum,nrow(dat[dat$clfts=="HighNoise_tightFit",]))
+  }
+}
+ctgr <- cbind(sts,noDatNum,noWin_TFNum,noWin_WFNum,LN_TFNum,LN_WFNum,HN_TFNum,HN_WFNum)
 
 
 
