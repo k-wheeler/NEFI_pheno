@@ -8,16 +8,23 @@
 ##' @export
 createCI <- function(PFT,var.mat,xseq,doRescale=TRUE,seasonOrder="FS"){
   ycred <- matrix(0,nrow=10000,ncol=length(xseq))
+  var.mat <- data.frame(var.mat)
   if(PFT=="DB"){
-    TranF<-var.mat[,1]
+    TranF<-var.mat$TranF
     rndNums <- sample(1:length(TranF),10000,replace=T)
     TranF <- TranF[rndNums]
-    TranS<-var.mat[rndNums,2]
-    bF <- var.mat[rndNums,3]
-    bS <- var.mat[rndNums,4]
-    c <- var.mat[rndNums,5]
-    d <- var.mat[rndNums,6]
-    k <- var.mat[rndNums,7]
+    TranS<-var.mat$TranS[rndNums]
+    bF <- var.mat$bF[rndNums]
+    bS <- var.mat$bS[rndNums]
+    c <- var.mat$c[rndNums]
+    d <- var.mat$d[rndNums]
+    k <- var.mat$k
+    if(length(k)==0){
+      k <- rep(182,length(rndNums))
+    }
+    else{
+      k <- k[rndNums]
+    }
     for(g in 1:10000){
       if(doRescale){
         Ey <- rescale(c=c[g],d=d[g],yseq=deciduousYvals(TranS=TranS[g],bS=bS[g],TranF=TranF[g],bF=bF[g],c=c[g],d=d[g],k=k[g],xseq=xseq,seasonOrder = seasonOrder))
