@@ -89,6 +89,8 @@ abline(v=(lengthLastYear-forecastLength+1),col="purple")
 ##Add on data:
 ##PhenoCam
 PCfileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
+print(PCfileName)
+print(file.exists(PCfileName))
 if(!file.exists(PCfileName)){
   phenoData <- download.phenocam(URL)
   save(phenoData,file=PCfileName)
