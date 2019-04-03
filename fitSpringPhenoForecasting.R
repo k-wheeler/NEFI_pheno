@@ -125,7 +125,11 @@ for(i in iseq){
       var.mat.DF <- data.frame(var.mat)
       cMeans.p <- c(cMeans.p,mean(var.mat.DF$c))
       dMeans.p <- c(dMeans.p,mean(var.mat.DF$d))
-      kMeans.p <- c(kMeans.p,mean(var.mat.DF$k))
+      ks <- var.mat.DF$k
+      if(length(ks)==0){
+        ks <- c(182,182)
+      }
+      kMeans.p <- c(kMeans.p,mean(ks))
 
       CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
       plot(DOYs,p.yr,pch=20,main=paste(years[j],"PC"))
@@ -147,7 +151,11 @@ for(i in iseq){
       var.mat.DF <- data.frame(var.mat)
       cMeans.mn <- c(cMeans.mn,mean(var.mat.DF$c))
       dMeans.mn <- c(dMeans.mn,mean(var.mat.DF$d))
-      kMeans.mn <- c(kMeans.mn,mean(var.mat.DF$k))
+      ks <- var.mat.DF$k
+      if(length(ks)==0){
+        ks <- c(182,182)
+      }
+      kMeans.mn <- c(kMeans.mn,mean(ks))
 
       CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
       plot(DOYs,mn.yr,pch=20,main=paste(years[j],"MN"))
@@ -168,7 +176,11 @@ for(i in iseq){
       var.mat.DF <- data.frame(var.mat)
       cMeans.me <- c(cMeans.me,mean(var.mat.DF$c))
       dMeans.me <- c(dMeans.me,mean(var.mat.DF$d))
-      kMeans.me <- c(kMeans.me,mean(var.mat.DF$k))
+      ks <- var.mat.DF$k
+      if(length(ks)==0){
+        ks <- c(182,182)
+      }
+      kMeans.me <- c(kMeans.me,mean(ks))
 
       CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
       plot(DOYs,me.yr,pch=20,main=paste(years[j],"ME"))
