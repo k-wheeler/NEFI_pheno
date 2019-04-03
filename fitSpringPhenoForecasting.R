@@ -114,7 +114,7 @@ for(i in iseq){
       ##PhenoCam Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
       p.yr <- p[,j]
-      if(file.exists(outFileName)){
+      if(!file.exists(outFileName)){
         data <- list(x=DOYs,y=p.yr,n=length(p.yr))
         j.model <- createModel_DB(data=data,dataSource = "PC.GCC",seasonOrder = "SF")
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
@@ -136,7 +136,7 @@ for(i in iseq){
       ##MODIS NDVI Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_MN_",years[j],"_varBurn.RData",sep="")
       mn.yr <- mn[,j]
-      if(file.exists(outFileName)){
+      if(!file.exists(outFileName)){
         data <- list(x=DOYs,y=mn.yr,n=length(mn.yr))
         j.model <- createModel_DB(data=data,dataSource = "MODIS.NDVI",seasonOrder = "SF")
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
@@ -157,7 +157,7 @@ for(i in iseq){
       ##MODIS EVI Fits
       outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_ME_",years[j],"_varBurn.RData",sep="")
       me.yr <- me[,j]
-      if(file.exists(outFileName)){
+      if(!file.exists(outFileName)){
         data <- list(x=DOYs,y=me.yr,n=length(me.yr))
         j.model <- createModel_DB(data=data,dataSource = "MODIS.EVI",seasonOrder = "SF")
         varBurn <- runMCMC_Model(j.model = j.model,variableNames = DB.vars,baseNum=40000,iterSize=20000)
@@ -181,9 +181,4 @@ for(i in iseq){
   write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
   write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
   write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
-<<<<<<< HEAD
-=======
-  
-    
->>>>>>> d5db7c84f20b397d4abf5abef2c248fecda2615c
 }
