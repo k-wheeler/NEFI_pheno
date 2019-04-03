@@ -26,6 +26,7 @@ forecastLength <- 14
 
 endDate <- (Sys.Date()-1)
 iseq <- c(10)
+iseq <- c(1)
 #Create Forecast outputs
 #output <- 
 #  foreach(i=1:nrow(siteData)) %dopar% {
