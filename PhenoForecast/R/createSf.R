@@ -66,12 +66,16 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     print(Sfs)
     SfsALL <- rbind(SfsALL,Sfs)
   }
-
+  print("length(SfsMeansCal)")
+  print(length(SfsMeansCal))
   SfsMeansCur <- colMeans(SfsALL)
+  print("length(SfsMeansCur)")
+  print(length(SfsMeansCur))
   SfsVarCur <- apply(SfsALL,MARGIN=2,FUN=var)
   SfsVarCur[SfsVarCur==0] <- 0.001
   SfsMeans <- c(SfsMeansCal,SfsMeansCur)
   SfsVar <- c(SfsVarCal,SfsVarCur)
+  print("length(SfsMeans):")
   print(length(SfsMeans))
   pdf("Test_Sfs2.pdf",width=10,height=5)
   plot(seq(1,length(SfsMeans)),SfsMeans,pch=20)
