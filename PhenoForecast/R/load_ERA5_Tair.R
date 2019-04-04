@@ -17,10 +17,10 @@ load_ERA5_Tair <- function(lat,long,years) {
     print("length(tdaily) all")
     print(length(tDaily[,1]))
     #tSpring <- tDaily[(lubridate::month(tDaily[,2])%in% seq(1,6)),]
-    tSpring <- tDaily[as.numeric(format(as.Date(tDaily[,2]),"%j"))%in% seq(1,181),]
-    print("length(tSpring)")
-    print(length(tSpring[,1]))
-    TairsOutput[,e] <- tSpring[,1]-273
+    #tSpring <- tDaily[as.numeric(format(as.Date(tDaily[,2]),"%j"))%in% seq(1,181),]
+    #print("length(tSpring)")
+    #print(length(tSpring[,1]))
+    TairsOutput[,e] <- tDaily[,1]-273
   }
 
   return(TairsOutput)
