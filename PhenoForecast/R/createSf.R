@@ -35,7 +35,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   TairsForecast <- numeric()
   for(e in 1:length(GEFS_Files)){
     TairsForecastInd <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[e])
-    print(TairsForecastInd)
+    #print(TairsForecastInd)
     TairsForecast <- cbind(TairsForecast,TairsForecastInd)
     TairsCurrent[,e] <- TairsCurrentInd
   }
@@ -58,9 +58,10 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   for(e in 1:length(GEFS_Files)){
     Tairs <- c(TairsCurrent[,e],TairsForecast[,e])
     print("Tairs:")
-    print(TairsForecast)
+    print(TairsForecast[,e])
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
     print("Sfs:")
+    plot()
     print(Sfs)
     SfsALL <- rbind(SfsALL,Sfs)
   }
@@ -70,7 +71,9 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   SfsVarCur[SfsVarCur==0] <- 0.001
   SfsMeans <- c(SfsMeansCal,SfsMeansCur)
   SfsVar <- c(SfsVarCal,SfsVarCur)
-
+  pdf("Test_Sfs2.pdf",width=10,height=5)
+  plot(lengths(SfsMeans),SfsMeans,pch=20)
+  dev.off()
   dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
   return(dat)
 }
