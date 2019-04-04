@@ -43,7 +43,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   }
 
   ##Create Sfs
-  SfsALL <- matrix(nrow=0,ncol=length(calDates))
+  SfsALL <- matrix(nrow=0,ncol=length(TairsCal[,1]))
   print("dim(TairsCal)")
   print(dim(TairsCal))
   for(e in 1:ncol(TairsCal)){
