@@ -70,7 +70,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     Tairs <- c(TairsCurrent[,e],TairsForecast[,e])
     print("Tairs:")
     print(TairsForecast[,e])
-    plot(seq(1,length(TairsForecast[,e])),TairsForecast[,e],pch=20,main="Cur")
+    plot(seq(1,length(Tairs)),Tairs,pch=20,main="Cur")
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
     print("Sfs:")
     print(Sfs)
