@@ -44,11 +44,16 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
 
   ##Create Sfs
   SfsALL <- matrix(nrow=0,ncol=length(calDates))
-
+  print("dim(TairsCal)")
+  print(dim(TairsCal))
   for(e in 1:ncol(TairsCal)){
     Sfs <- calSf(Tairs=TairsCal[,e],dates=calDates)
+    print("length(Sfs):")
+    print(length(Sfs))
     SfsALL <- rbind(SfsALL,Sfs)
   }
+  print("dim(SfsALL):")
+  print(dim(SfsALL))
   SfsMeansCal <- colMeans(SfsALL)
   SfsVarCal <- apply(SfsALL,MARGIN=2,FUN=var)
   SfsVarCal[SfsVarCal==0] <- 0.001
