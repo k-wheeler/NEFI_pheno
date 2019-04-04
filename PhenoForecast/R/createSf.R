@@ -71,6 +71,8 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   SfsVarCur[SfsVarCur==0] <- 0.001
   SfsMeans <- c(SfsMeansCal,SfsMeansCur)
   SfsVar <- c(SfsVarCal,SfsVarCur)
+  print(length(SfsMeans))
+  print(seq(1,length(SfsMeans)))
   pdf("Test_Sfs2.pdf",width=10,height=5)
   plot(seq(1,length(SfsMeans)),SfsMeans,pch=20)
   dev.off()
