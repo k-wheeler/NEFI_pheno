@@ -14,8 +14,12 @@ load_ERA5_Tair <- function(lat,long,years) {
     t <- out[[e]]
     tDaily <- as.data.frame(xts::apply.daily(t,mean))
     tDaily <- tDaily %>% mutate(Date=rownames(.))
+    print("length(tdaily) all")
+    print(length(tdaily))
     #tSpring <- tDaily[(lubridate::month(tDaily[,2])%in% seq(1,6)),]
     tSpring <- tDaily[as.numeric(format(as.Date(tDaily[,2]),"%j"))%in% seq(1,181),]
+    print("length(tSpring)")
+    print(length(tSpring))
     TairsOutput[,e] <- tSpring[,1]-273
   }
   return(TairsOutput)
