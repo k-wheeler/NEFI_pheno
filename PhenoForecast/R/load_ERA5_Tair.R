@@ -9,7 +9,8 @@ load_ERA5_Tair <- function(lat,long,years) {
   source('/projectnb/dietzelab/hamzed/ERA5/nc_extractor_Ens.R')
   ##Could probably save this in a csv file so we don't have to process it all of the time
   out <- ERA5_extract_ENS(lat=lat, long=long,years=years,var="t2m")
-  TairsOutput <- matrix(ncol=10,nrow=366*length(years))
+  #TairsOutput <- matrix(ncol=10,nrow=366*length(years))
+  TairsOutput <- numeric()
   for(e in 1:10){
     t <- out[[e]]
     tDaily <- as.data.frame(xts::apply.daily(t,mean))
@@ -20,7 +21,7 @@ load_ERA5_Tair <- function(lat,long,years) {
     #tSpring <- tDaily[as.numeric(format(as.Date(tDaily[,2]),"%j"))%in% seq(1,181),]
     #print("length(tSpring)")
     #print(length(tSpring[,1]))
-    TairsOutput[,e] <- tDaily[,1]-273
+    TairsOutput <- cbind(TairsOutput,tDaily[,1]-273)
   }
 
   return(TairsOutput)
