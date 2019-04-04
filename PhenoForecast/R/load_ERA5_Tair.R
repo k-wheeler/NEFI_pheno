@@ -22,5 +22,6 @@ load_ERA5_Tair <- function(lat,long,years) {
     print(length(tSpring[,1]))
     TairsOutput[,e] <- tSpring[,1]-273
   }
+
   return(TairsOutput)
 }
