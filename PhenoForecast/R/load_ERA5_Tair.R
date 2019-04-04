@@ -20,7 +20,11 @@ load_ERA5_Tair <- function(lat,long,years) {
     #tSpring <- tDaily[as.numeric(format(as.Date(tDaily[,2]),"%j"))%in% seq(1,181),]
     #print("length(tSpring)")
     #print(length(tSpring[,1]))
-    TairsOutput[,e] <- tDaily[1:365,1]-273
+    Ts <- tDaily[,1]-273
+    if(length(Ts==365)){
+      Ts <- c(Ts,NA)
+    }
+    TairsOutput[,e] <- Ts
   }
 
   return(TairsOutput)
