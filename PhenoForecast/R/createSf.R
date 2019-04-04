@@ -27,6 +27,8 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   }
   else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018)) ##columns are each an ensemble (not divided by year)
+    print("dim(TairsCal)")
+    print(dim(TairsCal))
     TairsCurrentInd <- load_NOAA_met(lat=lat,long=long,years=seq(2019,2019)) ##Array of numeric values
   }
 
@@ -71,7 +73,6 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   SfsMeans <- c(SfsMeansCal,SfsMeansCur)
   SfsVar <- c(SfsVarCal,SfsVarCur)
   print(length(SfsMeans))
-  print(seq(1,length(SfsMeans)))
   pdf("Test_Sfs2.pdf",width=10,height=5)
   plot(seq(1,length(SfsMeans)),SfsMeans,pch=20)
   dev.off()
