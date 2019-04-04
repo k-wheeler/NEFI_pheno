@@ -24,6 +24,8 @@ load_ERA5_Tair <- function(lat,long,years) {
     if(length(Ts==365)){
       Ts <- c(Ts,NA)
     }
+    print("length(Ts):")
+    print(length(Ts))
     TairsOutput[,e] <- Ts
   }
 
