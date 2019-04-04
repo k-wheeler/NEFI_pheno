@@ -3,10 +3,11 @@
 ##' @param lat The site latitude
 ##' @param long The site longitude
 ##' @param years The desired years
+##' @param siteName The name of the site
 ##' @import rnoaa
 ##' @import tidyverse
 ##' @export
-load_NOAA_met <- function(lat,long,years) {
+load_NOAA_met <- function(lat,long,years,siteName) {
   options(noaakey = "fjVseeIJrOLasppGbfwDrYZVsdQaQoCd")
   station_data <- ghcnd_stations()
 
@@ -18,5 +19,6 @@ load_NOAA_met <- function(lat,long,years) {
   dat = meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = "2019-01-01", date_max = (Sys.Date()-1))
 
   NOAAavgs <- rowMeans(cbind(dat$tmax,dat$tmin))
+  NOAAavgs <- NOAAavgs/10 ##Downloads in tenths of a degree C
   return(NOAAavgs)
 }

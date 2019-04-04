@@ -29,7 +29,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018)) ##columns are each an ensemble (not divided by year)
     print("dim(TairsCal)")
     print(dim(TairsCal))
-    TairsCurrentInd <- load_NOAA_met(lat=lat,long=long,years=seq(2019,2019)) ##Array of numeric values
+    TairsCurrentInd <- load_NOAA_met(lat=lat,long=long,years=seq(2019,2019),siteName=siteName) ##Array of numeric values
   }
 
   ##GEFS Forecast (same for all sites) and pad TairsCurrent to be ensembles
