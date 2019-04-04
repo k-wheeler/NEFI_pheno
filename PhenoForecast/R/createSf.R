@@ -61,7 +61,6 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     print(TairsForecast[,e])
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
     print("Sfs:")
-    plot()
     print(Sfs)
     SfsALL <- rbind(SfsALL,Sfs)
   }
