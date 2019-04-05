@@ -126,6 +126,10 @@ for(i in iseq){
         kMeans.p <- c(kMeans.p,mean(ks))
         
         CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
+        if(years[j]==2017){
+          print(DOYs)
+          print(p.yr)
+        }
         print("length(DOYs):")
         print(length(DOYs))
         print("length(p.yr):")
