@@ -16,7 +16,8 @@ forecastLength <- 0
 
 
 #iseq <- c(seq(1,6),8,9,11,seq(15,20))
-iseq <- c(1)
+#iseq <- c(1)
+iseq <- c(seq(4,6),8,9,11,seq(15,20))
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 for(i in 1:nrow(siteData)){
@@ -125,6 +126,10 @@ for(i in 1:nrow(siteData)){
         kMeans.p <- c(kMeans.p,mean(ks))
         
         CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
+        print("length(DOYs):")
+        print(length(DOYs))
+        print("length(p.yr):")
+        print(length(p.yr))
         plot(DOYs,p.yr,pch=20,main=paste(years[j],"PC"))
         ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
         points(DOYs,p.yr,pch=20)
@@ -150,6 +155,10 @@ for(i in 1:nrow(siteData)){
         kMeans.mn <- c(kMeans.mn,mean(ks))
         
         CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
+        print("length(DOYs):")
+        print(length(DOYs))
+        print("length(mn.yr):")
+        print(length(mn.yr))
         plot(DOYs,mn.yr,pch=20,main=paste(years[j],"MN"))
         ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
         points(DOYs,mn.yr,pch=20)
@@ -175,6 +184,10 @@ for(i in 1:nrow(siteData)){
         kMeans.me <- c(kMeans.me,mean(ks))
         
         CI <- createCI(PFT="DB",var.mat = var.mat,xseq=DOYs,doRescale = FALSE,seasonOrder = "SF")
+        print("length(DOYs):")
+        print(length(DOYs))
+        print("length(me.yr):")
+        print(length(me.yr))
         plot(DOYs,me.yr,pch=20,main=paste(years[j],"ME"))
         ciEnvelope(x=DOYs,ylo=CI[1,],yhi=CI[3,],col="lightblue")
         points(DOYs,me.yr,pch=20)
