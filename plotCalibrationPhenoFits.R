@@ -15,11 +15,11 @@ endDate <- as.Date("2019-01-27")
 forecastLength <- 0
 
 
-#iseq <- c(seq(1,6),8,9,11,seq(15,20))
-iseq <- c(1)
+iseq <- c(seq(2,6),8,9,11,seq(15,20))
+#iseq <- c(2)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
-for(i in 1:nrow(siteData)){
+for(i in iseq){
   if(as.character(siteData$PFT[i])=="DB"){
     siteName <- as.character(siteData[i,1])
     print(siteName)
