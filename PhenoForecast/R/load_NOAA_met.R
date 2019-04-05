@@ -9,6 +9,7 @@
 ##' @export
 load_NOAA_met <- function(lat,long,years,siteName) {
   options(noaakey = "fjVseeIJrOLasppGbfwDrYZVsdQaQoCd")
+  options(key="fjVseeIJrOLasppGbfwDrYZVsdQaQoCd")
   station_data <- ghcnd_stations()
 
   sites_data <- data.frame(id = siteName,
