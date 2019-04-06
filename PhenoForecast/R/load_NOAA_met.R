@@ -16,7 +16,7 @@ load_NOAA_met <- function(lat,long,years,siteName) {
                            latitude = lat,
                            longitude = long)
   nearby_stations <- meteo_nearby_stations(lat_lon_df = sites_data, station_data = station_data, year_min = 2018, year_max = 2018, radius = 50, var = "all")
-  if(siteName=="russellsage"){ #For some reason the closest station to russellsage needs a key code to access the data
+  if(siteName=="russellsage" || siteName=="missouriozarks"){ #For some reason the closest station to russellsage needs a key code to access the data
     station <- as.character(nearby_stations[[1]][2,1])
   }
   else{
