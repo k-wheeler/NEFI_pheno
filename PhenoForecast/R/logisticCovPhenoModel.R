@@ -53,7 +53,7 @@ logisticCovPhenoModel <- function(data,nchain){
   #### Priors
   for(yr in 1:N){ ##Initial Conditions
     x[1,yr] ~ dnorm(x_ic,tau_ic)
-    r[1,yr] ~ 0
+    r[1,yr] <- 0
     color[1,yr] ~ dnorm(x_ic,tau_ic)
   }
   p.PC ~ dgamma(s1,s2)
