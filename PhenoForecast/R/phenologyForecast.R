@@ -23,6 +23,7 @@
 #' @import PhenologyBayesModeling
 #' @export
 phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files="",GEFS_Directory){
+  print(forecastType)
   nchain=5
   ###Download PhenoCam data and format
   PCfileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
@@ -131,6 +132,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
     }
     else if(forecastType=="logisticCov2"){
+      print("Creating logistic with covariate model 2")
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
 
