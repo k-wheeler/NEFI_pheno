@@ -8,11 +8,11 @@ library("coda")
 library("dplyr")
 library("rjags")
 library("MODISTools")
-#library(doParallel)
+library(doParallel)
 
 ##Set and register cores for parallel
-#n.cores <- 6
-#registerDoParallel(cores=n.cores)
+n.cores <- 6
+registerDoParallel(cores=n.cores)
 
 ##Read in data
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
@@ -22,10 +22,11 @@ forecastLength <- 14
 
 endDate <- (Sys.Date()-1)
 iseq <- c(1,10)
+iseq <- c(1,2,3,10,15,16)
 #Create Forecast outputs
-#output <- 
-#  foreach(i=1:nrow(siteData)) %dopar% {
-for(i in iseq){
+output <- 
+  foreach(i=1:nrow(siteData)) %dopar% {
+#for(i in iseq){
   siteName <- as.character(siteData[i,1])
   print(siteName)
   GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",endDate,"/",sep="")
@@ -90,6 +91,13 @@ for(i in iseq){
     outBurnLC <- phenologyForecast(forecastType = "logisticCov",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory)
     if(typeof(outBurnLC)!=typeof(FALSE)){
       save(outBurnLC,file=outputFile)
+    }
+  }
+  outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
+  if(!file.exists(outputFile)){
+    outBurnLC2 <- phenologyForecast(forecastType = "logisticCov2",forecastLength = forecastLength,siteName=siteName,URL=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory)
+    if(typeof(outBurnLC2)!=typeof(FALSE)){
+      save(outBurnLC2,file=outputFile)
     }
   }
 }

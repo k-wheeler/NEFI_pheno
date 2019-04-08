@@ -5,7 +5,7 @@
 ##' @export
 ##' @import rjags
 ##' @import coda
-logisticCovPhenoModel <- function(data,nchain){
+logisticCovPhenoModel2 <- function(data,nchain){
   ##Set priors
   data$s1 <- 0.5
   data$s2 <- 0.2
@@ -35,7 +35,7 @@ logisticCovPhenoModel <- function(data,nchain){
   #### Process Model
   for(yr in 1:(N-1)){
     for(i in 2:n){
-      r[i,yr] <- b1 * Sf[i,yr] + b0
+      r[i,yr] <- b1 * Sf[i,yr] + r[(i-1),yr] + b0
       color[i,yr] <- x[(i-1),yr] + r[i,yr] * x[(i-1),yr] * (1-x[(i-1),yr])  ## latent process
       Sf[i,yr] ~ dnorm(Sfmu[i,yr],Sfprec[i,yr])
       xl[i,yr] ~ dnorm(color[i,yr],p.proc)  ## process error
@@ -53,6 +53,7 @@ logisticCovPhenoModel <- function(data,nchain){
   #### Priors
   for(yr in 1:N){ ##Initial Conditions
     x[1,yr] ~ dnorm(x_ic,tau_ic)
+    r[1,yr] <- dnorm(-0.4,100)
     color[1,yr] ~ dnorm(x_ic,tau_ic)
   }
   p.PC ~ dgamma(s1,s2)
