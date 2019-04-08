@@ -27,8 +27,6 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   }
   else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018)) ##columns are each an ensemble (not divided by year)
-    print("dim(TairsCal)")
-    print(dim(TairsCal))
     TairsCurrentInd <- load_NOAA_met(lat=lat,long=long,years=seq(2019,2019),siteName=siteName) ##Array of numeric values
   }
 
@@ -37,27 +35,21 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   TairsForecast <- numeric()
   for(e in 1:length(GEFS_Files)){
     TairsForecastInd <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[e])
-    #print(TairsForecastInd)
+
     TairsForecast <- cbind(TairsForecast,TairsForecastInd)
     TairsCurrent[,e] <- TairsCurrentInd
   }
 
   ##Create Sfs
   SfsALL <- matrix(nrow=0,ncol=length(TairsCal[,1]))
-  print("dim(TairsCal)")
-  print(dim(TairsCal))
-  #print("calDates:")
-  #print(calDates)
+
   pdf("Test_Tair.pdf",width=10,height=5)
   for(e in 1:ncol(TairsCal)){
     plot(seq(1,length(TairsCal[,e])),TairsCal[,e],pch=20,main="Cal")
     Sfs <- calSf(Tairs=TairsCal[,e],dates=calDates)
-    print("length(Sfs):")
-    print(length(Sfs))
     SfsALL <- rbind(SfsALL,Sfs)
   }
-  print("dim(SfsALL):")
-  print(dim(SfsALL))
+
   SfsMeansCal <- colMeans(SfsALL)
   SfsVarCal <- apply(SfsALL,MARGIN=2,FUN=var)
   SfsVarCal[SfsVarCal==0] <- 0.001
@@ -68,29 +60,21 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   SfsALL <- matrix(nrow=0,ncol=length(curDates))
   for(e in 1:length(GEFS_Files)){
     Tairs <- c(TairsCurrent[,e],TairsForecast[,e])
-    print("Tairs:")
-    print(TairsForecast[,e])
+
     plot(seq(1,length(Tairs)),Tairs,pch=20,main="Cur")
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
-    print("Sfs:")
-    print(Sfs)
+
     SfsALL <- rbind(SfsALL,Sfs)
   }
   dev.off()
-  print("length(SfsMeansCal)")
-  print(length(SfsMeansCal))
+
   SfsMeansCur <- colMeans(SfsALL)
-  print("length(SfsMeansCur)")
-  print(length(SfsMeansCur))
+
   SfsVarCur <- apply(SfsALL,MARGIN=2,FUN=var)
   SfsVarCur[SfsVarCur==0] <- 0.001
   SfsMeans <- c(SfsMeansCal,SfsMeansCur)
   SfsVar <- c(SfsVarCal,SfsVarCur)
-  print("length(SfsMeans):")
-  print(length(SfsMeans))
-  # pdf("Test_Sfs2.pdf",width=10,height=5)
-  # plot(seq(1,length(SfsMeans)),SfsMeans,pch=20)
-  # dev.off()
+
   dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
   return(dat)
 }
