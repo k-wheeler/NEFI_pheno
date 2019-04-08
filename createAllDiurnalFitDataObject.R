@@ -44,7 +44,14 @@ output <- foreach(i = iseq) %dopar% {
           Q3 <- as.numeric(quantile(out.mat[,2],0.975))
           #prec <- as.numeric(quantile(out.mat[,2],0.975))-as.numeric(quantile(out.mat[,2],0.025))
           dy <- strsplit(diurnalFits[i],"_")[[1]][2]
-          dayDataFile <- intersect(dir(path="dailyNDVI_GOES",pattern=paste("_GOES_diurnal_",dy,".csv",sep="")),dir(path="dailyNDVI_GOES",pattern=siteName))
+          if(dy<182){
+            yr <- 2018
+          }
+          else{
+            yr <- 2017
+          }
+          print(paste("_GOES_diurnal_",dy,".csv",sep=""))
+          dayDataFile <- intersect(dir(path="dailyNDVI_GOES",pattern=paste("_GOES_diurnal_",yr,dy,".csv",sep="")),dir(path="dailyNDVI_GOES",pattern=siteName))
           print(dayDataFile)
           dayData <- read.csv(paste("dailyNDVI_GOES/",dayDataFile,sep=""),header=FALSE)
           ct <- length(dayData[2,][!is.na(dayData[2,])])
