@@ -62,9 +62,9 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     variableNames <- c("p.PC","p.MN","p.ME","p.proc","x")
     out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)
   }
-  else if(forecastType=="logistic" || forecastType== "logisticCov"){
+  else if(forecastType=="logistic" || forecastType== "logisticCov" || forecastType== "logisticCov2"){
     dat2 <- data.frame(dates=days,years=years,months=months,p=p,mn=mn,me=me)
-    if(forecastType=="logisticCov"){
+    if(forecastType=="logisticCov" || forecastType== "logisticCov2"){
       datSf <- createSf(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,forecastLength=forecastLength)
 
       dat2$Sf <- datSf$Sf
@@ -90,10 +90,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       d <- dValsPC[valNum]
 
       p <- cbind(p,rescale(yseq=subDat$p,c=c,d=d))
-      if(forecastType=="logisticCov"){
-        if(i==2019){
-          print(subDat$Sf)
-        }
+      if(forecastType=="logisticCov" || forecastType== "logisticCov2"){
         Sf <- cbind(Sf,subDat$Sf)
         Sfprecs <- cbind(Sfprecs,subDat$Sfprec)
       }
