@@ -8,11 +8,11 @@ library("coda")
 library("dplyr")
 library("rjags")
 library("MODISTools")
-#library(doParallel)
+library(doParallel)
 
 ##Set and register cores for parallel
-#n.cores <- 6
-#registerDoParallel(cores=n.cores)
+n.cores <- 6
+registerDoParallel(cores=n.cores)
 
 ##Read in data
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
@@ -22,11 +22,11 @@ forecastLength <- 14
 
 endDate <- (Sys.Date()-1)
 iseq <- c(10)
-iseq <- c(1,10)
+iseq <- c(1,2,3,10,15,16) #6,8
 #Create Forecast outputs
-#output <- 
-#  foreach(i=1:nrow(siteData)) %dopar% {
-for(i in iseq){
+output <- 
+  foreach(i=iseq) %dopar% {
+#for(i in iseq){
   siteName <- as.character(siteData[i,1])
   print(siteName)
   GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",endDate,"/",sep="")
