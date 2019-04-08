@@ -13,7 +13,8 @@ n.cores <- 5
 registerDoParallel(cores=n.cores)
 
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
-output <- foreach(i = nrow(siteData)) %dopar% {
+iseq <- c(seq(1,6),8,9,10,seq(15,20))
+output <- foreach(i = iseq) %dopar% {
 #for(i in 1:nrow(siteData)){
   siteName <- as.character(siteData$siteName[i])
   print(siteName)
