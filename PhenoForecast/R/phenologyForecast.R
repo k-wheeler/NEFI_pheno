@@ -130,6 +130,17 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
     }
+    else if(forecastType=="logisticCov2"){
+      dataFinal$Sfmu <- Sf
+      dataFinal$Sfprec <- Sfprecs
+
+      j.model <- logisticCovPhenoModel2(data=dataFinal,nchain=nchain)
+      print("Done creating the logistic with covariate model 2")
+      variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","b0")
+      print(variableNames)
+      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
+    }
+
   }
   print("Done with iterations")
 
