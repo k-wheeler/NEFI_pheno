@@ -120,7 +120,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=10000,iterSize=5000)
     }
 
-    if(forecastType=="logisticCov"){
+    else if(forecastType=="logisticCov"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
 
@@ -139,6 +139,9 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","b0")
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
+    }
+    else{
+      print("Forecast type not known!!!")
     }
 
   }
