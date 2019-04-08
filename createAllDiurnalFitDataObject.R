@@ -10,12 +10,13 @@ library("runjags")
 n.cores <- 5
 
 #register the cores.
-registerDoParallel(cores=n.cores)
+#registerDoParallel(cores=n.cores)
 
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 iseq <- c(seq(1,6),8,9,10,seq(15,20))
-output <- foreach(i = iseq) %dopar% {
-#for(i in 1:nrow(siteData)){
+iseq <- seq(1,6)
+#output <- foreach(i = iseq) %dopar% {
+for(i in iseq){
   siteName <- as.character(siteData$siteName[i])
   print(siteName)
   PFT <- as.character(siteData$PFT[i])
