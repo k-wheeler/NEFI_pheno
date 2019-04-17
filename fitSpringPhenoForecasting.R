@@ -24,7 +24,9 @@ iseq <- c(seq(2,6),8,9,11,seq(15,20))
 #iseq <- c(10)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
-for(i in iseq){
+output <- 
+  foreach(i=iseq) %dopar% {
+#for(i in iseq){
   if(as.character(siteData$PFT[i])=="DB"){
     siteName <- as.character(siteData[i,1])
     print(siteName)
