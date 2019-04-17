@@ -24,7 +24,7 @@ iseq <- c(seq(2,6),8,9,11,seq(15,20))
 #iseq <- c(10)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
-for(i in 1:nrow(siteData)){
+for(i in iseq){
   if(as.character(siteData$PFT[i])=="DB"){
     siteName <- as.character(siteData[i,1])
     print(siteName)
@@ -55,13 +55,13 @@ for(i in 1:nrow(siteData)){
     #print("Done with newYears")
 
     phenoData <- download.phenocam(URL) 
-    if(nchar(URL2>0)){
+    if(nchar(URL2)>0){
       phenoData2 <- download.phenocam(URL2)
       phenoData3 <- rbind(phenoData,phenoData2)
       phenoData3 <- phenoData3[order(phenoData3[,'date']),]
       phenoData <- phenoData3[!duplicated(phenoData3$date),]
     }
-    if(nchar(URL3>0)){
+    if(nchar(URL3)>0){
       phenoData2 <- download.phenocam(URL3)
       phenoData3 <- rbind(phenoData,phenoData2)
       phenoData3 <- phenoData3[order(phenoData3[,'date']),]
