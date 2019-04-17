@@ -32,7 +32,10 @@ for(i in 1:nrow(siteData)){
     lat <- as.numeric(siteData[i,2])
     long <- as.numeric(siteData[i,3])
     startDate <- (as.Date(siteData[i,7]))
-    days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
+    URL2 <- as.character(siteData$URL2[i])
+    URL3 <- as.character(siteData$URL3[i])
+    startDate2 <- as.character(siteData$startDate2[i])
+    days <- seq(as.Date(startDate),(as.Date(endDate)),"day")
     dataDirectory="PhenologyForecastData/"
     
     ##Download/load data
@@ -50,12 +53,20 @@ for(i in 1:nrow(siteData)){
     newMonths <- lubridate::month(days)
     newYears <- lubridate::year(days)
     #print("Done with newYears")
-    PC.fileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
-    if(!file.exists(PC.fileName)){
-      phenoData <- download.phenocam(URL) 
-      save(phenoData,file=PC.fileName)
+
+    phenoData <- download.phenocam(URL) 
+    if(nchar(URL2>0)){
+      phenoData2 <- download.phenocam(URL2)
+      phenoData3 <- rbind(phenoData,phenoData2)
+      phenoData3 <- phenoData3[order(phenoData3[,'date']),]
+      phenoData <- phenoData3[!duplicated(phenoData3$date),]
     }
-    load(PC.fileName)
+    if(nchar(URL3>0)){
+      phenoData2 <- download.phenocam(URL3)
+      phenoData3 <- rbind(phenoData,phenoData2)
+      phenoData3 <- phenoData3[order(phenoData3[,'date']),]
+      phenoData <- phenoData3[!duplicated(phenoData3$date),]
+    }
     
     p.old <- phenoData$gcc_mean
     time.old <-  as.Date(phenoData$date)
@@ -66,10 +77,6 @@ for(i in 1:nrow(siteData)){
     dat2 <- data.frame(dates=days,years=newYears,months=newMonths,p=p)
     dat2$mn <- prepareMODIS(startDate=startDate,endDate=endDate,metric="NDVI",timeForecast=days,dataDirectory=dataDirectory,siteName=siteName)
     dat2$me <- prepareMODIS(startDate=startDate,endDate=endDate,metric="EVI",timeForecast=days,dataDirectory=dataDirectory,siteName=siteName)
-    #print("Done with MODIS")
-    #print(dim(dat2))
-    #dat2 <- dat2[dat2$months%in%seq(1,7,1),]
-    #print(dim(dat2))
     
     data2 <- data.frame(p=dat2$p)
     
