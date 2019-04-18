@@ -16,11 +16,14 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 forecastLength <- 15
 #GEFS_files <- dir(path=dataDirectory,pattern="NOAA_GEFS")
 
-endDate <- (Sys.Date()-1)
+endDate <- (Sys.Date()-2)
 #startDate <- as.Date("2013-01-01")
 #endDate <- as.Date("2019-01-27")
-i <- 1
-#i <- 1
+#i <- 9
+iseq <- c(1,2,3,10,15,16)
+#iseq <- 16
+for(i in iseq){
+#i <- 16
 siteName <- as.character(siteData[i,1])
 print(siteName)
 saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
@@ -173,7 +176,7 @@ plot(density(out.mat.par$p.MN),main="Density of p.MN")
 plot(density(out.mat.par$p.PC),main="Density of p.PC")
 plot(density(out.mat.par$p.proc),main="Density of p.proc")
 plot(density(out.mat.par$b1),main="Density of b1")
-plot(density(out.mat.par$b0),main="Density of b0")
+#plot(density(out.mat.par$b0),main="Density of b0")
 
 par(mfrow=c(2,3))
 plot(density(sqrt(1/out.mat.par$p.PC)),main="Density of PC Obs. Error (SD)")
@@ -182,7 +185,7 @@ plot(density(sqrt(1/out.mat.par$p.MN)),main="Density of MN Ob. Error (SD)")
 plot(density(sqrt(1/out.mat.par$p.proc)),main="Density of Process Error (SD)")
 
 plot(density(out.mat.par$b1),main="Density of b1")
-plot(density(out.mat.par$b0),main="Density of b0")
+#plot(density(out.mat.par$b0),main="Density of b0")
 
 ##Plot
 par(mfrow=c(1,1))
@@ -214,3 +217,4 @@ legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),p
 
 
 dev.off()
+}
