@@ -19,7 +19,7 @@ endDate <- (Sys.Date()-1)
 #endDate <- as.Date("2019-01-27")
 i <- 10
 i <- 1
-outFileName <- paste("PhenologyForecastOutput_allSites_",startDate,"_",endDate,".pdf",sep="")
+outFileName <- paste("PhenologyForecastOutput_allSites_",endDate,".pdf",sep="")
 pdf(outFileName,height=6,width=10)
 
 for(i in 1:nrow(siteData)){
