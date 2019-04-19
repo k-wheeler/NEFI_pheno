@@ -4,11 +4,13 @@
 ##' @param dates The desired dates
 ##' @export
 calSf <- function(Tairs,dates) {
-  print(dates)
+  #print(dates)
+  print(length(Tairs))
+  print(length(dates))
   Rf <- calRf(Tairs[1])
   cumTotal <- Rf
   Sfs <- Rf
-  for(i in 2:length(Tairs)){
+  for(i in 2:length(dates)){
     print(dates[i])
     if((lubridate::day(dates[i])==1)&&(lubridate::month(dates[i])==1)){ ##Reset every year
       cumTotal <- 0
