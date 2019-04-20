@@ -31,21 +31,28 @@ logisticCovPhenoModel2 <- function(data,nchain){
       mn[i,N] ~ dnorm(x[i,N],p.MN)
       me[i,N] ~ dnorm(x[i,N],p.ME)
   }
+  for()
 
   #### Process Model
   for(yr in 1:(N-1)){
+    r[2,yr] <- rl[2,yr]
+    for(i in 3:n){
+      r[i,yr] <- ifelse(rl[i,yr]<rl[(i-1),yr],rl[(i-1),yr],rl[i,yr])
+    }
     for(i in 2:n){
       rl[i,yr] <- b1 * Sf[i,yr] + b0
-      r[i,yr] <- ifelse(rl[i,yr]<rl[(i-1),yr],rl[(i-1),yr],rl[i,yr])
       color[i,yr] <- x[(i-1),yr] + r[i,yr] * x[(i-1),yr] * (1-x[(i-1),yr])  ## latent process
       Sf[i,yr] ~ dnorm(Sfmu[i,yr],Sfprec[i,yr])
       xl[i,yr] ~ dnorm(color[i,yr],p.proc)  ## process error
       x[i,yr] <- max(0, min(1,xl[i,yr]) ) ## trunate normal process error
     }
   }
+  r[2,N] <- rl[2,N]
+  for(i in 3:q){
+    r[i,N] <- ifelse(rl[i,N]<rl[(i-1),N],rl[(i-1),N],rl[i,N])
+  }
   for(i in 2:q){ ##Done for the current year forecast. Excluded from previous because n != q
       rl[i,N] <- b1 * Sf[i,N] + b0
-      r[i,N] <- ifelse(rl[i,N]<rl[(i-1),N],rl[(i-1),N],rl[i,N])
       color[i,N] <- x[(i-1),N] + r[i,N] * x[(i-1),N] * (1-x[(i-1),N])  ## latent process
       Sf[i,N] ~ dnorm(Sfmu[i,N],Sfprec[i,N])
       xl[i,N] ~ dnorm(color[i,N],p.proc)  ## process error
