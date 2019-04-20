@@ -36,7 +36,7 @@ logisticCovPhenoModel2 <- function(data,nchain){
   for(yr in 1:(N-1)){
     r[2,yr] <- rl[2,yr]
     for(i in 3:n){
-      r[i,yr] <- ifelse(rl[i,yr]<rl[(i-1),yr],rl[(i-1),yr],rl[i,yr])
+      r[i,yr] <- ifelse(rl[i,yr]<r[(i-1),yr],rl[(i-1),yr],rl[i,yr])
     }
     for(i in 2:n){
       rl[i,yr] <- b1 * Sf[i,yr] + b0
@@ -48,7 +48,7 @@ logisticCovPhenoModel2 <- function(data,nchain){
   }
   r[2,N] <- rl[2,N]
   for(i in 3:q){
-    r[i,N] <- ifelse(rl[i,N]<rl[(i-1),N],rl[(i-1),N],rl[i,N])
+    r[i,N] <- ifelse(rl[i,N]<r[(i-1),N],rl[(i-1),N],rl[i,N])
   }
   for(i in 2:q){ ##Done for the current year forecast. Excluded from previous because n != q
       rl[i,N] <- b1 * Sf[i,N] + b0
