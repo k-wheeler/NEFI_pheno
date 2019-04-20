@@ -31,7 +31,6 @@ logisticCovPhenoModel2 <- function(data,nchain){
       mn[i,N] ~ dnorm(x[i,N],p.MN)
       me[i,N] ~ dnorm(x[i,N],p.ME)
   }
-  for()
 
   #### Process Model
   for(yr in 1:(N-1)){
