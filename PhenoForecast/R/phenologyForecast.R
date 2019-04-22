@@ -22,7 +22,7 @@
 #' @import coda
 #' @import PhenologyBayesModeling
 #' @export
-phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files="",GEFS_Directory){
+phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files="",GEFS_Directory,station=""){
   print(forecastType)
   nchain=5
   ###Download PhenoCam data and format
@@ -65,7 +65,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
   else if(forecastType=="logistic" || forecastType== "logisticCov" || forecastType== "logisticCov2"){
     dat2 <- data.frame(dates=days,years=years,months=months,p=p,mn=mn,me=me)
     if(forecastType=="logisticCov" || forecastType== "logisticCov2"){
-      datSf <- createSf(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,forecastLength=forecastLength)
+      datSf <- createSf(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,forecastLength=forecastLength,station=station)
 
       dat2$Sf <- datSf$Sf
       dat2$Sfprec <- datSf$Sfprec

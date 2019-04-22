@@ -1,30 +1,26 @@
-##' Calculates cummulative Tair (within one year for one ensemble)
+##' Loads NOAA met data
 ##'
-##' @param lat The site latitude
-##' @param long The site longitude
-##' @param years The desired years
-##' @param siteName The name of the site
+##' @param station The name of the NOAA station
 ##' @import rnoaa
 ##' @import tidyverse
 ##' @export
-load_NOAA_met <- function(lat,long,years,siteName) {
+load_NOAA_met <- function(station) {
   options(noaakey = "fjVseeIJrOLasppGbfwDrYZVsdQaQoCd")
+  #station_data <- ghcnd_stations()
 
-  station_data <- ghcnd_stations()
-
-  sites_data <- data.frame(id = siteName,
-                           latitude = lat,
-                           longitude = long)
-  nearby_stations <- meteo_nearby_stations(lat_lon_df = sites_data, station_data = station_data, year_min = 2018, year_max = 2018, radius = 50, var = "all")
-  if(siteName=="russellsage"){ #For some reason the closest station to russellsage needs a key code to access the data
-    station <- as.character(nearby_stations[[1]][2,1])
-  }
-  else if(siteName=="missouriozarks"){
-    station <- as.character(nearby_stations[[1]][5,1])
-  }
-  else{
-    station <- as.character(nearby_stations[[1]][1,1])
-  }
+  # sites_data <- data.frame(id = siteName,
+  #                          latitude = lat,
+  #                          longitude = long)
+  # nearby_stations <- meteo_nearby_stations(lat_lon_df = sites_data, station_data = station_data, year_min = 2019, year_max = 2019, radius = 50, var = "all")
+  # if(siteName=="russellsage"){ #For some reason the closest station to russellsage needs a key code to access the data
+  #   station <- as.character(nearby_stations[[1]][2,1])
+  # }
+  # else if(siteName=="missouriozarks"){
+  #   station <- as.character(nearby_stations[[1]][5,1])
+  # }
+  # else{
+  #   station <- as.character(nearby_stations[[1]][1,1])
+  # }
   dat = meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = "2019-01-01", date_max = (Sys.Date()-1))
 
   NOAAavgs <- rowMeans(cbind(dat$tmax,dat$tmin))
