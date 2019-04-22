@@ -52,7 +52,7 @@ logisticCovPhenoModel3 <- function(data,nchain){
   #   r[i,N] <- ifelse(rl[i,N]<r[(i-1),N],r[(i-1),N],rl[i,N])
   # }
   for(i in 2:q){ ##Done for the current year forecast. Excluded from previous because n != q
-      r[,N] <- b1 * Sf[i,N] + b0
+      r[i,N] <- b1 * Sf[i,N] + b0
       color[i,N] <- x[(i-1),N] + r[i,N] * x[(i-1),N] * (1-x[(i-1),N])  ## latent process
       colorT[i,N] <- ifelse(color[i,N]<colorT[(i-1),N],colorT[(i-1),N],color[i,N])
       Sf[i,N] ~ dnorm(Sfmu[i,N],Sfprec[i,N])
