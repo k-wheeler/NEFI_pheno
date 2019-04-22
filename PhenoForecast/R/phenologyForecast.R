@@ -136,7 +136,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       print("Done creating the logistic with covariate model 2")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","trans")
       print(variableNames)
-      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
+      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=10000,iterSize=5000)
     }
     else{
       print("Forecast type not known!!!")
