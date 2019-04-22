@@ -25,7 +25,7 @@ iseq <- c(1,10)
 iseq <- c(1,2,3,10,15,16)
 #Create Forecast outputs
 output <- 
-  foreach(i=1:iseq) %dopar% {
+  foreach(i=iseq) %dopar% {
 #for(i in iseq){
   siteName <- as.character(siteData[i,1])
   print(siteName)
