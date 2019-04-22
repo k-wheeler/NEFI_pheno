@@ -5,7 +5,7 @@
 ##' @export
 ##' @import rjags
 ##' @import coda
-logisticCovPhenoModel2 <- function(data,nchain){
+logisticCovPhenoModel3 <- function(data,nchain){
   ##Set priors
   data$s1 <- 0.5
   data$s2 <- 0.2

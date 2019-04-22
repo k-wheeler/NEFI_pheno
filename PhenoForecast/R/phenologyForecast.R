@@ -62,7 +62,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     variableNames <- c("p.PC","p.MN","p.ME","p.proc","x")
     out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)
   }
-  else if(forecastType=="logistic" || forecastType== "logisticCov" || forecastType== "logisticCov2"){
+  else if(forecastType=="logistic" || forecastType== "logisticCov" || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
     dat2 <- data.frame(dates=days,years=years,months=months,p=p,mn=mn,me=me)
     if(forecastType=="logisticCov" || forecastType== "logisticCov2"){
       datSf <- createSf(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,forecastLength=forecastLength,station=station)
@@ -89,7 +89,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       d <- dValsPC[valNum]
 
       p <- cbind(p,rescale(yseq=subDat$p,c=c,d=d))
-      if(forecastType=="logisticCov" || forecastType== "logisticCov2"){
+      if(forecastType=="logisticCov" || forecastType== "logisticCov2" || forecastType== "logisticCov3"){
         Sf <- cbind(Sf,subDat$Sf)
         Sfprecs <- cbind(Sfprecs,subDat$Sfprec)
       }
@@ -115,9 +115,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       print("Done creating the basic logistic model")
       variableNames <- c("p.proc","p.PC","p.ME","p.MN","x","r")
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=10000,iterSize=5000)
-    }
-
-    else if(forecastType=="logisticCov"){
+    }else if(forecastType=="logisticCov"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
 
@@ -126,8 +124,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","b0")
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
-    }
-    else if(forecastType=="logisticCov2"){
+    }else if(forecastType=="logisticCov2"){
       print("Creating logistic with covariate model 2")
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
@@ -137,8 +134,17 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","trans")
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=5000,iterSize=1000)
-    }
-    else{
+    }else if(forecastType=="logisticCov3"){
+      print("Creating logistic with covariate model 3")
+      dataFinal$Sfmu <- Sf
+      dataFinal$Sfprec <- Sfprecs
+
+      j.model <- logisticCovPhenoModel3(data=dataFinal,nchain=nchain)
+      print("Done creating the logistic with covariate model 3")
+      variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","trans")
+      print(variableNames)
+      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=5000,iterSize=1000)
+    }else{
       print("Forecast type not known!!!")
     }
 
