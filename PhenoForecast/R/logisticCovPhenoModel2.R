@@ -43,7 +43,7 @@ logisticCovPhenoModel2 <- function(data,nchain){
       color[i,yr] <- x[(i-1),yr] + r[i,yr] * x[(i-1),yr] * (1-x[(i-1),yr])  ## latent process
       #colorT[i,yr] <- ifelse(color[i,yr]<colorT[(i-1),yr],[(i-1),yr],rl[i,yr])
       Sf[i,yr] ~ dnorm(Sfmu[i,yr],Sfprec[i,yr])
-      xl[i,yr] ~ dnorm(colorT[i,yr],p.proc)  ## process error
+      xl[i,yr] ~ dnorm(color[i,yr],p.proc)  ## process error
       x[i,yr] <- max(0, min(1,xl[i,yr]) ) ## trunate normal process error
     }
   }
