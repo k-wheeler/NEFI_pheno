@@ -51,19 +51,23 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
   years <- lubridate::year(days)
   data <- list(x_ic=0,tau_ic = 1/(phenoData$g_std[1]**2))
 
+  pdf(paste(siteName,"_",endDate,"_DataPlots.pdf",sep=""),width=10,height=8)
+
   if(forecastType=="randomWalk"){
     data$p <- rescaleObs(times=days,vals=p,partialStart=TRUE,cVals=cValsPC,dVals=dValsPC)
     data$n <- length(data$p)
     data$mn <- rescaleObs(times=days,vals=mn,partialStart=TRUE,cVals=cValsMN,dVals=dValsMN)
     data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
+    plot(days,data$p,pch=20,main="PhenoCam Data")
+    plot(days,data$mn,pch=20,main="MODIS NDVI Data")
+    plot(days,data$me,pch=20,main="MODIS EVI Data")
     print("Done with formatting data")
 
     j.model <- randomWalkPhenoModel(data=data,nchain=nchain)
     print("Done with creating the  random walk model")
     variableNames <- c("p.PC","p.MN","p.ME","p.proc","x")
     out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)
-  }
-  else if(forecastType=="logistic" || forecastType== "logisticCov" || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
+  }else if(forecastType=="logistic" || forecastType== "logisticCov" || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
     dat2 <- data.frame(dates=days,years=years,months=months,p=p,mn=mn,me=me)
     if(forecastType=="logisticCov" || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
       datSf <- createSf(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,forecastLength=forecastLength,station=station)
@@ -110,6 +114,11 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     dataFinal$tau_ic <- 1/(phenoData$g_std[1]**2)
     dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength
 
+    plot(days,data$p,pch=20,main="PhenoCam Data")
+    plot(days,data$mn,pch=20,main="MODIS NDVI Data")
+    plot(days,data$me,pch=20,main="MODIS EVI Data")
+    dev.off()
+
     print("Done with formating data")
     if(forecastType=="logistic"){
       j.model <- logisticPhenoModel(data=dataFinal,nchain=nchain)
@@ -119,27 +128,32 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     }else if(forecastType=="logisticCov"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-
+      plot(days,data$Sfmu,pch=20,main="Sf")
+      dev.off()
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","b0")
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
     }else if(forecastType=="logisticCov2"){
-      print("Creating logistic with covariate model 2")
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-
+      plot(days,data$Sfmu,pch=20,main="Sf")
+      dev.off()
+      print("Creating logistic with covariate model 2")
       j.model <- logisticCovPhenoModel2(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model 2")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","trans")
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=5000,iterSize=1000)
     }else if(forecastType=="logisticCov3"){
-      print("Creating logistic with covariate model 3")
+
+
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-
+      plot(days,data$Sfmu,pch=20,main="Sf")
+      dev.off()
+      print("Creating logistic with covariate model 3")
       j.model <- logisticCovPhenoModel3(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model 3")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","trans")
