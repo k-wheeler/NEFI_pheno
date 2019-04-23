@@ -15,7 +15,7 @@ fillNOAAlag <- function(days,siteName){
     for(f in 1:length(GEFS_Files)){
       print(GEFS_Files[f])
       weatherFile <- nc_open(paste(dataDirectoryDate,GEFS_Files[f],sep=""))
-      Tair <- mean(ncvar_get(weatherFile,"air_temperature")[1:4])
+      Tair <- mean(ncvar_get(weatherFile,"air_temperature")[1:4])-273 ##Convert to C from Kelvin
       dayVals <- c(dayVals,Tair)
     }
     vals <- rbind(vals,dayVals)
