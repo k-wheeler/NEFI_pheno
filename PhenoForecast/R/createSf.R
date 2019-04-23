@@ -39,11 +39,12 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     TairsForecast <- cbind(TairsForecast,TairsForecastInd)
     TairsCurrent[,e] <- TairsCurrentInd
   }
+  NOAAmetDays <- seq(as.Date("2019-01-01"),(endDate-forecastLength),"day")
+  TairsCurrent[TairsCurrent[,1]==-9999,] <- fillNOAAlag(days=NOAAmetDays[TairsCurrent[,1]==-9999],siteName=siteName)
 
   ##Create Sfs
   SfsALL <- matrix(nrow=0,ncol=length(TairsCal[,1]))
 
-  pdf("Test_Tair.pdf",width=10,height=5)
   for(e in 1:ncol(TairsCal)){
     plot(seq(1,length(TairsCal[,e])),TairsCal[,e],pch=20,main="Cal")
     Sfs <- calSf(Tairs=TairsCal[,e],dates=calDates)
@@ -66,7 +67,6 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
 
     SfsALL <- rbind(SfsALL,Sfs)
   }
-  dev.off()
 
   SfsMeansCur <- colMeans(SfsALL)
 

@@ -24,12 +24,16 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
   #   station <- as.character(nearby_stations[[1]][1,1])
   # }
   if(nchar(startDate)==0){
-    dat = meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = "2019-01-01", date_max = (Sys.Date()-1))
+    startDate <- as.Date("2019-01-01")
+    endDate <- (Sys.Date()-1)
   }
-  else{
-    dat = meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = startDate, date_max = endDate)
-  }
+  dat = meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = startDate, date_max = endDate)
+  lastDate <- dat$date[length(dat$date)]
+
   NOAAavgs <- rowMeans(cbind(dat$tmax,dat$tmin))
   NOAAavgs <- NOAAavgs/10 ##Downloads in tenths of a degree C
+  for(i in seq((lastDate+1),endDate,"day")){
+    NOAAavgs <- c(NOAAavgs,-9999) ## Done to indicate data lag
+  }
   return(NOAAavgs)
 }
