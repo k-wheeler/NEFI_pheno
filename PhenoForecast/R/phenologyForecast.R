@@ -96,7 +96,8 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       d <- dValsPC[valNum]
 
       p <- cbind(p,rescale(yseq=subDat$p,c=c,d=d))
-      days2 <- cbind(days2,subDat$dates)
+      print(subDat$dates)
+      days2 <- cbind(days2,as.Date(subDat$dates))
       if(forecastType=="logisticCov" || forecastType== "logisticCov2" || forecastType== "logisticCov3"){
         Sf <- cbind(Sf,subDat$Sf)
         Sfprecs <- cbind(Sfprecs,subDat$Sfprec)
