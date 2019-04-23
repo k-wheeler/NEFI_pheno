@@ -58,9 +58,9 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     data$n <- length(data$p)
     data$mn <- rescaleObs(times=days,vals=mn,partialStart=TRUE,cVals=cValsMN,dVals=dValsMN)
     data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
-    plot(days,data$p,pch=20,main="PhenoCam Data")
-    plot(days,data$mn,pch=20,main="MODIS NDVI Data")
-    plot(days,data$me,pch=20,main="MODIS EVI Data")
+    plot(days,dataFinal$p,pch=20,main="PhenoCam Data")
+    plot(days,dataFinal$mn,pch=20,main="MODIS NDVI Data")
+    plot(days,dataFinal$me,pch=20,main="MODIS EVI Data")
     print("Done with formatting data")
     dev.off()
 
@@ -115,9 +115,9 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     dataFinal$tau_ic <- 1/(phenoData$g_std[1]**2)
     dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength
 
-    plot(days,data$p,pch=20,main="PhenoCam Data")
-    plot(days,data$mn,pch=20,main="MODIS NDVI Data")
-    plot(days,data$me,pch=20,main="MODIS EVI Data")
+    plot(days,dataFinal$p,pch=20,main="PhenoCam Data")
+    plot(days,dataFinal$mn,pch=20,main="MODIS NDVI Data")
+    plot(days,dataFinal$me,pch=20,main="MODIS EVI Data")
 
     print("Done with formating data")
     if(forecastType=="logistic"){
@@ -129,7 +129,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     }else if(forecastType=="logisticCov"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-      plot(days,data$Sfmu,pch=20,main="Sf")
+      plot(days,dataFinal$Sfmu,pch=20,main="Sf")
       dev.off()
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model")
@@ -139,7 +139,8 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     }else if(forecastType=="logisticCov2"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-      plot(days,data$Sfmu,pch=20,main="Sf")
+      plot(days,dataFinal$Sfmu,pch=20,main="Sf")
+
       dev.off()
       print("Creating logistic with covariate model 2")
       j.model <- logisticCovPhenoModel2(data=dataFinal,nchain=nchain)
@@ -152,7 +153,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
 
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-      plot(days,data$Sfmu,pch=20,main="Sf")
+      plot(days,dataFinal$Sfmu,pch=20,main="Sf")
       dev.off()
       print("Creating logistic with covariate model 3")
       j.model <- logisticCovPhenoModel3(data=dataFinal,nchain=nchain)
