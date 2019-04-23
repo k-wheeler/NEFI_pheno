@@ -51,7 +51,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   SfsALL <- matrix(nrow=0,ncol=length(TairsCal[,1]))
 
   for(e in 1:ncol(TairsCal)){
-    plot(seq(1,length(TairsCal[,e])),TairsCal[,e],pch=20,main="Cal")
+    #plot(seq(1,length(TairsCal[,e])),TairsCal[,e],pch=20,main="Cal")
     Sfs <- calSf(Tairs=TairsCal[,e],dates=calDates)
     SfsALL <- rbind(SfsALL,Sfs)
   }
@@ -67,7 +67,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   for(e in 1:length(GEFS_Files)){
     Tairs <- c(TairsCurrent[,e],TairsForecast[,e])
 
-    plot(seq(1,length(Tairs)),Tairs,pch=20,main="Cur")
+    #plot(seq(1,length(Tairs)),Tairs,pch=20,main="Cur")
     Sfs <- calSf(Tairs=Tairs,dates=curDates)
 
     SfsALL <- rbind(SfsALL,Sfs)
