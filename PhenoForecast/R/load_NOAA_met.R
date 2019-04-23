@@ -27,14 +27,16 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
     startDate <- as.Date("2019-01-01")
     endDate <- (Sys.Date()-1)
   }
-  dat = meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = startDate, date_max = endDate)
+  dat <-  meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = startDate, date_max = endDate)
+  dat <- dat[which(!is.na(dat$tmax)),]
+
   lastDate <- dat$date[length(dat$date)]
   print(lastDate)
   NOAAavgs <- rowMeans(cbind(dat$tmax,dat$tmin))
   NOAAavgs <- NOAAavgs/10 ##Downloads in tenths of a degree C
-  if(is.na(NOAAavgs[length(NOAAavgs)])){
-    NOAAavgs[length(NOAAavgs)] <- -9999
-  }
+  # if(is.na(NOAAavgs[length(NOAAavgs)])){
+  #   NOAAavgs[length(NOAAavgs)] <- -9999
+  # }
   if(lastDate<endDate){
     missingDays <- seq((lastDate+1),endDate,"day")
 
