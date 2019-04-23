@@ -32,6 +32,9 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
   print(lastDate)
   NOAAavgs <- rowMeans(cbind(dat$tmax,dat$tmin))
   NOAAavgs <- NOAAavgs/10 ##Downloads in tenths of a degree C
+  if(is.na(NOAAavgs[length(NOAAavgs)])){
+    NOAAavgs[length(NOAAavgs)] <- -9999
+  }
   if(lastDate<endDate){
     missingDays <- seq((lastDate+1),endDate,"day")
 
