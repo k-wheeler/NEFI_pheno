@@ -32,7 +32,7 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
 
   NOAAavgs <- rowMeans(cbind(dat$tmax,dat$tmin))
   NOAAavgs <- NOAAavgs/10 ##Downloads in tenths of a degree C
-  for(i in seq((lastDate+1),endDate,"day")){
+  for(i in 1:length(seq((lastDate+1),endDate,"day"))){
     NOAAavgs <- c(NOAAavgs,-9999) ## Done to indicate data lag
   }
   return(NOAAavgs)
