@@ -14,7 +14,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   calDates <- seq(dates[1],as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
 
   ##The sources of the calibration and current measurements differ between willowCreek and other sites
-  if(siteName=="willowCreek"){
+  if(siteName=="willowcreek"){
     TairsCalInd <- download_US_WCr_met(start_date=calDates[1],end_date=calDates[length(calDates)])
 
     ##Need to pad TairsCal to have ensembles
