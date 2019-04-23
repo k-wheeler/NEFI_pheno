@@ -29,11 +29,15 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
   }
   dat = meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = startDate, date_max = endDate)
   lastDate <- dat$date[length(dat$date)]
-
+  print(lastDate)
   NOAAavgs <- rowMeans(cbind(dat$tmax,dat$tmin))
   NOAAavgs <- NOAAavgs/10 ##Downloads in tenths of a degree C
-  for(i in 1:length(seq((lastDate+1),endDate,"day"))){
-    NOAAavgs <- c(NOAAavgs,-9999) ## Done to indicate data lag
+  if(lastDate<endDate){
+    missingDays <- seq((lastDate+1),endDate,"day")
+
+    for(i in 1:length(missingDays)){
+      NOAAavgs <- c(NOAAavgs,-9999) ## Done to indicate data lag
+    }
   }
   return(NOAAavgs)
 }
