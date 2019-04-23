@@ -1,10 +1,12 @@
 ##' Loads NOAA met data
 ##'
 ##' @param station The name of the NOAA station
+##' @param startDate
+##' @param endDate
 ##' @import rnoaa
 ##' @import tidyverse
 ##' @export
-load_NOAA_met <- function(station) {
+load_NOAA_met <- function(station,startDate="",endDate="") {
   options(noaakey = "fjVseeIJrOLasppGbfwDrYZVsdQaQoCd")
   #station_data <- ghcnd_stations()
 
@@ -21,8 +23,12 @@ load_NOAA_met <- function(station) {
   # else{
   #   station <- as.character(nearby_stations[[1]][1,1])
   # }
-  dat = meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = "2019-01-01", date_max = (Sys.Date()-1))
-
+  if(nchar(startDate)==0){
+    dat = meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = "2019-01-01", date_max = (Sys.Date()-1))
+  }
+  else{
+    dat = meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = startDate, date_max = endDate)
+  }
   NOAAavgs <- rowMeans(cbind(dat$tmax,dat$tmin))
   NOAAavgs <- NOAAavgs/10 ##Downloads in tenths of a degree C
   return(NOAAavgs)
