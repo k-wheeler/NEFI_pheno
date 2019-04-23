@@ -62,6 +62,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     plot(days,data$mn,pch=20,main="MODIS NDVI Data")
     plot(days,data$me,pch=20,main="MODIS EVI Data")
     print("Done with formatting data")
+    dev.off()
 
     j.model <- randomWalkPhenoModel(data=data,nchain=nchain)
     print("Done with creating the  random walk model")
@@ -117,10 +118,10 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     plot(days,data$p,pch=20,main="PhenoCam Data")
     plot(days,data$mn,pch=20,main="MODIS NDVI Data")
     plot(days,data$me,pch=20,main="MODIS EVI Data")
-    dev.off()
 
     print("Done with formating data")
     if(forecastType=="logistic"){
+      dev.off()
       j.model <- logisticPhenoModel(data=dataFinal,nchain=nchain)
       print("Done creating the basic logistic model")
       variableNames <- c("p.proc","p.PC","p.ME","p.MN","x","r")
