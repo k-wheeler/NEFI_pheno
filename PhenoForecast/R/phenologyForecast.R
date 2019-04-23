@@ -85,6 +85,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     me <- matrix(nrow=181,ncol=0)
     Sfprecs<- matrix(nrow=181,ncol=0)
     valNum <- 0
+    days2 <- matrix(nrow=181,ncol=0)
     for(i in (lubridate::year(as.Date(dat2$dates[1]))+1):lubridate::year(as.Date(dat2$dates[length(dat2$dates)]))){##I know this includes the forecasted stuff, but it shouldn't really matter because of the JAGS model setup
       subDat <- dat2[lubridate::year(as.Date(dat2$dates))==i,]
       valNum <- valNum + 1
@@ -95,6 +96,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       d <- dValsPC[valNum]
 
       p <- cbind(p,rescale(yseq=subDat$p,c=c,d=d))
+      days2 <- cbind(days2,subDat$dates)
       if(forecastType=="logisticCov" || forecastType== "logisticCov2" || forecastType== "logisticCov3"){
         Sf <- cbind(Sf,subDat$Sf)
         Sfprecs <- cbind(Sfprecs,subDat$Sfprec)
@@ -115,9 +117,9 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     dataFinal$tau_ic <- 1/(phenoData$g_std[1]**2)
     dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength
 
-    plot(days,dataFinal$p,pch=20,main="PhenoCam Data")
-    plot(days,dataFinal$mn,pch=20,main="MODIS NDVI Data")
-    plot(days,dataFinal$me,pch=20,main="MODIS EVI Data")
+    plot(days2,dataFinal$p,pch=20,main="PhenoCam Data")
+    plot(days2,dataFinal$mn,pch=20,main="MODIS NDVI Data")
+    plot(days2,dataFinal$me,pch=20,main="MODIS EVI Data")
 
     print("Done with formating data")
     if(forecastType=="logistic"){
@@ -139,7 +141,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     }else if(forecastType=="logisticCov2"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-      plot(days,dataFinal$Sfmu,pch=20,main="Sf")
+      plot(days2,dataFinal$Sfmu,pch=20,main="Sf")
 
       dev.off()
       print("Creating logistic with covariate model 2")
@@ -153,7 +155,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
 
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-      plot(days,dataFinal$Sfmu,pch=20,main="Sf")
+      plot(days2,dataFinal$Sfmu,pch=20,main="Sf")
       dev.off()
       print("Creating logistic with covariate model 3")
       j.model <- logisticCovPhenoModel3(data=dataFinal,nchain=nchain)
