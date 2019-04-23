@@ -41,8 +41,8 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   }
   NOAAmetDays <- seq(as.Date("2019-01-01"),(endDate-forecastLength),"day")
   print(TairsCurrent[,1]==-9999)
-  print(length(TairsCurrent[,1]==-9999))
-  if(length(TairsCurrent[,1]==-9999)>0){
+  print(sum(TairsCurrent[,1]==-9999))
+  if(sum(TairsCurrent[,1]==-9999)>0){
     print("inside")
     TairsCurrent[TairsCurrent[,1]==-9999,] <- fillNOAAlag(days=NOAAmetDays[TairsCurrent[,1]==-9999],siteName=siteName)
   }
