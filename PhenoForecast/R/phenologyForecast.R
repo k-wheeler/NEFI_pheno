@@ -59,8 +59,11 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     data$mn <- rescaleObs(times=days,vals=mn,partialStart=TRUE,cVals=cValsMN,dVals=dValsMN)
     data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
     plot(days,dataFinal$p,pch=20,main="PhenoCam Data")
+    abline(v=endDate,col="red")
     plot(days,dataFinal$mn,pch=20,main="MODIS NDVI Data")
+    abline(v=endDate,col="red")
     plot(days,dataFinal$me,pch=20,main="MODIS EVI Data")
+    abline(v=endDate,col="red")
     print("Done with formatting data")
     dev.off()
 
@@ -119,8 +122,11 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
     dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength
 
     plot(days2,dataFinal$p,pch=20,main="PhenoCam Data")
+    abline(v=endDate,col="red")
     plot(days2,dataFinal$mn,pch=20,main="MODIS NDVI Data")
+    abline(v=endDate,col="red")
     plot(days2,dataFinal$me,pch=20,main="MODIS EVI Data")
+    abline(v=endDate,col="red")
 
     print("Done with formating data")
     if(forecastType=="logistic"){
@@ -133,6 +139,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
       plot(days,dataFinal$Sfmu,pch=20,main="Sf")
+      abline(v=endDate,col="red")
       dev.off()
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model")
@@ -143,7 +150,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
       plot(days2,dataFinal$Sfmu,pch=20,main="Sf")
-
+      abline(v=endDate,col="red")
       dev.off()
       print("Creating logistic with covariate model 2")
       j.model <- logisticCovPhenoModel2(data=dataFinal,nchain=nchain)
@@ -157,6 +164,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
       plot(days2,dataFinal$Sfmu,pch=20,main="Sf")
+      abline(v=endDate,col="red")
       dev.off()
       print("Creating logistic with covariate model 3")
       j.model <- logisticCovPhenoModel3(data=dataFinal,nchain=nchain)
