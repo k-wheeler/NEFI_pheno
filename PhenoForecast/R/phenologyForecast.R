@@ -133,7 +133,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       print("Done creating the logistic with covariate model 2")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","trans")
       print(variableNames)
-      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=5000,iterSize=1000)
+      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=500,iterSize=100)
     }else if(forecastType=="logisticCov3"){
       print("Creating logistic with covariate model 3")
       dataFinal$Sfmu <- Sf
@@ -143,7 +143,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       print("Done creating the logistic with covariate model 3")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","trans")
       print(variableNames)
-      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=5000,iterSize=1000)
+      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=500,iterSize=100)
     }else{
       print("Forecast type not known!!!")
     }
