@@ -15,7 +15,7 @@ library("doParallel")
 endDate <- as.Date("2019-01-27")
 forecastLength <- 0
 
-#n.cores <- 6
+n.cores <- 6
 
 #register the cores.
 registerDoParallel(cores=n.cores)
@@ -25,9 +25,9 @@ iseq <- c(2,4,5,seq(21,27))
 #iseq <- c(10)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
-#output <- 
-#  foreach(i=iseq) %dopar% {
-for(i in iseq){
+output <- 
+  foreach(i=iseq) %dopar% {
+#for(i in iseq){
   if(as.character(siteData$PFT[i])=="DB"){
     siteName <- as.character(siteData[i,1])
     print(siteName)
