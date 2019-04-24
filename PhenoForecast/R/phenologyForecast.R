@@ -3,7 +3,7 @@
 #' @param forecastType The type of forecast (randomWalk or logistic)
 #' @param forecastLength The length of the forecast into the future in days
 #' @param siteName The site name
-#' @param URL The URL where the site's phenocam data is located
+#' @param URLs The URL where the site's phenocam data is located
 #' @param lat The latitude of the site in decimals
 #' @param long The longitude of the site in decimals
 #' @param dataDirectory The file path for the directory to download and store data in
@@ -22,16 +22,21 @@
 #' @import coda
 #' @import PhenologyBayesModeling
 #' @export
-phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files="",GEFS_Directory,station=""){
+phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files="",GEFS_Directory,station=""){
   print(forecastType)
   nchain=5
   ###Download PhenoCam data and format
   #PCfileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
   #if(!file.exists(PCfileName)){
-  phenoData <- download.phenocam(URL)
-    #save(phenoData,file=PCfileName)
-  #}
-  #load(PCfileName)
+  phenoData <- matrix(nrow=0,ncol=32)
+  for(u in 1:length(URLs)){
+    phenoDataSub <- download.phenocam(URLs[u])
+    phenoData <- rbind(phenoData,phenoDataSub)
+  }
+  ##Order and remove duplicate PC data
+  phenoData2 <- phenoData[order(phenoData$date),]
+  phenoData3 <- phenoData2[!duplicated(phenoData2$date),]
+  phenoData <- phenoData3
   phenoData <- phenoData[phenoData$date<endDate,]
   p.old <- phenoData$gcc_mean
   time.old <-  as.Date(phenoData$date)
@@ -160,8 +165,6 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URL,lat,lo
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=5000,iterSize=2000)
     }else if(forecastType=="logisticCov3"){
-
-
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
       plot(days2,dataFinal$Sfmu,pch=20,main="Sf")
