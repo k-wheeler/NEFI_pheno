@@ -63,8 +63,8 @@ output <-
     newYears <- lubridate::year(days)
     #print("Done with newYears")
     phenoData <- matrix(nrow=0,ncol=32)
-    for(u in 1:length(URLs)){
-      phenoDataSub <- download.phenocam(URLs[u])
+    for(u in 1:length(URL)){
+      phenoDataSub <- download.phenocam(URL[u])
       phenoData <- rbind(phenoData,phenoDataSub)
     }
     ##Order and remove duplicate PC data
