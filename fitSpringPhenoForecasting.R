@@ -21,6 +21,7 @@ n.cores <- 6
 registerDoParallel(cores=n.cores)
 
 iseq <- c(seq(2,6),8,9,11,seq(15,20))
+iseq <- c(2,4,5,seq(21,27))
 #iseq <- c(10)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
@@ -30,13 +31,19 @@ output <-
   if(as.character(siteData$PFT[i])=="DB"){
     siteName <- as.character(siteData[i,1])
     print(siteName)
-    URL <- as.character(siteData[i,4])
+
     lat <- as.numeric(siteData[i,2])
     long <- as.numeric(siteData[i,3])
     startDate <- (as.Date(siteData[i,7]))
+    URL <- as.character(siteData$URL[i])
     URL2 <- as.character(siteData$URL2[i])
     URL3 <- as.character(siteData$URL3[i])
-    startDate2 <- as.character(siteData$startDate2[i])
+    if(nchar(URL2)>0){
+      URL <- c(URL,URL2)
+      if(nchar(URL3)>0){
+        URL <- c(URL,URL3)
+      }
+    }
     days <- seq(as.Date(startDate),(as.Date(endDate)),"day")
     dataDirectory="PhenologyForecastData/"
     
@@ -55,20 +62,16 @@ output <-
     newMonths <- lubridate::month(days)
     newYears <- lubridate::year(days)
     #print("Done with newYears")
-
-    phenoData <- download.phenocam(URL) 
-    if(nchar(URL2)>0){
-      phenoData2 <- download.phenocam(URL2)
-      phenoData3 <- rbind(phenoData,phenoData2)
-      phenoData3 <- phenoData3[order(phenoData3[,'date']),]
-      phenoData <- phenoData3[!duplicated(phenoData3$date),]
+    phenoData <- matrix(nrow=0,ncol=32)
+    for(u in 1:length(URLs)){
+      phenoDataSub <- download.phenocam(URLs[u])
+      phenoData <- rbind(phenoData,phenoDataSub)
     }
-    if(nchar(URL3)>0){
-      phenoData2 <- download.phenocam(URL3)
-      phenoData3 <- rbind(phenoData,phenoData2)
-      phenoData3 <- phenoData3[order(phenoData3[,'date']),]
-      phenoData <- phenoData3[!duplicated(phenoData3$date),]
-    }
+    ##Order and remove duplicate PC data
+    phenoData2 <- phenoData[order(phenoData$date),]
+    phenoData3 <- phenoData2[!duplicated(phenoData2$date),]
+    phenoData <- phenoData3
+    phenoData <- phenoData[phenoData$date<endDate,]
     
     p.old <- phenoData$gcc_mean
     time.old <-  as.Date(phenoData$date)
@@ -115,9 +118,9 @@ output <-
     dMeans.me <- numeric()
     kMeans.me <- numeric()
     
-    output <- 
-      foreach(j=1:length(years)) %dopar% {
-        # for(j in 1:length(years)){
+    #output <- 
+      #foreach(j=1:length(years)) %dopar% {
+       for(j in 1:length(years)){
         print(years[j])
         ##PhenoCam Fits
         outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_PC_",years[j],"_varBurn.RData",sep="")
