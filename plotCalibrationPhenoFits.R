@@ -17,9 +17,12 @@ forecastLength <- 0
 
 #iseq <- c(seq(1,6),8,9,11,seq(15,20))
 #iseq <- c(1)
-iseq <- c(seq(5,6),8,9,11,seq(15,20))
-siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
+iseq <- c(6,8,9,11,seq(15,20))
 
+siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
+iseq <- seq(18,nrow(siteData))
+iseq <- seq(23,29)
+iseq <- seq(23,nrow(siteData))
 for(i in iseq){
   if(as.character(siteData$PFT[i])=="DB"){
     siteName <- as.character(siteData[i,1])
