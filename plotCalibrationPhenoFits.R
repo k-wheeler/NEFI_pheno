@@ -7,30 +7,33 @@ library(rjags)
 library(doParallel)
 library(ecoforecastR)
 library("MODISTools")
-##Create Phenology Fits for willow Creek spring data (should actually fit spring and autumn together)
+
 #season <- "spring"
 #endDate <- (Sys.Date()-1)
 #startDate <- as.Date("2013-01-01")
 endDate <- as.Date("2019-01-27")
 forecastLength <- 0
-
-
-#iseq <- c(seq(1,6),8,9,11,seq(15,20))
-#iseq <- c(1)
-iseq <- c(6,8,9,11,seq(15,20))
+iseq <- c(2,4,5,seq(21,27))
 
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
-iseq <- seq(18,nrow(siteData))
-iseq <- seq(23,29)
-iseq <- seq(23,nrow(siteData))
+
 for(i in iseq){
   if(as.character(siteData$PFT[i])=="DB"){
     siteName <- as.character(siteData[i,1])
     print(siteName)
-    URL <- as.character(siteData[i,4])
+
     lat <- as.numeric(siteData[i,2])
     long <- as.numeric(siteData[i,3])
     startDate <- (as.Date(siteData[i,7]))
+    URL <- as.character(siteData$URL[i])
+    URL2 <- as.character(siteData$URL2[i])
+    URL3 <- as.character(siteData$URL3[i])
+    if(nchar(URL2)>0){
+      URL <- c(URL,URL2)
+      if(nchar(URL3)>0){
+        URL <- c(URL,URL3)
+      }
+    }
     days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
     dataDirectory="PhenologyForecastData/"
     
@@ -48,13 +51,18 @@ for(i in iseq){
     ##PhenoCam data
     newMonths <- lubridate::month(days)
     newYears <- lubridate::year(days)
-    #print("Done with newYears")
-    PC.fileName <- paste(dataDirectory,siteName,"_",startDate,"_",endDate,"_PC_Data.RData",sep="")
-    if(!file.exists(PC.fileName)){
-      phenoData <- download.phenocam(URL) 
-      save(phenoData,file=PC.fileName)
+    
+    phenoData <- matrix(nrow=0,ncol=32)
+    for(u in 1:length(URL)){
+      phenoDataSub <- download.phenocam(URL[u])
+      phenoData <- rbind(phenoData,phenoDataSub)
     }
-    load(PC.fileName)
+    ##Order and remove duplicate PC data
+    phenoData2 <- phenoData[order(phenoData$date),]
+    phenoData3 <- phenoData2[!duplicated(phenoData2$date),]
+    phenoData <- phenoData3
+    phenoData <- phenoData[phenoData$date<endDate,]
+    
     
     p.old <- phenoData$gcc_mean
     time.old <-  as.Date(phenoData$date)
@@ -105,7 +113,7 @@ for(i in iseq){
     dMeans.me <- numeric()
     kMeans.me <- numeric()
     
-     pdf(file=paste(siteName,"PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
+     pdf(file=paste(siteName,"_PhenologyForecast_previousFitsNEW.pdf",sep=""),height=6,width=10)
         for(j in 1:length(years)){
         print(years[j])
         ##PhenoCam Fits
