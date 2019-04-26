@@ -144,7 +144,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
     }else if(forecastType=="logisticCov"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-      plot(days,dataFinal$Sfmu,pch=20,main="Sf")
+      plot(days2,dataFinal$Sfmu,pch=20,main="Sf")
       abline(v=endDate,col="red")
       dev.off()
       j.model <- logisticCovPhenoModel(data=dataFinal,nchain=nchain)
