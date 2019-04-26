@@ -76,7 +76,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
     j.model <- randomWalkPhenoModel(data=data,nchain=nchain)
     print("Done with creating the  random walk model")
     variableNames <- c("p.PC","p.MN","p.ME","p.proc","x")
-    out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)
+    #out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)
   }else if(forecastType=="logistic" || forecastType== "logisticCov" || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
     dat2 <- data.frame(dates=days,years=years,months=months,p=p,mn=mn,me=me)
     if(forecastType=="logisticCov" || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
@@ -140,7 +140,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
       j.model <- logisticPhenoModel(data=dataFinal,nchain=nchain)
       print("Done creating the basic logistic model")
       variableNames <- c("p.proc","p.PC","p.ME","p.MN","x","r")
-      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=10000,iterSize=5000)
+      #out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=10000,iterSize=5000)
     }else if(forecastType=="logisticCov"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
@@ -151,7 +151,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
       print("Done creating the logistic with covariate model")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","b0")
       print(variableNames)
-      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
+      #out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=20000,iterSize=10000)
     }else if(forecastType=="logisticCov2"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
@@ -163,7 +163,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
       print("Done creating the logistic with covariate model 2")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","trans")
       print(variableNames)
-      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=5000,iterSize=2000)
+      #out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=5000,iterSize=2000)
     }else if(forecastType=="logisticCov3"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
@@ -175,7 +175,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
       print("Done creating the logistic with covariate model 3")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","trans")
       print(variableNames)
-      out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=5000,iterSize=2000)
+      #out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=5000,iterSize=2000)
     }else{
       print("Forecast type not known!!!")
     }
@@ -184,10 +184,11 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
   print("Done with iterations")
 
   ##Thin the data:
-  out.mat <- as.matrix(out.burn)
-  out.burn <- window(out.burn,thin=(nrow(out.mat)/5000))
+  #out.mat <- as.matrix(out.burn)
+  #out.burn <- window(out.burn,thin=(nrow(out.mat)/5000))
 
-  print("Done thinning")
+  #print("Done thinning")
   return(out.burn)
+  return(FALSE)
 
 }
