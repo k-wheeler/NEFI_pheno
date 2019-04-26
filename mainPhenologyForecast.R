@@ -25,9 +25,9 @@ iseq <- c(1,10)
 iseq <- c(1,2,3,10,15,16)
 iseq <- c(seq(1,6),8,9,10,seq(15,27))
 #Create Forecast outputs
-#output <- 
- # foreach(i=iseq) %dopar% {
-for(i in iseq){
+output <- 
+  foreach(i=iseq) %dopar% {
+#for(i in iseq){
   siteName <- as.character(siteData[i,1])
   print(siteName)
   GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",endDate,"/",sep="")
