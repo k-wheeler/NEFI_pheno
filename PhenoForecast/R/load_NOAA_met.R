@@ -31,7 +31,7 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
   dat <- dat[which(!is.na(dat$tmax)),]
 
   lastDate <- dat$date[length(dat$date)]
-  print(lastDate)
+  #print(lastDate)
   NOAAavgs <- rowMeans(cbind(dat$tmax,dat$tmin))
   NOAAavgs <- NOAAavgs/10 ##Downloads in tenths of a degree C
   # if(is.na(NOAAavgs[length(NOAAavgs)])){
