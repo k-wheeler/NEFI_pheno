@@ -99,7 +99,7 @@ for(i in iseq){
       lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
       out.mat.lastYear <- out.mat.LC[,lastYearIndices]
       
-      plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",days=seq(1,lengthLastYear,1),xlim=c(1,lengthLastYear))
+      plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",days=seq(1,lengthLastYear,1))
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
       ##Add on data points
