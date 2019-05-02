@@ -8,7 +8,7 @@ library("MODISTools")
 library(doParallel)
 
 ##Set and register cores for parallel
-n.cores <- 15
+n.cores <- 5
 registerDoParallel(cores=n.cores)
 
 ##Read in data
