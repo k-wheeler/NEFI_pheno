@@ -15,6 +15,8 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 forecastLength <- 15
 
 endDate <- (Sys.Date()-2)
+lengthLastYear <- (as.numeric(format(endDate,"%j"))+forecastLength)
+print(lengthLastYear)
 
 iseq <- c(seq(1,6),8,9,10,seq(15,27))
 outFileName <- paste("PhenologyForecastOutput_allSites_",endDate,".pdf",sep="")
