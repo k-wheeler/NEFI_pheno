@@ -84,6 +84,8 @@ for(i in iseq){
     me <- rescale(yseq=me,c=cMeans.me[length(cMeans.me)],d=dMeans.me[length(dMeans.me)])
     mn[mn<0] <- 0
     me[me<0] <- 0
+    print(mn)
+    print(me)
     
     ##Logistic with covariates model
     LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
