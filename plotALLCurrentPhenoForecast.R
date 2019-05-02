@@ -75,12 +75,15 @@ for(i in iseq){
     time.p <-  as.numeric(format(time.p.date,"%j"))
     
     p <- rescale(c=cMeans.p[length(cMeans.p)],d=dMeans.p[length(dMeans.p)],yseq=p)
+    p[p<0] <- 0
     
     ##MODIS NDVI and EVI
     mn <- prepareMODIS(startDate=startDate,endDate=endDate,metric="NDVI",timeForecast=time.p.date,dataDirectory=dataDirectory,siteName=siteName)
     me <- prepareMODIS(startDate=startDate,endDate=endDate,metric="EVI",timeForecast=time.p.date,dataDirectory=dataDirectory,siteName=siteName)
     mn <- rescale(yseq=mn,c=cMeans.mn[length(cMeans.mn)],d=dMeans.mn[length(dMeans.mn)])
     me <- rescale(yseq=me,c=cMeans.me[length(cMeans.me)],d=dMeans.me[length(dMeans.me)])
+    mn[mn<0] <- 0
+    me[me<0] <- 0
     
     ##Logistic with covariates model
     LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
@@ -104,9 +107,9 @@ for(i in iseq){
       
       ##Add on data points
       points(time.p,p,pch=20,col="red")
-      points(time.p,mn,col="green",pch=3)
-      points(time.p,me,col="green",pch=1)
-      legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
+      points(time.p,mn,col="blue",pch=3)
+      points(time.p,me,col="blue",pch=1)
+      legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","blue","blue"),pch=c(20,3,1))
     }
   }
 }
