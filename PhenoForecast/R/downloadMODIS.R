@@ -21,6 +21,7 @@ downloadMODIS <- function(startDate,endDate,metric,dataDirectory,lat,long,siteNa
     else{
       lastDate <- (as.Date(startDate) - 1) #If no data files have been downloaded, the last date you have downloaded is your start date - 1
     }
+    print(lastDate)
     if(metric!="rel"){
       newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
       if(!file.exists(newDQFFileName)){
