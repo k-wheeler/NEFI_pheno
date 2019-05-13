@@ -11,7 +11,7 @@
 #' @import MODISTools
 downloadMODIS <- function(startDate,endDate,metric,dataDirectory,lat,long,siteName){
   fileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
-
+  print(fileName)
   if(!file.exists(fileName)){
     files <- intersect(intersect(dir(path=dataDirectory,pattern=paste(siteName,"_",metric,sep="")),dir(path=dataDirectory,pattern="MOD13Q1")),dir(path=dataDirectory,pattern=as.character(startDate))) #Current downloaded data files
     if(length(files>0)){ #If there is a data file, identify what the last date you have downloaded
