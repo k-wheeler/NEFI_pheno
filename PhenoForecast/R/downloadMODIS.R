@@ -56,7 +56,7 @@ downloadMODIS <- function(startDate,endDate,metric,dataDirectory,lat,long,siteNa
       #print(newDat)
       if(metric!="rel"){
         print(newDQFFileName)
-        newDQFDat <- read.csv(newDQFFileName,header=TRUE,skip=15) ##The new DQF data
+        newDQFDat <- read.csv(newDQFFileName,header=TRUE) ##The new DQF data
         print(newDQFDat$data)
         DQFdata <- newDQFDat$data
         newDat <- cbind(newDat,DQFdata)
