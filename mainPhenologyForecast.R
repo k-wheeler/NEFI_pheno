@@ -48,21 +48,8 @@ output <-
   station <- as.character(siteData$metStation[i])
   ##Download new MODIS data (not working in separate functions for some reason...)
   ##Download DQF file if there are no previous ones 
+  downloadMODIS(startDate=startDate,endDate=endDate,metric="rel",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
   
-  files <- intersect(dir(path=dataDirectory,pattern=paste(siteName,"_rel",sep="")),dir(path=dataDirectory,pattern="MOD13Q1")) #Current downloaded data files
-  if(length(files>0)){ #If there is a data file, identify what the last date you have downloaded
-    firstDate <- strsplit(files[length(files)],split="_")[[1]][4]
-    lastDate <- strsplit(strsplit(files[length(files)],split="_")[[1]][5],split=".c")[[1]][1]
-  }
-  else{
-    lastDate <- (as.Date(startDate) - 1) #If no data files have been downloaded, the last date you have downloaded is your start date - 1
-  }
-  newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
-  if(!file.exists(newDQFFileName)){
-    print("Downloading MODIS DQF File")
-    try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = dataDirectory,internal=FALSE),silent=TRUE)
-  }
-
   downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
   downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
   
