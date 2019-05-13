@@ -62,8 +62,14 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
   if(forecastType=="randomWalk"){
     data$p <- rescaleObs(times=days,vals=p,partialStart=TRUE,cVals=cValsPC,dVals=dValsPC)
     data$n <- length(data$p)
+    data$p[data$p<0] <- 0
+    data$p[data$p>1] <- 1
     data$mn <- rescaleObs(times=days,vals=mn,partialStart=TRUE,cVals=cValsMN,dVals=dValsMN)
+    data$mn[data$mn<0] <- 0
+    data$mn[data$mn>1] <- 1
     data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
+    data$me[data$me<0] <- 0
+    data$mn[data$mn>1] <- 1
     plot(days,data$p,pch=20,main="PhenoCam Data")
     abline(v=endDate,col="red")
     plot(days,data$mn,pch=20,main="MODIS NDVI Data")
