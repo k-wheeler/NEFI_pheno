@@ -14,7 +14,8 @@ library("MODISTools")
 endDate <- as.Date("2019-01-27")
 forecastLength <- 0
 iseq <- c(2,4,5,seq(21,27))
-
+iseq <- seq(1,27)
+iseq <- 17
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 for(i in iseq){
