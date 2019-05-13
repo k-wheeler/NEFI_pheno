@@ -39,14 +39,10 @@ for(i in iseq){
     
     ##Download/load data
     ##Download new MODIS data
-    lastDate <- (as.Date(startDate) - 1)
-    newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
-    if(!file.exists(newDQFFileName)){
-      print("Downloading MODIS DQF File")
-      try(mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_rel",sep=""),out_dir = dataDirectory,internal=FALSE),silent=TRUE)
-      downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
-      downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
-    }
+    downloadMODIS(startDate=startDate,endDate=endDate,metric="rel",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
+    
+    downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
+    downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
     
     ##PhenoCam data
     newMonths <- lubridate::month(days)
@@ -128,6 +124,7 @@ for(i in iseq){
         load(outFileName)
         var.mat <- as.matrix(varBurn)
         var.mat.DF <- data.frame(var.mat)
+        print(colnames(var.mat))
         cMeans.p <- c(cMeans.p,mean(var.mat.DF$c))
         dMeans.p <- c(dMeans.p,mean(var.mat.DF$d))
         ks <- var.mat.DF$k
@@ -153,6 +150,7 @@ for(i in iseq){
         load(outFileName)
         var.mat <- as.matrix(varBurn)
         var.mat.DF <- data.frame(var.mat)
+        print(colnames(var.mat))
         cMeans.mn <- c(cMeans.mn,mean(var.mat.DF$c))
         dMeans.mn <- c(dMeans.mn,mean(var.mat.DF$d))
         ks <- var.mat.DF$k
@@ -178,6 +176,7 @@ for(i in iseq){
         load(outFileName)
         var.mat <- as.matrix(varBurn)
         var.mat.DF <- data.frame(var.mat)
+        print(colnames(var.mat))
         cMeans.me <- c(cMeans.me,mean(var.mat.DF$c))
         dMeans.me <- c(dMeans.me,mean(var.mat.DF$d))
         ks <- var.mat.DF$k
