@@ -190,8 +190,12 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
   print("Done with iterations")
 
   ##Thin the data:
-  out.mat <- as.matrix(out.burn)
-  out.burn <- window(out.burn,thin=(nrow(out.mat)/5000))
+  out.mat <- as.matrix(out.burn$params)
+  thinAmount <- round(nrow(out.mat)/5000,digits=0)
+  out.burn2 <- list()
+  out.burn2$params <- window(out.burn$params,thin=thinAmount)
+  out.burn2$predict <- window(out.burn$predict,thin=thinAmount)
+  out.burn <- out.burn2
 
   print("Done thinning")
   return(out.burn)
