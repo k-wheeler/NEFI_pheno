@@ -21,11 +21,10 @@ i <- 10
 i <- 1
 iseq <- c(seq(1,4),6,8,9,10,seq(15,27))
 outFileName <- paste("PhenologyForecastOutput_allSites_",endDate,".pdf",sep="")
-iseq <- c(seq(1,6),8,9,10,15,16,seq(18,27))
+#iseq <- c(seq(1,6),8,9,10,15,16,seq(18,27))
 pdf(outFileName,height=6,width=10)
 
-for(i in iseq){
-  
+for(i in iseq){  
   siteName <- as.character(siteData[i,1])
   print(siteName)
   saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
@@ -128,15 +127,6 @@ for(i in iseq){
       points(time.p,mn,col="green",pch="+")
       points(time.p,me,col="green",pch=1)
       legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
-    if(siteName=="hubbardbrooksfws"){
-	print("time.p:")
-	print(time.p)
-	#print("p:")
-	#print(p)
-	#print("mn:")
-	#print(mn)
-	#print("me:")
-	#print(me)
     }
     ##Basic logistic:
     LFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
