@@ -21,7 +21,7 @@ print(lengthLastYear)
 iseq <- c(seq(1,6),8,9,10,seq(15,27))
 iseq <- c(seq(1,4),6,8,9,10,seq(15,27))
 iseq <- c(seq(1,4),6,8,9,10,15,16,seq(18,27))
-outFileName <- paste("PhenologyForecastOutput_allSites_",endDate,".pdf",sep="")
+outFileName <- paste("PhenologyForecastOutput_allSites_LC2_",endDate,".pdf",sep="")
 pdf(outFileName,height=6,width=10)
 
 for(i in iseq){
