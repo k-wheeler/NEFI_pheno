@@ -100,6 +100,7 @@ for(i in 1:nrow(siteData)){
       ##PhenoCam
       phenoData <- matrix(nrow=0,ncol=32)
       for(u in 1:length(URL)){
+        print(URL[u])
         phenoDataSub <- download.phenocam(URL[u])
         phenoData <- rbind(phenoData,phenoDataSub)
       }
