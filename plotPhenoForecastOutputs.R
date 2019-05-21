@@ -128,12 +128,12 @@ for(i in 1:nrow(siteData)){
     if(siteName=="hubbardbrooksfws"){
 	print("time.p:")
 	print(time.p)
-	print("p:")
-	print(p)
-	print("mn:")
-	print(mn)
-	print("me:")
-	print(me)
+	#print("p:")
+	#print(p)
+	#print("mn:")
+	#print(mn)
+	#print("me:")
+	#print(me)
     }
     ##Basic logistic:
     LFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
