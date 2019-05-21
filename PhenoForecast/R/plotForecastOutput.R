@@ -11,6 +11,7 @@
 plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,days){
   ##Download the phenocam data
   phenoData <- matrix(nrow=0,ncol=32)
+  print(URL)
   for(u in 1:length(URL)){
     print(URL[u])
     phenoDataSub <- download.phenocam(URL[u])
