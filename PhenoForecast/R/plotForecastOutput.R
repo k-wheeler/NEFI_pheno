@@ -10,7 +10,18 @@
 ##' @import rjags
 plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,days){
   ##Download the phenocam data
-  phenoData <- download.phenocam(URL)
+  phenoData <- matrix(nrow=0,ncol=32)
+  for(u in 1:length(URL)){
+    print(URL[u])
+    phenoDataSub <- download.phenocam(URL[u])
+    phenoData <- rbind(phenoData,phenoDataSub)
+  }
+  ##Order and remove duplicate PC data
+  phenoData2 <- phenoData[order(phenoData$date),]
+  phenoData3 <- phenoData2[!duplicated(phenoData2$date),]
+  phenoData <- phenoData3
+  phenoData <- phenoData[phenoData$date<endDate,]
+
   p <- phenoData$gcc_mean
   time <-  as.Date(phenoData$date)
 
