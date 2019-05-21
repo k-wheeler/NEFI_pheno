@@ -19,10 +19,11 @@ endDate <- (Sys.Date()-1)
 #endDate <- as.Date("2019-01-27")
 i <- 10
 i <- 1
+iseq <- c(seq(1,4),6,8,9,10,seq(15,27))
 outFileName <- paste("PhenologyForecastOutput_allSites_",endDate,".pdf",sep="")
 pdf(outFileName,height=6,width=10)
 
-for(i in 1:nrow(siteData)){
+for(i in iseq){
   
   siteName <- as.character(siteData[i,1])
   print(siteName)
