@@ -36,6 +36,7 @@ for(i in 1:nrow(siteData)){
       URL <- c(URL,URL3)
     }
   }
+  print(URL)
   lat <- as.numeric(siteData[i,2])
   long <- as.numeric(siteData[i,3])
   startDate <- as.Date(siteData[i,7])
