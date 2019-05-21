@@ -27,7 +27,15 @@ for(i in 1:nrow(siteData)){
   siteName <- as.character(siteData[i,1])
   print(siteName)
   saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
-  URL <- as.character(siteData[i,4])
+  URL <- as.character(siteData$URL[i])
+  URL2 <- as.character(siteData$URL2[i])
+  URL3 <- as.character(siteData$URL3[i])
+  if(nchar(URL2)>0){
+    URL <- c(URL,URL2)
+    if(nchar(URL3)>0){
+      URL <- c(URL,URL3)
+    }
+  }
   lat <- as.numeric(siteData[i,2])
   long <- as.numeric(siteData[i,3])
   startDate <- as.Date(siteData[i,7])
@@ -89,7 +97,16 @@ for(i in 1:nrow(siteData)){
       
       ##Add on data:
       ##PhenoCam
-      phenoData <- download.phenocam(URL)
+      phenoData <- matrix(nrow=0,ncol=32)
+      for(u in 1:length(URL)){
+        phenoDataSub <- download.phenocam(URL[u])
+        phenoData <- rbind(phenoData,phenoDataSub)
+      }
+      ##Order and remove duplicate PC data
+      phenoData2 <- phenoData[order(phenoData$date),]
+      phenoData3 <- phenoData2[!duplicated(phenoData2$date),]
+      phenoData <- phenoData3
+      phenoData <- phenoData[phenoData$date<endDate,]
 
       p <- phenoData$gcc_mean[phenoData$year==2019]
 
