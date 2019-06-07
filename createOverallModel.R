@@ -36,7 +36,7 @@ foreach(s = iseq) %dopar% {
   prec.vals <- numeric()
   days <- numeric()
   #counts <- numeric()
-  outDataFile <- paste(siteName,"_diurnal6FitData.RData",sep="")
+  outDataFile <- paste(siteName,"_diurnal6FitDataModel.RData",sep="")
   if(!file.exists(outDataFile)){
     for(i in 1:length(diurnalFits)){
       print(diurnalFits[i])
