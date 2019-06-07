@@ -13,7 +13,7 @@ library(doParallel)
 n.cores <- 7
 
 #register the cores.
-#registerDoParallel(cores=n.cores)
+registerDoParallel(cores=n.cores)
 
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 #iseq <- c(seq(1,6),seq(8,11)seq(15,20))
