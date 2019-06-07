@@ -10,7 +10,7 @@ library("runjags")
 library(doParallel)
 
 #detect cores.
-n.cores <- 4
+n.cores <- 7
 
 #register the cores.
 #registerDoParallel(cores=n.cores)
@@ -18,25 +18,25 @@ n.cores <- 4
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 #iseq <- c(seq(1,6),seq(8,11)seq(15,20))
 #iseq <- c(4,11,16,18)
-#iseq <- c(seq(1,6),seq(8,11),seq(15,20))
-iseq <- c(9)
+iseq <- c(seq(1,6),seq(8,11),seq(15,20))
+#iseq <- c(9)
 s <- 9
 #iseq <- c(9,10,11,17,18)
 #iseq <- c(15,seq(17,20))
 #print(iseq)
 print(dim(siteData))
-#output <- 
-#foreach(s = iseq) %dopar% {
-for(s in iseq){
+output <- 
+foreach(s = iseq) %dopar% {
+#for(s in iseq){
   print("inside foreeach")
   siteName <- as.character(siteData[s,1])
   print(siteName)
-  diurnalFits <- intersect(dir(pattern="varBurn5.RData"),dir(pattern=siteName))
+  diurnalFits <- intersect(dir(pattern="varBurn6.RData"),dir(pattern=siteName))
   c.vals <- numeric()
   prec.vals <- numeric()
   days <- numeric()
   #counts <- numeric()
-  outDataFile <- paste(siteName,"_diurnal5FitData.RData",sep="")
+  outDataFile <- paste(siteName,"_diurnal6FitData.RData",sep="")
   if(!file.exists(outDataFile)){
     for(i in 1:length(diurnalFits)){
       print(diurnalFits[i])
@@ -77,7 +77,7 @@ for(s in iseq){
     save(data,file=outDataFile)
     print("Done with creating Data")
   }
-  varBurnFileName <- paste(siteName,"_overall5_varBurn.RData",sep="")
+  varBurnFileName <- paste(siteName,"_overall6_varBurn.RData",sep="")
   if(!file.exists(varBurnFileName)){
     load(outDataFile)
     j.model <- createBayesModel.DB_Overall(data=data)
