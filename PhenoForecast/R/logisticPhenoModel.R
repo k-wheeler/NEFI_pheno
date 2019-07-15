@@ -11,10 +11,7 @@ logisticPhenoModel <- function(data,nchain){
   data$s2 <- 0.2
 
   ##JAGS code
-  print(dim(data$me))
-  print(data$q)
-  print(data$N)
-  print(data$n)
+
   LogisticModel = "
   model{
   #### Data Models for complete years
