@@ -25,6 +25,7 @@ iseq <- c(1,10)
 iseq <- c(1,2,3,10,15,16)
 iseq <- c(seq(1,6),8,9,10,seq(15,27))
 dates <- seq(as.Date("2019-01-23"),as.Date("2019-06-06"),"day")
+dates <- seq(as.Date("2019-02-01"),as.Date("2019-06-06"),"day")
 for(d in 1:length(dates)){
   endDate <- dates[d]
   print(endDate)
@@ -101,12 +102,12 @@ for(d in 1:length(dates)){
       #   }
       # }
       outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
-      if(!file.exists(outputFile)){
-        outBurnLC2 <- phenologyForecast(forecastType = "logisticCov2",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station)
-        if(typeof(outBurnLC2)!=typeof(FALSE)){
-          save(outBurnLC2,file=outputFile)
-        }
-      }
+      #if(!file.exists(outputFile)){
+        #outBurnLC2 <- phenologyForecast(forecastType = "logisticCov2",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station)
+        #if(typeof(outBurnLC2)!=typeof(FALSE)){
+        #  save(outBurnLC2,file=outputFile)
+        #}
+      #}
     }
 }
 
