@@ -20,7 +20,7 @@ checkOutputFiles <- function(outStr){
         outputDir <- paste(dataDirectory,"/ForecastOutputs/",siteName,"/",dates[d],"/",sep="")
         ##Check Random Walk:
         #outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
-        if(length(dir(path=outputDir,pattern=outStr))>0){
+        if(length(dir(path=outputDir,pattern=outStr))==0){
           missingCt <- missingCt + 1
         }
         totalCt <- totalCt + 1
