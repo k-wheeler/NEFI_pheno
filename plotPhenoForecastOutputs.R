@@ -14,17 +14,17 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 
 forecastLength <- 15
 
-endDate <- (Sys.Date()-1)
+endDate <- (Sys.Date()-2)
 #startDate <- as.Date("2013-01-01")
 #endDate <- as.Date("2019-01-27")
 i <- 10
 i <- 1
 iseq <- c(seq(1,4),6,8,9,10,15,16,seq(18,27))
 outFileName <- paste("PhenologyForecastOutput_allSites_",endDate,".pdf",sep="")
+#iseq <- c(seq(1,6),8,9,10,15,16,seq(18,27))
 pdf(outFileName,height=6,width=10)
 
-for(i in iseq){
-  
+for(i in iseq){  
   siteName <- as.character(siteData[i,1])
   print(siteName)
   saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
@@ -64,7 +64,7 @@ for(i in iseq){
       
       ##Plot Parameter Density Plots
       out.mat.par <- data.frame(as.matrix(outBurnRW$params))
-      colnames(out.mat.par)
+      print(colnames(out.mat.par))
       par(mfrow=c(2,2))
       plot(density(out.mat.par$p.ME),main="Density of p.ME")
       plot(density(out.mat.par$p.MN),main="Density of p.MN")
@@ -133,7 +133,7 @@ for(i in iseq){
     if(file.exists(LFile)){
       load(LFile)
       out.mat.par <- data.frame(as.matrix(outBurnL$params))
-      colnames(out.mat.par)
+      print(colnames(out.mat.par))
       par(mfrow=c(2,3))
       plot(density(out.mat.par$p.ME),main="Density of p.ME")
       plot(density(out.mat.par$p.MN),main="Density of p.MN")
@@ -177,18 +177,19 @@ for(i in iseq){
       legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
     }
     ##Logistic with covariates model
-    LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
+    LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
     if(file.exists(LCFile)){
       load(LCFile)
+      outBurnLC <- outBurnLC2
       out.mat.par <- data.frame(as.matrix(outBurnLC$params))
-      colnames(out.mat.par)
+      print(colnames(out.mat.par))
       par(mfrow=c(2,3))
       plot(density(out.mat.par$p.ME),main="Density of p.ME")
       plot(density(out.mat.par$p.MN),main="Density of p.MN")
       plot(density(out.mat.par$p.PC),main="Density of p.PC")
       plot(density(out.mat.par$p.proc),main="Density of p.proc")
       plot(density(out.mat.par$b1),main="Density of b1")
-      plot(density(out.mat.par$b0),main="Density of b0")
+      #plot(density(out.mat.par$b0),main="Density of b0")
       
       par(mfrow=c(2,3))
       plot(density(sqrt(1/out.mat.par$p.PC)),main="Density of PC Obs. Error (SD)")
@@ -197,7 +198,7 @@ for(i in iseq){
       plot(density(sqrt(1/out.mat.par$p.proc)),main="Density of Process Error (SD)")
       
       plot(density(out.mat.par$b1),main="Density of b1")
-      plot(density(out.mat.par$b0),main="Density of b0")
+      #plot(density(out.mat.par$b0),main="Density of b0")
       
       ##Plot
       par(mfrow=c(1,1))
@@ -227,3 +228,4 @@ for(i in iseq){
 }
 
 dev.off()
+}
