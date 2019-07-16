@@ -29,6 +29,7 @@ checkOutputFiles <- function(outStr){
     }
   }
   print(outStr)
+  print(missingCt)
   print(missingCt/totalCt)
 }
 checkOutputFiles("_randomWalk_outBurn.RData")
