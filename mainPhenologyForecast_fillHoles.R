@@ -23,13 +23,12 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 forecastLength <- 14
 
 endDate <- (Sys.Date()-1)
-iseq <- c(1,10)
-iseq <- c(1,2,3,10,15,16)
-iseq <- c(seq(1,6),8,9,10,seq(15,27))
-iseq <- c(1,3,7,9,10,16,17,18,19,20)
-dates <- seq(as.Date("2019-01-23"),as.Date("2019-06-06"),"day")
-dates <- seq(as.Date("2019-01-23"),as.Date("2019-02-13"),"day")
 
+iseq <- c(seq(1,6),8,9,10,seq(15,27))
+iseq <- c(1,3,6,8,9,15,16,17,18,19)
+iseq <- c(1,3,6,8,18)
+dates <- seq(as.Date("2019-01-23"),as.Date("2019-06-06"),"day")
+dates <- seq(as.Date("2019-01-23"),as.Date("2019-02-23"),"day")
 
 output <- foreach(d=1:length(dates)) %dopar% {
 #for(d in 1:length(dates)){
@@ -59,10 +58,10 @@ output <- foreach(d=1:length(dates)) %dopar% {
       station <- as.character(siteData$metStation[i])
       ##Download new MODIS data (not working in separate functions for some reason...)
       ##Download DQF file if there are no previous ones 
-      downloadMODIS(startDate=startDate,endDate=endDate,metric="rel",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
+      #downloadMODIS(startDate=startDate,endDate=endDate,metric="rel",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
       
-      downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
-      downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
+      #downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
+      #downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
       
       ##Load rescaling data
       rescaleFile <- paste(dataDirectory,siteName,"_forecast_phenoFits_PC.csv",sep="")
