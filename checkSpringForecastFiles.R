@@ -4,6 +4,7 @@
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 forecastLength <- 14
+iseq <- c(1,3,6,8,18)
 #siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 ##Forecast dates starts 2019-01-23 through 2019-06-06
@@ -11,7 +12,7 @@ dates <- seq(as.Date("2019-01-23"),as.Date("2019-06-06"),"day")
 checkOutputFiles <- function(outStr){
   missingCt <- 0
   totalCt <- 0
-  for(s in 1:nrow(siteData)){
+  for(s in iseq){
     PFT <- as.character(siteData$PFT[s])
     if(PFT=="DB"){
       siteName <- as.character(siteData$siteName[s])
