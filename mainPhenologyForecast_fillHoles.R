@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 ##Install latest versions of packages
 #install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
 install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL)
@@ -24,15 +26,17 @@ endDate <- (Sys.Date()-1)
 iseq <- c(1,10)
 iseq <- c(1,2,3,10,15,16)
 iseq <- c(seq(1,6),8,9,10,seq(15,27))
+iseq <- c(1,3,7,9,10,16,17,18,19,20)
 dates <- seq(as.Date("2019-01-23"),as.Date("2019-06-06"),"day")
-dates <- seq(as.Date("2019-02-01"),as.Date("2019-06-06"),"day")
-for(d in 1:length(dates)){
+
+output <- foreach(d=1:length(dates)) %dopar% {
+#for(d in 1:length(dates)){
   endDate <- dates[d]
   print(endDate)
   #Create Forecast outputs
-  output <- 
-    foreach(i=iseq) %dopar% {
-      #for(i in iseq){
+  #output <- 
+    #foreach(i=iseq) %dopar% {
+    for(i in iseq){
       siteName <- as.character(siteData[i,1])
       print(siteName)
       GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",endDate,"/",sep="")
@@ -85,13 +89,13 @@ for(d in 1:length(dates)){
       }
       
       ##Create logistic forecast if needed
-      outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
-      if(!file.exists(outputFile)){
-        outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
-        if(typeof(outBurnL)!=typeof(FALSE)){
-          save(outBurnL,file=outputFile)
-        }
-      }
+      # outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
+      # if(!file.exists(outputFile)){
+      #   outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
+      #   if(typeof(outBurnL)!=typeof(FALSE)){
+      #     save(outBurnL,file=outputFile)
+      #   }
+      # }
       
       ##Create a Logistic with Covariate Model
       # outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
@@ -103,10 +107,10 @@ for(d in 1:length(dates)){
       # }
       outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
       #if(!file.exists(outputFile)){
-        #outBurnLC2 <- phenologyForecast(forecastType = "logisticCov2",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station)
-        #if(typeof(outBurnLC2)!=typeof(FALSE)){
-        #  save(outBurnLC2,file=outputFile)
-        #}
+      #  outBurnLC2 <- phenologyForecast(forecastType = "logisticCov2",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station)
+      #  if(typeof(outBurnLC2)!=typeof(FALSE)){
+      #    save(outBurnLC2,file=outputFile)
+      #  }
       #}
     }
 }
