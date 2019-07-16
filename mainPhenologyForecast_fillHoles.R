@@ -2,7 +2,7 @@
 
 ##Install latest versions of packages
 #install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL)
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL)
 
 library("PhenoForecast")
 library("PhenologyBayesModeling")
@@ -28,6 +28,8 @@ iseq <- c(1,2,3,10,15,16)
 iseq <- c(seq(1,6),8,9,10,seq(15,27))
 iseq <- c(1,3,7,9,10,16,17,18,19,20)
 dates <- seq(as.Date("2019-01-23"),as.Date("2019-06-06"),"day")
+dates <- seq(as.Date("2019-01-23"),as.Date("2019-02-13"),"day")
+
 
 output <- foreach(d=1:length(dates)) %dopar% {
 #for(d in 1:length(dates)){
