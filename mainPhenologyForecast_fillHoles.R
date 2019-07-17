@@ -25,8 +25,8 @@ forecastLength <- 14
 endDate <- (Sys.Date()-1)
 
 iseq <- c(seq(1,6),8,9,10,seq(15,27))
-iseq <- c(1,3,6,8,9,15,16,17,18,19)
-iseq <- c(1,3,6,8,18)
+iseq <- c(1,3,6,8,15,16,17,18,19)
+#iseq <- c(1,3,6,8,18)
 dates <- seq(as.Date("2019-01-23"),as.Date("2019-06-06"),"day")
 dates <- seq(as.Date("2019-01-23"),as.Date("2019-02-23"),"day")
 
@@ -90,13 +90,13 @@ output <- foreach(d=1:length(dates)) %dopar% {
       }
       
       ##Create logistic forecast if needed
-      # outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
-      # if(!file.exists(outputFile)){
-      #   outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
-      #   if(typeof(outBurnL)!=typeof(FALSE)){
-      #     save(outBurnL,file=outputFile)
-      #   }
-      # }
+       outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
+       if(!file.exists(outputFile)){
+         outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
+         if(typeof(outBurnL)!=typeof(FALSE)){
+           save(outBurnL,file=outputFile)
+         }
+       }
       
       ##Create a Logistic with Covariate Model
       # outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
@@ -106,7 +106,7 @@ output <- foreach(d=1:length(dates)) %dopar% {
       #     save(outBurnLC,file=outputFile)
       #   }
       # }
-      outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
+      #outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
       #if(!file.exists(outputFile)){
       #  outBurnLC2 <- phenologyForecast(forecastType = "logisticCov2",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station)
       #  if(typeof(outBurnLC2)!=typeof(FALSE)){
