@@ -5,10 +5,12 @@
 ##' @param URL The PhenoCam URL
 ##' @param forecastLength The number of days in the future you want to forecast
 ##' @param out.mat The predict variables of the MCMC output of the forecast in matrix form
+##' @param xlim Limits for the x axis
+##' @param plotTitle The title of the plot
 ##' @export
 ##' @import ecoforecastR
 ##' @import rjags
-plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,days){
+plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,days,xlim=FALSE,plotTitle=FALSE){
   ##Download the phenocam data
   phenoData <- matrix(nrow=0,ncol=32)
 
@@ -36,7 +38,23 @@ plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,
   ##Plot
   #print(length(ci[2,]))
   #print(length(days))
-  plot(days,ci[2,],type='n',xlab="Time",ylab="Percent Canopy",main=paste(siteName,forecastType),cex.lab=1.5,cex.main=2,ylim=c(0,1))
+  if(typeof(plotTitle)==typeof(FALSE)){
+  if(typeof(xlim)==typeof(FALSE)){
+    plot(days,ci[2,],type='n',xlab="Day of Year",ylab="Percent Canopy",main=paste(siteName,forecastType),cex.lab=1.5,cex.main=2,ylim=c(0,1))
+  }
+  else{
+    plot(days,ci[2,],type='n',xlab="Day of Year",ylab="Percent Canopy",main=paste(siteName,forecastType),cex.lab=1.5,cex.main=2,ylim=c(0,1),xlim=xlim)
+
+  }
+  }else{
+    if(typeof(xlim)==typeof(FALSE)){
+      plot(days,ci[2,],type='n',xlab="Day of Year",ylab="Percent Canopy",main=plotTitle,cex.lab=1.5,cex.main=2,ylim=c(0,1))
+    }
+    else{
+      plot(days,ci[2,],type='n',xlab="Day of Year",ylab="Percent Canopy",main=plotTitle,cex.lab=1.5,cex.main=2,ylim=c(0,1),xlim=xlim)
+
+    }
+  }
 
   ciEnvelope(days,ci[1,],ci[3,],col="lightBlue")
   #lines(days,ci[1,],col="purple")
