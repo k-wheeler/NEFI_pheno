@@ -10,7 +10,7 @@ siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=T
 forecastDataFolder <- "PhenologyForecastData/ForecastOutputs/AllForecasts/"
 Nmc <- 1000 #Number of model runs
 allDates <- seq(as.Date("2019-01-23"),as.Date("2019-06-06"),"day")
-
+i <- 1
 
 ##General site-specific info
 siteName <- as.character(siteData$siteName[i])
