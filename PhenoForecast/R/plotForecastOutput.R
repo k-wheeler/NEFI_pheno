@@ -7,10 +7,11 @@
 ##' @param out.mat The predict variables of the MCMC output of the forecast in matrix form
 ##' @param xlim Limits for the x axis
 ##' @param plotTitle The title of the plot
+##' @param endDate
 ##' @export
 ##' @import ecoforecastR
 ##' @import rjags
-plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,days,xlim=FALSE,plotTitle=FALSE){
+plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,days,xlim=FALSE,plotTitle=FALSE,endDate){
   ##Download the phenocam data
   phenoData <- matrix(nrow=0,ncol=32)
 
