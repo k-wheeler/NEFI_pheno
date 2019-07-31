@@ -10,7 +10,6 @@ siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=T
 forecastDataFolder <- "PhenologyForecastData/ForecastOutputs/AllForecasts/"
 Nmc <- 1000 #Number of model runs
 i <- 1
-pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis.pdf",sep=""),height=6,width=10)
 
 ##General site-specific info
 siteName <- as.character(siteData$siteName[i])
@@ -20,6 +19,8 @@ lat <- as.numeric(siteData$Lat[i])
 long <- as.numeric(siteData$Long[i])
 station <- as.character(siteData$metStation[i])
 siteStartDate <- as.character(siteData$startDate[i])
+pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis.pdf",sep=""),height=6,width=10)
+
 
 ##Date info 
 calEndDate <- as.Date("2019-01-23")
