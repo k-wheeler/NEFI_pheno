@@ -64,9 +64,9 @@ for(d in 1:length(allDates)){
                         NT=14)
   RW.IPDE.ci <- apply(RW.IPDE,2,quantile,c(0.025,0.5,0.975))
   plotRun(out.mat = out.mat.RW,forecastType = "randomWalk",endDate=calEndDate)
-  ecoforecastR::ciEnvelope(time2,RW.IPDE.ci[1,],RW.IPDE.ci[3,],col=adjustcolor("blue",0.8))
-  ecoforecastR::ciEnvelope(time2,RW.IC.ci[1,],RW.IC.ci[3,],col=adjustcolor("gray",0.8))
-  lines(time2,RW.det,col="purple",lwd=2)
+  ecoforecastR::ciEnvelope(plotDates,RW.IPDE.ci[1,],RW.IPDE.ci[3,],col=adjustcolor("blue",0.8))
+  ecoforecastR::ciEnvelope(plotDates,RW.IC.ci[1,],RW.IC.ci[3,],col=adjustcolor("gray",0.8))
+  lines(plotDates,RW.det,col="purple",lwd=2)
   
   #################Basic Logistic
   logFileName <- paste(forecastDataFolder,siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
@@ -111,10 +111,10 @@ for(d in 1:length(allDates)){
   L.IPDE.ci <- apply(L.IPDE,2,quantile,c(0.025,0.5,0.975))
   
   plotRun(out.mat = out.mat.L,forecastType = "logistic",endDate=calEndDate)
-  ecoforecastR::ciEnvelope(time2,L.IPDE.ci[1,],L.IPDE.ci[3,],col=adjustcolor("blue",0.8))
-  ecoforecastR::ciEnvelope(time2,L.IP.ci[1,],L.IP.ci[3,],col=adjustcolor("green",0.8))
-  ecoforecastR::ciEnvelope(time2,L.I.ci[1,],L.I.ci[3,],col=adjustcolor("gray",0.8))
-  lines(time2,L.det,col="purple",lwd=2)
+  ecoforecastR::ciEnvelope(plotDates,L.IPDE.ci[1,],L.IPDE.ci[3,],col=adjustcolor("blue",0.8))
+  ecoforecastR::ciEnvelope(plotDates,L.IP.ci[1,],L.IP.ci[3,],col=adjustcolor("green",0.8))
+  ecoforecastR::ciEnvelope(plotDates,L.I.ci[1,],L.I.ci[3,],col=adjustcolor("gray",0.8))
+  lines(plotDates,L.det,col="purple",lwd=2)
   
   
   ###################Logistic with Covariates
@@ -199,10 +199,10 @@ for(d in 1:length(allDates)){
                             NT=14)
   LC.IPDE.ci <- apply(LC.IPDE,2,quantile,c(0.025,0.5,0.975))
   plotRun(out.mat = out.mat.LC,forecastType = "logistic",endDate=calEndDate)
-  ecoforecastR::ciEnvelope(time2,LC.IPDE.ci[1,],LC.IPDE.ci[3,],col=adjustcolor("blue",0.8))
-  ecoforecastR::ciEnvelope(time2,LC.IPDE.ci[1,],LC.IPD.ci[3,],col=adjustcolor("pink",0.8))
-  ecoforecastR::ciEnvelope(time2,LC.IP.ci[1,],LC.IP.ci[3,],col=adjustcolor("green",0.8))
-  ecoforecastR::ciEnvelope(time2,LC.I.ci[1,],LC.I.ci[3,],col=adjustcolor("gray",0.8))
+  ecoforecastR::ciEnvelope(plotDates,LC.IPDE.ci[1,],LC.IPDE.ci[3,],col=adjustcolor("blue",0.8))
+  ecoforecastR::ciEnvelope(plotDates,LC.IPDE.ci[1,],LC.IPD.ci[3,],col=adjustcolor("pink",0.8))
+  ecoforecastR::ciEnvelope(plotDates,LC.IP.ci[1,],LC.IP.ci[3,],col=adjustcolor("green",0.8))
+  ecoforecastR::ciEnvelope(plotDates,LC.I.ci[1,],LC.I.ci[3,],col=adjustcolor("gray",0.8))
   lines(time2,LC.det,col="purple",lwd=2)
 }
 
