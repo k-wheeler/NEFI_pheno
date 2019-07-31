@@ -27,14 +27,18 @@ par(mfrow=c(4,2))
 for(d in 1:length(allDates)){
   
   calEndDate <- allDates[d]
+  print(calEndDate)
   forStartDate <- calEndDate + 1
   forEndDate <- (forStartDate+13)
   forDates <- seq(forStartDate,forEndDate,"day")
-  plotDates <- as.numeric(format(forDates,"%j"))
+
   forecastLength <- 14
+  plotDates <- as.numeric(format(forDates,"%j"))
   
   ############Random Walk
   RWfileName <- paste(forecastDataFolder,siteName,"_",siteStartDate,"_",calEndDate,"_randomWalk_outBurn.RData",sep="")
+  #RWfileName <- paste(siteName,"_",siteStartDate,"_",calEndDate,"_randomWalk_outBurn.RData",sep="")
+  
   load(RWfileName)
   out.mat.par <- data.frame(as.matrix(outBurnRW$params))
   dayNumber <- dim(as.matrix(outBurnRW$predict))[2]-14
@@ -70,6 +74,8 @@ for(d in 1:length(allDates)){
   
   #################Basic Logistic
   logFileName <- paste(forecastDataFolder,siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
+  #logFileName <- paste(siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
+  
   load(logFileName)
   out.mat.par <- data.frame(as.matrix(outBurnL$params))
   dayNumber <- dim(as.matrix(outBurnL$predict))[2]-14
@@ -130,7 +136,7 @@ for(d in 1:length(allDates)){
   SfsALL <- matrix(nrow=0,ncol=length(forDates))
   
   for(e in 1:ncol(TairsForecast)){
-    Sfs <- calSf(Tairs=TairsForecast[,e],dates=Sf.dates)
+    Sfs <- calSf(Tairs=TairsForecast[,e],dates=forDates)
     SfsALL <- rbind(SfsALL,Sfs)
   }
   
@@ -140,6 +146,8 @@ for(d in 1:length(allDates)){
   Sf.means <- matrix(colMeans(SfsALL),1,forecastLength)
   
   LCfileName <- paste(forecastDataFolder,siteName,"_",siteStartDate,"_",calEndDate,"_LC2_outBurn.RData",sep="")
+  #LCfileName <- paste(siteName,"_",siteStartDate,"_",calEndDate,"_LC2_outBurn.RData",sep="")
+  
   load(LCfileName)
   out.mat.par <- data.frame(as.matrix(outBurnLC2$params))
   dayNumber <- dim(as.matrix(outBurnLC2$predict))[2]-14
@@ -203,7 +211,7 @@ for(d in 1:length(allDates)){
   ecoforecastR::ciEnvelope(plotDates,LC.IPDE.ci[1,],LC.IPD.ci[3,],col=adjustcolor("pink",0.8))
   ecoforecastR::ciEnvelope(plotDates,LC.IP.ci[1,],LC.IP.ci[3,],col=adjustcolor("green",0.8))
   ecoforecastR::ciEnvelope(plotDates,LC.I.ci[1,],LC.I.ci[3,],col=adjustcolor("gray",0.8))
-  lines(time2,LC.det,col="purple",lwd=2)
+  lines(plotDates,LC.det,col="purple",lwd=2)
 }
 
 dev.off()
