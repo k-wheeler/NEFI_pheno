@@ -4,7 +4,8 @@
 \alias{plotForecastOutput}
 \title{Function to plot phenology forecast output}
 \usage{
-plotForecastOutput(siteName, forecastType, URL, forecastLength, out.mat, days)
+plotForecastOutput(siteName, forecastType, URL, forecastLength, out.mat, days,
+  xlim = FALSE, plotTitle = FALSE)
 }
 \arguments{
 \item{siteName}{The site name to be printed on the graph}
@@ -16,6 +17,10 @@ plotForecastOutput(siteName, forecastType, URL, forecastLength, out.mat, days)
 \item{forecastLength}{The number of days in the future you want to forecast}
 
 \item{out.mat}{The predict variables of the MCMC output of the forecast in matrix form}
+
+\item{xlim}{Limits for the x axis}
+
+\item{plotTitle}{The title of the plot}
 }
 \description{
 Function to plot phenology forecast output

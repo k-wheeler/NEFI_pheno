@@ -4,9 +4,9 @@
 \alias{phenologyForecast}
 \title{General phenology forecast function}
 \usage{
-phenologyForecast(forecastType, forecastLength = 16, siteName, URL, lat, long,
-  dataDirectory, startDate, endDate, cValsPC, dValsPC, cValsMN, dValsMN,
-  cValsME, dValsME, GEFS_Files = "", GEFS_Directory)
+phenologyForecast(forecastType, forecastLength = 14, siteName, URLs, lat,
+  long, dataDirectory, startDate, endDate, cValsPC, dValsPC, cValsMN, dValsMN,
+  cValsME, dValsME, GEFS_Files = "", GEFS_Directory, station = "")
 }
 \arguments{
 \item{forecastType}{The type of forecast (randomWalk or logistic)}
@@ -15,7 +15,7 @@ phenologyForecast(forecastType, forecastLength = 16, siteName, URL, lat, long,
 
 \item{siteName}{The site name}
 
-\item{URL}{The URL where the site's phenocam data is located}
+\item{URLs}{The URL where the site's phenocam data is located}
 
 \item{lat}{The latitude of the site in decimals}
 
