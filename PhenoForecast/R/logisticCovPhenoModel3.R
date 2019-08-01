@@ -62,7 +62,7 @@ logisticCovPhenoModel3 <- function(data,nchain){
   p.ME ~ dgamma(s1,s2)
   p.MN ~ dgamma(s2,s2)
   p.proc ~ dgamma(s1,s2)
-  #trans ~ dnorm(110,0.000625)I(0,182)
+  trans ~ dnorm(110,0.000625)I(0,182)
   b1 ~ dnorm(mu.b1,prec.b1)
   # b0 ~ dnorm(mu.b0,prec.b0)
   }"
