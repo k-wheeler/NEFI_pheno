@@ -78,7 +78,7 @@ for(d in 1:length(allDates)){
   #################Basic Logistic
   logFileName <- paste(forecastDataFolder,siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
   #logFileName <- paste(siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
-  if(file.exists){
+  if(file.exists(logFileName)){
     load(logFileName)
     out.mat.par <- data.frame(as.matrix(outBurnL$params))
     dayNumber <- dim(as.matrix(outBurnL$predict))[2]-14
