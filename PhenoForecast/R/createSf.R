@@ -10,14 +10,11 @@
 ##' @param GEFS_Directory The directory where the GEFS files are located
 ##' @param calDatesT
 ##' @export
-createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory,forecastLength, station,calDatesT=FALSE) {
+createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory,forecastLength, station,calDatesT=TRUE) {
   years <- lubridate::year(dates)
   if(calDatesT){
-    print("Inside")
-    calDates <- dates
-  }else{
-  calDates <- seq(dates[1],as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
-  }
+    calDates <- seq(dates[1],as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
+
 
   ##The sources of the calibration and current measurements differ between willowCreek and other sites
   # if(siteName=="willowcreek"){
@@ -33,6 +30,9 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   # }
   #else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018)) ##columns are each an ensemble (not divided by year)
+  }else{
+    TairsCal <- matrix(nrow=0,ncol=10)
+  }
     TairsCurrentInd <- load_NOAA_met(station=station,startDate=as.Date("2019-01-01"),endDate=(endDate-forecastLength)) ##Array of numeric values
   #}
 
