@@ -1,4 +1,4 @@
-##' Creates a logistic with covariate phenology forecast model based on PhenoCam and MODIS data
+##' Creates a logistic phenology forecast model based on PhenoCam and MODIS data
 ##'
 ##' @param data The data in the form of a list with data$p, data$mn, data$me, data$n, data$x_ic, and data$tau_ic
 ##' @param nchain The desired number of chains in the MCMC
@@ -11,8 +11,6 @@ logisticCovPhenoModel3 <- function(data,nchain){
   data$s2 <- 0.2
   data$mu.b1 <- 0.2 #Based off of slope with points (sf=177,r=0) and (sf=250 and r = 1.5)
   data$prec.b1 <- 1/(0.05**2)
-  #data$mu.b0 <- -3.625 #Based off of slope with points (sf=177,r=0) and (sf=250 and r = 1.5)
-  #data$prec.b0 <- 1/(0.5**2)
 
   ##JAGS code
   LogisticModel = "
@@ -33,16 +31,20 @@ logisticCovPhenoModel3 <- function(data,nchain){
   }
 
   #### Process Model
-  for(i in 2:n){
-    r[i,yr] <- b1 * Sf[i,yr] + b0
-    color[i,yr] <- x[(i-1),yr] + r[i,yr] * x[(i-1),yr] * (1-x[(i-1),yr])  ## latent process
-    Sf[i,yr] ~ dnorm(Sfmu[i,yr],Sfprec[i,yr])
-    xl[i,yr] ~ dnorm(color[i,yr],p.proc)  ## process error
-    x[i,yr] <- max(0, min(1,xl[i,yr]) ) ## trunate normal process error
+  for(yr in 1:(N-1)){
+
+    for(i in 2:n){
+      r[i,yr] <- b1 * Sf[i,yr] + b0
+      color[i,yr] <- x[(i-1),yr] + r[i,yr] * x[(i-1),yr] * (1-x[(i-1),yr])  ## latent process
+      Sf[i,yr] ~ dnorm(Sfmu[i,yr],Sfprec[i,yr])
+      xl[i,yr] ~ dnorm(color[i,yr],p.proc)  ## process error
+      x[i,yr] <- max(0, min(1,xl[i,yr]) ) ## trunate normal process error
+    }
   }
   for(i in 2:q){ ##Done for the current year forecast. Excluded from previous because n != q
     r[i,N] <- b1 * Sf[i,N] + b0
     color[i,N] <- x[(i-1),N] + r[i,N] * x[(i-1),N] * (1-x[(i-1),N])  ## latent process
+
     Sf[i,N] ~ dnorm(Sfmu[i,N],Sfprec[i,N])
     xl[i,N] ~ dnorm(color[i,N],p.proc)  ## process error
     x[i,N] <- max(0, min(1,xl[i,N]) ) ## trunate normal process error
@@ -55,7 +57,6 @@ logisticCovPhenoModel3 <- function(data,nchain){
     x[1,yr] ~ dnorm(x_ic,tau_ic)
     r[1,yr] ~ dnorm(-0.4,100)
     color[1,yr] ~ dnorm(x_ic,tau_ic)
-    colorT[1,yr] ~ dnorm(x_ic,tau_ic)
   }
   p.PC ~ dgamma(s1,s2)
   p.ME ~ dgamma(s1,s2)
