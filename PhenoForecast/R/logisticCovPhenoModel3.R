@@ -50,7 +50,7 @@ logisticCovPhenoModel3 <- function(data,nchain){
     x[i,N] <- max(0, min(1,xl[i,N]) ) ## trunate normal process error
   }
 
-  b0 <-  b1 * -1 * trans
+  b0 <-  b1 * trans
 
   #### Priors
   for(yr in 1:N){ ##Initial Conditions
@@ -63,8 +63,6 @@ logisticCovPhenoModel3 <- function(data,nchain){
   p.MN ~ dgamma(s2,s2)
   p.proc ~ dgamma(s1,s2)
   trans ~ dnorm(110,0.000625)
-  #b0 ~ dunif(min.b0,max.b0) ##Need to change to normal
-  #b1 ~ dunif(min.b1,max.b1)
   b1 ~ dnorm(mu.b1,prec.b1)
   # b0 ~ dnorm(mu.b0,prec.b0)
   }"

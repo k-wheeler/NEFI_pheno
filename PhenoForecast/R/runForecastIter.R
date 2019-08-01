@@ -6,12 +6,13 @@
 ##' @param baseNum The initial number of iterations to run before checking for convergence
 ##' @param iterSize The number of iterations to iteratively increase before checking for convergence again and large enough sample size (optional)
 ##' @param ID A identification string to paste with the message of non-convergence (optional)
+##' @param effSize The desired necessary effective sample size (default is 5000 samples)
 ##' @export
 ##' @import rjags
 ##' @import runjags
 ##' @import ecoforecastR
 ##' @import coda
-runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,iterSize =5000,ID=""){
+runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,iterSize =5000,ID="",effSize=5000){
   jags.out   <- coda.samples (model = j.model,
                               variable.names = variableNames,
                               n.iter = baseNum)
@@ -62,7 +63,7 @@ runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,ite
       effsize <- effectiveSize(out.burn$params)
       print(effsize)
       for(i in 1:length(effsize)){
-        if(effsize[i]<5000){
+        if(effsize[i]<effSize){
           continue = TRUE
         }
       }
