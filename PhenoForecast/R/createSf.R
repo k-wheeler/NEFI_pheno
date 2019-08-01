@@ -13,6 +13,7 @@
 createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory,forecastLength, station,calDatesT=FALSE) {
   years <- lubridate::year(dates)
   if(calDatesT){
+    print("Inside")
     calDates <- dates
   }else{
   calDates <- seq(dates[1],as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
@@ -45,6 +46,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     TairsCurrent[,e] <- TairsCurrentInd
   }
   NOAAmetDays <- seq(as.Date("2019-01-01"),(endDate-forecastLength),"day")
+  print("NOAAmetDays")
   #print(TairsCurrent[,1])
   #print(TairsCurrent[,1]==-9999)
   #print(sum(TairsCurrent[,1]==-9999))
@@ -66,6 +68,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
 
   ##Current year
   curDates=seq(as.Date("2019-01-01"),endDate,"day") ##Includes forecasted period
+  print("curDates")
 
   SfsALL <- matrix(nrow=0,ncol=length(curDates))
   for(e in 1:length(GEFS_Files)){
