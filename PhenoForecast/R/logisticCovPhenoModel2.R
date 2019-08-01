@@ -73,7 +73,7 @@ logisticCovPhenoModel2 <- function(data,nchain){
   p.ME ~ dgamma(s1,s2)
   p.MN ~ dgamma(s2,s2)
   p.proc ~ dgamma(s1,s2)
-  trans ~ dnorm(300,0.005)
+  trans ~ dnorm(110,0.000625)
   #b0 ~ dunif(min.b0,max.b0) ##Need to change to normal
   #b1 ~ dunif(min.b1,max.b1)
   b1 ~ dnorm(mu.b1,prec.b1)
