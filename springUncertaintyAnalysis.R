@@ -128,7 +128,7 @@ for(d in 1:length(allDates)){
   
   ###################Logistic with Covariates
   ##Assemble Sf forecast
-  GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",forStartDate,"/",sep="")
+  GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",calEndDate,"/",sep="")
   GEFS_Files <- dir(path=GEFS_Directory,pattern="NOAA_GEFS")
   
   TairsForecast <- numeric()
