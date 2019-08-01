@@ -20,9 +20,9 @@ forecastLogCov <- function(IC,trans,b1,Sf,Q=0,n,NT){
   x <- matrix(NA,n,NT)
   Xprev <- IC
   ##For the first round:
-  newRl <- numeric()
-  for(i in 1:length(b1))
-    rl <- b1 * Sf[,1] + b0
+  rl <- b1 * Sf[,1] + b0
+  print(rl)
+  if(rl<0){rl=0}
   r <- matrix(NA,n,NT)
   rPrev <- rl
   t <- 1 #Done for the first time step
@@ -41,6 +41,9 @@ forecastLogCov <- function(IC,trans,b1,Sf,Q=0,n,NT){
     rl <- b1 * Sf[,t] + b0
     rNew <- numeric()
     for(i in 1:length(rl)){
+      if(rPrev[i]<0){
+        rPrev[i] <- 0
+      }
       if(rl[i]<rPrev[i]){
         rNew <- c(rNew,rPrev[i])
       }else{
