@@ -32,6 +32,7 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018)) ##columns are each an ensemble (not divided by year)
   }else{
     TairsCal <- matrix(nrow=0,ncol=10)
+    calDates <- as.Date()
   }
     TairsCurrentInd <- load_NOAA_met(station=station,startDate=as.Date("2019-01-01"),endDate=(endDate-forecastLength)) ##Array of numeric values
   #}
