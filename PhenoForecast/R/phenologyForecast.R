@@ -161,9 +161,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
     }else if(forecastType=="logisticCov2"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-      plot(days2,dataFinal$Sfmu,pch=20,main="Sf")
-      abline(v=endDate,col="red")
-      dev.off()
+
       print("Creating logistic with covariate model 2")
       j.model <- logisticCovPhenoModel2(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model 2")
@@ -173,9 +171,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
     }else if(forecastType=="logisticCov3"){
       dataFinal$Sfmu <- Sf
       dataFinal$Sfprec <- Sfprecs
-      plot(days2,dataFinal$Sfmu,pch=20,main="Sf")
-      abline(v=endDate,col="red")
-      dev.off()
+
       print("Creating logistic with covariate model 3")
       j.model <- logisticCovPhenoModel3(data=dataFinal,nchain=nchain)
       print("Done creating the logistic with covariate model 3")
