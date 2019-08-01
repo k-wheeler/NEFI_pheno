@@ -67,10 +67,15 @@ logisticCovPhenoModel3 <- function(data,nchain){
   # b0 ~ dnorm(mu.b0,prec.b0)
   }"
 
+  inits <- list()
+  for(n in 1:nchain){
+    inits[[n]] <- list(trans=rnorm(1,110,10),b1=rnorm(1,0.2,0.01))
+  }
   ###Create the JAGS model using the basic RandomWalk Model
 
   j.model   <- jags.model (file = textConnection(LogisticModel),
                            data = data,
+                           inits = inits,
                            n.chains = nchain)
   return(j.model)
 
