@@ -78,7 +78,7 @@ for(f in 1:length(forecastFiles)){
   me[me<0] <- 0
   load(paste(dataDirectory,"ForecastOutputs/AllForecasts/",forecastFiles[f],sep=""))
   
-  outBurnLC <- outBurnLC2
+  #outBurnLC <- outBurnLC2
   out.mat.par <- data.frame(as.matrix(outBurnLC$params))
   colnames(out.mat.par)
   
