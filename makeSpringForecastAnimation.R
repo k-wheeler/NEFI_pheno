@@ -90,11 +90,7 @@ for(f in 1:length(forecastFiles)){
   ##Plot Current year
   lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
   out.mat.lastYear <- out.mat.LC[,lastYearIndices]
-<<<<<<< HEAD
-  plotFileName <- paste("ForecastPlots/",siteName,"_",endDate,"_LC3.png",sep="")
-=======
   plotFileName <- paste("ForecastPlots/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
->>>>>>> 0f5b7b55e2f2fce20b9fe852c74f4637839bd039
   png(file=plotFileName, width=10, height=5,units="in",res=1000)
   plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
                      out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",
