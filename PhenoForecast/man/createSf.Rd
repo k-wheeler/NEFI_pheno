@@ -4,10 +4,16 @@
 \alias{createSf}
 \title{Creates data object with the desired Sf means and variances}
 \usage{
-createSf(lat = "", long = "", years, siteName, dataDirectory, endDate,
-  GEFS_Files, GEFS_Directory)
+createSf(lat = "", long = "", dates, siteName, dataDirectory, endDate,
+  GEFS_Files, GEFS_Directory, forecastLength, station)
 }
 \arguments{
+\item{lat}{The desired latitude if not willowCreek}
+
+\item{long}{The desired longitude if not willowCreek}
+
+\item{dates}{The desired dates}
+
 \item{siteName}{The site name}
 
 \item{dataDirectory}{The data directory}
@@ -17,10 +23,6 @@ createSf(lat = "", long = "", years, siteName, dataDirectory, endDate,
 \item{GEFS_Files}{A vector of the file names for the GEFS files}
 
 \item{GEFS_Directory}{The directory where the GEFS files are located}
-
-\item{latitude}{The desired latitude if not willowCreek}
-
-\item{longitude}{The desired longitude if not willowCreek}
 }
 \description{
 Creates data object with the desired Sf means and variances

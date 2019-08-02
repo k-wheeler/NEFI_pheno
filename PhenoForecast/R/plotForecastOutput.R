@@ -39,6 +39,7 @@ plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,
   ##Plot
   #print(length(ci[2,]))
   #print(length(days))
+
   if(typeof(plotTitle)==typeof(FALSE)){
   if(typeof(xlim)==typeof(FALSE)){
     plot(days,ci[2,],type='n',xlab="Day of Year",ylab="Percent Canopy",main=paste(siteName,forecastType),cex.lab=1.5,cex.main=2,ylim=c(0,1))
@@ -52,6 +53,8 @@ plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,
       plot(days,ci[2,],type='n',xlab="Day of Year",ylab="Percent Canopy",main=plotTitle,cex.lab=1.5,cex.main=2,ylim=c(0,1))
     }
     else{
+      print(length(days))
+      print(length(ci[2,]))
       plot(days,ci[2,],type='n',xlab="Day of Year",ylab="Percent Canopy",main=plotTitle,cex.lab=1.5,cex.main=2,ylim=c(0,1),xlim=xlim)
 
     }
