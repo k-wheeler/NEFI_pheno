@@ -90,7 +90,10 @@ for(f in 1:length(forecastFiles)){
   out.mat.lastYear <- out.mat.LC[,lastYearIndices]
   plotFileName <- paste("ForecastPlots/",siteName,"_",endDate,".png",sep="")
   png(file=plotFileName, width=10, height=5,units="in",res=1000)
-  plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",days=seq(1,lengthLastYear,1),xlim=c(10,160),plotTitle = "Harvard Forest Forecast")
+  plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
+                     out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",
+                     days=seq(1,lengthLastYear,1),xlim=c(10,160),
+                     plotTitle = "Harvard Forest Forecast",endDate=endDate)
   abline(v=(lengthLastYear-forecastLength+1),col="purple")
   
   ##Add on data points
