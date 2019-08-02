@@ -14,9 +14,11 @@ siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastD
 dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 
 forecastLength <- 15
+mdlStr <- "LC3"
 
 siteName <- "harvard"
-forecastFiles <- dir(path=paste(dataDirectory,"ForecastOutputs/AllForecasts",sep=""),pattern=siteName)
+forecastFiles <- intersect(dir(path=paste(dataDirectory,"ForecastOutputs/AllForecasts",sep=""),pattern=siteName),
+                           dir(path=paste(dataDirectory,"ForecastOutputs/AllForecasts",sep=""),pattern=mdlStr))
 for(f in 1:length(forecastFiles)){
   endDate <- as.Date(strsplit(forecastFiles[f],"_")[[1]][3])
   print(endDate)
@@ -88,7 +90,7 @@ for(f in 1:length(forecastFiles)){
   ##Plot Current year
   lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
   out.mat.lastYear <- out.mat.LC[,lastYearIndices]
-  plotFileName <- paste("ForecastPlots/",siteName,"_",endDate,".png",sep="")
+  plotFileName <- paste("ForecastPlots/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
   png(file=plotFileName, width=10, height=5,units="in",res=1000)
   plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
                      out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",
