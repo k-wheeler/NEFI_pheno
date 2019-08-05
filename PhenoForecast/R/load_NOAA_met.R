@@ -39,9 +39,10 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
   # }
   if(lastDate<endDate){
     missingDays <- seq((lastDate+1),endDate,"day")
-
-    for(i in 1:length(missingDays)){
-      NOAAavgs <- c(NOAAavgs,-9999) ## Done to indicate data lag
+    if(length(missingDays)>0){
+      for(i in 1:length(missingDays)){
+        NOAAavgs <- c(NOAAavgs,-9999) ## Done to indicate data lag
+      }
     }
   }
   return(NOAAavgs)
