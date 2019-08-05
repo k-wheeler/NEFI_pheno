@@ -8,6 +8,7 @@ library(ecoforecastR)
 
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 forecastDataFolder <- "PhenologyForecastData/ForecastOutputs/AllForecasts/"
+dataDirectory <- "PhenologyForecastData/"
 Nmc <- 1000 #Number of model runs
 #allDates <- seq(as.Date("2019-01-23"),as.Date("2019-06-06"),"day")
 allDates <- c(seq(as.Date("2019-01-23"),as.Date("2019-01-25"),"day"),
