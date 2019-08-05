@@ -256,7 +256,8 @@ for(d in 1:length(allDates)){
     
     ##Driver Uncertainty
     SfsSamp <- matrix(nrow=Nmc,ncol=0)
-    for(s in 1:length(SfsALL$Sf)){
+    #SfsALL
+    for(s in (length(SfsALL$Sf)-13):length(SfsALL$Sf)){
       SfsSamp <- cbind(SfsSamp,rnorm(Nmc,SfsALL$Sf[s],1/sqrt(SfsALL$Sfprec[s])))
     }
     LC.IPD <- forecastLogCov(IC=ICs[rndNums],
@@ -281,7 +282,7 @@ for(d in 1:length(allDates)){
     
     plotRun(out.mat = out.mat.LC,forecastType = "logistic covariate",endDate=calEndDate)
     ecoforecastR::ciEnvelope(plotDates,LC.IPDE.ci[1,],LC.IPDE.ci[3,],col=adjustcolor("blue",0.8))
-    ecoforecastR::ciEnvelope(plotDates,LC.IPDE.ci[1,],LC.IPD.ci[3,],col=adjustcolor("pink",0.8))
+    ecoforecastR::ciEnvelope(plotDates,LC.IPD.ci[1,],LC.IPD.ci[3,],col=adjustcolor("pink",0.8))
     ecoforecastR::ciEnvelope(plotDates,LC.IP.ci[1,],LC.IP.ci[3,],col=adjustcolor("green",0.8))
     ecoforecastR::ciEnvelope(plotDates,LC.I.ci[1,],LC.I.ci[3,],col=adjustcolor("gray",1))
     lines(plotDates,LC.det,col="purple",lwd=2)
@@ -294,3 +295,5 @@ for(d in 1:length(allDates)){
 }
 
 dev.off()
+
+
