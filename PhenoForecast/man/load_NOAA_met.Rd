@@ -2,17 +2,13 @@
 % Please edit documentation in R/load_NOAA_met.R
 \name{load_NOAA_met}
 \alias{load_NOAA_met}
-\title{Calculates cummulative Tair (within one year for one ensemble)}
+\title{Loads NOAA met data}
 \usage{
-load_NOAA_met(lat, long, years)
+load_NOAA_met(station, startDate = "", endDate = "")
 }
 \arguments{
-\item{lat}{The site latitude}
-
-\item{long}{The site longitude}
-
-\item{years}{The desired years}
+\item{station}{The name of the NOAA station}
 }
 \description{
-Calculates cummulative Tair (within one year for one ensemble)
+Loads NOAA met data
 }
