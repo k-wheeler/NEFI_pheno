@@ -1,5 +1,5 @@
 ###Spring Forecast Uncertainty/Sensitivity Analysis
-#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary") 
+install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary") 
 library(rjags)
 library(runjags)
 library("PhenoForecast")
@@ -14,7 +14,7 @@ allDates <- c(seq(as.Date("2019-01-23"),as.Date("2019-01-25"),"day"),
               as.Date("2019-02-03"),as.Date("2019-02-05"),
               seq(as.Date("2019-02-07"),as.Date("2019-06-06"),"day"))
 i <- 1
-
+allDates <- allDates[(length(allDates)/2):length(allDates)]
 ##General site-specific info
 siteName <- as.character(siteData$siteName[i])
 print(siteName)
@@ -23,7 +23,7 @@ lat <- as.numeric(siteData$Lat[i])
 long <- as.numeric(siteData$Long[i])
 station <- as.character(siteData$metStation[i])
 siteStartDate <- as.character(siteData$startDate[i])
-pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis.pdf",sep=""),height=10,width=6)
+pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis2.pdf",sep=""),height=10,width=6)
 par(mfrow=c(3,2))
 
 ##Date info 
@@ -77,10 +77,11 @@ for(d in 1:length(allDates)){
     ecoforecastR::ciEnvelope(plotDates,RW.IPDE.ci[1,],RW.IPDE.ci[3,],col=adjustcolor("blue",0.8))
     ecoforecastR::ciEnvelope(plotDates,RW.IC.ci[1,],RW.IC.ci[3,],col=adjustcolor("gray",0.8))
     lines(plotDates,RW.det,col="purple",lwd=2)
+    abline(v=calEndDate,col="red",lwd=2)
   }
   #################Basic Logistic
   logFileName <- paste(forecastDataFolder,siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
-  logFileName <- paste(siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
+  #logFileName <- paste(siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
   if(file.exists(logFileName)){
     load(logFileName)
     out.mat.par <- data.frame(as.matrix(outBurnL$params))
@@ -135,6 +136,7 @@ for(d in 1:length(allDates)){
     ecoforecastR::ciEnvelope(plotDates,L.IP.ci[1,],L.IP.ci[3,],col=adjustcolor("green",0.8))
     ecoforecastR::ciEnvelope(plotDates,L.I.ci[1,],L.I.ci[3,],col=adjustcolor("gray",0.8))
     lines(plotDates,L.det,col="purple",lwd=2)
+    abline(v=calEndDate,col="red",lwd=2)
   }
   
   ###################Logistic with Covariates
@@ -227,6 +229,7 @@ for(d in 1:length(allDates)){
     ecoforecastR::ciEnvelope(plotDates,LC.IP.ci[1,],LC.IP.ci[3,],col=adjustcolor("green",0.8))
     ecoforecastR::ciEnvelope(plotDates,LC.I.ci[1,],LC.I.ci[3,],col=adjustcolor("gray",0.8))
     lines(plotDates,LC.det,col="purple",lwd=2)
+    abline(v=calEndDate,col="red",lwd=2)
   }
 }
 
