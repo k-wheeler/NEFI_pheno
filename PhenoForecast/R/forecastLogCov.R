@@ -22,7 +22,6 @@ forecastLogCov <- function(IC,trans,b1,Sf,Q=0,n,NT){
   ##For the first round:
   rl <- b1 * Sf[,1] + b0
   print(rl)
-  if(rl<0){rl=0}
   r <- matrix(NA,n,NT)
   rPrev <- rl
   t <- 1 #Done for the first time step
