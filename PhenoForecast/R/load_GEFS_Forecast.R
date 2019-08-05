@@ -37,6 +37,5 @@ load_GEFS_Forecast<- function(fileName,dataDirectory) {
   }
   Tairs <- Tairs-273 ##Convert to C from Kelvin
   nc_close(weatherFile)
-  nc_open(Tair)
   return(Tairs)
 }
