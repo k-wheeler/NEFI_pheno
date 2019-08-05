@@ -1,5 +1,5 @@
 ###Spring Forecast Uncertainty/Sensitivity Analysis
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary") 
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary") 
 library(rjags)
 library(runjags)
 library("PhenoForecast")
@@ -23,17 +23,20 @@ lat <- as.numeric(siteData$Lat[i])
 long <- as.numeric(siteData$Long[i])
 station <- as.character(siteData$metStation[i])
 siteStartDate <- as.character(siteData$startDate[i])
-pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis.pdf",sep=""),height=6,width=10)
-par(mfrow=c(4,2))
+pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis.pdf",sep=""),height=10,width=6)
+par(mfrow=c(3,2))
 
 ##Date info 
 for(d in 1:length(allDates)){
   
   calEndDate <- allDates[d]
+  #calEndDate <- as.Date("2019-01-23")#as.Date("2019-05-20")
+  #calEndDate <- as.Date("2019-05-20")
   print(calEndDate)
   forStartDate <- calEndDate + 1
   forEndDate <- (forStartDate+13)
   forDates <- seq(forStartDate,forEndDate,"day")
+  yrDates <- seq(as.Date("2019-01-01"),forEndDate,"day")
   
   forecastLength <- 14
   plotDates <- as.numeric(format(forDates,"%j"))
@@ -77,7 +80,7 @@ for(d in 1:length(allDates)){
   }
   #################Basic Logistic
   logFileName <- paste(forecastDataFolder,siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
-  #logFileName <- paste(siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
+  logFileName <- paste(siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
   if(file.exists(logFileName)){
     load(logFileName)
     out.mat.par <- data.frame(as.matrix(outBurnL$params))
@@ -119,6 +122,14 @@ for(d in 1:length(allDates)){
                           NT=14)
     L.IPDE.ci <- apply(L.IPDE,2,quantile,c(0.025,0.5,0.975))
     
+    L.det <- forecastLog2(IC=mean(ICs),
+                         r=mean(out.mat.par$r),
+                         dy=23,
+                         delay=110,
+                         Q=0,
+                         n=1,
+                         NT=14)
+    
     plotRun(out.mat = out.mat.L,forecastType = "logistic",endDate=calEndDate)
     ecoforecastR::ciEnvelope(plotDates,L.IPDE.ci[1,],L.IPDE.ci[3,],col=adjustcolor("blue",0.8))
     ecoforecastR::ciEnvelope(plotDates,L.IP.ci[1,],L.IP.ci[3,],col=adjustcolor("green",0.8))
@@ -133,22 +144,17 @@ for(d in 1:length(allDates)){
     GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",calEndDate,"/",sep="")
     GEFS_Files <- dir(path=GEFS_Directory,pattern="NOAA_GEFS")
     
-    TairsForecast <- numeric()
-    for(e in 1:length(GEFS_Files)){
-      TairsForecastInd <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[e])
-      TairsForecast <- cbind(TairsForecast,TairsForecastInd)
-    }
-    SfsALL <- matrix(nrow=0,ncol=length(forDates))
-    
-    for(e in 1:ncol(TairsForecast)){
-      Sfs <- calSf(Tairs=TairsForecast[,e],dates=forDates)
-      SfsALL <- rbind(SfsALL,Sfs)
-    }
+    SfsALL <- createSf(lat=lat,long=long,dates=yrDates,siteName=siteName,
+             dataDirectory=dataDirectory,endDate=forEndDate,
+             GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,
+             forecastLength=forecastLength, station=station) 
     
     #save(SfsALL,file="SfsALL.RData")
-    #load("SfsALL.RData")
-    
-    Sf.means <- matrix(colMeans(SfsALL),1,forecastLength)
+    #load("SfsALL_140.RData")
+    #load("SfsALL_140_new.RData")
+    #load("harvard_2009-01-01_2019-05-20_LC3_outBurn.RData")
+    #outBurnLC2 <- outBurnLC
+    #Sf.means <- matrix(colMeans(SfsALL),1,forecastLength)
     
     #LCfileName <- paste(siteName,"_",siteStartDate,"_",calEndDate,"_LC2_outBurn.RData",sep="")
     
@@ -163,7 +169,7 @@ for(d in 1:length(allDates)){
     LC.det <- forecastLogCov(IC=mean(ICs),
                              trans = mean(out.mat.par$trans),
                              b1 = mean(out.mat.par$b1),
-                             Sf = Sf.means,
+                             Sf = matrix(SfsALL$Sf[(length(SfsALL$Sf)-13):length(SfsALL$Sf)],1,14),
                              Q=0,
                              n=1,
                              NT=14)
@@ -173,28 +179,31 @@ for(d in 1:length(allDates)){
     LC.I <- forecastLogCov(IC=ICs[rndNums],
                            trans = mean(out.mat.par$trans),
                            b1 = mean(out.mat.par$b1),
-                           Sf = Sf.means,
+                           Sf = matrix(SfsALL$Sf[(length(SfsALL$Sf)-13):length(SfsALL$Sf)],1,14),
                            Q=0,
                            n=Nmc,
                            NT=14)
     LC.I.ci <- apply(LC.I,2,quantile,c(0.025,0.5,0.975))
     
-    ##Parameter Uncertainty <- Don't have for RW (will have for log and logCov)
+    ##Parameter Uncertainty 
     LC.IP <- forecastLogCov(IC=ICs[rndNums],
                             trans = out.mat.par$trans[rndNums],
                             b1 = out.mat.par$b1[rndNums],
-                            Sf = Sf.means,
+                            Sf = matrix(SfsALL$Sf[(length(SfsALL$Sf)-13):length(SfsALL$Sf)],1,14),
                             Q=0,
                             n=Nmc,
                             NT=14)
     LC.IP.ci = apply(LC.IP,2,quantile,c(0.025,0.5,0.975))
     
-    ##Driver Uncertainty <- Don't have for RW (will have for logCov)
-    drow = sample.int(nrow(SfsALL),Nmc,replace=TRUE)
+    ##Driver Uncertainty
+    SfsSamp <- matrix(nrow=Nmc,ncol=0)
+    for(s in 1:length(SfsALL$Sf)){
+      SfsSamp <- cbind(SfsSamp,rnorm(Nmc,SfsALL$Sf[s],SfsALL$Sfprec[s]))
+    }
     LC.IPD <- forecastLogCov(IC=ICs[rndNums],
                              trans = out.mat.par$trans[rndNums],
                              b1 = out.mat.par$b1[rndNums],
-                             Sf = SfsALL[drow,],
+                             Sf = SfsSamp,
                              Q=0,
                              n=Nmc,
                              NT=14)
@@ -205,12 +214,13 @@ for(d in 1:length(allDates)){
     LC.IPDE <- forecastLogCov(IC=ICs[rndNums],
                               trans = out.mat.par$trans[rndNums],
                               b1 = out.mat.par$b1[rndNums],
-                              Sf = SfsALL[drow,],
+                              Sf = SfsSamp,
                               Q=Qmc,
                               n=Nmc,
                               NT=14)
     LC.IPDE.ci <- apply(LC.IPDE,2,quantile,c(0.025,0.5,0.975))
-    plotRun(out.mat = out.mat.LC,forecastType = "logistic",endDate=calEndDate)
+    
+    plotRun(out.mat = out.mat.LC,forecastType = "logistic covariate",endDate=calEndDate)
     ecoforecastR::ciEnvelope(plotDates,LC.IPDE.ci[1,],LC.IPDE.ci[3,],col=adjustcolor("blue",0.8))
     ecoforecastR::ciEnvelope(plotDates,LC.IPDE.ci[1,],LC.IPD.ci[3,],col=adjustcolor("pink",0.8))
     ecoforecastR::ciEnvelope(plotDates,LC.IP.ci[1,],LC.IP.ci[3,],col=adjustcolor("green",0.8))
