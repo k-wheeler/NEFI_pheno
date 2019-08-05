@@ -13,8 +13,10 @@ Nmc <- 1000 #Number of model runs
 allDates <- c(seq(as.Date("2019-01-23"),as.Date("2019-01-25"),"day"),
               as.Date("2019-02-03"),as.Date("2019-02-05"),
               seq(as.Date("2019-02-07"),as.Date("2019-06-06"),"day"))
+allDates <- allDates[1:(length(allDates)/2)]
+#allDates <- allDates[(length(allDates)/2):length(allDates)]
 i <- 1
-allDates <- allDates[(length(allDates)/2):length(allDates)]
+#allDates <- allDates[(length(allDates)/2):length(allDates)]
 ##General site-specific info
 siteName <- as.character(siteData$siteName[i])
 print(siteName)
@@ -23,8 +25,8 @@ lat <- as.numeric(siteData$Lat[i])
 long <- as.numeric(siteData$Long[i])
 station <- as.character(siteData$metStation[i])
 siteStartDate <- as.character(siteData$startDate[i])
-pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis2.pdf",sep=""),height=10,width=6)
-par(mfrow=c(3,2))
+pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis.pdf",sep=""),height=10,width=6)
+par(mfrow=c(3,1))
 
 ##Date info 
 for(d in 1:length(allDates)){
@@ -122,14 +124,6 @@ for(d in 1:length(allDates)){
                           n=Nmc,
                           NT=14)
     L.IPDE.ci <- apply(L.IPDE,2,quantile,c(0.025,0.5,0.975))
-    
-    L.det <- forecastLog2(IC=mean(ICs),
-                         r=mean(out.mat.par$r),
-                         dy=23,
-                         delay=110,
-                         Q=0,
-                         n=1,
-                         NT=14)
     
     plotRun(out.mat = out.mat.L,forecastType = "logistic",endDate=calEndDate)
     ecoforecastR::ciEnvelope(plotDates,L.IPDE.ci[1,],L.IPDE.ci[3,],col=adjustcolor("blue",0.8))
