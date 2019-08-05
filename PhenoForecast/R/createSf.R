@@ -11,10 +11,8 @@
 ##' @param calDatesT
 ##' @export
 createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory,forecastLength, station,calDatesT=TRUE) {
-  print("inside")
   years <- lubridate::year(dates)
   if(calDatesT){
-    print("Inside calDatesT1")
     calDates <- seq(dates[1],as.Date(paste((years[length(years)]-1),"-12-31",sep="")),"day")
     ##The sources of the calibration and current measurements differ between willowCreek and other sites
     # if(siteName=="willowcreek"){
@@ -31,8 +29,6 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
     #else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018)) ##columns are each an ensemble (not divided by year)
   }
-  print("(endDate-forecastLength)):")
-  print((endDate-forecastLength))
   TairsCurrentInd <- load_NOAA_met(station=station,startDate=as.Date("2019-01-01"),endDate=(endDate-forecastLength)) ##Array of numeric values
   #}
 
@@ -40,14 +36,12 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
   TairsCurrent <- matrix(ncol=length(GEFS_Files),nrow=length(TairsCurrentInd))
   TairsForecast <- numeric()
   for(e in 1:length(GEFS_Files)){
-    print(e)
     TairsForecastInd <- load_GEFS_Forecast(dataDirectory=GEFS_Directory,fileName=GEFS_Files[e])
 
     TairsForecast <- cbind(TairsForecast,TairsForecastInd)
     TairsCurrent[,e] <- TairsCurrentInd
   }
   NOAAmetDays <- seq(as.Date("2019-01-01"),(endDate-forecastLength),"day")
-  print("NOAAmetDays")
   #print(TairsCurrent[,1])
   #print(TairsCurrent[,1]==-9999)
   #print(sum(TairsCurrent[,1]==-9999))
@@ -71,7 +65,6 @@ createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Fi
 
   ##Current year
   curDates=seq(as.Date("2019-01-01"),endDate,"day") ##Includes forecasted period
-  print("curDates")
 
   SfsALL <- matrix(nrow=0,ncol=length(curDates))
   for(e in 1:length(GEFS_Files)){
