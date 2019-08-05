@@ -11,6 +11,7 @@
 ##' @param calDatesT
 ##' @export
 createSf <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS_Files,GEFS_Directory,forecastLength, station,calDatesT=TRUE) {
+  print("inside")
   years <- lubridate::year(dates)
   if(calDatesT){
     print("Inside calDatesT1")
