@@ -147,7 +147,8 @@ for(d in 1:length(allDates)){
     SfsALL <- createSf(lat=lat,long=long,dates=yrDates,siteName=siteName,
              dataDirectory=dataDirectory,endDate=forEndDate,
              GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,
-             forecastLength=forecastLength, station=station) 
+             forecastLength=forecastLength, station=station,
+             calDatesT = FALSE) 
     
     #save(SfsALL,file="SfsALL.RData")
     #load("SfsALL_140.RData")
