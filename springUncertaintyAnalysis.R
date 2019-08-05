@@ -13,6 +13,8 @@ Nmc <- 1000 #Number of model runs
 allDates <- c(seq(as.Date("2019-01-23"),as.Date("2019-01-25"),"day"),
               as.Date("2019-02-03"),as.Date("2019-02-05"),
               seq(as.Date("2019-02-07"),as.Date("2019-06-06"),"day"))
+allDates <- allDates[1:(length(allDates)/2)]
+#allDates <- allDates[(length(allDates)/2):length(allDates)]
 i <- 1
 
 ##General site-specific info
@@ -24,7 +26,7 @@ long <- as.numeric(siteData$Long[i])
 station <- as.character(siteData$metStation[i])
 siteStartDate <- as.character(siteData$startDate[i])
 pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis.pdf",sep=""),height=10,width=6)
-par(mfrow=c(3,2))
+par(mfrow=c(3,1))
 
 ##Date info 
 for(d in 1:length(allDates)){
@@ -77,6 +79,7 @@ for(d in 1:length(allDates)){
     ecoforecastR::ciEnvelope(plotDates,RW.IPDE.ci[1,],RW.IPDE.ci[3,],col=adjustcolor("blue",0.8))
     ecoforecastR::ciEnvelope(plotDates,RW.IC.ci[1,],RW.IC.ci[3,],col=adjustcolor("gray",0.8))
     lines(plotDates,RW.det,col="purple",lwd=2)
+    abline(v=calEndDate,col="red",lwd=2)
   }
   #################Basic Logistic
   logFileName <- paste(forecastDataFolder,siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
@@ -122,19 +125,12 @@ for(d in 1:length(allDates)){
                           NT=14)
     L.IPDE.ci <- apply(L.IPDE,2,quantile,c(0.025,0.5,0.975))
     
-    L.det <- forecastLog2(IC=mean(ICs),
-                         r=mean(out.mat.par$r),
-                         dy=23,
-                         delay=110,
-                         Q=0,
-                         n=1,
-                         NT=14)
-    
     plotRun(out.mat = out.mat.L,forecastType = "logistic",endDate=calEndDate)
     ecoforecastR::ciEnvelope(plotDates,L.IPDE.ci[1,],L.IPDE.ci[3,],col=adjustcolor("blue",0.8))
     ecoforecastR::ciEnvelope(plotDates,L.IP.ci[1,],L.IP.ci[3,],col=adjustcolor("green",0.8))
     ecoforecastR::ciEnvelope(plotDates,L.I.ci[1,],L.I.ci[3,],col=adjustcolor("gray",0.8))
     lines(plotDates,L.det,col="purple",lwd=2)
+    abline(v=calEndDate,col="red",lwd=2)
   }
   
   ###################Logistic with Covariates
@@ -227,6 +223,7 @@ for(d in 1:length(allDates)){
     ecoforecastR::ciEnvelope(plotDates,LC.IP.ci[1,],LC.IP.ci[3,],col=adjustcolor("green",0.8))
     ecoforecastR::ciEnvelope(plotDates,LC.I.ci[1,],LC.I.ci[3,],col=adjustcolor("gray",0.8))
     lines(plotDates,LC.det,col="purple",lwd=2)
+    abline(v=calEndDate,col="red",lwd=2)
   }
 }
 
