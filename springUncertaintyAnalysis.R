@@ -195,7 +195,7 @@ for(d in 1:length(allDates)){
     ##Driver Uncertainty
     SfsSamp <- matrix(nrow=Nmc,ncol=0)
     for(s in 1:length(SfsALL$Sf)){
-      SfsSamp <- cbind(SfsSamp,rnorm(Nmc,SfsALL$Sf[s],SfsALL$Sfprec[s]))
+      SfsSamp <- cbind(SfsSamp,rnorm(Nmc,SfsALL$Sf[s],1/sqrt(SfsALL$Sfprec[s])))
     }
     LC.IPD <- forecastLogCov(IC=ICs[rndNums],
                              trans = out.mat.par$trans[rndNums],
