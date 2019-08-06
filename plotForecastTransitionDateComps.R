@@ -15,6 +15,7 @@ forecastLength <- 0
 iseq <- c(1,2,3,4,6,15,16,18,20,21,22,23,24)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 i <- 1
+forecastDataFolder <- "PhenologyForecastData/ForecastOutputs/AllForecasts/"
 
 
 siteName <- as.character(siteData[i,1])
