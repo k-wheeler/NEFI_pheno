@@ -6,6 +6,7 @@ library("coda")
 library("dplyr")
 library("rjags")
 library("ecoforecastR")
+library("grDevices")
 ##Need to make individual forecast plots
 #setwd("/Users/Kathryn/Documents/PhD_Research/NEFI_pheno")
 #siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
@@ -114,7 +115,7 @@ for(f in 1:length(forecastFiles)){
   var.mat <- data.frame(as.matrix(varBurn))
   xseq <- seq(1,(181+365))
   ci <- createCI(PFT="DB",var.mat = var.mat,xseq=xseq,doRescale = TRUE,seasonOrder = "FS")
-  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=alpha("gray",0.05))
+  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=adjustcolor("gray",0.05))
   abline(v=(mean(var.mat$TranS)-365),col="cyan")
   abline(h=0.50,col="cyan")
   
@@ -223,7 +224,7 @@ for(f in 1:length(forecastFiles)){
   var.mat <- data.frame(as.matrix(varBurn))
   xseq <- seq(1,(181+365))
   ci <- createCI(PFT="DB",var.mat = var.mat,xseq=xseq,doRescale = TRUE,seasonOrder = "FS")
-  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=alpha("gray",0.05))
+  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=adjustcolor("gray",0.05))
   abline(v=(mean(var.mat$TranS)-365),col="cyan")
   abline(h=0.50,col="cyan")
   
@@ -333,7 +334,7 @@ for(f in 1:length(forecastFiles)){
   var.mat <- data.frame(as.matrix(varBurn))
   xseq <- seq(1,(181+365))
   ci <- createCI(PFT="DB",var.mat = var.mat,xseq=xseq,doRescale = TRUE,seasonOrder = "FS")
-  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=alpha("gray",0.05))
+  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=adjustcolor("gray",0.05))
   abline(v=(mean(var.mat$TranS)-365),col="cyan")
   abline(h=0.50,col="cyan")
   
