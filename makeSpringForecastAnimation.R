@@ -82,7 +82,7 @@ for(f in 1:length(forecastFiles)){
     outBurnLC <- outBurnLC2
   }else if(modlStr == "RW"){
     outBurnLC <- outBurnRW
-  }else(mdlStr == "logistic"){
+  }else if(mdlStr == "logistic"){
     outBurnLC <- outBurnL
   }
   
@@ -191,7 +191,7 @@ for(f in 1:length(forecastFiles)){
     outBurnLC <- outBurnLC2
   }else if(modlStr == "RW"){
     outBurnLC <- outBurnRW
-  }else(mdlStr == "logistic"){
+  }else if(mdlStr == "logistic"){
     outBurnLC <- outBurnL
   }
   
@@ -301,7 +301,7 @@ for(f in 1:length(forecastFiles)){
     outBurnLC <- outBurnLC2
   }else if(modlStr == "RW"){
     outBurnLC <- outBurnRW
-  }else(mdlStr == "logistic"){
+  }else if(mdlStr == "logistic"){
     outBurnLC <- outBurnL
   }
   
