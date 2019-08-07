@@ -9,25 +9,27 @@ library(ecoforecastR)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 forecastDataFolder <- "PhenologyForecastData/ForecastOutputs/AllForecasts/"
 dataDirectory <- "PhenologyForecastData/"
-Nmc <- 1000 #Number of model runs
+
+Nmc <- 10000 #Number of model runs
 #allDates <- seq(as.Date("2019-01-23"),as.Date("2019-06-06"),"day")
 allDates <- c(seq(as.Date("2019-01-23"),as.Date("2019-01-25"),"day"),
               as.Date("2019-02-03"),as.Date("2019-02-05"),
               seq(as.Date("2019-02-07"),as.Date("2019-06-06"),"day"))
-allDates <- allDates[1:(length(allDates)/2)]
+#allDates <- allDates[1:(length(allDates)/2)]
 #allDates <- allDates[(length(allDates)/2):length(allDates)]
-i <- 1
+i <- 6
 
 ##General site-specific info
 siteName <- as.character(siteData$siteName[i])
 print(siteName)
+plotFolder <- paste("UAplots/",siteName,"/",sep="")
 URL <- as.character(siteData$URL[i])
 lat <- as.numeric(siteData$Lat[i])
 long <- as.numeric(siteData$Long[i])
 station <- as.character(siteData$metStation[i])
 siteStartDate <- as.character(siteData$startDate[i])
-pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis.pdf",sep=""),height=10,width=6)
-par(mfrow=c(3,1))
+#pdf(file=paste(siteName,"_PhenologyForecast_uncertaintyAnalysis.pdf",sep=""),height=10,width=6)
+#par(mfrow=c(3,1))
 
 ##Date info 
 for(d in 1:length(allDates)){
@@ -129,6 +131,9 @@ for(d in 1:length(allDates)){
                           n=Nmc,
                           NT=14)
     RW.IPDE.ci <- apply(RW.IPDE,2,quantile,c(0.025,0.5,0.975))
+    plotFileName <- paste(plotFolder,"randomWalk/",siteName,"_randomWalk_",calEndDate,"_uncertaintyAnalysis.png",sep="")
+    png(file=plotFileName, width=10, height=5,units="in",res=1000)
+    
     plotRun(out.mat = out.mat.RW,forecastType = "randomWalk",endDate=calEndDate)
     ecoforecastR::ciEnvelope(plotDates,RW.IPDE.ci[1,],RW.IPDE.ci[3,],col=adjustcolor("blue",0.8))
     ecoforecastR::ciEnvelope(plotDates,RW.IC.ci[1,],RW.IC.ci[3,],col=adjustcolor("gray",1))
@@ -138,6 +143,7 @@ for(d in 1:length(allDates)){
     points(time.p,p,pch=20,col="red")
     points(time.p,mn,col="blue",pch=3,cex=2)
     points(time.p,me,col="blue",pch=1,cex=2)
+    dev.off()
     }
   #################Basic Logistic
   logFileName <- paste(forecastDataFolder,siteName,"_",siteStartDate,"_",calEndDate,"_logistic_outBurn.RData",sep="")
@@ -182,7 +188,8 @@ for(d in 1:length(allDates)){
                           n=Nmc,
                           NT=14)
     L.IPDE.ci <- apply(L.IPDE,2,quantile,c(0.025,0.5,0.975))
-    
+    plotFileName <- paste(plotFolder,"logistic/",siteName,"_logistic_",calEndDate,"_uncertaintyAnalysis.png",sep="")
+    png(file=plotFileName, width=10, height=5,units="in",res=1000)
     plotRun(out.mat = out.mat.L,forecastType = "logistic",endDate=calEndDate)
     ecoforecastR::ciEnvelope(plotDates,L.IPDE.ci[1,],L.IPDE.ci[3,],col=adjustcolor("blue",0.8))
     ecoforecastR::ciEnvelope(plotDates,L.IP.ci[1,],L.IP.ci[3,],col=adjustcolor("green",0.8))
@@ -193,6 +200,7 @@ for(d in 1:length(allDates)){
     points(time.p,p,pch=20,col="red")
     points(time.p,mn,col="blue",pch=3,cex=2)
     points(time.p,me,col="blue",pch=1,cex=2)
+    dev.off()
     }
   
   ###################Logistic with Covariates
@@ -279,7 +287,8 @@ for(d in 1:length(allDates)){
                               n=Nmc,
                               NT=14)
     LC.IPDE.ci <- apply(LC.IPDE,2,quantile,c(0.025,0.5,0.975))
-    
+    plotFileName <- paste(plotFolder,"LC2/",siteName,"_LC2_",calEndDate,"_uncertaintyAnalysis.png",sep="")
+    png(file=plotFileName, width=10, height=5,units="in",res=1000)
     plotRun(out.mat = out.mat.LC,forecastType = "logistic covariate",endDate=calEndDate)
     ecoforecastR::ciEnvelope(plotDates,LC.IPDE.ci[1,],LC.IPDE.ci[3,],col=adjustcolor("blue",0.8))
     ecoforecastR::ciEnvelope(plotDates,LC.IPD.ci[1,],LC.IPD.ci[3,],col=adjustcolor("pink",0.8))
@@ -291,9 +300,10 @@ for(d in 1:length(allDates)){
     points(time.p,p,pch=20,col="red")
     points(time.p,mn,col="blue",pch=3,cex=2)
     points(time.p,me,col="blue",pch=1,cex=2)
+    dev.off()
     }
 }
 
-dev.off()
+#dev.off()
 
 
