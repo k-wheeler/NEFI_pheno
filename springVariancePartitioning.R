@@ -153,6 +153,7 @@ for(d in 1:length(allDates)){
     ciEnvelope(forDates,rep(0,ncol(V.pred.rel)),V.pred.rel[1,],col="gray")
     ciEnvelope(forDates,V.pred.rel[1,],V.pred.rel[2,],col="green")
     ciEnvelope(forDates,V.pred.rel[2,],V.pred.rel[3,],col="blue")
+    dev.off()
 
     #legend("topleft",legend=c("RandomEffect","Process","Driver","Parameter","InitCond"),col=rev(N.cols),lty=1,lwd=5)
   }
