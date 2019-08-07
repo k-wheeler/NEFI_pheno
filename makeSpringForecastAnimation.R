@@ -115,9 +115,9 @@ for(f in 1:length(forecastFiles)){
   var.mat <- data.frame(as.matrix(varBurn))
   xseq <- seq(1,(181+365))
   ci <- createCI(PFT="DB",var.mat = var.mat,xseq=xseq,doRescale = TRUE,seasonOrder = "FS")
-  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=adjustcolor("gray",0.05))
+  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=adjustcolor("gray",0.5))
   abline(v=(mean(var.mat$TranS)-365),col="cyan")
-  abline(h=0.50,col="cyan")
+  #abline(h=0.50,col="cyan")
   
   ##Add on data points
   points(time.p,p,pch=20,col="red")
@@ -224,9 +224,9 @@ for(f in 1:length(forecastFiles)){
   var.mat <- data.frame(as.matrix(varBurn))
   xseq <- seq(1,(181+365))
   ci <- createCI(PFT="DB",var.mat = var.mat,xseq=xseq,doRescale = TRUE,seasonOrder = "FS")
-  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=adjustcolor("gray",0.05))
+  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=adjustcolor("gray",0.5))
   abline(v=(mean(var.mat$TranS)-365),col="cyan")
-  abline(h=0.50,col="cyan")
+  #abline(h=0.50,col="cyan")
   
   ##Add on data points
   points(time.p,p,pch=20,col="red")
@@ -334,9 +334,9 @@ for(f in 1:length(forecastFiles)){
   var.mat <- data.frame(as.matrix(varBurn))
   xseq <- seq(1,(181+365))
   ci <- createCI(PFT="DB",var.mat = var.mat,xseq=xseq,doRescale = TRUE,seasonOrder = "FS")
-  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=adjustcolor("gray",0.05))
+  ciEnvelope(x=(xseq-365),ylo=(ci[1,]),yhi = (ci[3,]),col=adjustcolor("gray",0.5))
   abline(v=(mean(var.mat$TranS)-365),col="cyan")
-  abline(h=0.50,col="cyan")
+  #abline(h=0.50,col="cyan")
   
   ##Add on data points
   points(time.p,p,pch=20,col="red")
