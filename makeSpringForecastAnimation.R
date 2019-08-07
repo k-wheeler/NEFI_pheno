@@ -99,7 +99,7 @@ for(f in 1:length(forecastFiles)){
   ##Plot Current year
   lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
   out.mat.lastYear <- out.mat.LC[,lastYearIndices]
-  plotFileName <- paste("ForecastPlots/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
+  plotFileName <- paste("ForecastPlots/",siteName,"/",mdlStr,"/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
   png(file=plotFileName, width=10, height=5,units="in",res=1000)
   plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
                      out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",
@@ -208,7 +208,7 @@ for(f in 1:length(forecastFiles)){
   ##Plot Current year
   lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
   out.mat.lastYear <- out.mat.LC[,lastYearIndices]
-  plotFileName <- paste("ForecastPlots/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
+  plotFileName <- paste("ForecastPlots/",siteName,"/",mdlStr,"/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
   png(file=plotFileName, width=10, height=5,units="in",res=1000)
   plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
                      out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",
@@ -318,7 +318,7 @@ for(f in 1:length(forecastFiles)){
   ##Plot Current year
   lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
   out.mat.lastYear <- out.mat.LC[,lastYearIndices]
-  plotFileName <- paste("ForecastPlots/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
+  plotFileName <- paste("ForecastPlots/",siteName,"/",mdlStr,"/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
   png(file=plotFileName, width=10, height=5,units="in",res=1000)
   plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
                      out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",
