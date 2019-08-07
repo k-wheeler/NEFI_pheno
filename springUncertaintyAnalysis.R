@@ -1,5 +1,5 @@
 ###Spring Forecast Uncertainty/Sensitivity Analysis
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary") 
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary") 
 library(rjags)
 library(runjags)
 library("PhenoForecast")
