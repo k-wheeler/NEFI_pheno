@@ -5,6 +5,7 @@ library("PhenologyBayesModeling")
 library("coda")
 library("dplyr")
 library("rjags")
+library("ecoforecastR")
 ##Need to make individual forecast plots
 #setwd("/Users/Kathryn/Documents/PhD_Research/NEFI_pheno")
 #siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
