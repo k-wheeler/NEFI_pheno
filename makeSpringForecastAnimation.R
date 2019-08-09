@@ -218,7 +218,8 @@ for(f in 1:length(forecastFiles)){
   plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
                      out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",
                      days=seq(1,lengthLastYear,1),xlim=c(10,160),
-                     plotTitle = "",endDate=endDate)
+                     plotTitle = "",endDate=endDate,
+                     dates=plotDts)
   abline(v=(lengthLastYear-forecastLength+1),col="purple")
   
   outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_forecast_spring2019_varBurn.RData",sep="")
@@ -328,7 +329,8 @@ for(f in 1:length(forecastFiles)){
   plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
                      out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",
                      days=seq(1,lengthLastYear,1),xlim=c(10,160),
-                     plotTitle = "",endDate=endDate)
+                     plotTitle = "",endDate=endDate,
+                     dates=plotDts)
   abline(v=(lengthLastYear-forecastLength+1),col="purple")
   
   outFileName <- paste("PhenologyForecastData/phenoFits/",siteName,"_forecast_spring2019_varBurn.RData",sep="")
