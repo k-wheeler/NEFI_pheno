@@ -11,7 +11,7 @@ library("MODISTools")
 library(doParallel)
 
 ##Set and register cores for parallel
-n.cores <- 8
+n.cores <- 2
 registerDoParallel(cores=n.cores)
 
 #########Make phenofits for the last year of data
@@ -22,6 +22,7 @@ endDay <- 365+181
 forecastLength <- 0
 iseq <- c(1,2,3,4,6,15,16,18,20,21,22,23,24)
 iseq <- c(1,2,3,4,6,15,16,20)
+iseq <- c(18,24)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 forecastDataFolder <- "PhenologyForecastData/ForecastOutputs/AllForecasts/"
 dataFolder <- "PhenologyForecastData/"
