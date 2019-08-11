@@ -29,10 +29,10 @@ output <- foreach(i=1:length(iseq)) %dopar% {
 ##General site-specific info
 siteName <- as.character(siteData$siteName[i])
 print(siteName)
-dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI/VPplots/",siteName,sep=""))
-dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI/VPplots/",siteName,"/randomWalk",sep=""))
-dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI/VPplots/",siteName,"/logistic",sep=""))
-dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI/VPplots/",siteName,"/LC2",sep=""))
+dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI_pheno/VPplots/",siteName,sep=""))
+dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI_pheno/VPplots/",siteName,"/randomWalk",sep=""))
+dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI_pheno/VPplots/",siteName,"/logistic",sep=""))
+dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI_pheno/VPplots/",siteName,"/LC2",sep=""))
 
 plotFolder <- paste("VPplots/",siteName,"/",sep="")
 URL <- as.character(siteData$URL[i])
