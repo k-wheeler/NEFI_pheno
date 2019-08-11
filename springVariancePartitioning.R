@@ -5,6 +5,12 @@ library(runjags)
 library("PhenoForecast")
 library("PhenologyBayesModeling")
 library(ecoforecastR)
+library(doParallel)
+
+
+##Set and register cores for parallel
+n.cores <- 10
+registerDoParallel(cores=n.cores)
 
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 forecastDataFolder <- "PhenologyForecastData/ForecastOutputs/AllForecasts/"
@@ -17,10 +23,15 @@ allDates <- c(seq(as.Date("2019-01-23"),as.Date("2019-01-25"),"day"),
 #allDates <- allDates[1:(length(allDates)/2)]
 #allDates <- allDates[(length(allDates)/2):length(allDates)]
 i <- 6
-
+output <- foreach(d=1:length(dates)) %dopar% {
 ##General site-specific info
 siteName <- as.character(siteData$siteName[i])
 print(siteName)
+dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI/VPplots/",siteName,sep=""))
+dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI/VPplots/",siteName,"/randomWalk",sep=""))
+dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI/VPplots/",siteName,"/logistic",sep=""))
+dir.create(paste("/projectnb/dietzelab/kiwheel/NEFI/VPplots/",siteName,"/LC2",sep=""))
+
 plotFolder <- paste("VPplots/",siteName,"/",sep="")
 URL <- as.character(siteData$URL[i])
 lat <- as.numeric(siteData$Lat[i])
@@ -269,3 +280,4 @@ for(d in 1:length(allDates)){
 }
 
 dev.off()
+}
