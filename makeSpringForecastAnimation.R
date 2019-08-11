@@ -216,7 +216,7 @@ for(f in 1:length(forecastFiles)){
   plotFileName <- paste("ForecastPlots/",siteName,"/",mdlStr,"/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
   png(file=plotFileName, width=10, height=5,units="in",res=1000)
   plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
-                     out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",
+                     out.mat=out.mat.lastYear,forecastType = "Random Walk",
                      days=seq(1,lengthLastYear,1),xlim=c(10,160),
                      plotTitle = "",endDate=endDate,
                      dates=plotDts)
