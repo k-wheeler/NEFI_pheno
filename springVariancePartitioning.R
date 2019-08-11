@@ -20,11 +20,12 @@ Nmc <- 10000 #Number of model runs
 allDates <- c(seq(as.Date("2019-01-23"),as.Date("2019-01-25"),"day"),
               as.Date("2019-02-03"),as.Date("2019-02-05"),
               seq(as.Date("2019-02-07"),as.Date("2019-06-06"),"day"))
-dates <- allDates
+#dates <- allDates
 #allDates <- allDates[1:(length(allDates)/2)]
 #allDates <- allDates[(length(allDates)/2):length(allDates)]
 i <- 6
-output <- foreach(d=1:length(dates)) %dopar% {
+iseq <- c(1,2,3,4,6,15,16,18,20,24)
+output <- foreach(d=1:length(iseq)) %dopar% {
 ##General site-specific info
 siteName <- as.character(siteData$siteName[i])
 print(siteName)
