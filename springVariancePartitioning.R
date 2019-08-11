@@ -25,7 +25,7 @@ allDates <- c(seq(as.Date("2019-01-23"),as.Date("2019-01-25"),"day"),
 #allDates <- allDates[(length(allDates)/2):length(allDates)]
 i <- 6
 iseq <- c(1,2,3,4,6,15,16,18,20,24)
-output <- foreach(d=1:length(iseq)) %dopar% {
+output <- foreach(i=1:length(iseq)) %dopar% {
 ##General site-specific info
 siteName <- as.character(siteData$siteName[i])
 print(siteName)
