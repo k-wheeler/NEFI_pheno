@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples
-forecastLogCov2 <- function(IC,trans,b1,Sf,Q=0,n,NT){
+forecastLogCov <- function(IC,trans,b1,Sf,Q=0,n,NT){
 
   b0 <-  b1 * -1 * trans
   x <- matrix(NA,n,NT)
