@@ -216,6 +216,7 @@ for(f in 1:length(forecastFiles)){
   plotDts <- as.Date(seq(1,lengthLastYear,1),origin=as.Date("2018-12-31"))
   plotFileName <- paste("ForecastPlots/",siteName,"/",mdlStr,"/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
   png(file=plotFileName, width=10, height=5,units="in",res=1000)
+  par(mfrow=c(1,1),mai=c(1,1,1,0.5))
   plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
                      out.mat=out.mat.lastYear,forecastType = "Random Walk",
                      days=seq(1,lengthLastYear,1),xlim=c(10,160),
@@ -235,6 +236,8 @@ for(f in 1:length(forecastFiles)){
   #abline(h=0.50,col="cyan")
   
   ##Add on data points
+  print(as.Date(time.p,origin=as.Date("2018-12-31")))
+  print(p)
   points(as.Date(time.p,origin=as.Date("2018-12-31")),p,pch=20,col="red",cex=2)
   points(as.Date(time.p,origin=as.Date("2018-12-31")),mn,col="blue",pch=3,cex=2)
   points(as.Date(time.p,origin=as.Date("2018-12-31")),me,col="blue",pch=1,cex=2)
@@ -328,6 +331,7 @@ for(f in 1:length(forecastFiles)){
   plotDts <- as.Date(seq(1,lengthLastYear,1),origin=as.Date("2018-12-31"))
   plotFileName <- paste("ForecastPlots/",siteName,"/",mdlStr,"/",siteName,"_",endDate,"_",mdlStr,".png",sep="")
   png(file=plotFileName, width=10, height=5,units="in",res=1000)
+  par(mfrow=c(1,1),mai=c(1,1,1,0.5))
   plotForecastOutput(siteName=siteName,URL=URL[length(URL)],forecastLength=forecastLength,
                      out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",
                      days=seq(1,lengthLastYear,1),xlim=c(10,160),
@@ -347,6 +351,8 @@ for(f in 1:length(forecastFiles)){
   #abline(h=0.50,col="cyan")
   
   ##Add on data points
+  print(as.Date(time.p,origin=as.Date("2018-12-31")))
+  print(p)
   points(as.Date(time.p,origin=as.Date("2018-12-31")),p,pch=20,col="red",cex=2)
   points(as.Date(time.p,origin=as.Date("2018-12-31")),mn,col="blue",pch=3,cex=2)
   points(as.Date(time.p,origin=as.Date("2018-12-31")),me,col="blue",pch=1,cex=2)
