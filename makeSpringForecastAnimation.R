@@ -235,10 +235,10 @@ for(f in 1:length(forecastFiles)){
   #abline(h=0.50,col="cyan")
   
   ##Add on data points
-  points(time.p,p,pch=20,col="red")
-  points(time.p,mn,col="blue",pch=3,cex=2)
-  points(time.p,me,col="blue",pch=1,cex=2)
-  legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","blue","blue"),pch=c(20,3,1))
+  points(as.Date(time.p,origin=as.Date("2018-12-31")),p,pch=20,col="red",cex=2)
+  points(as.Date(time.p,origin=as.Date("2018-12-31")),mn,col="blue",pch=3,cex=2)
+  points(as.Date(time.p,origin=as.Date("2018-12-31")),me,col="blue",pch=1,cex=2)
+  #legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","blue","blue"),pch=c(20,3,1))
   dev.off()
   
 }
@@ -347,9 +347,9 @@ for(f in 1:length(forecastFiles)){
   #abline(h=0.50,col="cyan")
   
   ##Add on data points
-  points(time.p,p,pch=20,col="red")
-  points(time.p,mn,col="blue",pch=3,cex=2)
-  points(time.p,me,col="blue",pch=1,cex=2)
+  points(as.Date(time.p,origin=as.Date("2018-12-31")),p,pch=20,col="red",cex=2)
+  points(as.Date(time.p,origin=as.Date("2018-12-31")),mn,col="blue",pch=3,cex=2)
+  points(as.Date(time.p,origin=as.Date("2018-12-31")),me,col="blue",pch=1,cex=2)
   #legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","blue","blue"),pch=c(20,3,1))
   dev.off()
   
