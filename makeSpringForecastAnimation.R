@@ -196,7 +196,7 @@ for(f in 1:length(forecastFiles)){
   
   if(mdlStr=="LC2"){
     outBurnLC <- outBurnLC2
-  }else if(mdlStr == "RW"){
+  }else if(mdlStr == "randomWalk"){
     outBurnLC <- outBurnRW
   }else if(mdlStr == "logistic"){
     outBurnLC <- outBurnL
