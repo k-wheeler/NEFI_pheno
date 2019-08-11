@@ -15,17 +15,17 @@
 #' @export
 #'
 #' @examples
-forecastLogCov <- function(IC,trans,b1,Sf,Q=0,n,NT){
+forecastLogCov2 <- function(IC,trans,b1,Sf,Q=0,n,NT){
+
   b0 <-  b1 * -1 * trans
   x <- matrix(NA,n,NT)
   Xprev <- IC
   ##For the first round:
   rl <- b1 * Sf[,1] + b0
-  print(rl)
   r <- matrix(NA,n,NT)
   rPrev <- rl
   t <- 1 #Done for the first time step
-  mu <- Xprev+ rl * Xprev * (1-Xprev)  ## latent process
+  mu <- Xprev+ (rl * Xprev * (1-Xprev))  ## latent process
   xl <- rnorm(n,mu,Q)
   xNew <- numeric()
   for(i in 1:length(xl)){
@@ -62,3 +62,4 @@ forecastLogCov <- function(IC,trans,b1,Sf,Q=0,n,NT){
   }
   return(x)
 }
+

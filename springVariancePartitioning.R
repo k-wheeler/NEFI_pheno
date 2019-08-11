@@ -88,9 +88,11 @@ for(d in 1:length(allDates)){
     V.pred.rel <- apply(varMat,2,function(x) {x/max(x)})
     plotFileName <- paste(plotFolder,"randomWalk/",siteName,"_randomWalk_",calEndDate,"_varPartition.png",sep="")
     png(file=plotFileName, width=10, height=5,units="in",res=1000)
-    plot(forDates,V.pred.rel[1,],ylim=c(0,1),type='n',main="Relative Variance Random Walk",ylab="Proportion of Variance",xlab="time")
+    par(mai=c(1,1.2,0.5,0.5))
+    plot(forDates,V.pred.rel[1,],ylim=c(0,1),type='n',main="",ylab="Proportion of Variance",xlab="time")
     ciEnvelope(forDates,rep(0,ncol(V.pred.rel)),V.pred.rel[1,],col="blue")
     ciEnvelope(forDates,V.pred.rel[1,],V.pred.rel[2,],col="gray")
+    legend("topleft",legend=calEndDate,pch=20,col="white",cex=1.5)
     dev.off()
 
     #legend("topleft",legend=c("RandomEffect","Process","Driver","Parameter","InitCond"),col=rev(N.cols),lty=1,lwd=5)
@@ -149,10 +151,12 @@ for(d in 1:length(allDates)){
     V.pred.rel <- apply(varMat,2,function(x) {x/max(x)})
     plotFileName <- paste(plotFolder,"logistic/",siteName,"_logistic_",calEndDate,"_varPartition.png",sep="")
     png(file=plotFileName, width=10, height=5,units="in",res=1000)
-    plot(forDates,V.pred.rel[1,],ylim=c(0,1),type='n',main="Relative Variance Basic Logistic",ylab="Proportion of Variance",xlab="time")
+    par(mai=c(1,1.2,0.5,0.5))
+    plot(forDates,V.pred.rel[1,],ylim=c(0,1),type='n',main="",ylab="Proportion of Variance",xlab="Time")
     ciEnvelope(forDates,rep(0,ncol(V.pred.rel)),V.pred.rel[1,],col="gray")
     ciEnvelope(forDates,V.pred.rel[1,],V.pred.rel[2,],col="green")
     ciEnvelope(forDates,V.pred.rel[2,],V.pred.rel[3,],col="blue")
+    legend("topleft",legend=calEndDate,pch=20,col="white",cex=1.5)
     dev.off()
 
     #legend("topleft",legend=c("RandomEffect","Process","Driver","Parameter","InitCond"),col=rev(N.cols),lty=1,lwd=5)
@@ -171,7 +175,7 @@ for(d in 1:length(allDates)){
                        forecastLength=forecastLength, station=station,
                        calDatesT = FALSE) 
     
-    #save(SfsALL,file="SfsALL.RData")
+    save(SfsALL,file=paste("SfsALL_",calEndDate,".RData",sep=""))
     #load("SfsALL_140.RData")
     #load("SfsALL_140_new.RData")
     #load("harvard_2009-01-01_2019-05-20_LC2_outBurn.RData")
@@ -219,7 +223,7 @@ for(d in 1:length(allDates)){
     
     ##Driver Uncertainty
     SfsSamp <- matrix(nrow=Nmc,ncol=0)
-    for(s in 1:length(SfsALL$Sf)){
+    for(s in (length(SfsALL$Sf)-13):length(SfsALL$Sf)){ ##Only need the last 14
       SfsSamp <- cbind(SfsSamp,rnorm(Nmc,SfsALL$Sf[s],1/sqrt(SfsALL$Sfprec[s])))
     }
     LC.IPD <- forecastLogCov(IC=ICs[rndNums],
@@ -252,11 +256,13 @@ for(d in 1:length(allDates)){
     V.pred.rel <- apply(varMat,2,function(x) {x/max(x)})
     plotFileName <- paste(plotFolder,"LC2/",siteName,"_LC2_",calEndDate,"_varPartition.png",sep="")
     png(file=plotFileName, width=10, height=5,units="in",res=1000)
-    plot(forDates,V.pred.rel[1,],ylim=c(0,1),type='n',main="Relative Variance Logistic with Covariate",ylab="Proportion of Variance",xlab="time")
+    par(mai=c(1,1.2,0.5,0.5))
+    plot(forDates,V.pred.rel[1,],ylim=c(0,1),type='n',main="",ylab="Proportion of Variance",xlab="Time",cex.lab=2,cex.axis=2)
+    ciEnvelope(forDates,V.pred.rel[3,],V.pred.rel[4,],col="blue")
     ciEnvelope(forDates,rep(0,ncol(V.pred.rel)),V.pred.rel[1,],col="gray")
     ciEnvelope(forDates,V.pred.rel[1,],V.pred.rel[2,],col="green")
     ciEnvelope(forDates,V.pred.rel[2,],V.pred.rel[3,],col="pink")
-    ciEnvelope(forDates,V.pred.rel[3,],V.pred.rel[4,],col="blue")
+    legend("topleft",legend=calEndDate,pch=20,col="white",cex=1.5)
     dev.off()
     #legend("topleft",legend=c("RandomEffect","Process","Driver","Parameter","InitCond"),col=rev(N.cols),lty=1,lwd=5)
   }
