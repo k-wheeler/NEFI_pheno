@@ -11,7 +11,7 @@ library("MODISTools")
 library(doParallel)
 
 ##Set and register cores for parallel
-n.cores <- 10
+n.cores <- 1
 registerDoParallel(cores=n.cores)
 
 #########Make phenofits for the last year of data
