@@ -9,18 +9,18 @@
 #' @export
 #' @import MODISTools
 downloadMODIS <- function(startDate,endDate,dataDirectory,lat,long,siteName){
-  DQFfileName <- paste(siteName,"_MOD13Q1_250m_16_days_pixel_reliability_",startDate,endDate,".csv",sep="")
+  DQFfileName <- paste(dataDirectory,siteName,"_MOD13Q1_250m_16_days_pixel_reliability_",startDate,endDate,".csv",sep="")
   if(!file.exists(DQFfileName)){
     print("Downloading DQF")
     mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=startDate,end=endDate,site_name = siteName,out_dir = dataDirectory,internal=FALSE)
   }
-  NDVIfileName <- paste(siteName,"_MOD13Q1_250m_16_days_NDVI_",startDate,endDate,".csv",sep="")
+  NDVIfileName <- paste(dataDirectory,siteName,"_MOD13Q1_250m_16_days_NDVI_",startDate,endDate,".csv",sep="")
     #harvard_rel_MOD13Q1_250m_16_days_pixel_reliability_2009-01-012019-09-03.csv
   if(!file.exists(NDVIfileName)){
     print("Downloading NDVI")
     mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_","NDVI",sep=""),start=startDate,end=endDate,site_name = siteName,out_dir = dataDirectory,internal=FALSE)
   }
-  EVIfileName <- paste(siteName,"_MOD13Q1_250m_16_days_EVI_",startDate,endDate,".csv",sep="")
+  EVIfileName <- paste(dataDirectory,siteName,"_MOD13Q1_250m_16_days_EVI_",startDate,endDate,".csv",sep="")
     #harvard_rel_MOD13Q1_250m_16_days_pixel_reliability_2009-01-012019-09-03.csv
   if(!file.exists(EVIfileName)){
     print("Downloading EVI")
