@@ -23,18 +23,19 @@ forecastLength <- 0
 #iseq <- c(1,2,3,4,6,15,16,18,20,21,22,23,24)
 #iseq <- c(1,2,3,4,6,15,16,20)
 iseq <- c(1,2,3,4,6,15,16,18,20,24)
+iseq <- c(1,2,3,4,6,15,16,20,24)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 forecastDataFolder <- "PhenologyForecastData/ForecastOutputs/AllForecasts/"
 dataFolder <- "PhenologyForecastData/"
 outTable <- matrix(nrow=0,ncol=6) ##Each col is a different model and rows are different sites
 outTable2 <- matrix(nrow=0,ncol=3) ##Each col is a different model and rows are different sites
-i <- 6
+i <- 1
 allDates <- c(seq(as.Date("2019-01-23"),as.Date("2019-01-25"),"day"),
               as.Date("2019-02-03"),as.Date("2019-02-05"),
               seq(as.Date("2019-02-07"),as.Date("2019-06-06"),"day"))
-output <- 
-  foreach(i=iseq) %dopar% {
-#for(i in iseq){  
+#output <- 
+#  foreach(i=iseq) %dopar% {
+for(i in iseq){  
   siteName <- as.character(siteData[i,1])
   print(siteName)
   siteStartDate <- as.character(siteData$startDate[i])
@@ -97,24 +98,27 @@ output <-
     RWdat <- list(dts=allDates3,minsCI=minsCI)
     save(RWdat,file = outFileName)
   }
-  # load(outFileName)
-  # allDates3 <- RWdat$dts
-  # minsCI <- RWdat$minsCI
-  # includeCol <- matrix(nrow=0,ncol=ncol(minsCI)) ##Columns to include (tran date close to overall tran CI)
-  # for(m in 1:ncol(minsCI)){
-  #   includeCol[m] <- FALSE
-  #   for(l in 1:3){
-  #     if(minsCI[l,m] < (tran50[3]+1) && minsCI[l,m] > (tran50[1]-1)){
-  #       includeCol[m] <- TRUE
-  #     }
-  #   }
-  # }
-  # potInd2 <- which(((minsCI[1,]!=Inf) * (minsCI[2,] != Inf) * (minsCI[3,]!=Inf))==1)
-  # potInd <- seq(1,ncol(minsCI))[includeCol] ##Indices for the columns that have a good tran date
-  # ##Need to see if the CI's overlap
-  # 
-  # noFrstPot <- TRUE
-  # j <- 1
+  load(outFileName)
+  allDates3 <- RWdat$dts
+  minsCI <- RWdat$minsCI
+  includeCol <- matrix(nrow=0,ncol=ncol(minsCI)) ##Columns to include (tran date close to overall tran CI)
+  for(m in 1:ncol(minsCI)){
+    includeCol[m] <- FALSE
+    for(l in 1:3){
+      if(!is.na(minsCI[l,m])){
+      if(minsCI[l,m] < (tran50[3]+1) && minsCI[l,m] > (tran50[1]-1)){
+        includeCol[m] <- TRUE
+      }
+      }
+    }
+  }
+  potInd2 <- which(((minsCI[1,]!=Inf) * (minsCI[2,] != Inf) * (minsCI[3,]!=Inf))==1)
+  potInd <- seq(1,ncol(minsCI))[includeCol] ##Indices for the columns that have a good tran date
+  ##Need to see if the CI's overlap
+
+  noFrstPot <- TRUE
+  j <- 1
+  frstDy <- min(potInd)
   # while(noFrstPot){ ##Only counts it as the first day if the next three days are also included
   #   if(potInd[j+1]>=potInd[j] &&
   #      potInd[j+2]>=potInd[j] &&
@@ -129,33 +133,33 @@ output <-
   #     frstDy <- NA
   #   }
   # }
-  # 
-  # noFrstPot <- TRUE
-  # j <- 1
-  # if(length(potInd2)>=3){
-  # while(noFrstPot){ ##Only counts it as the first day if the next three days are also included
-  #   if(potInd2[j+1]>=potInd2[j] &&
-  #      potInd2[j+2]>=potInd2[j] &&
-  #      potInd2[j+3]>=potInd2[j]){
-  #     frstDy2 <- potInd2[j]
-  #     noFrstPot <- FALSE
-  #   }else{
-  #     j <-  j + 1
-  #   }
-  #   if(j>(length(potInd2)-3)){
-  #     noFrstPot <- FALSE
-  #     frstDy2 <- NA
-  #   }
-  # }
-  # }else{
-  #   frstDy2 <- min(potInd2)
-  # }
-  # 
-  # 
-  # 
-  # 
-  # newRow2 <- frstDy2 + 22 ##Add 22 because the index counting starts 22 days late
-  # newRow <- frstDy + 22
+
+  noFrstPot <- TRUE
+  j <- 1
+  if(length(potInd2)>=3){
+  while(noFrstPot){ ##Only counts it as the first day if the next three days are also included
+    if(potInd2[j+1]>=potInd2[j] &&
+       potInd2[j+2]>=potInd2[j] &&
+       potInd2[j+3]>=potInd2[j]){
+      frstDy2 <- potInd2[j]
+      noFrstPot <- FALSE
+    }else{
+      j <-  j + 1
+    }
+    if(j>(length(potInd2)-3)){
+      noFrstPot <- FALSE
+      frstDy2 <- NA
+    }
+  }
+  }else{
+    frstDy2 <- min(potInd2)
+  }
+
+
+
+
+  newRow2 <- as.numeric(format(allDates3[frstDy2],"%j"))  ##Add 22 because the index counting starts 22 days late
+  newRow <- as.numeric(format(allDates3[frstDy],"%j"))
   
   ###Logistic
   
@@ -204,34 +208,37 @@ output <-
     Ldat <- list(dts=allDates3,minsCI=minsCI)
     save(Ldat,file = outFileName)
   }
-  # load(outFileName)
-  # 
-  # allDates3 <- Ldat$dts
-  # minsCI <- Ldat$minsCI
-  # includeCol <- matrix(nrow=0,ncol=ncol(minsCI))
-  # for(m in 1:ncol(minsCI)){
-  #   includeCol[m] <- FALSE
-  #   if(minsCI[1,m]!=Inf && minsCI[3,m]!= Inf){
-  #   ci <- seq(minsCI[1,m],minsCI[3,m],1)
-  #   }else if (minsCI[1,m]!=Inf && minsCI[2,m]!= Inf){
-  #     ci <- seq(minsCI[1,m],minsCI[2,m],1)
-  #   }else if(minsCI[1,m]!=Inf){
-  #     ci <- minsCI[1,m]
-  #   }else{ci <- FALSE}
-  #   if(typeof(ci)!=typeof(FALSE)){
-  #   for(l in 1:length(ci)){
-  #     if(ci[l] < (tran50[3]+1) && ci[l] > (tran50[1]-1)){
-  #       includeCol[m] <- TRUE
-  #     }
-  #   }
-  #   }
-  # }
-  # potInd <- seq(1,ncol(minsCI))[includeCol]
-  # potInd2 <- which(((minsCI[1,]!=Inf) * (minsCI[2,] != Inf) * (minsCI[3,]!=Inf))==1)
-  # ##Need to see if the CI's overlap
-  # 
-  # noFrstPot <- TRUE
-  # j <- 1
+  load(outFileName)
+
+  allDates3 <- Ldat$dts
+  minsCI <- Ldat$minsCI
+  includeCol <- matrix(nrow=0,ncol=ncol(minsCI))
+  for(m in 1:ncol(minsCI)){
+    includeCol[m] <- FALSE
+    
+    # if(minsCI[1,m]!=Inf && minsCI[3,m]!= Inf){
+    # ci <- seq(minsCI[1,m],minsCI[3,m],1)
+    # }else if (minsCI[1,m]!=Inf && minsCI[2,m]!= Inf){
+    #   ci <- seq(minsCI[1,m],minsCI[2,m],1)
+    # }else if(minsCI[1,m]!=Inf){
+    #   ci <- minsCI[1,m]
+    # }else{ci <- FALSE}
+    # if(typeof(ci)!=typeof(FALSE)){
+    for(l in 1:3){
+      if(!is.na(minsCI[l,m])){
+      if(minsCI[l,m] < (tran50[3]+1) && minsCI[l,m] > (tran50[1]-1)){
+        includeCol[m] <- TRUE
+      }
+    }
+    }
+    }
+  potInd <- seq(1,ncol(minsCI))[includeCol]
+  potInd2 <- which(((minsCI[1,]!=Inf) * (minsCI[2,] != Inf) * (minsCI[3,]!=Inf))==1)
+  ##Need to see if the CI's overlap
+
+  noFrstPot <- TRUE
+  j <- 1
+  frstDy <- min(potInd)
   # while(noFrstPot){ ##Only counts it as the first day if the next three days are also included
   #   if(potInd[j+1]>=potInd[j] &&
   #      potInd[j+2]>=potInd[j] &&
@@ -246,29 +253,29 @@ output <-
   #     frstDy <- NA
   #   }
   # }
-  # noFrstPot <- TRUE
-  # j <- 1
-  # if(length(potInd2)>=3){
-  # while(noFrstPot){ ##Only counts it as the first day if the next three days are also included
-  #   if(potInd2[j+1]>=potInd2[j] &&
-  #      potInd2[j+2]>=potInd2[j] &&
-  #      potInd2[j+3]>=potInd2[j]){
-  #     frstDy2 <- potInd2[j]
-  #     noFrstPot <- FALSE
-  #   }else{
-  #     j <-  j + 1
-  #   }
-  #   if(j>(length(potInd2)-3)){
-  #     noFrstPot <- FALSE
-  #     frstDy2 <- NA
-  #   }
-  # }
-  # }else{
-  #   frstDy2 <- min(potInd2)
-  # }
-  # 
-  # newRow2 <- c(newRow2,(frstDy2 + 22))
-  # newRow <- c(newRow, (frstDy + 22))
+  noFrstPot <- TRUE
+  j <- 1
+  if(length(potInd2)>=3){
+  while(noFrstPot){ ##Only counts it as the first day if the next three days are also included
+    if(potInd2[j+1]>=potInd2[j] &&
+       potInd2[j+2]>=potInd2[j] &&
+       potInd2[j+3]>=potInd2[j]){
+      frstDy2 <- potInd2[j]
+      noFrstPot <- FALSE
+    }else{
+      j <-  j + 1
+    }
+    if(j>(length(potInd2)-3)){
+      noFrstPot <- FALSE
+      frstDy2 <- NA
+    }
+  }
+  }else{
+    frstDy2 <- min(potInd2)
+  }
+
+  newRow2 <- c(newRow2,as.numeric(format(allDates3[frstDy2],"%j")))
+  newRow <- c(newRow, as.numeric(format(allDates3[frstDy],"%j")))
   
   
   ###Logistic Covariate
@@ -319,34 +326,36 @@ output <-
     save(LCdat,file = outFileName)
     
   }
-  # load(outFileName)
-  # allDates3 <- LCdat$dts
-  # minsCI <- LCdat$minsCI
-  # 
-  # includeCol <- matrix(nrow=0,ncol=ncol(minsCI))
-  # for(m in 1:ncol(minsCI)){
-  #   includeCol[m] <- FALSE
-  #   if(minsCI[1,m]!=Inf && minsCI[3,m]!= Inf){
-  #     ci <- seq(minsCI[1,m],minsCI[3,m],1)
-  #   }else if (minsCI[1,m]!=Inf && minsCI[2,m]!= Inf){
-  #     ci <- seq(minsCI[1,m],minsCI[2,m],1)
-  #   }else if(minsCI[1,m]!=Inf){
-  #     ci <- minsCI[1,m]
-  #   }else{ci <- FALSE}
-  #   if(typeof(ci)!=typeof(FALSE)){
-  #     for(l in 1:length(ci)){
-  #       if(ci[l] < (tran50[3]+1) && ci[l] > (tran50[1]-1)){
-  #         includeCol[m] <- TRUE
-  #       }
-  #     }
-  #   }
-  # }
-  # potInd <- seq(1,ncol(minsCI))[includeCol]
-  # potInd2 <- which(((minsCI[1,]!=Inf) * (minsCI[2,] != Inf) * (minsCI[3,]!=Inf))==1)
-  # ##Need to see if the CI's overlap
-  # 
-  # noFrstPot <- TRUE
-  # j <- 1
+  load(outFileName)
+  allDates3 <- LCdat$dts
+  minsCI <- LCdat$minsCI
+
+  includeCol <- matrix(nrow=0,ncol=ncol(minsCI))
+  for(m in 1:ncol(minsCI)){
+    includeCol[m] <- FALSE
+    # if(minsCI[1,m]!=Inf && minsCI[3,m]!= Inf){
+    #   ci <- seq(minsCI[1,m],minsCI[3,m],1)
+    # }else if (minsCI[1,m]!=Inf && minsCI[2,m]!= Inf){
+    #   ci <- seq(minsCI[1,m],minsCI[2,m],1)
+    # }else if(minsCI[1,m]!=Inf){
+    #   ci <- minsCI[1,m]
+    # }else{ci <- FALSE}
+    # if(typeof(ci)!=typeof(FALSE)){
+      for(l in 1:3){
+        if(!is.na(minsCI[l,m])){
+        if(minsCI[l,m] < (tran50[3]+1) && minsCI[l,m] > (tran50[1]-1)){
+          includeCol[m] <- TRUE
+        }
+        }
+      }
+    }
+  potInd <- seq(1,ncol(minsCI))[includeCol]
+  potInd2 <- which(((minsCI[1,]!=Inf) * (minsCI[2,] != Inf) * (minsCI[3,]!=Inf))==1)
+  ##Need to see if the CI's overlap
+
+  noFrstPot <- TRUE
+  j <- 1
+  frstDy <- min(potInd)
   # while(noFrstPot){ ##Only counts it as the first day if the next three days are also included
   #   if(potInd[j+1]>=potInd[j] &&
   #      potInd[j+2]>=potInd[j] &&
@@ -361,52 +370,58 @@ output <-
   #     frstDy <- NA
   #   }
   # }
-  # 
-  # noFrstPot <- TRUE
-  # j <- 1
-  # if(length(potInd2)>=3){
-  # while(noFrstPot){ ##Only counts it as the first day if the next three days are also included
-  #   if(potInd2[j+1]>=potInd2[j] &&
-  #      potInd2[j+2]>=potInd2[j] &&
-  #      potInd2[j+3]>=potInd2[j]){
-  #     frstDy2 <- potInd2
-  #     noFrstPot <- FALSE
-  #   }else{
-  #     j <-  j + 1
-  #   }
-  #   if(j>(length(potInd2)-3)){
-  #     noFrstPot <- FALSE
-  #     frstDy2 <- NA
-  #   }
-  # }
-  # }else{
-  #   frstDy2 <- min(potInd2)
-  # }
-  # 
-  # newRow <- c(newRow, (frstDy + 22))
-  # newRow2 <- c(newRow2,(frstDy2 + 22))
-  # 
-  # newRow <- c(newRow,as.numeric(tran50))
-  # outTable <- rbind(outTable,newRow)
-  # outTable2 <- rbind(outTable2,newRow2)
+
+  noFrstPot <- TRUE
+  j <- 1
+  if(length(potInd2)>=3){
+  while(noFrstPot){ ##Only counts it as the first day if the next three days are also included
+    if(potInd2[j+1]>=potInd2[j] &&
+       potInd2[j+2]>=potInd2[j] &&
+       potInd2[j+3]>=potInd2[j]){
+      frstDy2 <- potInd2
+      noFrstPot <- FALSE
+    }else{
+      j <-  j + 1
+    }
+    if(j>(length(potInd2)-3)){
+      noFrstPot <- FALSE
+      frstDy2 <- NA
+    }
+  }
+  }else{
+    frstDy2 <- min(potInd2)
+  }
+
+  newRow2 <- c(newRow2,as.numeric(format(allDates3[frstDy2],"%j")))
+  newRow <- c(newRow, as.numeric(format(allDates3[frstDy],"%j")))
+
+  newRow <- c(newRow,as.numeric(tran50))
+  outTable <- rbind(outTable,newRow)
+  outTable2 <- rbind(outTable2,newRow2)
 }
-# outTable <- cbind(outTable,outTable[,5]-outTable[,1],
-#                   outTable[,5]-outTable[,2],
-#                   outTable[,5]-outTable[,3])
-# 
-# colnames(outTable) <- c("RW_DOY","L_DOY","LC_DOY","Actual_0.025","Actual_0.50",
-#                         "Actual_0.975","RW_diff","L_diff","LC_diff")
-# outTable <- data.frame(cbind(as.character(siteData$siteName[iseq]),outTable))
-# ##Plotting
-# plotTable <- rbind(as.matrix(outTable$RW_diff),as.matrix(outTable$L_diff),as.matrix(outTable$LC_diff))
-# plotTable <- cbind(c(rep("A",length(iseq)),
-#                      rep("B",length(iseq)),
-#                      rep("C",length(iseq))),
-#                      plotTable)
-# colnames(plotTable) <- c("Model","Diff")
-# boxplot(as.numeric(Diff)~Model, data = plotTable,main="Forecast Horizon")
-# 
-# 
-# 
-# 
+outTable <- cbind(outTable,outTable[,5]-outTable[,1],
+                  outTable[,5]-outTable[,2],
+                  outTable[,5]-outTable[,3])
+
+colnames(outTable) <- c("RW_DOY","L_DOY","LC_DOY","Actual_0.025","Actual_0.50",
+                        "Actual_0.975","RW_diff","L_diff","LC_diff")
+outTable <- data.frame(cbind(as.character(siteData$siteName[iseq]),outTable))
+##Plotting
+plotTable <- rbind(as.matrix(outTable$RW_diff),as.matrix(outTable$L_diff),as.matrix(outTable$LC_diff))
+plotTable <- cbind(c(rep("A",length(iseq)),
+                     rep("B",length(iseq)),
+                     rep("C",length(iseq))),
+                     plotTable)
+colnames(plotTable) <- c("Model","Diff")
+
+png(file="ESA_Presentation/springForecastHorizons.png", width=7, height=7,units="in",res=1000)
+#par(mfrow=c(1,1),mai=c(1,1,1,0.5))
+boxplot(as.numeric(plotTable[,2])~plotTable[,1],main="Forecast Horizon",lwd=2,cex.axis=2)
+dev.off()
+
+
+#########
+newOutTable <- outTable[order(as.numeric(newOutTable$LC_diff)),]
+
+
 
