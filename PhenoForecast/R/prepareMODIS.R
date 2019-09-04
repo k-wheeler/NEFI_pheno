@@ -19,7 +19,7 @@ prepareMODIS <- function(startDate,endDate,metric,timeForecast,dataDirectory,lat
   dat <- read.csv(fileName,header=TRUE)
   #print(colnames(dat))
   MODIS.x <- as.Date(dat$calendar_date)
-  MODIS.y <- as.numeric(dat$data)/10000
+  MODIS.y <- as.numeric(dat$value)/10000
   MODIS.DQF <- as.numeric(dat$DQFdata)
 
   for(i in 1:length(MODIS.x)){ ##Applying DQF
