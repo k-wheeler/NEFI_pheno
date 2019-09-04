@@ -33,10 +33,10 @@ downloadMODIS <- function(startDate,endDate,metric,dataDirectory,lat,long,siteNa
     # }
     print("Downloading MODIS Index File")
     if(metric =="rel"){
-      mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = dataDirectory,internal=FALSE)
+      #mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=(lastDate+1),end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = dataDirectory,internal=FALSE)
     }
     else{
-      mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_",metric,sep=""),start=(lastDate+1),end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = dataDirectory,internal=FALSE)
+      #mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_",metric,sep=""),start=(lastDate+1),end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = dataDirectory,internal=FALSE)
     }
     newFileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new data downloaded
 
