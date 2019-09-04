@@ -67,10 +67,10 @@ for(d in 1:length(dates)){
       mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=startDate,end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = dataDirectory,internal=FALSE)
       downloadMODIS(startDate=startDate,endDate=endDate,metric="rel",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
       
-      mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_",metric,sep=""),start=startDate,end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = dataDirectory,internal=FALSE)
+      mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_","NDVI",sep=""),start=startDate,end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = dataDirectory,internal=FALSE)
       downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
       
-      mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_",metric,sep=""),start=startDate,end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = dataDirectory,internal=FALSE)
+      mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_","EVI",sep=""),start=startDate,end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = dataDirectory,internal=FALSE)
       downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
       
       ##Load rescaling data
