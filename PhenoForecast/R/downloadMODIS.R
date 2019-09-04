@@ -38,10 +38,10 @@ downloadMODIS <- function(startDate,endDate,dataDirectory,lat,long,siteName){
   newDat <- read.csv(EVIfileName,header=TRUE)
   newEVIdat <- cbind(newDat,DQFdata)
 
-  fileName <- paste(dataDirectory,siteName,"_",NDVI,"_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
+  fileName <- paste(dataDirectory,siteName,"_","NDVI","_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
   write.table(newNDVIdat,file=fileName,row.names = FALSE,col.names = TRUE,sep=",")
 
-  fileName <- paste(dataDirectory,siteName,"_",EVI,"_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
+  fileName <- paste(dataDirectory,siteName,"_","EVI","_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
   write.table(newEVIdat,file=fileName,row.names = FALSE,col.names = TRUE,sep=",")
 }
 # write.table(dat,file=fileName,row.names = FALSE,col.names = TRUE,sep=",")
