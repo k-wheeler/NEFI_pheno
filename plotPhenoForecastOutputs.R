@@ -1,4 +1,5 @@
-#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL)
+install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary") 
+
 library("PhenoForecast")
 library("PhenologyBayesModeling")
 library("coda")
@@ -81,17 +82,17 @@ for(i in iseq){
       ##Plot Forecast including calibration
       dayNumber <- dim(as.matrix(outBurnRW$predict))[2]
       out.mat.RW <- as.matrix(outBurnRW$predict)
-      print(seq(1,dayNumber,1))
-      print(seq(startDate,(endDate+forecastLength),"day"))
+      print(length(seq(1,dayNumber,1)))
+      print(dim(out.mat.RW))
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
                          out.mat=out.mat.RW,forecastType = "randomWalk",days=seq(1,dayNumber,1),
-                         endDate = endDate,dates=seq(startDate,(endDate+forecastLength),"day"))
+                         endDate = endDate)#,dates=seq(startDate,(endDate+forecastLength),"day"))
       offset <- 365-as.numeric(format(startDate,"%j"))
       for(i in seq(offset,dayNumber,365)){
         abline(v=i,col="red")
       }
       abline(v=(dayNumber-forecastLength+1),col="purple")
-      
+      print("Done all")
       
       ##Plot Current year
       lengthLastYear <- (as.numeric(format(endDate,"%j"))+forecastLength)
@@ -101,8 +102,8 @@ for(i in iseq){
       
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
                          out.mat=out.mat.lastYear,forecastType = "randomWalk",
-                         days=seq(1,lengthLastYear,1),endDate=endDate,
-                         dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
+                         days=seq(1,lengthLastYear,1),endDate=endDate)#,
+                         #dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
       ##Add on data:
@@ -161,7 +162,7 @@ for(i in iseq){
       out.mat.L <- as.matrix(outBurnL$predict)
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
                          out.mat=out.mat.L,forecastType = "Logistic",days=seq(1,dayNumber,1),
-                         endDate = endDate,dates=seq(startDate,(endDate+forecastLength),"day"))#2484
+                         endDate = endDate)#,dates=seq(startDate,(endDate+forecastLength),"day"))#2484
       
       for(i in seq(1,2484,182)){
         abline(v=i,col="red")
@@ -178,8 +179,8 @@ for(i in iseq){
       out.mat.lastYear <- out.mat.L[,lastYearIndices]
       
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
-                         out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(1,lengthLastYear,1),endDate=endDate,
-                         dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
+                         out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(1,lengthLastYear,1),endDate=endDate)#,
+                         #dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
       ##Add on data points
