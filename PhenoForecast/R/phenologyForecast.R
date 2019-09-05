@@ -17,12 +17,16 @@
 #' @param dValsME The d values for rescaling for MODIS EVI
 #' @param GEFS_Files The filenames for the GEFS files
 #' @param GEFS_Directory The directory where the GEFS files are located
+#' @param season The desired season: spring or fall
 #' @import rjags
 #' @import runjags
 #' @import coda
 #' @import PhenologyBayesModeling
 #' @export
-phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,long,dataDirectory,startDate,endDate,cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,GEFS_Files="",GEFS_Directory,station=""){
+phenologyForecast <- function(forecastType,forecastLength=14,siteName,
+                              URLs,lat,long,dataDirectory,startDate,endDate,
+                              cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,
+                              GEFS_Files="",GEFS_Directory,station="",season){
   print(forecastType)
   nchain=5
   ###Download PhenoCam data and format
@@ -93,14 +97,21 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
     }
 
     #dat2 <- dat2[dat2$months%in%seq(1,6,1),]
-    dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(1,181),]
-    p <- matrix(nrow=181,ncol=0)
-    Sf <- matrix(nrow=181,ncol=0)
-    mn <- matrix(nrow=181,ncol=0)
-    me <- matrix(nrow=181,ncol=0)
-    Sfprecs<- matrix(nrow=181,ncol=0)
+    if(season=="spring"){
+      dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(1,181),]
+      nrowNum <- 181
+    }else if(season=="fall"){
+      dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(182,365),]
+      nrowNum <- 184
+    }
+
+    p <- matrix(nrow=nrowNum,ncol=0)
+    Sf <- matrix(nrow=nrowNum,ncol=0)
+    mn <- matrix(nrow=nrowNum,ncol=0)
+    me <- matrix(nrow=nrowNum,ncol=0)
+    Sfprecs<- matrix(nrow=nrowNum,ncol=0)
     valNum <- 0
-    days2 <- matrix(nrow=181,ncol=0)
+    days2 <- matrix(nrow=nrowNum,ncol=0)
     for(i in (lubridate::year(as.Date(dat2$dates[1]))+1):lubridate::year(as.Date(dat2$dates[length(dat2$dates)]))){##I know this includes the forecasted stuff, but it shouldn't really matter because of the JAGS model setup
       subDat <- dat2[lubridate::year(as.Date(dat2$dates))==i,]
       valNum <- valNum + 1
@@ -127,12 +138,15 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
     }
 
     dataFinal <- list(p=p,mn=mn,me=me)
-    dataFinal$n <- 181
+    dataFinal$n <- nrowNum
     dataFinal$N <- ncol(dataFinal$p)
     dataFinal$x_ic <- 0
     dataFinal$tau_ic <- 1/(phenoData$g_std[1]**2)
-    dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength
-
+    if(season=="fall" && forecastType=="logistic"){
+      dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength - 181
+    }else{
+      dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength
+    }
     plot(days2,dataFinal$p,pch=20,main="PhenoCam Data")
     abline(v=endDate,col="red")
     plot(days2,dataFinal$mn,pch=20,main="MODIS NDVI Data")
@@ -143,7 +157,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,URLs,lat,l
     print("Done with formating data")
     if(forecastType=="logistic"){
       dev.off()
-      j.model <- logisticPhenoModel(data=dataFinal,nchain=nchain)
+      j.model <- logisticPhenoModel(data=dataFinal,nchain=nchain,season=season)
       print("Done creating the basic logistic model")
       variableNames <- c("p.proc","p.PC","p.ME","p.MN","x","r")
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=10000,iterSize=5000)

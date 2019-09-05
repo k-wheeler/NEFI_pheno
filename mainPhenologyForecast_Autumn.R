@@ -86,20 +86,28 @@ for(d in 1:length(dates)){
       ##Create Random Walk forecast if needed
       outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
       if(!file.exists(outputFile)){
-        outBurnRW <- phenologyForecast(forecastType = "randomWalk",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
+        outBurnRW <- phenologyForecast(forecastType = "randomWalk",forecastLength = forecastLength,
+                                       siteName=siteName,URLs=URL,lat=lat,long=long,
+                                       dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,
+                                       dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,
+                                       cValsME=cMeans.me,dValsME=dMeans.me,season="fall")
         if(typeof(outBurnRW)!=typeof(FALSE)){
           save(outBurnRW,file=outputFile)
         }
       }
       
-      ##Create logistic forecast if needed
-      #outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
-      #if(!file.exists(outputFile)){
-      #  outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me)
-      #  if(typeof(outBurnL)!=typeof(FALSE)){
-      #    save(outBurnL,file=outputFile)
-      #  }
-      #}
+      #Create logistic forecast if needed
+      outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
+      if(!file.exists(outputFile)){
+       outBurnL <- phenologyForecast(forecastType = "logistic",forecastLength = forecastLength,
+                                     siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,
+                                     startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,
+                                     cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,
+                                     season="fall")
+       if(typeof(outBurnL)!=typeof(FALSE)){
+         save(outBurnL,file=outputFile)
+       }
+      }
       
       ##Create a Logistic with Covariate Model
       # outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
