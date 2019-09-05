@@ -7,8 +7,8 @@ library("dplyr")
 library("rjags")
 
 ##Read in data
-siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
-dataDirectory="PhenologyForecastData/"
+#siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
+#dataDirectory="PhenologyForecastData/"
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
@@ -103,7 +103,7 @@ for(i in iseq){
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
                          out.mat=out.mat.lastYear,forecastType = "randomWalk",
                          days=seq(1,lengthLastYear,1),endDate=endDate)#,
-                         #dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
+      #dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
       ##Add on data:
@@ -119,9 +119,9 @@ for(i in iseq){
       phenoData3 <- phenoData2[!duplicated(phenoData2$date),]
       phenoData <- phenoData3
       phenoData <- phenoData[phenoData$date<endDate,]
-
+      
       p <- phenoData$gcc_mean[phenoData$year==2019]
-
+      
       time.p.date <- as.Date(phenoData$date[phenoData$year==2019])
       time.p <-  as.numeric(format(time.p.date,"%j"))
       
@@ -175,12 +175,13 @@ for(i in iseq){
       
       
       ##Plot Current year
+      lengthLastYear <- lengthLastYear - 181 ##Done for autumn
       lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
       out.mat.lastYear <- out.mat.L[,lastYearIndices]
       
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
                          out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(1,lengthLastYear,1),endDate=endDate)#,
-                         #dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
+      #dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
       ##Add on data points
