@@ -14,7 +14,7 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 
 forecastLength <- 15
 
-endDate <- (Sys.Date()-2)
+endDate <- (Sys.Date()-1)
 #startDate <- as.Date("2013-01-01")
 #endDate <- as.Date("2019-01-27")
 i <- 10
@@ -81,7 +81,8 @@ for(i in iseq){
       ##Plot Forecast including calibration
       dayNumber <- dim(as.matrix(outBurnRW$predict))[2]
       out.mat.RW <- as.matrix(outBurnRW$predict)
-      
+      print(seq(1,dayNumber,1))
+      print(seq(startDate,(endDate+forecastLength),"day"))
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
                          out.mat=out.mat.RW,forecastType = "randomWalk",days=seq(1,dayNumber,1),
                          endDate = endDate,dates=seq(startDate,(endDate+forecastLength),"day"))
