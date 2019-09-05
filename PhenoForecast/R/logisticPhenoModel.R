@@ -105,7 +105,6 @@ logisticPhenoModel <- function(data,nchain,season){
       # 0.148 is from Richardson et al. 2006.
       }"
   }
-  }
 
 
   ###Create the JAGS model using the basic RandomWalk Model
