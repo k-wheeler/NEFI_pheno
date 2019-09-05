@@ -12,7 +12,7 @@
 ##' @export
 ##' @import ecoforecastR
 ##' @import rjags
-plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,days,xlim=FALSE,plotTitle=FALSE,endDate,dates){
+plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,days,xlim=FALSE,plotTitle=FALSE,endDate,dates=""){
   ##Download the phenocam data
   phenoData <- matrix(nrow=0,ncol=32)
 
