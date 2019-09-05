@@ -182,6 +182,7 @@ for(i in iseq){
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
                          out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(182,(lengthLastYear+181),1),endDate=endDate)#,
       #dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
+      
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
       ##Add on data points
