@@ -180,7 +180,7 @@ for(i in iseq){
       out.mat.lastYear <- out.mat.L[,lastYearIndices]
       
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
-                         out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(1,lengthLastYear,1),endDate=endDate)#,
+                         out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(182,lengthLastYear,1),endDate=endDate)#,
       #dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
@@ -190,6 +190,8 @@ for(i in iseq){
       points(time.p,me,col="green",pch=1)
       legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
     }
+    
+    
     ##Logistic with covariates model
     LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
     if(file.exists(LCFile)){
