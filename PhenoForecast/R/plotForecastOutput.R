@@ -12,7 +12,7 @@
 ##' @export
 ##' @import ecoforecastR
 ##' @import rjags
-plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,days,xlim=FALSE,plotTitle=FALSE,endDate,dates=""){
+plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,days,xlim=FALSE,plotTitle=FALSE,endDate,dates=FALSE){
   ##Download the phenocam data
   phenoData <- matrix(nrow=0,ncol=32)
 
@@ -60,11 +60,22 @@ plotForecastOutput <- function(siteName,forecastType,URL,forecastLength,out.mat,
 
     }
   }
+  if(typeof(dates)!=typeof(FALSE)){
+    ciEnvelope(dates,ci[1,],ci[3,],col="lightBlue")
+    #lines(days,ci[1,],col="purple")
+    #lines(days,ci[3,],col="green")
+    lines(dates,ci[2,],col="black",lwd=2)
+  }else{
+    ciEnvelope(days,ci[1,],ci[3,],col="lightBlue")
+    #lines(days,ci[1,],col="purple")
+    #lines(days,ci[3,],col="green")
+    lines(days,ci[2,],col="black",lwd=2)
+  }
 
-  ciEnvelope(dates,ci[1,],ci[3,],col="lightBlue")
+  #ciEnvelope(dates,ci[1,],ci[3,],col="lightBlue")
   #lines(days,ci[1,],col="purple")
   #lines(days,ci[3,],col="green")
-  lines(dates,ci[2,],col="black",lwd=2)
+  #lines(dates,ci[2,],col="black",lwd=2)
   #points(timeForecast,p,pch="+",cex=0.5)
   #abline(v=time[length(time)],col="red")
 
