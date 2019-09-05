@@ -22,6 +22,7 @@ i <- 10
 i <- 1
 iseq <- c(seq(1,4),6,8,9,10,15,16,seq(18,27))
 iseq <- c(1)
+iseq <- c(1,2,3,4,6,15,16,20,18,24)
 outFileName <- paste("PhenologyForecastOutput_allSites_",endDate,".pdf",sep="")
 #iseq <- c(seq(1,6),8,9,10,15,16,seq(18,27))
 pdf(outFileName,height=6,width=10)
