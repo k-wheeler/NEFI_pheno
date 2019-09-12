@@ -75,7 +75,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     TairsMeansCal <- rowMeans(TairsCal)
     print('length(TairsMeansCal)')
     print(length(TairsMeansCal))
-    TairsVarCal <- apply(TairsCal,MARGIN=2,FUN=var)
+    TairsVarCal <- apply(TairsCal,MARGIN=1,FUN=var)
     #SfsVarCal[SfsVarCal==0] <- 0.001
   }
 
@@ -114,6 +114,8 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     print("length(TairsMeans)")
     print(length(TairsMeans))
     TairsVar <- c(TairsVarCal,rep(NA,212),TairsVarCur)
+    print("length(TairsVar)")
+    print(length(TairsVar))
   }
   else{
     #SfsMeans <- SfsMeansCur
