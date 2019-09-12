@@ -93,7 +93,8 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     if(forecastType=="logisticCDD"){#|| forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
       #print('if(forecastType=="logisticCDD")')
       datTairs <- createTairs(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,forecastLength=forecastLength,station=station)
-
+      print(dim(datTairs$TairMu))
+      print(dim(dat2$dates))
       dat2$TairMu <- datTairs$TairMu
       dat2$TairPrec<- datSf$TairPrec
     }

@@ -100,5 +100,6 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
 
   #dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
   dat <- list(TairMu=TairsMeans,TairPrec=1/TairsVar)
+  print("finished createTairs")
   return(dat)
 }
