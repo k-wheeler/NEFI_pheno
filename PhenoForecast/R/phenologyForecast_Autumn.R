@@ -142,9 +142,12 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     dataFinal$N <- ncol(dataFinal$p)
     dataFinal$x_ic <- 0
     dataFinal$tau_ic <- 1/(phenoData$g_std[1]**2)
-    if(season=="fall" && (forecastType=="logistic" || forecastType == "logisticCDD")){
+    if(season=="fall" && forecastType=="logistic"){#} || forecastType == "logisticCDD")){
       dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength - 181
-    }else{
+    }else if(season=="fall" && forecastType=="logisticCDD"){
+      dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength - 181
+    }
+    else{
       dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength
     }
     plot(days2,dataFinal$p,pch=20,main="PhenoCam Data")
@@ -168,7 +171,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       abline(v=endDate,col="red")
       dev.off()
       j.model <- phenoModel_CDD_Autumn1(data=dataFinal,nchain=nchain)
-      print("Done creating the logistic with covariate model")
+      print("Done creating the logistic with CDD covariate model")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","b1","b0")
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,
