@@ -104,7 +104,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     #dat2 <- dat2[dat2$months%in%seq(1,6,1),]
     #print('else if(season=="fall")')
     dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(213,365),]
-    nrowNum <- 213
+    nrowNum <- 365-213
 
     p <- matrix(nrow=nrowNum,ncol=0)
     TairMu <- matrix(nrow=nrowNum,ncol=0)
