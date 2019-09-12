@@ -32,7 +32,7 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
   dat <- dat[which(!is.na(dat$tmax)),]
 
   lastDate <- dat$date[length(dat$date)]
-  #print(lastDate)
+  print(lastDate)
   NOAAavgs <- rowMeans(cbind(dat$tmax,dat$tmin))
   NOAAavgs <- NOAAavgs/10 ##Downloads in tenths of a degree C
   # if(is.na(NOAAavgs[length(NOAAavgs)])){
@@ -40,6 +40,7 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
   # }
   if(lastDate<endDate){
     missingDays <- seq((lastDate+1),endDate,"day")
+    print(missingDays)
     if(length(missingDays)>0){
       for(i in 1:length(missingDays)){
         NOAAavgs <- c(NOAAavgs,-9999) ## Done to indicate data lag
