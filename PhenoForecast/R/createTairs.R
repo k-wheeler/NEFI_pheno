@@ -69,7 +69,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     #   SfsALL <- rbind(SfsALL,Sfs)
     # }
 
-    TairsMeansCal <- colMeans(TairsCal)
+    TairsMeansCal <- rowMeans(TairsCal)
     TairsVarCal <- apply(TairsCal,MARGIN=2,FUN=var)
     #SfsVarCal[SfsVarCal==0] <- 0.001
   }
