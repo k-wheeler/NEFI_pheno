@@ -99,7 +99,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   # print(length(rowMeans(TairsForecast))) ##14
   TairsMeansCur <- c(colMeans(TairsCurrent),rowMeans(TairsForecast))
 
-  TairsVarCur <- c(apply(TairsCurrent,MARGIN=2,FUN=var),apply(TairsForecast,MARGIN=2,FUN=var))
+  TairsVarCur <- c(apply(TairsCurrent,MARGIN=1,FUN=var),apply(TairsForecast,MARGIN=2,FUN=var))
 
 
   #SfsVarCur[SfsVarCur==0] <- 0.001
