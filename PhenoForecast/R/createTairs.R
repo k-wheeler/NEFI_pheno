@@ -89,10 +89,17 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   #
   #   SfsALL <- rbind(SfsALL,Sfs)
   # }
-
+  print('dim(TairsCurrent)')
+  print(dim(TairsCurrent))
+  print('length(colMeans(TairsCurrent))')
+  print(length(colMeans(TairsCurrent)))
+  print('length(colMeans(TairsForecast))')
+  print(length(colMeans(TairsForecast)))
   TairsMeansCur <- colMeans(TairsCurrent) + colMeans(TairsForecast)
 
   TairsVarCur <- apply(TairsCurrent,MARGIN=2,FUN=var) + apply(TairsForecast,MARGIN=2,FUN=var)
+
+
   #SfsVarCur[SfsVarCur==0] <- 0.001
   if(calDatesT){
     #SfsMeans <- c(SfsMeansCal,SfsMeansCur)
