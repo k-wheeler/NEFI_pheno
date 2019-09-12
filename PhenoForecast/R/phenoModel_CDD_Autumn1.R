@@ -12,9 +12,9 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
   data$mu.b1 <- 0.2 #Based off of slope with points (sf=177,r=0) and (sf=250 and r = 1.5)
   data$prec.b1 <- 1/(0.05**2)
   data$mu.baseTemp <- 25 ##Kind of based off of Richardson et al. (2006)
-  data$prec.baseTemp <- 1/(2.5**2)
+  data$p.baseTemp <- 1/(2.5**2)
   data$mu.trans <- 600
-  data$prec.trans <- 1/(200**2)
+  data$p.trans <- 1/(200**2)
   #data$mu.b0 <- -3.625 #Based off of slope with points (sf=177,r=0) and (sf=250 and r = 1.5)
   #data$prec.b0 <- 1/(0.5**2)
 
@@ -89,7 +89,7 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
   p.MN ~ dgamma(s2,s2)
   p.proc ~ dgamma(s1,s2)
   #trans ~ dnorm(110,0.000625)
-  trans ~ dnorm(mu.trans,prec.trans)
+  trans ~ dnorm(mu.trans,p.trans)
   Sfprec ~ dgamma(s1.Sf,s2.Sf)
 
   b1 ~ dnorm(mu.b1,prec.b1)

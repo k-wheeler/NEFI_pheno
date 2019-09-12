@@ -95,15 +95,15 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       datTairs <- createTairs(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,
                               endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,
                               GEFS_Directory=GEFS_Directory,forecastLength=forecastLength,station=station)
-      print('length(datTairs$TairPrec)')
-      print(length(datTairs$TairPrec))
-      print('length(dat2$dates)')
-      print(length(dat2$dates))
+      #print('length(datTairs$TairPrec)')
+      #print(length(datTairs$TairPrec))
+      #print('length(dat2$dates)')
+      #print(length(dat2$dates))
       dat2$TairMu <- datTairs$TairMu
-      print("done dat2$TairMu")
+      #print("done dat2$TairMu")
       dat2$TairPrec<- datTairs$TairPrec
     }
-    print("Assigned to dat2")
+    #print("Assigned to dat2")
     #dat2 <- dat2[dat2$months%in%seq(1,6,1),]
     #print('else if(season=="fall")')
     dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(213,365),]
@@ -116,7 +116,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     TairPrec <- matrix(nrow=nrowNum,ncol=0)
     valNum <- 0
     days2 <- matrix(nrow=nrowNum,ncol=0)
-    print("Making subdat")
+    #print("Making subdat")
     for(i in (lubridate::year(as.Date(dat2$dates[1]))+1):lubridate::year(as.Date(dat2$dates[length(dat2$dates)]))){##I know this includes the forecasted stuff, but it shouldn't really matter because of the JAGS model setup
       subDat <- dat2[lubridate::year(as.Date(dat2$dates))==i,]
       valNum <- valNum + 1
@@ -131,8 +131,8 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       days2 <- cbind(days2,as.Date(subDat$dates))
       if(forecastType=="logisticCDD"){#} || forecastType== "logisticCov2" || forecastType== "logisticCov3"){
         #print('if(forecastType=="logisticCDD")')
-        print('length(subDat$TairMu)')
-        print(length(subDat$TairMu))
+        #print('length(subDat$TairMu)')
+        #print(length(subDat$TairMu))
         TairMu <- cbind(TairMu,subDat$TairMu)
         TairPrec <- cbind(TairPrec,subDat$TairPrec)
       }
