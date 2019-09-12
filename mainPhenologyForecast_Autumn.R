@@ -106,7 +106,7 @@ for(i in iseq){
   ##Create a Logistic with Covariate Model
   outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD1_outBurn.RData",sep="")
   if(!file.exists(outputFile)){
-    outBurn <- phenologyForecast(forecastType = "logisticCDD",forecastLength = forecastLength,
+    outBurn <- phenologyForecast_Autumn(forecastType = "logisticCDD",forecastLength = forecastLength,
                                  siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,
                                  as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,
                                  dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,
