@@ -28,10 +28,14 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     # }
     #else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018)) ##columns are each an ensemble (not divided by year)
-  }
+    print("dim(TairsCal)")
+    print(dim(TairsCal))
+    }
   #print(endDate)
   TairsCurrentInd <- load_NOAA_met(station=station,startDate=as.Date("2019-08-01"),endDate=(endDate-forecastLength)) ##Array of numeric values
   #}
+  print('length(TairsCurrentInd)')
+  print(length(TairsCurrentInd))
 
   ##GEFS Forecast (same for all sites) and pad TairsCurrent to be ensembles
   TairsCurrent <- matrix(ncol=length(GEFS_Files),nrow=length(TairsCurrentInd))
@@ -42,6 +46,8 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     TairsForecast <- cbind(TairsForecast,TairsForecastInd)
     TairsCurrent[,e] <- TairsCurrentInd
   }
+  print('dim(TairsCurrent)')
+  print(dim(TairsCurrent))
   NOAAmetDays <- seq(as.Date("2019-08-01"),(endDate-forecastLength),"day") ###Changed for autumn
   #print(NOAAmetDays)
   #print(TairsCurrent[,1])
