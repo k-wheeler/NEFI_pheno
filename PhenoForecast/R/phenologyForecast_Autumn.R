@@ -127,7 +127,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       days2 <- cbind(days2,as.Date(subDat$dates))
       if(forecastType=="logisticCDD"){#} || forecastType== "logisticCov2" || forecastType== "logisticCov3"){
         #print('if(forecastType=="logisticCDD")')
-        TairMu <- cbind(Tair,subDat$TairMu)
+        TairMu <- cbind(TairMu,subDat$TairMu)
         TairPrec <- cbind(TairPrec,subDat$TairPrec)
       }
 
