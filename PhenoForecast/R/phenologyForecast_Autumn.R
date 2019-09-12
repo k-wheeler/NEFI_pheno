@@ -113,6 +113,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     TairPrec <- matrix(nrow=nrowNum,ncol=0)
     valNum <- 0
     days2 <- matrix(nrow=nrowNum,ncol=0)
+    print("Making subdat")
     for(i in (lubridate::year(as.Date(dat2$dates[1]))+1):lubridate::year(as.Date(dat2$dates[length(dat2$dates)]))){##I know this includes the forecasted stuff, but it shouldn't really matter because of the JAGS model setup
       subDat <- dat2[lubridate::year(as.Date(dat2$dates))==i,]
       valNum <- valNum + 1
