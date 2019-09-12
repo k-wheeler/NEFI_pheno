@@ -44,7 +44,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   NOAAmetDays <- seq(as.Date("2019-08-01"),(endDate-forecastLength),"day") ###Changed for autumn
   #print(TairsCurrent[,1])
   #print(TairsCurrent[,1]==-9999)
-  #print(sum(TairsCurrent[,1]==-9999))
+  print(sum(TairsCurrent[,1]==-9999))
   if(sum(TairsCurrent[,1]==-9999)>0){
     TairsCurrent[TairsCurrent[,1]==-9999,] <- fillNOAAlag(days=NOAAmetDays[TairsCurrent[,1]==-9999],siteName=siteName)
   }
