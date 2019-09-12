@@ -31,10 +31,10 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     print("dim(TairsCal)")
     print(dim(TairsCal))
   }
-  print('endDate')
-  print(endDate)
+  print('endDate - forecastLength')
+  print(endDate - forecastLength)
 
-  TairsCurrentInd <- load_NOAA_met(station=station,startDate=as.Date("2019-08-01"),endDate=(endDate))#-forecastLength)) ##Array of numeric values
+  TairsCurrentInd <- load_NOAA_met(station=station,startDate=as.Date("2019-08-01"),endDate=(endDate-forecastLength)) ##Array of numeric values
   #}
   print('length(TairsCurrentInd)')
   print(length(TairsCurrentInd))
