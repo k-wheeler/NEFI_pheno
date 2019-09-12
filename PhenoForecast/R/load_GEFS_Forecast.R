@@ -16,6 +16,7 @@ load_GEFS_Forecast<- function(fileName,dataDirectory) {
   timeVals <- weatherFile$dim$time$vals
   dates <- as.POSIXlt(paste(startDate,startTime,sep=" "))+(timeVals*3600) ##Convert to date and times
   currentDate <- lubridate::date(dates[1])
+  nc_close(weatherFile)
 
   ##Average out the Tairs that have the same UTC day
   Tairs <- numeric()
@@ -36,6 +37,6 @@ load_GEFS_Forecast<- function(fileName,dataDirectory) {
     Tairs <- Tairs[2:(length(Tairs)-1)]
   }
   Tairs <- Tairs-273 ##Convert to C from Kelvin
-  nc_close(weatherFile)
+
   return(Tairs)
 }
