@@ -31,8 +31,8 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     print("dim(TairsCal)")
     print(dim(TairsCal))
   }
-  print('endDate - forecastLength')
-  print(endDate - forecastLength)
+  #print('endDate - forecastLength')
+  #print(endDate - forecastLength)
 
   TairsCurrentInd <- load_NOAA_met(station=station,startDate=as.Date("2019-08-01"),endDate=(endDate-forecastLength)) ##Array of numeric values
   #}
@@ -49,7 +49,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     TairsCurrent[,e] <- TairsCurrentInd
   }
   print('dim(TairsCurrent)')
-  #TairsCurrent <- t(TairsCurrent)
+  TairsCurrent <- t(TairsCurrent)
   print(dim(TairsCurrent))
   NOAAmetDays <- seq(as.Date("2019-08-01"),(endDate-forecastLength),"day") ###Changed for autumn
   #print(NOAAmetDays)
