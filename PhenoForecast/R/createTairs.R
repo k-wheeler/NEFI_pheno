@@ -28,8 +28,8 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     # }
     #else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018)) ##columns are each an ensemble (not divided by year)
-    #print("dim(TairsCal)")
-    #print(dim(TairsCal))
+    print("dim(TairsCal)")
+    print(dim(TairsCal))
   }
   #print('endDate - forecastLength')
   #print(endDate - forecastLength)
@@ -73,6 +73,8 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     # }
 
     TairsMeansCal <- rowMeans(TairsCal)
+    print('length(TairsMeansCal)')
+    print(length(TairsMeansCal))
     TairsVarCal <- apply(TairsCal,MARGIN=2,FUN=var)
     #SfsVarCal[SfsVarCal==0] <- 0.001
   }
