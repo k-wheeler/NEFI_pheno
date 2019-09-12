@@ -99,14 +99,9 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     }
 
     #dat2 <- dat2[dat2$months%in%seq(1,6,1),]
-    if(season=="spring"){
-      dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(1,181),]
-      nrowNum <- 181
-    }else if(season=="fall"){
-      print('else if(season=="fall")')
-      dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(182,365),]
-      nrowNum <- 184
-    }
+    print('else if(season=="fall")')
+    dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(213,365),]
+    nrowNum <- 213
 
     p <- matrix(nrow=nrowNum,ncol=0)
     TairMu <- matrix(nrow=nrowNum,ncol=0)
@@ -147,10 +142,10 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     dataFinal$x_ic <- 0
     dataFinal$tau_ic <- 1/(phenoData$g_std[1]**2)
     if(season=="fall" && forecastType=="logistic"){#} || forecastType == "logisticCDD")){
-      dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength - 181
+      dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength - 213
     }else if(season=="fall" && forecastType=="logisticCDD"){
       #print('else if(season=="fall" && forecastType=="logisticCDD")')
-      dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength - 181
+      dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength - 213
     }
     else{
       dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength

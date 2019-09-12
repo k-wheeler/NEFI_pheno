@@ -41,7 +41,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     TairsForecast <- cbind(TairsForecast,TairsForecastInd)
     TairsCurrent[,e] <- TairsCurrentInd
   }
-  NOAAmetDays <- seq(as.Date("2019-01-01"),(endDate-forecastLength),"day")
+  NOAAmetDays <- seq(as.Date("2019-08-01"),(endDate-forecastLength),"day") ###Changed for autumn
   #print(TairsCurrent[,1])
   #print(TairsCurrent[,1]==-9999)
   #print(sum(TairsCurrent[,1]==-9999))
@@ -64,7 +64,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   }
 
   ##Current year
-  curDates=seq(as.Date("2019-01-01"),endDate,"day") ##Includes forecasted period
+  curDates=seq(as.Date("2019-08-01"),endDate,"day") ##Includes forecasted period ##Changed for autumn
 
   # SfsALL <- matrix(nrow=0,ncol=length(curDates))
   # for(e in 1:length(GEFS_Files)){
