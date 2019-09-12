@@ -111,8 +111,8 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     # print("length(TairsMeansCur)")
     # print(length(TairsMeansCur))
     TairsMeans <- c(TairsMeansCal,rep(NA,212),TairsMeansCur)
-    # print("length(TairsMeans)")
-    # print(length(TairsMeans))
+    print("length(TairsMeans)")
+    print(length(TairsMeans))
     TairsVar <- c(TairsVarCal,rep(NA,212),TairsVarCur)
   }
   else{
