@@ -95,11 +95,12 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       datTairs <- createTairs(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,
                               endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,
                               GEFS_Directory=GEFS_Directory,forecastLength=forecastLength,station=station)
-      print('length(datTairs$TairMu)')
-      print(length(datTairs$TairMu))
+      print('length(datTairs$TairPrec)')
+      print(length(datTairs$TairPrec))
       print('length(dat2$dates)')
       print(length(dat2$dates))
       dat2$TairMu <- datTairs$TairMu
+      print("done dat2$TairMu")
       dat2$TairPrec<- datTairs$TairPrec
     }
     print("Assigned to dat2")
