@@ -88,7 +88,13 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   if(calDatesT){
     #SfsMeans <- c(SfsMeansCal,SfsMeansCur)
     #SfsVar <- c(SfsVarCal,SfsVarCur)
+    print("length(TairsMeansCal)")
+    print(length(TairsMeansCal))
+    print("length(TairsMeansCur)")
+    print(length(TairsMeansCur))
     TairsMeans <- c(TairsMeansCal,TairsMeansCur)
+    print("length(TairsMeans)")
+    print(length(TairsMeans))
     TairsVar <- c(TairsVarCal,TairsVarCur)
   }
   else{
@@ -99,7 +105,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   }
 
   #dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
-  dat <- list(TairMu=TairsMeans,TairPrec=1/TairsVar)
+  dat <- list(TairMu=TairsMeans,TairPrec=(1/TairsVar))
   print("finished createTairs")
   return(dat)
 }
