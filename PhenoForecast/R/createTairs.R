@@ -47,6 +47,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     TairsCurrent[,e] <- TairsCurrentInd
   }
   print('dim(TairsCurrent)')
+  TairsCurrent <- t(TairsCurrent)
   print(dim(TairsCurrent))
   NOAAmetDays <- seq(as.Date("2019-08-01"),(endDate-forecastLength),"day") ###Changed for autumn
   #print(NOAAmetDays)
