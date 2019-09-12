@@ -29,7 +29,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     #else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018)) ##columns are each an ensemble (not divided by year)
   }
-  print(endDate)
+  #print(endDate)
   TairsCurrentInd <- load_NOAA_met(station=station,startDate=as.Date("2019-08-01"),endDate=(endDate-forecastLength)) ##Array of numeric values
   #}
 
@@ -43,13 +43,15 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     TairsCurrent[,e] <- TairsCurrentInd
   }
   NOAAmetDays <- seq(as.Date("2019-08-01"),(endDate-forecastLength),"day") ###Changed for autumn
-  print(NOAAmetDays)
+  #print(NOAAmetDays)
   #print(TairsCurrent[,1])
   #print(TairsCurrent[,1]==-9999)
-  print(sum(TairsCurrent[,1]==-9999))
-  print(NOAAmetDays[TairsCurrent[,1]==-9999])
+  #print(sum(TairsCurrent[,1]==-9999))
+  #print(NOAAmetDays[TairsCurrent[,1]==-9999])
   if(sum(TairsCurrent[,1]==-9999)>0){
+    print("filling")
     TairsCurrent[TairsCurrent[,1]==-9999,] <- fillNOAAlag(days=NOAAmetDays[TairsCurrent[,1]==-9999],siteName=siteName)
+    print("finished filling")
   }
   ##Create Sfs
   if(calDatesT){

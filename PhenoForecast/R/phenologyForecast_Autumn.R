@@ -99,7 +99,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     }
 
     #dat2 <- dat2[dat2$months%in%seq(1,6,1),]
-    print('else if(season=="fall")')
+    #print('else if(season=="fall")')
     dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(213,365),]
     nrowNum <- 213
 
