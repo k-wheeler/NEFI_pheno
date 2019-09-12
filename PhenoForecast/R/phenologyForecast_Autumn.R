@@ -87,9 +87,9 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     print("Done with creating the  random walk model")
     variableNames <- c("p.PC","p.MN","p.ME","p.proc","x")
     out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)
-  }else if(forecastType=="logistic" || forecastType== "logisticCov" || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
+  }else if(forecastType=="logistic" || forecastType== "logisticCDD"){#} || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
     dat2 <- data.frame(dates=days,years=years,months=months,p=p,mn=mn,me=me)
-    if(forecastType=="logisticCov" || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
+    if(forecastType=="logisticCDD"){#|| forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
       datTairs <- createTairs(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,forecastLength=forecastLength,station=station)
 
       dat2$TairMu <- datTairs$TairMu
@@ -124,7 +124,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       p <- cbind(p,rescale(yseq=subDat$p,c=c,d=d))
       #print(subDat$dates)
       days2 <- cbind(days2,as.Date(subDat$dates))
-      if(forecastType=="logisticCov" || forecastType== "logisticCov2" || forecastType== "logisticCov3"){
+      if(forecastType=="logisticCDD"){#} || forecastType== "logisticCov2" || forecastType== "logisticCov3"){
         TairMu <- cbind(Tair,subDat$TairMu)
         TairPrec <- cbind(TairPrec,subDat$TairPrec)
       }
@@ -142,7 +142,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     dataFinal$N <- ncol(dataFinal$p)
     dataFinal$x_ic <- 0
     dataFinal$tau_ic <- 1/(phenoData$g_std[1]**2)
-    if(season=="fall" && forecastType=="logistic"){
+    if(season=="fall" && (forecastType=="logistic" || forecastType == "logisticCDD")){
       dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength - 181
     }else{
       dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength
