@@ -30,8 +30,8 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
   dat <-  meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = startDate, date_max = endDate)
   #print(dat)
   #dat <- dat[which(!is.na(dat$tmax)),]
-  dat[which(!is.na(dat$tmax))]$tmin <- 1
-  dat[which(!is.na(dat$tmax))]$tmax <- -99990
+  dat[which(is.na(dat$tmax))]$tmin <- 1
+  dat[which(is.na(dat$tmax))]$tmax <- -99990
   lastDate <- dat$date[length(dat$date)]
 
   print(dat$date)
