@@ -87,9 +87,11 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     print("Done with creating the  random walk model")
     variableNames <- c("p.PC","p.MN","p.ME","p.proc","x")
     out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)
-  }else if(forecastType=="logistic" || forecastType== "logisticCDD"){#} || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
+  }else if(forecastType=="logistic" || forecastType== "logisticCDD"){   # } || forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
+    print('else if(forecastType=="logistic" || forecastType== "logisticCDD")')
     dat2 <- data.frame(dates=days,years=years,months=months,p=p,mn=mn,me=me)
     if(forecastType=="logisticCDD"){#|| forecastType== "logisticCov2"|| forecastType== "logisticCov3"){
+      print('if(forecastType=="logisticCDD")')
       datTairs <- createTairs(lat=lat,long=long,dates=days,siteName=siteName,dataDirectory=dataDirectory,endDate=(endDate+forecastLength),GEFS_Files=GEFS_Files,GEFS_Directory=GEFS_Directory,forecastLength=forecastLength,station=station)
 
       dat2$TairMu <- datTairs$TairMu
@@ -101,6 +103,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(1,181),]
       nrowNum <- 181
     }else if(season=="fall"){
+      print('else if(season=="fall")')
       dat2 <- dat2[as.numeric(format(dat2$dates,"%j"))%in% seq(182,365),]
       nrowNum <- 184
     }
@@ -125,6 +128,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       #print(subDat$dates)
       days2 <- cbind(days2,as.Date(subDat$dates))
       if(forecastType=="logisticCDD"){#} || forecastType== "logisticCov2" || forecastType== "logisticCov3"){
+        print('if(forecastType=="logisticCDD")')
         TairMu <- cbind(Tair,subDat$TairMu)
         TairPrec <- cbind(TairPrec,subDat$TairPrec)
       }
@@ -145,6 +149,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     if(season=="fall" && forecastType=="logistic"){#} || forecastType == "logisticCDD")){
       dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength - 181
     }else if(season=="fall" && forecastType=="logisticCDD"){
+      print('else if(season=="fall" && forecastType=="logisticCDD")')
       dataFinal$q <- as.numeric(format(endDate,"%j"))+forecastLength - 181
     }
     else{
@@ -165,6 +170,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       variableNames <- c("p.proc","p.PC","p.ME","p.MN","x","r")
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=10000,iterSize=5000)
     }else if(forecastType=="logisticCDD"){
+      print('else if(forecastType=="logisticCDD")')
       dataFinal$TairMu <- TairMu
       dataFinal$TairPrec <- TairPrec
       plot(days2,dataFinal$TairMu,pch=20,main="Sf")
