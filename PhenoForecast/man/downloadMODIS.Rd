@@ -2,16 +2,14 @@
 % Please edit documentation in R/downloadMODIS.R
 \name{downloadMODIS}
 \alias{downloadMODIS}
-\title{Function to download MODIS data for input into forecast model}
+\title{Function to download all MODIS data for input into forecast model}
 \usage{
-downloadMODIS(startDate, endDate, metric, dataDirectory, lat, long, siteName)
+downloadMODIS(startDate, endDate, dataDirectory, lat, long, siteName)
 }
 \arguments{
 \item{startDate}{The start date of data in date format}
 
 \item{endDate}{The end date of data in date format}
-
-\item{metric}{Desired metric to download (NDVI or EVI)}
 
 \item{dataDirectory}{The file path for the directory to download and store data in}
 
@@ -22,5 +20,5 @@ downloadMODIS(startDate, endDate, metric, dataDirectory, lat, long, siteName)
 \item{siteName}{The site name for file naming}
 }
 \description{
-Function to download MODIS data for input into forecast model
+Function to download all MODIS data for input into forecast model
 }

@@ -5,7 +5,7 @@
 \title{Adds additional iterations until convergence and large enough effective sample size are met}
 \usage{
 runForecastIter(j.model, variableNames, maxIter = 10^9, baseNum = 5000,
-  iterSize = 5000, ID = "")
+  iterSize = 5000, ID = "", effSize = 5000)
 }
 \arguments{
 \item{j.model}{The JAGS model}
@@ -19,6 +19,8 @@ runForecastIter(j.model, variableNames, maxIter = 10^9, baseNum = 5000,
 \item{iterSize}{The number of iterations to iteratively increase before checking for convergence again and large enough sample size (optional)}
 
 \item{ID}{A identification string to paste with the message of non-convergence (optional)}
+
+\item{effSize}{The desired necessary effective sample size (default is 5000 samples)}
 }
 \description{
 Adds additional iterations until convergence and large enough effective sample size are met

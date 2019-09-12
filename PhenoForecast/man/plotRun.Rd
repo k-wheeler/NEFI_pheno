@@ -4,10 +4,7 @@
 \alias{plotRun}
 \title{plotRun}
 \usage{
-plotRun(out.mat, forecastType)
-}
-\arguments{
-\item{forecastType}{}
+plotRun(out.mat, forecastType, endDate)
 }
 \description{
 plotRun
