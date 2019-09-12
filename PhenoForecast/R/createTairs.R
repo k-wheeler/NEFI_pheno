@@ -28,16 +28,16 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     # }
     #else{
     TairsCal <- load_ERA5_Tair(lat=lat,long=long,years=seq(years[1],2018)) ##columns are each an ensemble (not divided by year)
-    print("dim(TairsCal)")
-    print(dim(TairsCal))
+    #print("dim(TairsCal)")
+    #print(dim(TairsCal))
   }
   #print('endDate - forecastLength')
   #print(endDate - forecastLength)
 
   TairsCurrentInd <- load_NOAA_met(station=station,startDate=as.Date("2019-08-01"),endDate=(endDate-forecastLength)) ##Array of numeric values
   #}
-  print('length(TairsCurrentInd)')
-  print(length(TairsCurrentInd))
+  #print('length(TairsCurrentInd)')
+  #print(length(TairsCurrentInd))
 
   ##GEFS Forecast (same for all sites) and pad TairsCurrent to be ensembles
   TairsCurrent <- matrix(ncol=length(GEFS_Files),nrow=length(TairsCurrentInd))
@@ -48,9 +48,9 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     TairsForecast <- cbind(TairsForecast,TairsForecastInd)
     TairsCurrent[,e] <- TairsCurrentInd
   }
-  print('dim(TairsCurrent)')
+  #print('dim(TairsCurrent)')
   TairsCurrent <- t(TairsCurrent)
-  print(dim(TairsCurrent))
+  #print(dim(TairsCurrent))
   NOAAmetDays <- seq(as.Date("2019-08-01"),(endDate-forecastLength),"day") ###Changed for autumn
   #print(NOAAmetDays)
   #print(TairsCurrent[,1])
@@ -58,9 +58,9 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   #print(sum(TairsCurrent[,1]==-9999))
   #print(NOAAmetDays[TairsCurrent[,1]==-9999])
   if(sum(TairsCurrent[,1]==-9999)>0){
-    print("filling")
+    #print("filling")
     TairsCurrent[TairsCurrent[,1]==-9999,] <- fillNOAAlag(days=NOAAmetDays[TairsCurrent[,1]==-9999],siteName=siteName)
-    print("finished filling")
+    #print("finished filling")
   }
   ##Create Sfs
   if(calDatesT){
@@ -89,12 +89,12 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   #
   #   SfsALL <- rbind(SfsALL,Sfs)
   # }
-  print('dim(TairsCurrent)')
-  print(dim(TairsCurrent))
-  print('length(colMeans(TairsCurrent))')
-  print(length(colMeans(TairsCurrent))) ##42
-  print('length(rowMeans(TairsForecast))')
-  print(length(rowMeans(TairsForecast))) ##14
+  # print('dim(TairsCurrent)')
+  # print(dim(TairsCurrent))
+  # print('length(colMeans(TairsCurrent))')
+  # print(length(colMeans(TairsCurrent))) ##42
+  # print('length(rowMeans(TairsForecast))')
+  # print(length(rowMeans(TairsForecast))) ##14
   TairsMeansCur <- c(colMeans(TairsCurrent),rowMeans(TairsForecast))
 
   TairsVarCur <- c(apply(TairsCurrent,MARGIN=2,FUN=var),apply(TairsForecast,MARGIN=2,FUN=var))
@@ -104,13 +104,13 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   if(calDatesT){
     #SfsMeans <- c(SfsMeansCal,SfsMeansCur)
     #SfsVar <- c(SfsVarCal,SfsVarCur)
-    print("length(TairsMeansCal)")
-    print(length(TairsMeansCal))
-    print("length(TairsMeansCur)")
-    print(length(TairsMeansCur))
+    # print("length(TairsMeansCal)")
+    # print(length(TairsMeansCal))
+    # print("length(TairsMeansCur)")
+    # print(length(TairsMeansCur))
     TairsMeans <- c(TairsMeansCal,rep(NA,212),TairsMeansCur)
-    print("length(TairsMeans)")
-    print(length(TairsMeans))
+    # print("length(TairsMeans)")
+    # print(length(TairsMeans))
     TairsVar <- c(TairsVarCal,rep(NA,212),TairsVarCur)
   }
   else{
@@ -122,6 +122,6 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
 
   #dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
   dat <- list(TairMu=TairsMeans,TairPrec=(1/TairsVar))
-  print("finished createTairs")
+  #print("finished createTairs")
   return(dat)
 }
