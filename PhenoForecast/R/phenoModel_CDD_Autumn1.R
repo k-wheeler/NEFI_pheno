@@ -90,7 +90,7 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
   p.proc ~ dgamma(s1,s2)
   #trans ~ dnorm(110,0.000625)
   trans ~ dnorm(mu.trans,p.trans)
-  Sfprec ~ dgamma(s1.Sf,s2.Sf)
+  Sfprec ~ dgamma(s1,s2)
 
   b1 ~ dnorm(mu.b1,prec.b1)
   baseTemp ~ dnorm(mu.baseTemp,p.baseTemp)
