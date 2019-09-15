@@ -43,7 +43,7 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
       r[i,yr] <- ifelse(rl[i,yr]>r[(i-1),yr],r[(i-1),yr],rl[i,yr])
     }
     for(i in 2:n){
-      Tair[i,yr] <- dnorm(TairMu[i,yr],TairPrec[i,yr])
+      Tair[i,yr] ~ dnorm(TairMu[i,yr],TairPrec[i,yr])
       SfNew[i,yr] <- Sf[(i-1),yr] + (baseTemp - Tair[i,yr])
       Sfmu[i,yr] <- ifelse(Tair[i,yr]<baseTemp,SfNew[i,yr],Sf[(i-1),yr])
       Sf[i,yr] ~ dnorm(Sfmu[i,yr],Sfprec)
