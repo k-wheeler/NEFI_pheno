@@ -62,7 +62,7 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
   }
 
   for(i in 2:q){ ##Done for the current year forecast. Excluded from previous because n != q
-    Tair[i,N] <- dnorm(TairMu[i,N],TairPrec[i,N])
+    Tair[i,N] ~ dnorm(TairMu[i,N],TairPrec[i,N])
     SfNew[i,N] <- Sf[(i-1),N] + (baseTemp - Tair[i,N])
     Sfmu[i,N] <- ifelse(Tair[i,N]<baseTemp,SfNew[i,N],Sf[(i-1),N])
     Sf[i,N] ~ dnorm(Sfmu[i,N],Sfprec)
