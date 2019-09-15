@@ -15,6 +15,8 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
   data$p.baseTemp <- 1/(2.5**2)
   data$mu.trans <- 600
   data$p.trans <- 1/(200**2)
+  print(data$TairMu[44,10])
+  print(data$TairPrec[44,10])
   #data$mu.b0 <- -3.625 #Based off of slope with points (sf=177,r=0) and (sf=250 and r = 1.5)
   #data$prec.b0 <- 1/(0.5**2)
 
