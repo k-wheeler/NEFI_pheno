@@ -82,6 +82,7 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
     r[1,yr] ~ dnorm(-0.4,100)
     color[1,yr] ~ dnorm(x_ic,tau_ic)
     colorT[1,yr] ~ dnorm(x_ic,tau_ic)
+    Tair[1,yr] ~ dnorm(TairMu[1,yr],TairPrec[1,yr])
     Sf[1,N] <- ifelse(Tair[1,yr]<baseTemp,Tair[1,yr],0)
   }
   p.PC ~ dgamma(s1,s2)
