@@ -124,7 +124,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     TairsVar <- TairsVarCur
   }
   TairsMeans[TairsMeans< (-100)] <- 100 #####Should change for GDD
-  TairsVar[TairsVar == Inf] <- 100
+  TairsVar[is.infinite(TairsVar)] <- 100
 
   #dat <- list(Sf=SfsMeans,Sfprec=1/SfsVar)
   dat <- list(TairMu=TairsMeans,TairPrec=(1/TairsVar))
