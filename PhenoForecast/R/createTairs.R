@@ -57,7 +57,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   #print(TairsCurrent[,1]==-9999)
   #print(sum(TairsCurrent[,1]==-9999))
   #print(NOAAmetDays[TairsCurrent[,1]==-9999])
-  if(sum(TairsCurrent[,1]==-9999)>0){
+  if(sum(TairsCurrent[,1]==-100)>0){
     #print("filling")
     TairsCurrent[TairsCurrent[,1]< -100,] <- fillNOAAlag(days=NOAAmetDays[TairsCurrent[,1]< -100],siteName=siteName)
     #print("finished filling")
