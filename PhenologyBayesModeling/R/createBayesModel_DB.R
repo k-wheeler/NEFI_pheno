@@ -16,16 +16,16 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
   nchain = 5
   inits <- list()
   if(dataSource=="PC.GCC"){
-    data <- PC_data(siteName=siteName,URL=URL,startDay=startDay,endDay=endDay)
+    data <- PC_data(siteName=siteName,URL=URL,startDate=as.Date("2017-07-01"),endDate=as.Date("2018-06-30"))
     #data$x[data$x<181] <- data$x[data$x<181]+365
-    inits.mu <- createInits(data=data,PFT=PFT)
-    for(i in 1:nchain){
-      inits[[i]] <- list(TranS=rnorm(1,480,10),bS=rnorm(1,-0.10,0.015),TranF=rnorm(1,280,10),bF=rnorm(1,0.11,0.05),c=rnorm(1,inits.mu$c,0.02),d=rnorm(1,inits.mu$d,0.001),k=rnorm(1,365,10))
-    }
-    data$mean.c <- 0.1
+    # inits.mu <- createInits(data=data,PFT=PFT)
+    # for(i in 1:nchain){
+    #   inits[[i]] <- list(TranS=rnorm(1,480,10),bS=rnorm(1,-0.10,0.015),TranF=rnorm(1,280,10),bF=rnorm(1,0.11,0.05),c=rnorm(1,inits.mu$c,0.02),d=rnorm(1,inits.mu$d,0.001),k=rnorm(1,365,10))
+    # }
+    data$mean.c <- 0.3
     data$mean.d <- 0.35
-    data$p.c <- 1/(0.1**2)
-    data$p.d <- 1/(0.1**2)
+    data$p.c <- 1/(0.15**2)
+    data$p.d <- 1/(0.15**2)
     #print(range(data$x))
   }
   else if(dataSource == "MODIS.NDVI"){
@@ -34,6 +34,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     for(i in 1:(nchain)){
       inits[[i]] <- list(TranS=rnorm(1,480,10),bS=rnorm(1,-0.09,0.05),TranF=rnorm(1,280,10),bF=rnorm(1,0.11,0.05),c=rnorm(1,inits.mu$c,0.02),d=rnorm(1,inits.mu$d,0.001),k=rnorm(1,365,10))
     }
+    data$obs.prec <- matrix(nrow=nrow(data$x),ncol=ncol(data$x),1/(0.01**2)) ##From Miura et al. (2000)
     data$mean.c <- 0.4
     data$p.c <- 1/(0.2**2)
     data$mean.d <- 0.6
@@ -46,6 +47,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
       inits[[i]] <- list(TranS=rnorm(1,480,10),bS=rnorm(1,-0.09,0.05),TranF=rnorm(1,280,10),bF=rnorm(1,0.11,0.05),c=rnorm(1,inits.mu$c,0.02),d=rnorm(1,inits.mu$d,0.001),k=rnorm(1,365,10))
     }
     data$mean.c <- 0.4
+    data$obs.prec <- matrix(nrow=nrow(data$x),ncol=ncol(data$x),1/(0.02**2)) ##From Miura et al. (2000)
     data$p.c <- 1/(0.2**2)
     data$mean.d <- 0.6
     data$p.d <- 1/(0.2**2)
@@ -77,7 +79,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
   data$mean.TranS <- 475
   data$mean.bS <- -0.10
   data$mean.k <- 365
-  data$p.k <- 1/(30**2)
+  data$p.k <- 1/(1**2)
 
   if(seasonOrder=="FS"){
     DB_model <- "
@@ -97,7 +99,8 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
       muS[i] <- c/(1+exp(bS*(x[i]-TranS)))+d ##process model for Spring
       mu[i] <- ifelse(x[i]>k,muS[i],muF[i])   #change point process model
 
-    y[i]  ~ dnorm(mu[i],prec)		## data model
+    y[i] ~ dnorm(mu[i],prec)
+    yobs[i] ~ dnorm(y[i],obs.prec[i])
     }
     }
     "
@@ -120,7 +123,8 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     muS[i] <- c/(1+exp(bS*(x[i]-TranS)))+d ##process model for Spring
     mu[i] <- ifelse(x[i]>k,muF[i],muS[i])   #change point process model
 
-    y[i]  ~ dnorm(mu[i],prec)		## data model
+    y[i] ~ dnorm(mu[i],prec)
+    yobs[i] ~ dnorm(y[i],obs.prec[i])
     }
     }
     "
@@ -130,8 +134,6 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
   }
   j.model   <- jags.model(file = textConnection(DB_model),
                           data = data,
-                          inits=inits,
                           n.chains = nchain)
-
   return(j.model)
 }

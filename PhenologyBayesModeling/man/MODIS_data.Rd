@@ -4,7 +4,8 @@
 \alias{MODIS_data}
 \title{For MODIS EVI data, construct the data object for input into MCMC}
 \usage{
-MODIS_data(siteName, lat, long, startDay, endDay, metric)
+MODIS_data(siteName, lat, long, startDate = "", endDate = "", metric,
+  startDay = FALSE, endDay = FALSE, lastYear = 2018, dataDirectory = "")
 }
 \arguments{
 \item{siteName}{Site Name}
@@ -13,11 +14,13 @@ MODIS_data(siteName, lat, long, startDay, endDay, metric)
 
 \item{long}{Longitude}
 
-\item{startDay}{The start day counted as the day number after 2016-12-31}
+\item{startDate}{The start day counted as the day number after 2016-12-31}
 
-\item{endDay}{The end day counted as the day number after 2016-12-31}
+\item{endDate}{The end day counted as the day number after 2016-12-31}
 
 \item{metric}{"NDVI" or "EVI"}
+
+\item{dataDirectory}{The data directory}
 }
 \description{
 For MODIS EVI data, construct the data object for input into MCMC

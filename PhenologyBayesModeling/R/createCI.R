@@ -20,7 +20,11 @@ createCI <- function(PFT,var.mat,xseq,doRescale=TRUE,seasonOrder="FS"){
     d <- var.mat$d[rndNums]
     k <- var.mat$k
     if(length(k)==0){
+      if(seasonOrder=="SF"){
       k <- rep(182,length(rndNums))
+      }else{
+        k <- rep(365,length(rndNums))
+      }
     }
     else{
       k <- k[rndNums]

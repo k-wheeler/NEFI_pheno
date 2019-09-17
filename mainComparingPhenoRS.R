@@ -2,7 +2,7 @@
 #Sys.setenv(LIBCURL_BUILD="winssl")
 #install.packages("https://github.com/jeroen/curl/archive/master.tar.gz", repos = NULL)
 
-#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
+install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",repo=NULL)
 #install.packages("MODISTools",repo="https://cloud.r-project.org/")
 #install.packages("curl",repo="https://cloud.r-project.org/")
 library("PhenologyBayesModeling")
@@ -24,12 +24,16 @@ n.cores <- 5
 
 
 #register the cores.
-registerDoParallel(cores=n.cores)
+#registerDoParallel(cores=n.cores)
 #i <- 14
-i <- 18
-output <- 
-foreach(i=1:nrow(siteData)) %dopar% {
-#for(i in 1:nrow(siteData)){
+i <- 1
+
+iseq <- c(seq(1,6),seq(8,10),seq(15,20))
+#iseq <- c(seq(9,10),seq(15,20))
+#output <- 
+#foreach(i=1:nrow(siteData)) %dopar% {
+
+for(i in iseq){
   siteName <- as.character(siteData$siteName[i])
   print(siteName)
   URL <- as.character(siteData$URL[i])
@@ -45,60 +49,30 @@ foreach(i=1:nrow(siteData)) %dopar% {
     xseq <- seq(startDay,endDay,1)
     fileName <- paste(siteName,"_",startDay,"_",endDay,"_PC_varBurn.RData",sep="")
     if(!file.exists(fileName)){
-      j.model.PC <- createBayesModel.DB(dataSource="PC.GCC",siteName=siteName,URL=URL,startDay = startDay,endDay = endDay)
-      PC.md.out <- runMCMC_Model(j.model=j.model.PC,variableNames = DB.vars)
+      j.model.PC <- createBayesModel.DB(dataSource="PC.GCC",siteName=siteName,URL=URL)#,startDay = startDay,endDay = endDay)
+      PC.md.out <- runMCMC_Model(j.model=j.model.PC,variableNames = DB.vars,baseNum = 5000,iterSize = 1000,maxGBR = 5)
       save(PC.md.out,file=fileName)
     }
     ##****************
-    fileName <- paste(siteName,"_",startDay,"_",endDay,"_MODIS_DQF_NDVI_varBurn.RData",sep="")
+    fileName <- paste(siteName,"_",startDay,"_",endDay,"_MODIS_DQF_NDVI_EIV_varBurn.RData",sep="")
     print(fileName)
     if(!file.exists(fileName)){
       j.model.MODIS <- createBayesModel.DB(dataSource="MODIS.NDVI",siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay)
-      MODIS.N.md.out <- runMCMC_Model(j.model=j.model.MODIS,variableNames = DB.vars)
+      MODIS.N.md.out <- runMCMC_Model(j.model=j.model.MODIS,variableNames = DB.vars,baseNum=5000,iterSize = 1000)
       save(MODIS.N.md.out,file=fileName)
     }
-    fileName <- paste(siteName,"_",startDay,"_",endDay,"_MODIS_DQF_EVI_varBurn.RData",sep="")
+    fileName <- paste(siteName,"_",startDay,"_",endDay,"_MODIS_DQF_EVI_EIV_varBurn.RData",sep="")
     if(!file.exists(fileName)){
       j.model.MODIS <- createBayesModel.DB(dataSource="MODIS.EVI",siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay)
-      MODIS.E.md.out <- runMCMC_Model(j.model=j.model.MODIS,variableNames = DB.vars)
+      MODIS.E.md.out <- runMCMC_Model(j.model=j.model.MODIS,variableNames = DB.vars,baseNum=5000,iterSize = 1000)
       save(MODIS.E.md.out,file=fileName)
     }
-    #fileName <- paste(siteName,"_",startDay,"_",endDay,"_GOES_noon_varBurn.RData",sep="")
-    #if(!file.exists(fileName)){
+    # fileName <- paste(siteName,"_",startDay,"_",endDay,"_GOES_noon_varBurn.RData",sep="")
+    # if(!file.exists(fileName)){
     # j.model.GOES <- createBayesModel.DB(dataSource="GOES.NDVI",siteName=siteName,startDay = startDay,endDay = endDay)
     # GOES.md.out <- runMCMC_Model(j.model=j.model.GOES,variableNames = DB.vars)
     # save(GOES.md.out,file=fileName)
-    #}
-  }
-  else if(PFT=="SH"){
-    startDay <- 110
-    endDay <-90+365
-    xseq <- seq(startDay,endDay,1)
-    SH.vars <- c("Tran","b","c","d","k","r","prec")
-    # fileName <- paste(siteName,"_PC_varBurn.RData",sep="")
-    # if(!file.exists(fileName)){
-    #   j.model.PC <- createBayesModel.SH(dataSource="PC.GCC",siteName=siteName,URL=URL,startDay = startDay,endDay = endDay)
-    #   PC.md.out <- runMCMC_Model(j.model=j.model.PC,variableNames = SH.vars)
-    #   save(PC.md.out,file=fileName)
     # }
-    # fileName <- paste(siteName,"_",startDay,"_",endDay,"_MODIS_DQF_NDVI_varBurn.RData",sep="")
-    # if(!file.exists(fileName)){
-    #   j.model.MODIS <- createBayesModel.SH(dataSource="MODIS.NDVI",siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay)
-    #   MODIS.N.md.out <- runMCMC_Model(j.model=j.model.MODIS,variableNames = SH.vars, baseNum = 100000,iterSize = 100000)
-    #   save(MODIS.N.md.out,file=fileName)
-    # }
-    fileName <- paste(siteName,"_",startDay,"_",endDay,"_MODIS_DQF_EVI_varBurn.RData",sep="")
-    if(!file.exists(fileName)){
-      j.model.MODIS <- createBayesModel.SH(dataSource="MODIS.EVI",siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay)
-      MODIS.E.md.out <- runMCMC_Model(j.model=j.model.MODIS,variableNames = SH.vars)
-      save(MODIS.E.md.out,file=fileName)
-    }
-    #fileName <- paste(siteName,"_GOES_noon_varBurn.RData",sep="")
-    #if(!file.exists(fileName)){
-    # j.model.GOES <- createBayesModel.SH(dataSource="GOES.NDVI",siteName=siteName,startDay = startDay,endDay = endDay)
-    # GOES.md.out <- runMCMC_Model(j.model=j.model.GOES,variableNames = SH.vars)
-    # save(GOES.md.out,file=fileName)
-    #}
   }
 }
  
