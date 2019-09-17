@@ -21,6 +21,7 @@ PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS") {
     y <- PC.data$gcc_mean
     #print(PC.data$gcc_std)
     obs.prec <- 1/(PC.data$gcc_std**2)
+    obs.prec[is.infinite(obs.prec)] <- 1/(1**2)
     x <- lubridate::yday(PC.time)
     ##If the season order is autumn and then spring, it adds 365 to DOY of spring
     if(seasonOrder=="AS"){
