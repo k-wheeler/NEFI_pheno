@@ -1,4 +1,4 @@
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary") 
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenoForecast",repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary") 
 
 library("PhenoForecast")
 library("PhenologyBayesModeling")
@@ -15,7 +15,7 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 
 forecastLength <- 15
 
-endDate <- (Sys.Date()-1)
+endDate <- (Sys.Date()-2)
 #startDate <- as.Date("2013-01-01")
 #endDate <- as.Date("2019-01-27")
 i <- 10
@@ -192,13 +192,11 @@ for(i in iseq){
       points(time.p,me,col="green",pch=1)
       legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
     }
-    
-    
     ##Logistic with covariates model
-    LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
+    LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD1_outBurn.RData",sep="")
     if(file.exists(LCFile)){
       load(LCFile)
-      outBurnLC <- outBurnLC2
+      outBurnLC <- outBurn
       out.mat.par <- data.frame(as.matrix(outBurnLC$params))
       print(colnames(out.mat.par))
       par(mfrow=c(2,3))
@@ -222,7 +220,9 @@ for(i in iseq){
       par(mfrow=c(1,1))
       dayNumber <- dim(as.matrix(outBurnLC$predict))[2]
       out.mat.LC <- as.matrix(outBurnLC$predict)
-      plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.LC,forecastType = "Logistic Covariate",days=seq(1,dayNumber,1))#2484
+      plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
+                         out.mat=out.mat.LC,forecastType = "Logistic CDD1",days=seq(1,dayNumber,1),
+                         endDate = endDate)#2484
       
       for(i in seq(1,2484,182)){
         abline(v=i,col="red")
@@ -233,7 +233,9 @@ for(i in iseq){
       lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
       out.mat.lastYear <- out.mat.LC[,lastYearIndices]
       
-      plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",days=seq(1,lengthLastYear,1))
+      plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,
+                         forecastType = "Logistic CDD1",days=seq(1,lengthLastYear,1),
+                         endDate = endDate)
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
       ##Add on data points
@@ -242,6 +244,55 @@ for(i in iseq){
       points(time.p,me,col="green",pch=1)
       legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
     }
+    # 
+    # ##Logistic with covariates model
+    # LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
+    # if(file.exists(LCFile)){
+    #   load(LCFile)
+    #   outBurnLC <- outBurnLC2
+    #   out.mat.par <- data.frame(as.matrix(outBurnLC$params))
+    #   print(colnames(out.mat.par))
+    #   par(mfrow=c(2,3))
+    #   plot(density(out.mat.par$p.ME),main="Density of p.ME")
+    #   plot(density(out.mat.par$p.MN),main="Density of p.MN")
+    #   plot(density(out.mat.par$p.PC),main="Density of p.PC")
+    #   plot(density(out.mat.par$p.proc),main="Density of p.proc")
+    #   plot(density(out.mat.par$b1),main="Density of b1")
+    #   #plot(density(out.mat.par$b0),main="Density of b0")
+    #   
+    #   par(mfrow=c(2,3))
+    #   plot(density(sqrt(1/out.mat.par$p.PC)),main="Density of PC Obs. Error (SD)")
+    #   plot(density(sqrt(1/out.mat.par$p.ME)),main="Density of ME Obs. Error (SD)")
+    #   plot(density(sqrt(1/out.mat.par$p.MN)),main="Density of MN Ob. Error (SD)")
+    #   plot(density(sqrt(1/out.mat.par$p.proc)),main="Density of Process Error (SD)")
+    #   
+    #   plot(density(out.mat.par$b1),main="Density of b1")
+    #   #plot(density(out.mat.par$b0),main="Density of b0")
+    #   
+    #   ##Plot
+    #   par(mfrow=c(1,1))
+    #   dayNumber <- dim(as.matrix(outBurnLC$predict))[2]
+    #   out.mat.LC <- as.matrix(outBurnLC$predict)
+    #   plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.LC,forecastType = "Logistic Covariate",days=seq(1,dayNumber,1))#2484
+    #   
+    #   for(i in seq(1,2484,182)){
+    #     abline(v=i,col="red")
+    #   }
+    #   abline(v=(dayNumber-forecastLength+1),col="purple")
+    #   
+    #   ##Plot Current year
+    #   lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
+    #   out.mat.lastYear <- out.mat.LC[,lastYearIndices]
+    #   
+    #   plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,forecastType = "Logistic Covariate",days=seq(1,lengthLastYear,1))
+    #   abline(v=(lengthLastYear-forecastLength+1),col="purple")
+    #   
+    #   ##Add on data points
+    #   points(time.p,p,pch=20,col="red")
+    #   points(time.p,mn,col="green",pch=3)
+    #   points(time.p,me,col="green",pch=1)
+    #   legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
+    # }
   }
 }
 dev.off()
