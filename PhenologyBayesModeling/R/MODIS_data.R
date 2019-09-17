@@ -48,22 +48,25 @@ MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay
     #print(DQF.val)
     #print(y[i])
     #print(dat$calendar_date[i])
-    preTmp <- as.character(dat$calendar_date[i])
-    print(preTmp)
-    yr <- strsplit(preTmp,"/")[[1]][3]
-    print(yr)
-    mth <- strsplit(preTmp,"/")[[1]][1]
-    print(mth)
-    dy <- strsplit(preTmp,"/")[[1]][2]
-    print(dy)
-    if(as.numeric(mth)<10){
-      mth <- paste("0",mth,sep="")
-    }
-    if(as.numeric(dy)<10){
-      dy <- paste("0",dy,sep="")
-    }
-    preTmpDate <- paste("20",yr,"-",mth,"-",dy,sep="")
-    tmp <- as.Date(preTmpDate)
+    tmp <- as.Date(dat$calendar_date[i])
+    print(tmp)
+    # #yr <- strsplit(preTmp,"/")[[1]][3]
+    # yr <- lubridate::year(as.Date(preTmp))
+    # print(yr)
+    # mth <- strsplit(preTmp,"/")[[1]][1]
+    # mth <- lubridate::month(as.Date(preTmp))
+    # #print(mth)
+    # #dy <- strsplit(preTmp,"/")[[1]][2]
+    # dy <- lubridate::day(as.Date(preTmp))
+    # print(dy)
+    # if(as.numeric(mth)<10){
+    #   mth <- paste("0",mth,sep="")
+    # }
+    # if(as.numeric(dy)<10){
+    #   dy <- paste("0",dy,sep="")
+    # }
+    # preTmpDate <- paste("20",yr,"-",mth,"-",dy,sep="")
+    # tmp <- as.Date(preTmpDate)
     #print(tmp)
     x.val <- as.numeric(format(tmp, "%j"))
     if(substr(tmp,1,4)==lastYear){
