@@ -29,6 +29,9 @@ PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS") {
         x[i] <- x[i]+365
       }
     }
+    print(obs.prec)
+    print(length(x))
+    print(length(obs.prec))
     data <- list(x=x,y=y,n=length(y),obs.prec=obs.prec)
     save(data,file=fileName)
   }
