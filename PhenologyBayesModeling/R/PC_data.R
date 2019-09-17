@@ -19,10 +19,10 @@ PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS") {
     PC.data <- PC.data[PC.startDayIndex:PC.endDayIndex,]
     PC.time <-  as.Date(PC.data$date)
     y <- PC.data$gcc_mean
-    print(PC.data$gcc_std)
+    #print(PC.data$gcc_std)
     obs.prec <- 1/(PC.data$gcc_std**2)
-    obs.prec[is.infinite(obs.prec)] <- 1/(1**2)
-    obs.prec[is.na(obs.prec)] <- 1/(1**2)
+    obs.prec[is.infinite(obs.prec)] <- 1/(0.001**2)
+    obs.prec[is.na(obs.prec)] <- 1/(0.001**2)
     x <- lubridate::yday(PC.time)
     ##If the season order is autumn and then spring, it adds 365 to DOY of spring
     if(seasonOrder=="AS"){
@@ -31,9 +31,9 @@ PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS") {
         x[i] <- x[i]+365
       }
     }
-    print(obs.prec)
-    print(length(x))
-    print(length(obs.prec))
+    #print(obs.prec)
+    #print(length(x))
+    #print(length(obs.prec))
     data <- list(x=x,y=y,n=length(y),obs.prec=obs.prec)
     save(data,file=fileName)
   }
