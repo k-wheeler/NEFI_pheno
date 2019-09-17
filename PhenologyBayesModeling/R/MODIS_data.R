@@ -38,7 +38,7 @@ MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay
 
   for(i in 1:nrow(dat)){
     #print(i)
-    y <- c(y,dat$data[i]/10000)
+    y <- c(y,dat$value[i]/10000)
     #DQF.val <- DQF$data[i]
     DQF.val <- dat$DQFdata[i]
     #print(DQF.val)
@@ -49,7 +49,7 @@ MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay
     #print(y[i])
     #print(dat$calendar_date[i])
     tmp <- as.Date(dat$calendar_date[i])
-    print(tmp)
+    #print(tmp)
     # #yr <- strsplit(preTmp,"/")[[1]][3]
     # yr <- lubridate::year(as.Date(preTmp))
     # print(yr)
