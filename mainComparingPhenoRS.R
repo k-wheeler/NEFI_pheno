@@ -13,6 +13,7 @@ library("MODISTools")
 library("ncdf4")
 library(plyr)
 library(doParallel)
+dataDirectory <- getwd()
 
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 
@@ -43,7 +44,8 @@ for(i in iseq){
   lat <- as.character(siteData$Lat[i])
   long <- as.character(siteData$Long[i])
   TZ <- as.character(siteData$TZ[i])
-  downloadMODIS(startDate=startDate,endDate=endDate,dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
+  downloadMODIS(startDate=as.Date("2017-07-01"),endDate=as.Date("2018-06-30"),
+                dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
   
 #  print(PFT)                    
   if(PFT=="DB"){
