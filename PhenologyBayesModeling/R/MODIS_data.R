@@ -14,6 +14,7 @@ MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay
     startDate <- as.Date(startDay,origin="2016-12-31")
     endDate <- as.Date(endDay,origin="2016-12-31")
   }
+
   fileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
   print(fileName)
   # if(!file.exists(fileName)){
@@ -39,7 +40,7 @@ MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay
     #print(i)
     y <- c(y,dat$data[i]/10000)
     #DQF.val <- DQF$data[i]
-    DQF.val <- dat$DQF.val[i]
+    DQF.val <- dat$DQFdata[i]
     #print(DQF.val)
     if(DQF.val!= 0 && DQF.val != 1){
       y[i] <- NA
