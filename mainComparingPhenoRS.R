@@ -6,6 +6,7 @@ install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling
 #install.packages("MODISTools",repo="https://cloud.r-project.org/")
 #install.packages("curl",repo="https://cloud.r-project.org/")
 library("PhenologyBayesModeling")
+library("PhenoForecast")
 library("rjags")
 library("runjags")
 library("MODISTools")
@@ -42,6 +43,8 @@ for(i in iseq){
   lat <- as.character(siteData$Lat[i])
   long <- as.character(siteData$Long[i])
   TZ <- as.character(siteData$TZ[i])
+  downloadMODIS(startDate=startDate,endDate=endDate,dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
+  
 #  print(PFT)                    
   if(PFT=="DB"){
     startDay <- 182
