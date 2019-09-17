@@ -27,27 +27,21 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     data$p.c <- 1/(0.15**2)
     data$p.d <- 1/(0.15**2)
     #print(range(data$x))
-  }
-  else if(dataSource == "MODIS.NDVI"){
+  }else if(dataSource == "MODIS.NDVI"){
     data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="NDVI")
-    inits.mu <- createInits(data=data,PFT=PFT)
-    for(i in 1:(nchain)){
-      inits[[i]] <- list(TranS=rnorm(1,480,10),bS=rnorm(1,-0.09,0.05),TranF=rnorm(1,280,10),bF=rnorm(1,0.11,0.05),c=rnorm(1,inits.mu$c,0.02),d=rnorm(1,inits.mu$d,0.001),k=rnorm(1,365,10))
-    }
+
     data$obs.prec <- rep(length(data$x),1/((1.96/0.01)**2)) ##From Miura et al. (2000)
+    print(data$obs.prec)
     data$mean.c <- 0.4
     data$p.c <- 1/(0.2**2)
     data$mean.d <- 0.6
     data$p.d <- 1/(0.2**2)
-  }
-  else if(dataSource == "MODIS.EVI"){
+  }else if(dataSource == "MODIS.EVI"){
     data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="EVI")
-    inits.mu <- createInits(data=data,PFT=PFT)
-    for(i in 1:(nchain)){
-      inits[[i]] <- list(TranS=rnorm(1,480,10),bS=rnorm(1,-0.09,0.05),TranF=rnorm(1,280,10),bF=rnorm(1,0.11,0.05),c=rnorm(1,inits.mu$c,0.02),d=rnorm(1,inits.mu$d,0.001),k=rnorm(1,365,10))
-    }
+
     data$mean.c <- 0.4
     data$obs.prec <- rep(length(data$x),1/((1.96/0.02)**2)) ##From Miura et al. (2000)
+    print(data$obs.prec)
     data$p.c <- 1/(0.2**2)
     data$mean.d <- 0.6
     data$p.d <- 1/(0.2**2)
