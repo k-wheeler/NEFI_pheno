@@ -30,7 +30,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
   }else if(dataSource == "MODIS.NDVI"){
     data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="NDVI")
     print(length(data$x))
-    data$obs.prec <- rep(length(data$x),1/((1.96/0.01)**2)) ##From Miura et al. (2000)
+    data$obs.prec <- rep(1/((1.96/0.01)**2),length(data$x)) ##From Miura et al. (2000)
     print(data$obs.prec)
     data$mean.c <- 0.4
     data$p.c <- 1/(0.2**2)
@@ -40,7 +40,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="EVI")
 
     data$mean.c <- 0.4
-    data$obs.prec <- rep(length(data$x),1/((1.96/0.02)**2)) ##From Miura et al. (2000)
+    data$obs.prec <- rep(1/((1.96/0.02)**2),length(data$x)) ##From Miura et al. (2000)
     print(data$obs.prec)
     data$p.c <- 1/(0.2**2)
     data$mean.d <- 0.6
