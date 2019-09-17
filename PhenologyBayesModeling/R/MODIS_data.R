@@ -48,8 +48,8 @@ MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay
     #print(DQF.val)
     #print(y[i])
     #print(dat$calendar_date[i])
-    print(dat$calendar_date[i])
     preTmp <- as.character(dat$calendar_date[i])
+    print(preTmp)
     yr <- strsplit(preTmp,"/")[[1]][3]
     print(yr)
     mth <- strsplit(preTmp,"/")[[1]][1]
