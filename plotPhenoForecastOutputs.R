@@ -234,7 +234,7 @@ for(i in iseq){
       out.mat.lastYear <- out.mat.LC[,lastYearIndices]
       
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,
-                         forecastType = "Logistic CDD1",days=seq(1,lengthLastYear,1),
+                         forecastType = "Logistic CDD1",days=seq(182,(lengthLastYear+181),1),
                          endDate = endDate)
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
