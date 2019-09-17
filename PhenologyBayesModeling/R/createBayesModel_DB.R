@@ -29,7 +29,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     #print(range(data$x))
   }else if(dataSource == "MODIS.NDVI"){
     data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="NDVI")
-
+    print(length(data$x))
     data$obs.prec <- rep(length(data$x),1/((1.96/0.01)**2)) ##From Miura et al. (2000)
     print(data$obs.prec)
     data$mean.c <- 0.4
