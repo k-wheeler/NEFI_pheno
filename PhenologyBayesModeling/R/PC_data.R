@@ -18,7 +18,8 @@ PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS") {
     ##Subset data for specific date range
     PC.data <- PC.data[PC.startDayIndex:PC.endDayIndex,]
     PC.time <-  as.Date(PC.data$date)
-    y <- PC.data$midday_gcc
+    y <- PC.data$gcc_mean
+    obs.prec <- 1/(PC.data$gcc_sd**2)
     x <- lubridate::yday(PC.time)
     ##If the season order is autumn and then spring, it adds 365 to DOY of spring
     if(seasonOrder=="AS"){
@@ -27,7 +28,7 @@ PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS") {
         x[i] <- x[i]+365
       }
     }
-    data <- list(x=x,y=y,n=length(y))
+    data <- list(x=x,y=y,n=length(y),obs.prec=obs.prec)
     save(data,file=fileName)
   }
   load(fileName)

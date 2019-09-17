@@ -52,7 +52,7 @@ for(i in iseq){
     startDay <- 182
     endDay <- 546
     xseq <- seq(startDay,endDay,1)
-    fileName <- paste(siteName,"_",startDay,"_",endDay,"_PC_varBurn.RData",sep="")
+    fileName <- paste(siteName,"_",startDay,"_",endDay,"_PC_EIV_varBurn.RData",sep="")
     if(!file.exists(fileName)){
       j.model.PC <- createBayesModel.DB(dataSource="PC.GCC",siteName=siteName,URL=URL)#,startDay = startDay,endDay = endDay)
       PC.md.out <- runMCMC_Model(j.model=j.model.PC,variableNames = DB.vars,baseNum = 5000,iterSize = 1000,maxGBR = 5)
