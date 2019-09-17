@@ -52,10 +52,10 @@ MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay
     yr <- strsplit(preTmp,"/")[[1]][3]
     mth <- strsplit(preTmp,"/")[[1]][1]
     dy <- strsplit(preTmp,"/")[[1]][2]
-    if(mth<10){
+    if(as.numeric(mth)<10){
       mth <- paste("0",mth,sep="")
     }
-    if(dy<10){
+    if(as.numeric(dy)<10){
       dy <- paste("0",dy,sep="")
     }
     preTmpDate <- paste("20",yr,"-",mth,"-",dy,sep="")
