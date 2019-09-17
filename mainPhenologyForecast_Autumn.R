@@ -35,14 +35,14 @@ iseq <- c(1)
 endDate <- (Sys.Date()-1)
 print(endDate)
 #Create Forecast outputs
-#output <- 
-#foreach(i=iseq) %dopar% {
-for(i in iseq){
+output <- 
+foreach(i=iseq) %dopar% {
+#for(i in iseq){
   siteName <- as.character(siteData[i,1])
   print(siteName)
   GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",endDate,"/",sep="")
   GEFS_files <- dir(path=GEFS_Directory,pattern="NOAA_GEFS")
-  
+
   URL <- as.character(siteData$URL[i])
   URL2 <- as.character(siteData$URL2[i])
   URL3 <- as.character(siteData$URL3[i])
