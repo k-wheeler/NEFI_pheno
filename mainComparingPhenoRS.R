@@ -13,7 +13,7 @@ library("MODISTools")
 library("ncdf4")
 library(plyr)
 library(doParallel)
-dataDirectory <- getwd()
+dataDirectory <- paste(getwd(),"/",sep="")
 
 siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 
