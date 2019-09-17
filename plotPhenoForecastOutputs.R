@@ -181,7 +181,8 @@ for(i in iseq){
       out.mat.lastYear <- out.mat.L[,lastYearIndices]
       
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
-                         out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(213,(lengthLastYear+212),1),endDate=endDate)#,
+                         out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(213,(lengthLastYear+212),1),
+                         endDate=endDate,xlim=c(215,(lengthLastYear+220)))#,
       #dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
       
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
@@ -235,7 +236,7 @@ for(i in iseq){
       
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,
                          forecastType = "Logistic CDD1",days=seq(213,(lengthLastYear+212),1),
-                         endDate = endDate)
+                         endDate = endDate,xlim=c(215,(lengthLastYear+220)))
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
       ##Add on data points
