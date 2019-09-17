@@ -176,12 +176,12 @@ for(i in iseq){
       
       
       ##Plot Current year
-      lengthLastYear <- lengthLastYear - 181 ##Done for autumn
+      lengthLastYear <- lengthLastYear - 212 ##Done for autumn
       lastYearIndices <- seq(((dayNumber-lengthLastYear)+1),dayNumber,1)
       out.mat.lastYear <- out.mat.L[,lastYearIndices]
       
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
-                         out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(182,(lengthLastYear+181),1),endDate=endDate)#,
+                         out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(213,(lengthLastYear+212),1),endDate=endDate)#,
       #dates=seq(as.Date("2019-07-01"),(endDate+forecastLength),"day"))
       
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
@@ -234,7 +234,7 @@ for(i in iseq){
       out.mat.lastYear <- out.mat.LC[,lastYearIndices]
       
       plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,
-                         forecastType = "Logistic CDD1",days=seq(182,(lengthLastYear+181),1),
+                         forecastType = "Logistic CDD1",days=seq(213,(lengthLastYear+212),1),
                          endDate = endDate)
       abline(v=(lengthLastYear-forecastLength+1),col="purple")
       
