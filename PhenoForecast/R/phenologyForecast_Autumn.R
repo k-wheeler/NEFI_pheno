@@ -44,10 +44,13 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
   phenoData <- phenoData3
   phenoData <- phenoData[phenoData$date<endDate,]
   p.old <- phenoData$gcc_mean
+  print("p.old")
+  print(p.old)
   time.old <-  as.Date(phenoData$date)
 
   days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
-
+  print("days")
+  print(days)
   p <- rep(NA,length(days))
 
   for(i in 1:length(p.old)){
@@ -67,8 +70,8 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
 
   if(forecastType=="randomWalk"){
     print("entered RW")
-    print(days)
-    print(p)
+    #print(days)
+    #print(p)
     data$p <- rescaleObs(times=days,vals=p,partialStart=TRUE,cVals=cValsPC,dVals=dValsPC)
     print("rescale p")
     data$n <- length(data$p)
