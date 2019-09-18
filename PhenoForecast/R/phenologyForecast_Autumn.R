@@ -34,6 +34,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
   #if(!file.exists(PCfileName)){
   phenoData <- matrix(nrow=0,ncol=32)
   for(u in 1:length(URLs)){
+    print(URLs[u])
     phenoDataSub <- download.phenocam(URLs[u])
     phenoData <- rbind(phenoData,phenoDataSub)
   }
