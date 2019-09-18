@@ -47,10 +47,10 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
   #print("p.old")
   #print(p.old)
   time.old <-  as.Date(phenoData$date)
-  print(startDate)
-  print(as.Date(startDate))
-  print(endDate)
-  print(as.Date(endDate))
+  #print(startDate)
+  #print(as.Date(startDate))
+  #print(endDate)
+  #print(as.Date(endDate))
   days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
   #print("days")
   #print(days)
@@ -59,43 +59,43 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
   for(i in 1:length(p.old)){
     p[which(days==time.old[i])] <- p.old[i]
   }
-  print("Downloaded PC")
+  #print("Downloaded PC")
   ##Download and format MODIS NDVI data
   mn <- prepareMODIS(startDate=startDate,endDate=endDate,metric="NDVI",timeForecast=days,dataDirectory=dataDirectory,siteName=siteName)
-  print("loaded mn")
+  #print("loaded mn")
   me <- prepareMODIS(startDate=startDate,endDate=endDate,metric="EVI",timeForecast=days,dataDirectory=dataDirectory,siteName=siteName)
-  print("loaded me")
+  #print("loaded me")
   months <- lubridate::month(days)
   years <- lubridate::year(days)
-  print("lubidate")
+  #print("lubidate")
   data <- list(x_ic=0,tau_ic = 1/(phenoData$g_std[1]**2))
-  #pdf(paste(siteName,"_",endDate,"_DataPlots.pdf",sep=""),width=10,height=8)
+  pdf(paste(siteName,"_",endDate,"_DataPlots.pdf",sep=""),width=10,height=8)
 
   if(forecastType=="randomWalk"){
-    print("entered RW")
+    #print("entered RW")
     #print(days)
     #print(p)
     data$p <- rescaleObs(times=days,vals=p,partialStart=TRUE,cVals=cValsPC,dVals=dValsPC)
-    print("rescale p")
+    #print("rescale p")
     data$n <- length(data$p)
     data$p[data$p<0] <- 0
     data$p[data$p>1] <- 1
     data$mn <- rescaleObs(times=days,vals=mn,partialStart=TRUE,cVals=cValsMN,dVals=dValsMN)
-    print("rescale mn")
+    #print("rescale mn")
     data$mn[data$mn<0] <- 0
     data$mn[data$mn>1] <- 1
     data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
-    print("rescale me")
+    #print("rescale me")
     data$me[data$me<0] <- 0
     data$mn[data$mn>1] <- 1
-    print("formated data object")
+    #print("formated data object")
     plot(days,data$p,pch=20,main="PhenoCam Data")
     abline(v=endDate,col="red")
     plot(days,data$mn,pch=20,main="MODIS NDVI Data")
     abline(v=endDate,col="red")
     plot(days,data$me,pch=20,main="MODIS EVI Data")
     abline(v=endDate,col="red")
-    print("Done with formatting data")
+    #print("Done with formatting data")
     dev.off()
 
     j.model <- randomWalkPhenoModel(data=data,nchain=nchain)
