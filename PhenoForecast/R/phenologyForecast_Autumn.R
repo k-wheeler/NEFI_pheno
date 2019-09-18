@@ -61,19 +61,22 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
   print("loaded me")
   months <- lubridate::month(days)
   years <- lubridate::year(days)
+  print("lubidate")
   data <- list(x_ic=0,tau_ic = 1/(phenoData$g_std[1]**2))
-
-  pdf(paste(siteName,"_",endDate,"_DataPlots.pdf",sep=""),width=10,height=8)
+  #pdf(paste(siteName,"_",endDate,"_DataPlots.pdf",sep=""),width=10,height=8)
 
   if(forecastType=="randomWalk"){
     data$p <- rescaleObs(times=days,vals=p,partialStart=TRUE,cVals=cValsPC,dVals=dValsPC)
+    print("rescale p")
     data$n <- length(data$p)
     data$p[data$p<0] <- 0
     data$p[data$p>1] <- 1
     data$mn <- rescaleObs(times=days,vals=mn,partialStart=TRUE,cVals=cValsMN,dVals=dValsMN)
+    print("rescale mn")
     data$mn[data$mn<0] <- 0
     data$mn[data$mn>1] <- 1
     data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
+    print("rescale me")
     data$me[data$me<0] <- 0
     data$mn[data$mn>1] <- 1
     print("formated data object")
