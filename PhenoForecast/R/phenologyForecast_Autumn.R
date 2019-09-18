@@ -66,6 +66,9 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
   #pdf(paste(siteName,"_",endDate,"_DataPlots.pdf",sep=""),width=10,height=8)
 
   if(forecastType=="randomWalk"){
+    print("entered RW")
+    print(days)
+    print(p)
     data$p <- rescaleObs(times=days,vals=p,partialStart=TRUE,cVals=cValsPC,dVals=dValsPC)
     print("rescale p")
     data$n <- length(data$p)
