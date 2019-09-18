@@ -52,11 +52,12 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
   for(i in 1:length(p.old)){
     p[which(days==time.old[i])] <- p.old[i]
   }
-
+  print("Downloaded PC")
   ##Download and format MODIS NDVI data
   mn <- prepareMODIS(startDate=startDate,endDate=endDate,metric="NDVI",timeForecast=days,dataDirectory=dataDirectory,siteName=siteName)
+  print("loaded mn")
   me <- prepareMODIS(startDate=startDate,endDate=endDate,metric="EVI",timeForecast=days,dataDirectory=dataDirectory,siteName=siteName)
-
+  print("loaded me")
   months <- lubridate::month(days)
   years <- lubridate::year(days)
   data <- list(x_ic=0,tau_ic = 1/(phenoData$g_std[1]**2))
@@ -74,6 +75,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
     data$me[data$me<0] <- 0
     data$mn[data$mn>1] <- 1
+    print("formated data object")
     plot(days,data$p,pch=20,main="PhenoCam Data")
     abline(v=endDate,col="red")
     plot(days,data$mn,pch=20,main="MODIS NDVI Data")
