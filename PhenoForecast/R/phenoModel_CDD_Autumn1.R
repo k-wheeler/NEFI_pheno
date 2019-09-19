@@ -11,8 +11,8 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
   data$s2 <- 0.2
   data$mu.b1 <- 0.2 #Based off of slope with points (sf=177,r=0) and (sf=250 and r = 1.5)
   data$prec.b1 <- 1/(0.05**2)
-  data$mu.baseTemp <- 25 ##Kind of based off of Richardson et al. (2006)
-  data$p.baseTemp <- 1/(2.5**2)
+  data$mu.baseTemp <- 20 ##Kind of based off of Richardson et al. (2006)
+  data$p.baseTemp <- 1/(0.5**2)
   data$mu.trans <- 600
   data$p.trans <- 1/(200**2)
   #print(data$TairMu[44,10])
