@@ -78,44 +78,44 @@ for(i in iseq){
   print(saveDirectory)
   dir.create(saveDirectory)
   ##Create Random Walk forecast if needed
-  outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
-  if(!file.exists(outputFile)){
-    outBurnRW <- phenologyForecast_Autumn(forecastType = "randomWalk",forecastLength = forecastLength,
-                                   siteName=siteName,URLs=URL,lat=lat,long=long,
-                                   dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,
-                                   dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,
-                                   cValsME=cMeans.me,dValsME=dMeans.me,season="fall")
-    if(typeof(outBurnRW)!=typeof(FALSE)){
-      save(outBurnRW,file=outputFile)
-    }
-  }
-  
-  #Create logistic forecast if needed
-  outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
-  if(!file.exists(outputFile)){
-    outBurnL <- phenologyForecast_Autumn(forecastType = "logistic",forecastLength = forecastLength,
-                                  siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,
-                                  startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,
-                                  cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,
-                                  season="fall")
-    if(typeof(outBurnL)!=typeof(FALSE)){
-      save(outBurnL,file=outputFile)
-    }
-  }
-  
-  ##Create a Logistic with Covariate Model
-  # outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD1_outBurn.RData",sep="")
+  # outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_outBurn.RData",sep="")
   # if(!file.exists(outputFile)){
-  #   outBurn <- phenologyForecast_Autumn(forecastType = "logisticCDD",forecastLength = forecastLength,
-  #                                siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,
-  #                                as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,
-  #                                dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,
-  #                                dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station,
-  #                                season="fall")
-  #   if(typeof(outBurn)!=typeof(FALSE)){
-  #     save(outBurn,file=outputFile)
+  #   outBurnRW <- phenologyForecast_Autumn(forecastType = "randomWalk",forecastLength = forecastLength,
+  #                                  siteName=siteName,URLs=URL,lat=lat,long=long,
+  #                                  dataDirectory=dataDirectory,startDate,endDate,cValsPC=cMeans.p,
+  #                                  dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,
+  #                                  cValsME=cMeans.me,dValsME=dMeans.me,season="fall")
+  #   if(typeof(outBurnRW)!=typeof(FALSE)){
+  #     save(outBurnRW,file=outputFile)
   #   }
   # }
+  # 
+  # #Create logistic forecast if needed
+  # outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_logistic_outBurn.RData",sep="")
+  # if(!file.exists(outputFile)){
+  #   outBurnL <- phenologyForecast_Autumn(forecastType = "logistic",forecastLength = forecastLength,
+  #                                 siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,
+  #                                 startDate=startDate,endDate=endDate,cValsPC=cMeans.p,dValsPC=dMeans.p,
+  #                                 cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,
+  #                                 season="fall")
+  #   if(typeof(outBurnL)!=typeof(FALSE)){
+  #     save(outBurnL,file=outputFile)
+  #   }
+  # }
+  
+  ##Create a Logistic with Covariate Model
+  outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD1_outBurn.RData",sep="")
+  if(!file.exists(outputFile)){
+    outBurn <- phenologyForecast_Autumn(forecastType = "logisticCDD",forecastLength = forecastLength,
+                                 siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,
+                                 as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,
+                                 dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,
+                                 dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station,
+                                 season="fall")
+    if(typeof(outBurn)!=typeof(FALSE)){
+      save(outBurn,file=outputFile)
+    }
+  }
 
 }
 
