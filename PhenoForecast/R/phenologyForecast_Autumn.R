@@ -200,7 +200,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","trans","b1")
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,
-                                  baseNum=20000,iterSize=10000)
+                                  baseNum=10000,iterSize=10000)
       } else{
       print("Forecast type not known!!!")
     }
