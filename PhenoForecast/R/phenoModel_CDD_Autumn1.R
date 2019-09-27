@@ -13,13 +13,10 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
   data$prec.b1 <- 1/(0.05**2)
   #data$mu.baseTemp <- 20 ##Kind of based off of Richardson et al. (2006)
   #data$p.baseTemp <- 1/(0.5**2)
-  data$mu.trans <- 600
-  data$p.trans <- 1/(200**2)
+  data$mu.trans <- 600 ##Probably wonky
+  data$p.trans <- 1/(300**2)
   data$baseTemp <- 20
-  #print(data$TairMu[44,10])
-  #print(data$TairPrec[44,10])
-  #data$mu.b0 <- -3.625 #Based off of slope with points (sf=177,r=0) and (sf=250 and r = 1.5)
-  #data$prec.b0 <- 1/(0.5**2)
+
 
   ##JAGS code
   LogisticModel = "
@@ -47,7 +44,9 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
     }
     for(i in 2:n){
       Tair[i,yr] ~ dnorm(TairMu[i,yr],TairPrec[i,yr])
-      SfNew[i,yr] <- Sf[(i-1),yr] + (baseTemp - Tair[i,yr])
+      offset[i,yr] <- (baseTemp - Tair[i,yr])
+      CDD[i,yr] <- ifelse(offset[i,yr]>0,offset[i,yr],0)
+      SfNew[i,yr] <- Sf[(i-1),yr] + CDD[i,yr]
       Sfmu[i,yr] <- ifelse(Tair[i,yr]<baseTemp,SfNew[i,yr],Sf[(i-1),yr])
       Sf[i,yr] ~ dnorm(Sfmu[i,yr],Sfprec)
 
@@ -66,7 +65,9 @@ phenoModel_CDD_Autumn1 <- function(data,nchain){
 
   for(i in 2:q){ ##Done for the current year forecast. Excluded from previous because n != q
     Tair[i,N] ~ dnorm(TairMu[i,N],TairPrec[i,N])
-    SfNew[i,N] <- Sf[(i-1),N] + (baseTemp - Tair[i,N])
+    offset[i,N] <- (baseTemp - Tair[i,N])
+    CDD[i,N] <- ifelse(offset[i,N]>0,offset[i,N],0)
+    SfNew[i,N] <- Sf[(i-1),N] + CDD[i,N]
     Sfmu[i,N] <- ifelse(Tair[i,N]<baseTemp,SfNew[i,N],Sf[(i-1),N])
     Sf[i,N] ~ dnorm(Sfmu[i,N],Sfprec)
 
