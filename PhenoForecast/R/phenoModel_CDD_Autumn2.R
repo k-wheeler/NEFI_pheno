@@ -91,7 +91,7 @@ phenoModel_CDD_Autumn2 <- function(data,nchain){
   #### Priors
   for(yr in 1:N){ ##Initial Conditions
     x[1,yr] ~ dnorm(x_ic,tau_ic)
-    CDD[1,yr] <- 0 ##Assumption built in based off of cut-off days
+    CDDs[1,yr] <- 0 ##Assumption built in based off of cut-off days
   }
   p.PC ~ dgamma(s1,s2)
   p.ME ~ dgamma(s1,s2)
