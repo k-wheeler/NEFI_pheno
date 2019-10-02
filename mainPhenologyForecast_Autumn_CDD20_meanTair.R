@@ -74,7 +74,7 @@ foreach(i=iseq) %dopar% {
   ##Create a CDD forecast model
   outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_20_meanTair_outBurn.RData",sep="")
   if(!file.exists(outputFile)){
-    outBurn <- phenologyForecast_Autumn(forecastType = "CDD_20_meanTair",forecastLength = forecastLength,
+    outBurn <- phenologyForecast_Autumn(forecastType = "CDD_meanTair",forecastLength = forecastLength,
                                  siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,
                                  as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,
                                  dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,
