@@ -80,7 +80,7 @@ phenoModel_CDD_Autumn2 <- function(data,nchain){
     m1[i,N] <- ifelse(CDDs[i,N]<SOF,0,m1l[i,N])
     m2[i,N] <- ifelse(CDDs[i,N]<EOF,m2l[i,N],0)
     ml[i,N] <- ifelse(CDDs[i,N]<MOF,m1[i,N],m2[i,N])
-    m[i,N] <- min(ml,0)
+    m[i,N] <- min(ml[i,N],0)
     xl[i,N] <- x[(i-1),N] + m[i,N]
     xl2[i,N] ~ dnorm(xl[i,N],p.proc)  ## process error
     x[i,N] <- max(0, min(1,xl2[i,N]) )
