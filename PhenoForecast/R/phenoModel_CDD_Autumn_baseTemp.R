@@ -6,7 +6,7 @@
 ##' @export
 ##' @import rjags
 ##' @import coda
-phenoModel_CDD_Autumn2 <- function(data,nchain,baseTemp = 20){
+phenoModel_CDD_Autumn_baseTemp <- function(data,nchain,baseTemp = 20){
   ##Set priors
   data$s1.PC <- 1262.626 ## Very roughly based off of what I think are reasonable and uninformed priors
   data$s2.PC <- 50.50505 ##From mean <- 1/(0.2**2) and var = (mean-1/((0.4/1.96)**2))/2

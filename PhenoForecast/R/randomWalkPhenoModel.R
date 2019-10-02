@@ -6,15 +6,17 @@
 ##' @import rjags
 ##' @import coda
 randomWalkPhenoModel <- function(data,nchain){
-  ##Set priors (note: this could be condensed for now since all of the priors are the same)
-  data$s1.PC <- 0.5
-  data$s2.PC <- 0.2
-  data$s1.MN <- 0.5
-  data$s2.MN <- 0.2
-  data$s1.ME <- 0.5
-  data$s2.ME <- 0.2
-  data$s1.proc <- 0.5
-  data$s2.proc <- 0.2
+  ##Set priors
+  data$s1.PC <- 1262.626 ## Very roughly based off of what I think are reasonable and uninformed priors
+  data$s2.PC <- 50.50505 ##From mean <- 1/(0.2**2) and var = (mean-1/((0.4/1.96)**2))/2
+  data$s1.MN <- 76880.05 ##From mean = 1/((0.01/1.96)**2) and var = (mean - 1/((0.4/1.96)**2))/2
+  data$s2.MN <- 2.001251
+  data$s1.ME <- 19256.14 ##From mean = 1/((0.02/1.96)**2) and var = (mean - 1/((0.4/1.96)**2))/2
+  data$s2.ME <- 2.005013
+  data$s1.proc <- 1262.626
+  data$s2.proc <- 50.50505
+  data$x1.a <- 1 #Done to keep distribution close to 0 (over 75% of the data < 0.05)
+  data$x1.b <- 30
 
   ###JAGS model
   RandomWalk = "
@@ -29,15 +31,17 @@ randomWalkPhenoModel <- function(data,nchain){
 
   #### Process Model
   for(i in 2:n){
-  x[i]~dnorm(x[i-1],p.proc)
+    xl[i]~dnorm(x[i-1],p.proc)
+    x[i] <- max(0, min(1,xl[i]))
   }
 
   #### Priors
-  x[1] ~ dnorm(x_ic,tau_ic)
+  x[1] ~ dbeta(x1.a,x1.b)
   p.PC ~ dgamma(s1.PC,s2.PC)
   p.MN ~ dgamma(s1.MN,s2.MN)
   p.ME ~ dgamma(s1.ME,s2.ME)
   p.proc ~ dgamma(s1.proc,s2.proc)
+
   }
   "
 
