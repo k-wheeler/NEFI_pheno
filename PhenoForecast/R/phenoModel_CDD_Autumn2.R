@@ -50,12 +50,12 @@ phenoModel_CDD_Autumn2 <- function(data,nchain){
       CDDs[i,yr] ~ dnorm(CDDmu[i,yr],CDDprec)
 
       ##Calculate slopes for each time stamp
-      m1l[i,yr] <- CDDs[i,yr]* CDDratio +b0_1
-      m2l[i,yr] <- CDDs[i,yr]* -1* CDDratio +b0_2
-      m1[i,yr] <- ifelse(CDDs[i,yr]<SOF,0,m1l)
-      m2[i,yr] <- ifelse(CDDs[i,yr]<EOF,m2l,0)
-      ml[i,yr] <- ifelse(CDDs[i,yr]<MOF,m1,m2)
-      m[i,yr] <- min(ml,0)
+      m1l[i,yr] <- CDDs[i,yr] * CDDratio + b0_1
+      m2l[i,yr] <- CDDs[i,yr] * -1* CDDratio + b0_2
+      m1[i,yr] <- ifelse(CDDs[i,yr]<SOF,0,m1l[i,yr])
+      m2[i,yr] <- ifelse(CDDs[i,yr]<EOF,m2l[i,yr],0)
+      ml[i,yr] <- ifelse(CDDs[i,yr]<MOF,m1[i,yr],m2[i,yr])
+      m[i,yr] <- min(ml[i,yr],0)
       xl[i,yr] <- x[(i-1),yr] + m[i,yr]
       xl2[i,yr] ~ dnorm(xl[i,yr],p.proc)  ## process error
       x[i,yr] <- max(0, min(1,xl2[i,yr]) )
@@ -75,11 +75,11 @@ phenoModel_CDD_Autumn2 <- function(data,nchain){
     CDDs[i,N] ~ dnorm(CDDmu[i,N],CDDprec)
 
     ##Calculate slopes for each time stamp
-    m1l[i,N] <- CDDs[i,N]* CDDratio +b0_1
-    m2l[i,N] <- CDDs[i,N]* -1* CDDratio +b0_2
-    m1[i,N] <- ifelse(CDDs[i,N]<SOF,0,m1l)
-    m2[i,N] <- ifelse(CDDs[i,N]<EOF,m2l,0)
-    ml[i,N] <- ifelse(CDDs[i,N]<MOF,m1,m2)
+    m1l[i,N] <- CDDs[i,N] * CDDratio + b0_1
+    m2l[i,N] <- CDDs[i,N] * -1 * CDDratio + b0_2
+    m1[i,N] <- ifelse(CDDs[i,N]<SOF,0,m1l[i,N])
+    m2[i,N] <- ifelse(CDDs[i,N]<EOF,m2l[i,N],0)
+    ml[i,N] <- ifelse(CDDs[i,N]<MOF,m1[i,N],m2[i,N])
     m[i,N] <- min(ml,0)
     xl[i,N] <- x[(i-1),N] + m[i,N]
     xl2[i,N] ~ dnorm(xl[i,N],p.proc)  ## process error
