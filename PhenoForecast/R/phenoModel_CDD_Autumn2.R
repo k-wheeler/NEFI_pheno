@@ -100,8 +100,8 @@ phenoModel_CDD_Autumn2 <- function(data,nchain){
   CDDprec ~ dgamma(s1,s2)
   fallLength <- rnorm(fallLength.mu,fallLength.prec)
   MOF <- rnorm(MOF.mu,MOF.p)
-  #sSlope <- rbeta(sSlope.a,sSlope.b)
-  sSlope <- runif(-1,0)
+  #sSlope ~ rbeta(sSlope.a,sSlope.b)
+  sSlope ~ runif(-1,0)
 
   ####Knowns based off of priors
   SOF <- MOF - fallLength/2
