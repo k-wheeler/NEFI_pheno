@@ -156,6 +156,11 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     }else if(forecastType=="CDD_meanTair"){
       dataFinal$TairMu <- TairMu
       dataFinal$TairPrec <- TairPrec
+      ##Save Tair data:
+      TairData <- list(TairMu=dataFinal$TairMu,TairPrec=dataFinal$TairPrec)
+      TairFileName <- paste(siteName,"_",endDate,"_CDD_20_meanTair.R",sep="")
+      save(TairData,file=TairFileName)
+
       plot(days2,dataFinal$TairMu,pch=20,main="Tair")
       abline(v=endDate,col="red")
       dev.off()
