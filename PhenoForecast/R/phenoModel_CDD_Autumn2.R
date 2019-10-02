@@ -46,8 +46,8 @@ phenoModel_CDD_Autumn2 <- function(data,nchain){
       newCDD1[i,yr] <- ifelse(offset[i,yr]>0,offset[i,yr],0)
 
       newCDD2[i,yr] <- CDDs[(i-1),yr] + newCDD1[i,yr]
-      CDDmu[i,yr] <- ifelse(Tair[i,yr]<baseTemp,newCDD2[i,yr],CDDs[(i-1),yr])
-      CDDs[i,yr] ~ dnorm(CDDmu[i,yr],CDDprec)
+      CDDs[i,yr] <- ifelse(Tair[i,yr]<baseTemp,newCDD2[i,yr],CDDs[(i-1),yr])
+      #CDDs[i,yr] ~ dnorm(CDDmu[i,yr],CDDprec)
 
       ##Calculate slopes for each time stamp
       m1l[i,yr] <- CDDs[i,yr] * CDDratio + b0_1
@@ -71,8 +71,8 @@ phenoModel_CDD_Autumn2 <- function(data,nchain){
     newCDD1[i,N] <- ifelse(offset[i,N]>0,offset[i,N],0)
 
     newCDD2[i,N] <- CDDs[(i-1),N] + newCDD1[i,N]
-    CDDmu[i,N] <- ifelse(Tair[i,N]<baseTemp,newCDD2[i,N],CDDs[(i-1),N])
-    CDDs[i,N] ~ dnorm(CDDmu[i,N],CDDprec)
+    CDDs[i,N] <- ifelse(Tair[i,N]<baseTemp,newCDD2[i,N],CDDs[(i-1),N])
+    #CDDs[i,N] ~ dnorm(CDDmu[i,N],CDDprec)
 
     ##Calculate slopes for each time stamp
     m1l[i,N] <- CDDs[i,N] * CDDratio + b0_1
@@ -97,7 +97,7 @@ phenoModel_CDD_Autumn2 <- function(data,nchain){
   p.ME ~ dgamma(s1,s2)
   p.MN ~ dgamma(s2,s2)
   p.proc ~ dgamma(s1,s2)
-  CDDprec ~ dgamma(s1,s2)
+  #CDDprec ~ dgamma(s1,s2)
   fallLength ~ dnorm(fallLength.mu,fallLength.prec)
   MOF ~ dnorm(MOF.mu,MOF.prec)
   #sSlope ~ rbeta(sSlope.a,sSlope.b)
