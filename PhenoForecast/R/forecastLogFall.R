@@ -18,10 +18,11 @@ forecastLogFall <- function(IC,r,Q=0,n,NT){
   Xprev <- IC
   for(t in 1:NT){
     mu <- Xprev - r * Xprev * (1-Xprev)  ## latent process
+    #print(mu)
     xl <- rnorm(n,mu,Q)
     xNew <- numeric()
     for(i in 1:length(xl)){
-      xNew <- c(xNew,max(0, min(1,xl[i])))
+      xNew <- c(xNew,max(0, min(0.999,xl[i])))
     }
     x[,t] <- xNew ## trunate normal process error
     Xprev <- x[,t]
