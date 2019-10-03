@@ -24,7 +24,7 @@ phenoModel_CDD_Autumn <- function(data,nchain,baseTemp=NA){
   data$MOF.mu <- 400 ##CDD for middle of fall
   data$MOF.prec <- 1/(100**2)
 
-  if(is.na(baseTemp)){
+  if(!is.na(baseTemp)){
     data$baseTemp <- baseTemp
     ##JAGS code
     LogisticModel = "
