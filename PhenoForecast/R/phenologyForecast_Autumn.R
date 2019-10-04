@@ -167,6 +167,9 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       j.model <- phenoModel_CDD_Autumn(data=dataFinal,nchain=nchain,baseTemp=baseTemp)
       print("Done creating the CDD covariate model")
       variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope")
+      if(is.na(baseTemp)){
+        variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope","baseTemp")
+      }
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,
                                   baseNum=10000,iterSize=10000)
