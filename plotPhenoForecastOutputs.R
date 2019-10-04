@@ -15,7 +15,7 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 
 forecastLength <- 15
 
-endDate <- (Sys.Date()-2)
+endDate <- (Sys.Date()-1)
 #startDate <- as.Date("2013-01-01")
 #endDate <- as.Date("2019-01-27")
 i <- 10
@@ -194,7 +194,7 @@ for(i in iseq){
       legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
     }
     ##Logistic with covariates model
-    LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_20_outBurn.RData",sep="")
+    LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_20_meanTair_outBurn.RData",sep="")
     if(file.exists(LCFile)){
       load(LCFile)
       outBurnLC <- outBurn
@@ -246,7 +246,7 @@ for(i in iseq){
       legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
     }
     ##Logistic with covariates model
-    LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_NA_outBurn.RData",sep="")
+    LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_NA_meanTair_outBurn.RData",sep="")
     if(file.exists(LCFile)){
       load(LCFile)
       outBurnLC <- outBurn
