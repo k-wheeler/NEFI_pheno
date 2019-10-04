@@ -216,9 +216,7 @@ for(i in iseq){
       plot(density(sqrt(1/out.mat.par$p.ME)),main="Density of ME Obs. Error (SD)")
       plot(density(sqrt(1/out.mat.par$p.MN)),main="Density of MN Ob. Error (SD)")
       plot(density(sqrt(1/out.mat.par$p.proc)),main="Density of Process Error (SD)")
-      
-      plot(density(out.mat.par$b1),main="Density of b1")
-      #plot(density(out.mat.par$b0),main="Density of b0")
+
       
       ##Plot
       par(mfrow=c(1,1))
@@ -270,9 +268,7 @@ for(i in iseq){
       plot(density(sqrt(1/out.mat.par$p.ME)),main="Density of ME Obs. Error (SD)")
       plot(density(sqrt(1/out.mat.par$p.MN)),main="Density of MN Ob. Error (SD)")
       plot(density(sqrt(1/out.mat.par$p.proc)),main="Density of Process Error (SD)")
-      
-      plot(density(out.mat.par$b1),main="Density of b1")
-      #plot(density(out.mat.par$b0),main="Density of b0")
+
       
       ##Plot
       par(mfrow=c(1,1))
