@@ -15,7 +15,7 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 
 forecastLength <- 15
 
-endDate <- (Sys.Date()-1)
+endDate <- (Sys.Date()-2)
 #startDate <- as.Date("2013-01-01")
 #endDate <- as.Date("2019-01-27")
 i <- 10
