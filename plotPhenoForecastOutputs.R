@@ -195,7 +195,9 @@ for(i in iseq){
     }
     ##Logistic with covariates model
     LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_20_meanTair_outBurn.RData",sep="")
+    print(LCFile)
     if(file.exists(LCFile)){
+      print("file exists")
       load(LCFile)
       outBurnLC <- outBurn
       out.mat.par <- data.frame(as.matrix(outBurnLC$params))
