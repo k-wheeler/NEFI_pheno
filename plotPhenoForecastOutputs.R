@@ -261,7 +261,7 @@ for(i in iseq){
       plot(density(out.mat.par$MOF),main="Density of MOF")
       plot(density(out.mat.par$fallLength),main="Density of fallLength")
       plot(density(out.mat.par$sSlope),main="Density of sSlope")
-      plot(density(out.mat.par$baseTemp),main="Density of baseTemp")
+      #plot(density(out.mat.par$baseTemp),main="Density of baseTemp")
       
       par(mfrow=c(2,3))
       plot(density(sqrt(1/out.mat.par$p.PC)),main="Density of PC Obs. Error (SD)")
