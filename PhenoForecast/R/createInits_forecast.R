@@ -9,9 +9,7 @@
 #'
 createInits_forecast <- function(out.burn,variableNames){
   inits <- list()
-  print("dim(out.burn)")
-  print(dim(out.burn))
-  out.mat <- data.frame(as.matrix(out.burn))
+  out.mat <- data.frame(as.matrix(out.burn$params))
   print(colnames(out.mat))
   inits$p.proc <- mean(out.mat$p.proc)
   inits$fallLength <- mean(out.mat$fallLength)
