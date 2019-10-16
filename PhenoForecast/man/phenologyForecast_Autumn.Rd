@@ -7,7 +7,7 @@
 phenologyForecast_Autumn(forecastType, forecastLength = 14, siteName,
   URLs, lat, long, dataDirectory, startDate, endDate, cValsPC, dValsPC,
   cValsMN, dValsMN, cValsME, dValsME, GEFS_Files = "", GEFS_Directory,
-  station = "", season)
+  station = "", season, baseTemp = NA, index = "all")
 }
 \arguments{
 \item{forecastType}{The type of forecast (randomWalk or logistic)}
@@ -45,6 +45,10 @@ phenologyForecast_Autumn(forecastType, forecastLength = 14, siteName,
 \item{GEFS_Directory}{The directory where the GEFS files are located}
 
 \item{season}{The desired season: spring or fall}
+
+\item{baseTemp}{If CDD, the desired base temperature}
+
+\item{index}{The desired index (GCC, NDVI, EVI, or all)}
 }
 \description{
 General phenology forecast function

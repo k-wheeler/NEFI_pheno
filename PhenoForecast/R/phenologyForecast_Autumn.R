@@ -19,6 +19,7 @@
 #' @param GEFS_Directory The directory where the GEFS files are located
 #' @param season The desired season: spring or fall
 #' @param baseTemp If CDD, the desired base temperature
+#' @param index The desired index (GCC, NDVI, EVI, or all)
 #' @import rjags
 #' @import runjags
 #' @import coda
@@ -28,7 +29,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
                               URLs,lat,long,dataDirectory,startDate,endDate,
                               cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,
                               GEFS_Files="",GEFS_Directory,station="",season,
-                              baseTemp=NA){
+                              baseTemp=NA, index="all"){
   print(forecastType)
   nchain=5
   ###Download PhenoCam data and format
@@ -164,11 +165,33 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       plot(days2,dataFinal$TairMu,pch=20,main="Tair")
       abline(v=endDate,col="red")
       dev.off()
-      j.model <- phenoModel_CDD_Autumn(data=dataFinal,nchain=nchain,baseTemp=baseTemp)
+
       print("Done creating the CDD covariate model")
-      variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope")
+
+
       if(is.na(baseTemp)){
+        if(index=="GCC"){
+          j.model <- phenoModel_CDD_Autumn_GCC(data=dataFinal,nchain=nchain,
+                                           baseTemp=baseTemp)
+          variableNames <- c("p.PC","x","p.proc","fallLength","MOF","sSlope","baseTemp")
+        }else if(index == "NDVI"){
+          j.model <- phenoModel_CDD_Autumn_NDVI(data=dataFinal,nchain=nchain,
+                                           baseTemp=baseTemp)
+          variableNames <- c("p.MN","x","p.proc","fallLength","MOF","sSlope","baseTemp")
+        }else if(index == "EVI"){
+          j.model <- phenoModel_CDD_Autumn_EVI(data=dataFinal,nchain=nchain,
+                                           baseTemp=baseTemp)
+          variableNames <- c("p.ME","x","p.proc","fallLength","MOF","sSlope","baseTemp")
+        }else{
+          j.model <- phenoModel_CDD_Autumn(data=dataFinal,nchain=nchain,
+                                           baseTemp=baseTemp)
         variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope","baseTemp")
+        }
+      }
+      else{
+        j.model <- phenoModel_CDD_Autumn(data=dataFinal,nchain=nchain,
+                                         baseTemp=baseTemp)
+        variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope")
       }
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,
