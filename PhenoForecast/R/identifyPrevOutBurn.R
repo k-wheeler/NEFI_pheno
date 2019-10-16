@@ -11,7 +11,7 @@
 #'
 #' @examples
 identifyPrevOutBurn <- function(siteName,forecastStr,startDate,endDate,dataDirectory){
-  potentialDates <- seq(as.Date("2019-10-01"),endDate,"day")
+  potentialDates <- seq(as.Date("2019-10-01"),(endDate-1),"day")
   fileFound <- FALSE
   i <- length(potentialDates)
   while(!fileFound){
@@ -28,5 +28,6 @@ identifyPrevOutBurn <- function(siteName,forecastStr,startDate,endDate,dataDirec
       i <- i - 1
     }
   }
+  print(fileName)
   return(fileName)
 }
