@@ -3,12 +3,14 @@
 #' @param out.burn
 #' @param variableNames
 #'
+#' @import rjags
 #' @return
 #' @export
 #'
 createInits_forecast <- function(out.burn,variableNames){
   inits <- list()
   out.mat <- data.frame(as.matrix(out.burn))
+  print(colnames(out.mat))
   inits$p.proc <- mean(out.mat$p.proc)
   inits$fallLength <- mean(out.mat$fallLength)
   inits$MOF <- mean(out.mat$MOF)
