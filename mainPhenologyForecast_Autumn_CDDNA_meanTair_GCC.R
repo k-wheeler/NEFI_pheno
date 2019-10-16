@@ -15,7 +15,7 @@ library(doParallel)
 
 ##Set and register cores for parallel
 n.cores <- 10
-registerDoParallel(cores=n.cores)
+#registerDoParallel(cores=n.cores)
 
 ##Read in data
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
@@ -29,9 +29,9 @@ iseq <- c(1,2,3,6,15,18,24)
 endDate <- (Sys.Date()-1)
 print(endDate)
 #Create Forecast outputs
-output <- 
-foreach(i=iseq) %dopar% {
-#for(i in iseq){
+#output <- 
+#foreach(i=iseq) %dopar% {
+for(i in iseq){
   siteName <- as.character(siteData[i,1])
   print(siteName)
   GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",endDate,"/",sep="")
