@@ -16,7 +16,7 @@ identifyPrevOutBurn <- function(siteName,forecastStr,startDate,endDate,dataDirec
   i <- length(potentialDates)
   while(!fileFound){
     fileName <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",potentialDates[i],"/",
-                      siteName,"_",startDate,"_",endDate,"_",forecastStr,
+                      siteName,"_",startDate,"_",potentialDates[i],"_",forecastStr,
                       "_outBurn.RData",sep="")
     print(fileName)
     if(file.exists(fileName)){
