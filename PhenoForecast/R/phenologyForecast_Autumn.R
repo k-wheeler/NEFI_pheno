@@ -171,16 +171,13 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
 
       if(is.na(baseTemp)){
         if(index=="GCC"){
-          j.model <- phenoModel_CDD_Autumn_GCC(data=dataFinal,nchain=nchain,
-                                           baseTemp=baseTemp)
+          j.model <- phenoModel_CDD_Autumn_GCC(data=dataFinal,nchain=nchain)
           variableNames <- c("p.PC","x","p.proc","fallLength","MOF","sSlope","baseTemp")
         }else if(index == "NDVI"){
-          j.model <- phenoModel_CDD_Autumn_NDVI(data=dataFinal,nchain=nchain,
-                                           baseTemp=baseTemp)
+          j.model <- phenoModel_CDD_Autumn_NDVI(data=dataFinal,nchain=nchain)
           variableNames <- c("p.MN","x","p.proc","fallLength","MOF","sSlope","baseTemp")
         }else if(index == "EVI"){
-          j.model <- phenoModel_CDD_Autumn_EVI(data=dataFinal,nchain=nchain,
-                                           baseTemp=baseTemp)
+          j.model <- phenoModel_CDD_Autumn_EVI(data=dataFinal,nchain=nchain)
           variableNames <- c("p.ME","x","p.proc","fallLength","MOF","sSlope","baseTemp")
         }else{
           j.model <- phenoModel_CDD_Autumn(data=dataFinal,nchain=nchain,
