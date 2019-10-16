@@ -4,7 +4,7 @@
 \alias{phenoModel_CDD_Autumn_baseTemp}
 \title{Creates a logistic phenology forecast model based on PhenoCam and MODIS data}
 \usage{
-phenoModel_CDD_Autumn_baseTemp(data, nchain, baseTemp = 20)
+phenoModel_CDD_Autumn_baseTemp(data, nchain, baseTemp = 20, inits)
 }
 \arguments{
 \item{data}{The data in the form of a list with data$p, data$mn, data$me, data$n, data$x_ic, and data$tau_ic}
@@ -12,6 +12,8 @@ phenoModel_CDD_Autumn_baseTemp(data, nchain, baseTemp = 20)
 \item{nchain}{The desired number of chains in the MCMC}
 
 \item{baseTemp}{The base temperature for CDD calculations}
+
+\item{inits}{The initial conditions based off of previous fits}
 }
 \description{
 Creates a logistic phenology forecast model based on PhenoCam and MODIS data

@@ -29,9 +29,9 @@ iseq <- c(1,2,3,4,6,15,16,20,18,24)
 endDate <- (Sys.Date()-1)
 print(endDate)
 #Create Forecast outputs
-output <- 
-foreach(i=iseq) %dopar% {
-#for(i in iseq){
+#output <- 
+#foreach(i=iseq) %dopar% {
+for(i in iseq){
   siteName <- as.character(siteData[i,1])
   print(siteName)
   GEFS_Directory <- paste("/projectnb/dietzelab/WeatherForecast/NOAA_GEFS/Data/",siteName,"/",endDate,"/",sep="")
@@ -73,13 +73,23 @@ foreach(i=iseq) %dopar% {
   
   ##Create a CDD forecast model
   outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_20_meanTair_outBurn.RData",sep="")
+  
+
   if(!file.exists(outputFile)){
+    prevOutFile <- identifyPrevOutBurn(siteName=siteName,forecastStr = "CDD_20_meanTair",
+                                       startDate=startDate,endDate=endDate,dataDirectory=dataDirectory)
+    if(!is.na(prevOutFile)){
+      load(prevOutFile)
+    }else{
+      outBurn <- NA
+    }
+
     outBurn <- phenologyForecast_Autumn(forecastType = "CDD_meanTair",forecastLength = forecastLength,
                                  siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,
                                  as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,
                                  dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,
                                  dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station,
-                                 season="fall",baseTemp=20)
+                                 season="fall",baseTemp=20,prevOutBurn=outBurn)
     if(typeof(outBurn)!=typeof(FALSE)){
       save(outBurn,file=outputFile)
     }

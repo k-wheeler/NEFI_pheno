@@ -3,10 +3,11 @@
 ##' @param data The data in the form of a list with data$p, data$mn, data$me, data$n, data$x_ic, and data$tau_ic
 ##' @param nchain The desired number of chains in the MCMC
 ##' @param baseTemp The base temperature for CDD calculations
+##' @param inits The initial conditions based off of previous fits
 ##' @export
 ##' @import rjags
 ##' @import coda
-phenoModel_CDD_Autumn_baseTemp <- function(data,nchain,baseTemp = 20){
+phenoModel_CDD_Autumn_baseTemp <- function(data,nchain,baseTemp = 20, inits){
   ##Set priors
   data$s1.PC <- 1262.626 ## Very roughly based off of what I think are reasonable and uninformed priors
   data$s2.PC <- 50.50505 ##From mean <- 1/(0.2**2) and var = (mean-1/((0.4/1.96)**2))/2

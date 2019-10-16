@@ -4,7 +4,7 @@
 \alias{phenoModel_CDD_Autumn}
 \title{Creates a logistic phenology forecast model based on PhenoCam and MODIS data}
 \usage{
-phenoModel_CDD_Autumn(data, nchain, baseTemp = NA)
+phenoModel_CDD_Autumn(data, nchain, baseTemp = NA, inits = NA)
 }
 \arguments{
 \item{data}{The data in the form of a list with data$p, data$mn, data$me, data$n, data$x_ic, and data$tau_ic}

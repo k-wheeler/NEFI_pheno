@@ -3,10 +3,11 @@
 ##' @param data The data in the form of a list with data$p, data$mn, data$me, data$n, data$x_ic, and data$tau_ic
 ##' @param nchain The desired number of chains in the MCMC
 ##' @param baseTemp The base temperature for CDD calculations
+##' @param inits
 ##' @export
 ##' @import rjags
 ##' @import coda
-phenoModel_CDD_Autumn <- function(data,nchain,baseTemp=NA){
+phenoModel_CDD_Autumn <- function(data,nchain,baseTemp=NA,inits=NA){
   ##Set priors
   data$s1.PC <- 1262.626 ## Very roughly based off of what I think are reasonable and uninformed priors
   data$s2.PC <- 50.50505 ##From mean <- 1/(0.2**2) and var = (mean-1/((0.4/1.96)**2))/2
@@ -217,10 +218,17 @@ phenoModel_CDD_Autumn <- function(data,nchain,baseTemp=NA){
   }"
   }
   ###Create the JAGS model using the basic RandomWalk Model
+  if(is.na(inits)){
+    j.model   <- jags.model (file = textConnection(LogisticModel),
+                             data = data,
+                             n.chains = nchain)
+  }else{
+    j.model   <- jags.model (file = textConnection(LogisticModel),
+                             data = data,
+                             inits = inits,
+                             n.chains = nchain)
+  }
 
-  j.model   <- jags.model (file = textConnection(LogisticModel),
-                           data = data,
-                           n.chains = nchain)
   return(j.model)
 
 }

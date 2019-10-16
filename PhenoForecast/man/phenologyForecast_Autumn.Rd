@@ -7,7 +7,8 @@
 phenologyForecast_Autumn(forecastType, forecastLength = 14, siteName,
   URLs, lat, long, dataDirectory, startDate, endDate, cValsPC, dValsPC,
   cValsMN, dValsMN, cValsME, dValsME, GEFS_Files = "", GEFS_Directory,
-  station = "", season, baseTemp = NA, index = "all")
+  station = "", season, baseTemp = NA, index = "all",
+  prevOutBurn = NA)
 }
 \arguments{
 \item{forecastType}{The type of forecast (randomWalk or logistic)}
@@ -49,6 +50,8 @@ phenologyForecast_Autumn(forecastType, forecastLength = 14, siteName,
 \item{baseTemp}{If CDD, the desired base temperature}
 
 \item{index}{The desired index (GCC, NDVI, EVI, or all)}
+
+\item{prevOutBurn}{The most recent previous forecast output}
 }
 \description{
 General phenology forecast function

@@ -20,6 +20,7 @@
 #' @param season The desired season: spring or fall
 #' @param baseTemp If CDD, the desired base temperature
 #' @param index The desired index (GCC, NDVI, EVI, or all)
+#' @param prevOutBurn The most recent previous forecast output
 #' @import rjags
 #' @import runjags
 #' @import coda
@@ -29,7 +30,8 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
                               URLs,lat,long,dataDirectory,startDate,endDate,
                               cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,
                               GEFS_Files="",GEFS_Directory,station="",season,
-                              baseTemp=NA, index="all"){
+                              baseTemp=NA, index="all",
+                              prevOutBurn=NA){
   print(forecastType)
   nchain=5
   ###Download PhenoCam data and format
@@ -168,7 +170,6 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
 
       print("Done creating the CDD covariate model")
 
-
       if(is.na(baseTemp)){
         if(index=="GCC"){
           j.model <- phenoModel_CDD_Autumn_GCC(data=dataFinal,nchain=nchain)
@@ -180,15 +181,18 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
           j.model <- phenoModel_CDD_Autumn_EVI(data=dataFinal,nchain=nchain)
           variableNames <- c("p.ME","x","p.proc","fallLength","MOF","sSlope","baseTemp")
         }else{
+          variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope","baseTemp")
           j.model <- phenoModel_CDD_Autumn(data=dataFinal,nchain=nchain,
                                            baseTemp=baseTemp)
-        variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope","baseTemp")
+
         }
       }
       else{
+        variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope")
+        inits <- createInits_forecast(out.burn=prevOutBurn,variableNames=variableNames)
         j.model <- phenoModel_CDD_Autumn(data=dataFinal,nchain=nchain,
                                          baseTemp=baseTemp)
-        variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope")
+
       }
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,
