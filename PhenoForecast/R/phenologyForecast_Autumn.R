@@ -191,7 +191,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
         variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope")
         inits <- createInits_forecast(out.burn=prevOutBurn,variableNames=variableNames)
         j.model <- phenoModel_CDD_Autumn(data=dataFinal,nchain=nchain,
-                                         baseTemp=baseTemp)
+                                         baseTemp=baseTemp,inits=inits)
 
       }
       print(variableNames)

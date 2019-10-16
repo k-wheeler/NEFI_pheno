@@ -218,6 +218,7 @@ phenoModel_CDD_Autumn <- function(data,nchain,baseTemp=NA,inits=NA){
   }"
   }
   ###Create the JAGS model using the basic RandomWalk Model
+  print("inits:")
   print(inits)
   if(is.na(inits)){
     j.model   <- jags.model (file = textConnection(LogisticModel),
