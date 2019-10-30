@@ -9,13 +9,6 @@
 createDiurnalModel <- function(siteName,data){
   print("entered model")
   nchain <-  5
-  #inits <- list()
-  #init.mus <- createInits(data,"SH")
-  #print(init.mus)
-  # for(i in 1:5){
-  #   inits[[i]] <- list(a=rnorm(1,0.0009,0.0003),c=rnorm(1,mean(sort(data$y,decreasing = TRUE)[1:2]),0.05),k=rnorm(1,12,0.3))
-  # }
-
   data$alpha.c <- 2
   data$beta.c <- 1.5
   data$s1 <- 0.001

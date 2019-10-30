@@ -4,7 +4,7 @@
 \alias{calculateMiddayCI}
 \title{Calculate credible interval on midday NDVI value}
 \usage{
-calculateMiddayCI(siteName, year, day)
+calculateMiddayCI(siteName, year, day, savePath)
 }
 \arguments{
 \item{siteName}{The site name used for file naming}
@@ -12,6 +12,8 @@ calculateMiddayCI(siteName, year, day)
 \item{year}{The desired year}
 
 \item{day}{The desired day of year}
+
+\item{savePath}{The folder where the model output is saved}
 }
 \description{
 Calculate credible interval on midday NDVI value

@@ -3,13 +3,14 @@
 #' @param siteName The site name used for file naming
 #' @param year The desired year
 #' @param day The desired day of year
+#' @param savePath The folder where the model output is saved
 #' @export
 #' @import rjags
 #' @import runjags
-calculateMiddayCI <- function(siteName,year,day){
-  fileName <- paste(siteName,"_",year,day,"_varBurn.RData",sep="")
+calculateMiddayCI <- function(siteName,year,day,savePath){
+  fileName <- paste(savePath,siteName,"_",year,day,"_varBurn.RData",sep="")
   load(fileName)
-  dat <- read.csv(paste("GOES_NDVI_Diurnal",siteName,"_",year,day,".csv",sep=""),header=FALSE)
+  dat <- read.csv(paste(savePath,"GOES_NDVI_Diurnal",siteName,"_",year,day,".csv",sep=""),header=FALSE)
   #print(dim(dat))
   xseq <- seq(dat[3,1],dat[3,ncol(dat)],0.001)
   out.mat <- as.matrix(var.burn)

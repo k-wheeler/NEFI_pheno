@@ -5,8 +5,14 @@
 #' @param year The desired year
 #' @param TZ The timezone of the sites in siteData (e.g. eastern US sites have a TZ value of 5).
 #' @param dataPath The directory where all of the GOES data is located
+#' @param TZ_name The name of the time zone (e.g., "America/New_York")
+#' @param savePath The directory where you want to save the output
+#' @import suncalc
+#' @import lubridate
 #' @export
-calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath){
+calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePath){
+  date.val <- as.Date(as.numeric(day),origin=as.Date(paste(as.character(as.numeric(year)-1),"-12-31",sep="")))
+  print(date.val)
   if(year==2017 && day < 321){
     orbitVersion <- "OLD"
   }
@@ -28,21 +34,28 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath){
         hr <- as.numeric(substr(day.time,8,9))-TZ
         mt <- substr(day.time,10,11)
         times <- c(times,(as.numeric(hr)+as.numeric(mt)/60))
-        print((as.numeric(hr)+as.numeric(mt)/60))
-        NDVI.vals <- rbind(NDVI.vals,createNDVI_sub(siteData=siteData,orbitVersion=orbitVersion,day.time=day.time,dataPath=dataPath))
+        print(paste("Time:",(as.numeric(hr)+as.numeric(mt)/60)))
+        newNDVI <- createNDVI_sub(siteData=siteData,orbitVersion=orbitVersion,day.time=day.time,dataPath=dataPath)
+        NDVI.vals <- rbind(NDVI.vals,newNDVI)
       }
       for(i in 1:nrow(siteData)){
         siteName <- as.character(siteData[i,1])
-        fileName <- paste("GOES_NDVI_Diurnal",siteName,"_",year,day,".csv",sep="")
+        fileName <- paste(savePath,"GOES_NDVI_Diurnal",siteName,"_",year,day,".csv",sep="")
         output <- rbind(day.time.vals,NDVI.vals[,i],times)
+        suntimes <- getSunlightTimes(date=date.val,lat=as.numeric(siteData[i,2]),lon=as.numeric(siteData[i,3]),keep=c("nauticalDawn","nauticalDusk"),tz = TZ_name)
+        dawnTime <- lubridate::hour(suntimes$nauticalDawn)+(lubridate::minute(suntimes$nauticalDawn)/60)
+        duskTime <- lubridate::hour(suntimes$nauticalDusk)+(lubridate::minute(suntimes$nauticalDusk)/60)
+
+        output[2,as.numeric(output[3,])<as.numeric(dawnTime)] <- NA
+        output[2,as.numeric(output[3,])>as.numeric(duskTime)] <- NA
         write.table(output,file=fileName,sep=",",col.names=FALSE,row.names=FALSE)
       }
     }
     else{
-      createEmptyFiles(siteData=siteData,day=day)
+      #createEmptyFiles(siteData=siteData,day=day,year=year)
     }
   }
   else{
-    createEmptyFiles(siteData=siteData,day=day)
+    #createEmptyFiles(siteData=siteData,day=day,year=year)
   }
 }

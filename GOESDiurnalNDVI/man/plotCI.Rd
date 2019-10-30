@@ -4,7 +4,7 @@
 \alias{plotCI}
 \title{Plots the fitted curve with credible interval for a day}
 \usage{
-plotCI(siteName, year, day)
+plotCI(siteName, year, day, savePath)
 }
 \arguments{
 \item{siteName}{The site name used for file naming}
@@ -12,6 +12,8 @@ plotCI(siteName, year, day)
 \item{year}{The desired year}
 
 \item{day}{The desired day of year}
+
+\item{savePath}{The folder where the model output is saved}
 }
 \description{
 Plots the fitted curve with credible interval for a day

@@ -4,7 +4,8 @@
 \alias{calculateNDVI_GOES_MAIN}
 \title{Main function to calculate all NDVI values for a day for a list of sites}
 \usage{
-calculateNDVI_GOES_MAIN(day, siteData, year, TZ, dataPath)
+calculateNDVI_GOES_MAIN(day, siteData, year, TZ, dataPath, TZ_name,
+  savePath)
 }
 \arguments{
 \item{day}{The desired day of year}
@@ -16,6 +17,10 @@ calculateNDVI_GOES_MAIN(day, siteData, year, TZ, dataPath)
 \item{TZ}{The timezone of the sites in siteData (e.g. eastern US sites have a TZ value of 5).}
 
 \item{dataPath}{The directory where all of the GOES data is located}
+
+\item{TZ_name}{The name of the time zone (e.g., "America/New_York")}
+
+\item{savePath}{The directory where you want to save the output}
 }
 \description{
 Main function to calculate all NDVI values for a day for a list of sites

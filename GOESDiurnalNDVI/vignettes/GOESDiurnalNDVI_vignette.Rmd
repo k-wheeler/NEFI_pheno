@@ -1,0 +1,141 @@
+---
+title: "GOESDiurnalNDVI_vignette"
+author: "Kathryn Wheeler (kiwheel@bu.edu)"
+date: "10/24/2019"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{GOESDiurnalNDVI_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(GOESDiurnalNDVI)
+```
+
+This is an example of how to use the diurnal fit method explained in Wheeler and Dietze (in press, Remote Sensing) to estimate daily midday, maximum NDVI values from GOES-R (GOES-16 and GOES-17) data. The diurnal model is fit using a Bayesian framework, but it is our intent that as long as the right packages are installed (specifically the packages rjags and runjags), those with limited Bayesian knowledge will be able to use this R package to apply the method. In summary, the model is comprised of two main parts. (1) It assumes that without any noise (e.g., from clouds that were not filtered out by a cloud mask), the "true" NDVI values fall along an inverted "u" shape (negative exponential decrease --actually increases-- in the morning and a negative exponential increase in the afternoon -- actually decreases).(2) It includes an error model that accounts for the negative bias in the noise by calculating the probability that each observation is clear or cloudy and then the amount that the atmosphere transmits if it is "cloudy." For a full description, see the paper (open access available). 
+
+*Please cite the paper if you use this package: Wheeler, K.I., Dietze, M.C. (in press). "A statistical model for estimating midday NDVI from the Geostationary Operational Environmental Satellite (GOES) 16 and 17." Remote Sensing.*
+
+In this document, we will lay out the general steps to fit the model to one example day (2017-08-21 at Russell Sage, USA). We have included a subset of the data in this folder to allow for the model to fit. We will walk you through the steps from requesting the data through fitting the model and interpretating the outputs (these are also explained in the paper). 
+
+#Step 1: Requesting the data from NOAA's Comprehensive Large Array-Data Stewardship System (CLASS)
+1.1 Go to the website and create an account: https://www.avl.class.noaa.gov/saa/products/search?datatype_family=GRABIPRD
+
+1.1 Fill in the desired fields (note: you can only request so much data at a time)
+1.1.1 Radiance channel 2 (red): 
+      Datatype: "ABI L1b Radiances Data"
+      Satellite: G16 (This package has been specifically built for G16 satellite data and has yet to be tested on G17)
+      ABI Mode: M3
+      Product Type: Radiances
+      ABI Channel: CO2
+      ABI Scan Sector: CONUS (This package has been specifically built for the continental US and has yet to be tested on other scan sectors)
+      
+1.1.2 Radiance channel 3 (near-infrared): 
+      Datatype: "ABI L1b Radiances Data"
+      Satellite: G16 (This package has been specifically built for G16 satellite data and has yet to be tested on G17)
+      ABI Mode: M3
+      Product Type: Radiances
+      ABI Channel: CO3
+      ABI Scan Sector: CONUS (This package has been specifically built for the continental US and has yet to be tested on other scan sectors)
+      
+1.1.3 Clear Sky Mask (ACM): 
+      Datatype: "ABI L2+ Cloud and Moisture Imagery Data""
+      Satellite: G16 (This package has been specifically built for G16 satellite data and has yet to be tested on G17)
+      ABI Mode: M3
+      Product Type: Clear Sky Mask
+      ABI Channel: <Leave blank>
+      ABI Scan Sector: CONUS (This package has been specifically built for the continental US and has yet to be tested on other scan sectors)
+
+#Step 2: Wait for confirmation email and ftp and copy the data
+
+#Step 3: Load and install libraries
+```{r}
+library(devtools)
+#install_github("k-wheeler/NEFI_pheno/GOESDiurnalNDVI")
+
+library(GOESDiurnalNDVI)
+
+```
+
+#Step 4: Create data file(s) (in csv form)
+```{r}
+###Site Characteristics:
+siteName <- "RussellSage"
+lat <- 32.457
+long <- -91.9743
+year <- 2017
+TZ <- 5 #Time zone
+day <- 234 #Day of year
+dataPath <- "GOES_data" #Folder where the data is located
+savePath <- paste(getwd(),"/",sep="")
+print(savePath)
+siteData <- cbind(siteName,lat,long,TZ)
+fileName <- paste(savePath,"GOES_NDVI_Diurnal",siteName,"_",year,day,".csv",sep="")
+if(!file.exists(fileName)){
+  calculateNDVI_GOES_MAIN(day=day,siteData=siteData,year=year,TZ=TZ,
+                          dataPath=dataPath,TZ_name="America/New_York",
+                          savePath=savePath)
+}
+```
+
+#Step 5: Plot data
+```{r}
+fileName <- paste(savePath,"GOES_NDVI_Diurnal",siteName,"_",year,day,".csv",sep="")
+GOESdat <- read.csv(fileName,header=FALSE)
+plot(as.numeric(GOESdat[3,]),as.numeric(GOESdat[2,]),pch=20,xlim=c(0,20),ylim=c(0,1),
+     ylab="NDVI",xlab="Time (Hour)")
+
+```
+
+#Step 6: Create Bayes model
+```{r}
+data <- list(x=as.numeric(GOESdat[3,]),y=as.numeric(GOESdat[2,]))
+modelFitFileName <- paste(savePath,siteName,"_",year,day,"_varBurn.RData",sep="")
+if(!file.exists(modelFitFileName)){
+  j.model <- createDiurnalModel(siteName=siteName,data=data)
+}
+
+```
+
+#Step 7: Sample from posterior
+```{r}
+if(!file.exists(modelFitFileName)){
+  var.burn <- runMCMC_Model(j.model=j.model,variableNames=c("a","c","k","prec"),
+                         baseNum=20000,iterSize =10000) #The baseNum and iterSize can be increased/decreased to make the code run faster if you know it will converge easier
+
+save(var.burn,file=modelFitFileName)
+}
+```
+
+#Step 8: Plot 95% credible interval of fit with data
+```{r}
+load(modelFitFileName)
+plotCI(siteName=siteName,year=year,day=day,savePath=savePath)
+```
+
+#Step 9: Extract midday-maximum NDVI value posterior (parameter c)
+```{r}
+out.mat <- data.frame(as.matrix(var.burn))
+c <- out.mat$c
+c.quantiles <- quantile(c,c(0.025,0.50,0.975))
+print(paste("Midday NDVI Quantiles (0.025,0.5,0.975):",as.character(c.quantiles[1]),
+            as.character(c.quantiles[2]),as.character(c.quantiles[3])))
+c.mean <- mean(c)
+print(paste("Midday NDVI Mean Estimate:",as.character(c.mean)))
+```
+
+-------------------------------
+#Additional notes:
+1. The calculateNDVI_GOES_MAIN() function (step 4) is formatted to allow for the calculation of NDVI at multiple sites if they are listed as rows in a matrix. This significantly decreases the computation time as the netcdf files do not have to be opened and closed multiple times. Currently this only works if the timezone is the same for all sites.
+1. The package relies on the file names being consistent: specifically the GOES data file names, the calculated NDVI file names, and the diurnal fit output file name all should not be changed.
+1. Currently this won't fully work on days that have nautical dawn before timezone (e.g., 5 for eastern USA) number of hours after midnight (e.g., Won't work calculate/include NDVI values before 5am in eastern USA).
+1. Currently, this won't work for the last day of the year yet.
+
