@@ -20,9 +20,11 @@ knitr::opts_chunk$set(
 library(GOESDiurnalNDVI)
 ```
 
-This is an example of how to use the diurnal fit method explained in Wheeler and Dietze (in press, Remote Sensing) to estimate daily midday, maximum NDVI values from GOES-R (GOES-16 and GOES-17) data. The diurnal model is fit using a Bayesian framework, but it is our intent that as long as the right packages are installed (specifically the packages rjags and runjags), those with limited Bayesian knowledge will be able to use this R package to apply the method. In summary, the model is comprised of two main parts. (1) It assumes that without any noise (e.g., from clouds that were not filtered out by a cloud mask), the "true" NDVI values fall along an inverted "u" shape (negative exponential decrease --actually increases-- in the morning and a negative exponential increase in the afternoon -- actually decreases).(2) It includes an error model that accounts for the negative bias in the noise by calculating the probability that each observation is clear or cloudy and then the amount that the atmosphere transmits if it is "cloudy." For a full description, see the paper (open access available). 
+*Please cite the paper if you use this package: Wheeler, K.I.; Dietze, M.C. A Statistical Model for Estimating Midday NDVI from the Geostationary Operational Environmental Satellite (GOES) 16 and 17. Remote Sens. 2019, 11, 2507.*
 
-*Please cite the paper if you use this package: Wheeler, K.I., Dietze, M.C. (in press). "A statistical model for estimating midday NDVI from the Geostationary Operational Environmental Satellite (GOES) 16 and 17." Remote Sensing.*
+----------------
+
+This is an example of how to use the diurnal fit method explained in Wheeler and Dietze (in press, Remote Sensing) to estimate daily midday, maximum NDVI values from GOES-R (GOES-16 and GOES-17) data. The diurnal model is fit using a Bayesian framework, but it is our intent that as long as the right packages are installed (specifically the packages rjags and runjags), those with limited Bayesian knowledge will be able to use this R package to apply the method. In summary, the model is comprised of two main parts. (1) It assumes that without any noise (e.g., from clouds that were not filtered out by a cloud mask), the "true" NDVI values fall along an inverted "u" shape (negative exponential decrease --actually increases-- in the morning and a negative exponential increase in the afternoon -- actually decreases).(2) It includes an error model that accounts for the negative bias in the noise by calculating the probability that each observation is clear or cloudy and then the amount that the atmosphere transmits if it is "cloudy." For a full description, see the paper (open access available). 
 
 In this document, we will lay out the general steps to fit the model to one example day (2017-08-21 at Russell Sage, USA). We have included a subset of the data in this folder to allow for the model to fit. We will walk you through the steps from requesting the data through fitting the model and interpretating the outputs (these are also explained in the paper). 
 
@@ -79,7 +81,7 @@ savePath <- paste(getwd(),"/",sep="")
 print(savePath)
 siteData <- cbind(siteName,lat,long,TZ)
 fileName <- paste(savePath,"GOES_NDVI_Diurnal",siteName,"_",year,day,".csv",sep="")
-if(!file.exists(fileName)){
+if(!file.exists(fileName)){ #Note the file of the calculated NDVI's is included on github
   calculateNDVI_GOES_MAIN(day=day,siteData=siteData,year=year,TZ=TZ,
                           dataPath=dataPath,TZ_name="America/New_York",
                           savePath=savePath)
