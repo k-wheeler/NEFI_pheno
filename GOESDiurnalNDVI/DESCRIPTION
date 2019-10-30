@@ -6,6 +6,7 @@ Author: Kathryn I. Wheeler
 Maintainer: Kathryn I. Wheeler <kiwheel@bu.edu>
 Description: This package includes code to go from raw GOES data files to estimates 
     of midday NDVI estimates with uncertainties. 
+Depends: R (>= 3.5.0)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
