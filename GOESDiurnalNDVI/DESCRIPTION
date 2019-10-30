@@ -15,6 +15,7 @@ Imports: ncdf4,
     rjags,
     runjags,
     coda,
-    ecoforecastR
+    ecoforecastR,
+    suncalc
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
