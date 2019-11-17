@@ -116,6 +116,7 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
 
     }"
   }else{
+    data$baseTemp <- baseTemp
     LogisticModel = "
     model{
     ### Data Models for complete years
