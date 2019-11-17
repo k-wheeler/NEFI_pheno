@@ -106,7 +106,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     TairPrec <- matrix(nrow=nrowNum,ncol=0)
     valNum <- 0
     days2 <- matrix(nrow=nrowNum,ncol=0)
-    for(i in (lubridate::year(as.Date(dat2$dates[1]))+1):lubridate::year(as.Date(dat2$dates[length(dat2$dates)]))){##I know this includes the forecasted stuff, but it shouldn't really matter because of the JAGS model setup
+    for(i in (lubridate::year(as.Date(dat2$dates[1]))):lubridate::year(as.Date(dat2$dates[length(dat2$dates)]))){##I know this includes the forecasted stuff, but it shouldn't really matter because of the JAGS model setup
       subDat <- dat2[lubridate::year(as.Date(dat2$dates))==i,]
       valNum <- valNum + 1
       if(valNum>length(cValsPC)){ ##Done to set the c and d values at the last partial year as those of the last full year (the lengths should be the same for the different cVals)
@@ -171,29 +171,25 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
       print("Done creating the CDD covariate model")
 
       if(is.na(baseTemp)){
-        if(index=="GCC"){
-          j.model <- phenoModel_CDD_Autumn_GCC(data=dataFinal,nchain=nchain)
-          variableNames <- c("p.PC","x","p.proc","fallLength","MOF","sSlope","baseTemp")
-        }else if(index == "NDVI"){
-          j.model <- phenoModel_CDD_Autumn_NDVI(data=dataFinal,nchain=nchain)
-          variableNames <- c("p.MN","x","p.proc","fallLength","MOF","sSlope","baseTemp")
-        }else if(index == "EVI"){
-          j.model <- phenoModel_CDD_Autumn_EVI(data=dataFinal,nchain=nchain)
-          variableNames <- c("p.ME","x","p.proc","fallLength","MOF","sSlope","baseTemp")
-        }else{
-          variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope","baseTemp")
-          j.model <- phenoModel_CDD_Autumn(data=dataFinal,nchain=nchain,
-                                           baseTemp=baseTemp)
-
-        }
+        variableNames <- c("baseTemp","p.proc","fallLength","x","MOF","sSlope")
+      }else{
+        variableNames <- c("p.proc","fallLength","x","MOF","sSlope")
       }
-      else{
-        variableNames <- c("p.PC","p.MN","p.ME","x","p.proc","fallLength","MOF","sSlope")
-        inits <- createInits_forecast(out.burn=prevOutBurn,variableNames=variableNames)
+      if(index=="GCC"){
+        j.model <- phenoModel_CDD_Autumn_GCC(data=dataFinal,nchain=nchain,baseTemp=baseTemp)
+        variableNames <- c(variableNames, "p.PC")#,"x","p.proc","fallLength","MOF","sSlope","baseTemp")
+      }else if(index == "NDVI"){
+        j.model <- phenoModel_CDD_Autumn_NDVI(data=dataFinal,nchain=nchain,baseTemp=baseTemp)
+        variableNames <- c(variableNames,"p.MN")#,"x","p.proc","fallLength","MOF","sSlope","baseTemp")
+      }else if(index == "EVI"){
+        j.model <- phenoModel_CDD_Autumn_EVI(data=dataFinal,nchain=nchain,baseTemp=baseTemp)
+        variableNames <- c(variableNames,"p.ME")#,"x","p.proc","fallLength","MOF","sSlope","baseTemp")
+      }else{
+        variableNames <- c(variableNames,"p.PC","p.MN","p.ME")#,"x","p.proc","fallLength","MOF","sSlope","baseTemp")
         j.model <- phenoModel_CDD_Autumn(data=dataFinal,nchain=nchain,
-                                         baseTemp=baseTemp,inits=inits)
-
+                                         baseTemp=baseTemp)
       }
+
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,
                                   baseNum=10000,iterSize=5000)

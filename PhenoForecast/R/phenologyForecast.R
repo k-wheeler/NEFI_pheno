@@ -112,7 +112,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,
     Sfprecs<- matrix(nrow=nrowNum,ncol=0)
     valNum <- 0
     days2 <- matrix(nrow=nrowNum,ncol=0)
-    for(i in (lubridate::year(as.Date(dat2$dates[1]))+1):lubridate::year(as.Date(dat2$dates[length(dat2$dates)]))){##I know this includes the forecasted stuff, but it shouldn't really matter because of the JAGS model setup
+    for(i in (lubridate::year(as.Date(dat2$dates[1]))):lubridate::year(as.Date(dat2$dates[length(dat2$dates)]))){##I know this includes the forecasted stuff, but it shouldn't really matter because of the JAGS model setup
       subDat <- dat2[lubridate::year(as.Date(dat2$dates))==i,]
       valNum <- valNum + 1
       if(valNum>length(cValsPC)){ ##Done to set the c and d values at the last partial year as those of the last full year (the lengths should be the same for the different cVals)
