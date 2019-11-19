@@ -21,6 +21,9 @@
 #' @param baseTemp If CDD, the desired base temperature
 #' @param index The desired index (GCC, NDVI, EVI, or all)
 #' @param prevOutBurn The most recent previous forecast output
+#' @param baseNum
+#' @param iterSize
+#' @param effSize
 #' @import rjags
 #' @import runjags
 #' @import coda
@@ -31,7 +34,10 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
                               cValsPC,dValsPC,cValsMN,dValsMN,cValsME,dValsME,
                               GEFS_Files="",GEFS_Directory,station="",season,
                               baseTemp=NA, index="all",
-                              prevOutBurn=NA){
+                              prevOutBurn=NA,
+                              baseNum=10000,
+                              iterSize=5000,
+                              effSize=5000){
   print(forecastType)
   nchain=5
   ###Download PhenoCam data and format
@@ -192,7 +198,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
 
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,
-                                  baseNum=10000,iterSize=5000)
+                                  baseNum=baseNum,iterSize=iterSize,effSize=effSize)
     }else{
       print("Forecast type not known!!!")
     }
