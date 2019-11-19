@@ -81,7 +81,10 @@ foreach(i=iseq) %dopar% {
                                  as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,
                                  dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,
                                  dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station,
-                                 season="fall",baseTemp=20, index="GCC")
+                                 season="fall",baseTemp=20, index="GCC",
+                                 baseNum=20000,
+                                 iterSize=5000,
+                                 effSize=1500)
     if(typeof(outBurn)!=typeof(FALSE)){
       save(outBurn,file=outputFile)
     }
