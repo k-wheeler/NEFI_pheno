@@ -82,9 +82,9 @@ foreach(i=iseq) %dopar% {
                                  dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,
                                  dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station,
                                  season="fall",baseTemp=20, index="GCC",
-                                 baseNum=20000,
-                                 iterSize=5000,
-                                 effSize=1500)
+                                 baseNum=10000,
+                                 iterSize=10000,
+                                 effSize=300)
     if(typeof(outBurn)!=typeof(FALSE)){
       save(outBurn,file=outputFile)
     }
