@@ -6,6 +6,12 @@
 ##' @import rjags
 ##' @import coda
 phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA){
+  inits <- list()
+  for(i in 1:nchain){
+    inits[[i]] <- list(p.PC=rnorm(1,30,0.2),p.proc=rnorm(1,26,0.2),
+                       MOF=rnorm(1,810,15),fallLength=rnorm(1,1000,200),
+                       sSlope=rnorm(1,-0.7,0.05))
+  }
   ##Set priors
   data$s1.PC <- 1262.626 ## Very roughly based off of what I think are reasonable and uninformed priors
   data$s2.PC <- 50.50505 ##From mean <- 1/(0.2**2) and var = (mean-1/((0.4/1.96)**2))/2
@@ -215,6 +221,7 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
 
   j.model   <- jags.model (file = textConnection(LogisticModel),
                            data = data,
+                           inits = inits,
                            n.chains = nchain)
   return(j.model)
 

@@ -82,7 +82,7 @@ foreach(i=iseq) %dopar% {
                                  dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,
                                  dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station,
                                  season="fall",baseTemp=20, index="GCC",
-                                 baseNum=10000,
+                                 baseNum=20000,
                                  iterSize=10000,
                                  effSize=300)
     if(typeof(outBurn)!=typeof(FALSE)){
