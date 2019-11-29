@@ -7,12 +7,13 @@
 ##' @param iterSize The number of iterations to iteratively increase before checking for convergence again and large enough sample size (optional)
 ##' @param ID A identification string to paste with the message of non-convergence (optional)
 ##' @param effSize The desired necessary effective sample size (default is 5000 samples)
+##' @param partialFile The desired name to save partial output (non-converged) to
 ##' @export
 ##' @import rjags
 ##' @import runjags
 ##' @import ecoforecastR
 ##' @import coda
-runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,iterSize =5000,ID="",effSize=5000){
+runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,iterSize =5000,ID="",effSize=5000,partialFile=FALSE){
   jags.out   <- coda.samples (model = j.model,
                               variable.names = variableNames,
                               n.iter = baseNum)
@@ -47,6 +48,12 @@ runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,ite
           }
         }
       }
+      if(typeof(partialFile)!=typeof(FALSE)){
+        partialOutput <- list(params=out$params)
+        partialOutput$predict <- ecoforecastR::mat2mcmc.list(mfit[,c(chain.col,pred.cols)])
+        save(partialFile,partialOutput)
+      }
+
     }
     if(!continue){
       if(burnin==0){ #If the while loop has to be rerun because the effective size is too small, you don't need to calculate burnin again

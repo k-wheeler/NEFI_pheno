@@ -76,6 +76,7 @@ foreach(i=iseq) %dopar% {
   outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_20_meanTair_outBurn_GCC.RData",sep="")
   
   if(!file.exists(outputFile)){
+    partialFileName <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_20_meanTair_outBurn_GCC_PARTIAL_FILE.RData",sep="")
     outBurn <- phenologyForecast_Autumn(forecastType = "CDD_meanTair",forecastLength = forecastLength,
                                  siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,
                                  as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,
@@ -84,7 +85,7 @@ foreach(i=iseq) %dopar% {
                                  season="fall",baseTemp=20, index="GCC",
                                  baseNum=20000,
                                  iterSize=10000,
-                                 effSize=300)
+                                 effSize=300, partialFile=partialFileName)
     if(typeof(outBurn)!=typeof(FALSE)){
       save(outBurn,file=outputFile)
     }

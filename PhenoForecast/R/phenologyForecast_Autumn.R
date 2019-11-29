@@ -24,6 +24,7 @@
 #' @param baseNum
 #' @param iterSize
 #' @param effSize
+#' @param partialFile
 #' @import rjags
 #' @import runjags
 #' @import coda
@@ -37,7 +38,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
                               prevOutBurn=NA,
                               baseNum=10000,
                               iterSize=5000,
-                              effSize=5000){
+                              effSize=5000, partialFile=FALSE){
   print(forecastType)
   nchain=5
   ###Download PhenoCam data and format
@@ -198,7 +199,8 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
 
       print(variableNames)
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,
-                                  baseNum=baseNum,iterSize=iterSize,effSize=effSize)
+                                  baseNum=baseNum,iterSize=iterSize,effSize=effSize,
+                                  partialFile=partialFile)
     }else{
       print("Forecast type not known!!!")
     }
