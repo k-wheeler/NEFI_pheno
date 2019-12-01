@@ -32,16 +32,18 @@ downloadMODIS <- function(startDate,endDate,dataDirectory,lat,long,siteName){
   newDQFDat <- read.csv(DQFfileName,header=TRUE) ##The new DQF data
   print(DQFfileName)
   DQFdata <- newDQFDat$value
-  print(DQFdata)
+  #print(DQFdata)
 
   newDat <- read.csv(NDVIfileName,header=TRUE)
   print(NDVIfileName)
-  print(newDat)
+  print(length(newDQFDat))
+  print(dim(newDat))
+  #print(newDat)
   newNDVIdat <- cbind(newDat,DQFdata)
 
   newDat <- read.csv(EVIfileName,header=TRUE)
   print(EVIfileName)
-  print(newDat)
+  #print(newDat)
   newEVIdat <- cbind(newDat,DQFdata)
 
   fileName <- paste(dataDirectory,siteName,"_","NDVI","_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
