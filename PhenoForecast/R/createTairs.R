@@ -86,7 +86,8 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   }
   #print(TairsMeans[TairsMeans< (-100)])
   #print(TairsMeans< (-100))
-  print(length(TairsMeans))
+  print(TairsMeans)
+
   for(t in 1:length(TairsMeans)){
     #print(t)
     #print(TairsMeans[t])
