@@ -62,66 +62,30 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   # }
   ##Create Sfs
   if(calDatesT){
-    # SfsALL <- matrix(nrow=0,ncol=length(TairsCal[,1]))
-    #
-    # for(e in 1:ncol(TairsCal)){
-    #   #plot(seq(1,length(TairsCal[,e])),TairsCal[,e],pch=20,main="Cal")
-    #   Sfs <- calSf(Tairs=TairsCal[,e],dates=calDates)
-    #   SfsALL <- rbind(SfsALL,Sfs)
-    # }
-
     TairsMeansCal <- rowMeans(TairsCal)
     print('length(TairsMeansCal)')
     print(length(TairsMeansCal))
     TairsVarCal <- apply(TairsCal,MARGIN=1,FUN=var)
-    #SfsVarCal[SfsVarCal==0] <- 0.001
   }
 
   ##Current year
   curDates=seq(as.Date("2019-08-01"),endDate,"day") ##Includes forecasted period ##Changed for autumn
 
-  # SfsALL <- matrix(nrow=0,ncol=length(curDates))
-  # for(e in 1:length(GEFS_Files)){
-  #   Tairs <- c(TairsCurrent[,e],TairsForecast[,e])
-  #
-  #   #plot(seq(1,length(Tairs)),Tairs,pch=20,main="Cur")
-  #   Sfs <- calSf(Tairs=Tairs,dates=curDates)
-  #
-  #   SfsALL <- rbind(SfsALL,Sfs)
-  # }
-  # print('dim(TairsCurrent)')
-  # print(dim(TairsCurrent))
-  # print('length(colMeans(TairsCurrent))')
-  # print(length(colMeans(TairsCurrent))) ##42
-  # print('length(rowMeans(TairsForecast))')
-  # print(length(rowMeans(TairsForecast))) ##14
   TairsMeansCur <- c(colMeans(TairsCurrent),rowMeans(TairsForecast))
 
   TairsVarCur <- c(apply(TairsCurrent,MARGIN=2,FUN=var),apply(TairsForecast,MARGIN=1,FUN=var))
 
-
-  #SfsVarCur[SfsVarCur==0] <- 0.001
   if(calDatesT){
-    #SfsMeans <- c(SfsMeansCal,SfsMeansCur)
-    #SfsVar <- c(SfsVarCal,SfsVarCur)
-    # print("length(TairsMeansCal)")
-    # print(length(TairsMeansCal))
-    # print("length(TairsMeansCur)")
-    # print(length(TairsMeansCur))
-    TairsMeans <- c(TairsMeansCal,rep(NA,212),TairsMeansCur)
-    print("length(TairsMeans)")
-    print(length(TairsMeans))
+    TairsMeans <- c(TairsMeansCal,rep(NA,212),TairsMeansCur) ##Pad for the first half of 2019
     TairsVar <- c(TairsVarCal,rep(NA,212),TairsVarCur)
-    print("length(TairsVar)")
-    print(length(TairsVar))
   }
   else{
-    #SfsMeans <- SfsMeansCur
-    #SfsVar <- SfsVarCur
+
     TairsMeans <- TairsMeansCur
     TairsVar <- TairsVarCur
   }
-  print(TairsMeans[TairsMeans< (-100)])
+  #print(TairsMeans[TairsMeans< (-100)])
+  print(TairsMeans< (-100))
   #TairsMeans[TairsMeans< (-100)] <- 100 #####Should change for GDD
   #TairsVar[is.infinite(TairsVar)] <- 100
   TairsPrec <- 1/TairsVar
