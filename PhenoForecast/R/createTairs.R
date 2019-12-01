@@ -55,11 +55,11 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     TairsCurrent[TairsCurrent[,1]< -100,] <- fillNOAAlag(days=NOAAmetDays[TairsCurrent[,1]< -100],siteName=siteName)
     #print("finished filling")
   }
-  if(sum(TairsCurrent[,1]==100)>0){
-    #print("filling")
-    TairsCurrent[TairsCurrent[,1]< 100,] <- fillNOAAlag(days=NOAAmetDays[TairsCurrent[,1]< 100],siteName=siteName)
-    #print("finished filling")
-  }
+  # if(sum(TairsCurrent[,1]==100)>0){
+  #   #print("filling")
+  #   TairsCurrent[TairsCurrent[,1]< 100,] <- fillNOAAlag(days=NOAAmetDays[TairsCurrent[,1]< 100],siteName=siteName)
+  #   #print("finished filling")
+  # }
   ##Create Sfs
   if(calDatesT){
     # SfsALL <- matrix(nrow=0,ncol=length(TairsCal[,1]))
@@ -121,7 +121,8 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
     TairsMeans <- TairsMeansCur
     TairsVar <- TairsVarCur
   }
-  TairsMeans[TairsMeans< (-100)] <- 100 #####Should change for GDD
+  print(TairsMeans[TairsMeans< (-100)])
+  #TairsMeans[TairsMeans< (-100)] <- 100 #####Should change for GDD
   #TairsVar[is.infinite(TairsVar)] <- 100
   TairsPrec <- 1/TairsVar
   TairsPrec[is.infinite(TairsPrec)] <- 1/100
