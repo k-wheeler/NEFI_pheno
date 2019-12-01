@@ -74,8 +74,9 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   TairsMeansCur <- c(colMeans(TairsCurrent),rowMeans(TairsForecast))
 
   TairsVarCur <- c(apply(TairsCurrent,MARGIN=2,FUN=var),apply(TairsForecast,MARGIN=1,FUN=var))
-  print(calDatesT)
   if(calDatesT){
+    print("length(TairsMeansCur)")
+    print(length(TairsMeansCur))
     TairsMeans <- c(TairsMeansCal,rep(NA,212),TairsMeansCur) ##Pad for the first half of 2019
     TairsVar <- c(TairsVarCal,rep(NA,212),TairsVarCur)
   }
@@ -87,7 +88,7 @@ createTairs <- function(lat="",long="",dates,siteName,dataDirectory,endDate,GEFS
   #print(TairsMeans< (-100))
   print(length(TairsMeans))
   for(t in 1:length(TairsMeans)){
-    print(t)
+    #print(t)
     if(TairsMeans[t]< (-100)){
       TairsMeans[t] <- mean(TairsMeans[(t-1)],TairsMeans[(t+1)])
     }
