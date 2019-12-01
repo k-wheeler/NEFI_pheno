@@ -10,32 +10,38 @@
 #' @import MODISTools
 downloadMODIS <- function(startDate,endDate,dataDirectory,lat,long,siteName){
   DQFfileName <- paste(dataDirectory,siteName,"_MOD13Q1_250m_16_days_pixel_reliability_",startDate,endDate,".csv",sep="")
-  #if(!file.exists(DQFfileName)){
+  if(!file.exists(DQFfileName)){
     print("Downloading DQF")
     mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=startDate,end=endDate,site_name = siteName,out_dir = dataDirectory,internal=FALSE)
-  #}
+  }
   NDVIfileName <- paste(dataDirectory,siteName,"_MOD13Q1_250m_16_days_NDVI_",startDate,endDate,".csv",sep="")
     #harvard_rel_MOD13Q1_250m_16_days_pixel_reliability_2009-01-012019-09-03.csv
-  #if(!file.exists(NDVIfileName)){
+  if(!file.exists(NDVIfileName)){
     print("Downloading NDVI")
     mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_","NDVI",sep=""),start=startDate,end=endDate,site_name = siteName,out_dir = dataDirectory,internal=FALSE)
-  #}
+  }
   EVIfileName <- paste(dataDirectory,siteName,"_MOD13Q1_250m_16_days_EVI_",startDate,endDate,".csv",sep="")
     #harvard_rel_MOD13Q1_250m_16_days_pixel_reliability_2009-01-012019-09-03.csv
-  #if(!file.exists(EVIfileName)){
+  if(!file.exists(EVIfileName)){
     print("Downloading EVI")
     mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_","EVI",sep=""),start=startDate,end=endDate,site_name = siteName,out_dir = dataDirectory,internal=FALSE)
-  #}
+  }
 
   #newDQFFileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",(as.Date(lastDate)+1),"_",endDate,".csv",sep="") #File name for new DQF data downloaded
   #print(newDQFFileName)
   newDQFDat <- read.csv(DQFfileName,header=TRUE) ##The new DQF data
+  print(DQFfileName)
   DQFdata <- newDQFDat$value
+  print(DQFdata)
 
   newDat <- read.csv(NDVIfileName,header=TRUE)
+  print(NDVIfileName)
+  print(newDat)
   newNDVIdat <- cbind(newDat,DQFdata)
 
   newDat <- read.csv(EVIfileName,header=TRUE)
+  print(EVIfileName)
+  print(newDat)
   newEVIdat <- cbind(newDat,DQFdata)
 
   fileName <- paste(dataDirectory,siteName,"_","NDVI","_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
