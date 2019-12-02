@@ -54,7 +54,7 @@ runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,ite
         print("created list")
         partialOutput$predict <- ecoforecastR::mat2mcmc.list(mfit[,c(chain.col,pred.cols)])
         print("Added predict")
-        save(partialFile,partialOutput)
+        save(file=partialFile,partialOutput)
         print("saved output")
       }
 
