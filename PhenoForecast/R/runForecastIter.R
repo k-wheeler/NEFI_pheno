@@ -49,9 +49,13 @@ runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,ite
         }
       }
       if(typeof(partialFile)!=typeof(FALSE)){
+        print("entered if")
         partialOutput <- list(params=out$params)
+        print("created list")
         partialOutput$predict <- ecoforecastR::mat2mcmc.list(mfit[,c(chain.col,pred.cols)])
+        print("Added predict")
         save(partialFile,partialOutput)
+        print("saved output")
       }
 
     }
