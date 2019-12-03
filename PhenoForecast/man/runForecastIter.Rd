@@ -5,7 +5,7 @@
 \title{Adds additional iterations until convergence and large enough effective sample size are met}
 \usage{
 runForecastIter(j.model, variableNames, maxIter = 10^9, baseNum = 5000,
-  iterSize = 5000, ID = "", effSize = 5000)
+  iterSize = 5000, ID = "", effSize = 5000, partialFile = FALSE)
 }
 \arguments{
 \item{j.model}{The JAGS model}
@@ -21,6 +21,8 @@ runForecastIter(j.model, variableNames, maxIter = 10^9, baseNum = 5000,
 \item{ID}{A identification string to paste with the message of non-convergence (optional)}
 
 \item{effSize}{The desired necessary effective sample size (default is 5000 samples)}
+
+\item{partialFile}{The desired name to save partial output (non-converged) to}
 }
 \description{
 Adds additional iterations until convergence and large enough effective sample size are met

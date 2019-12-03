@@ -23,6 +23,8 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
   data$s2.proc <- 50.50505
   data$x1.a <- 30 #Done to keep distribution close to 0 (over 75% of the data < 0.05)
   data$x1.b <- 1
+  data$alp.sSlope <- 2.5 ##Based on investigating O'Keefe Harvard phenology data
+  data$bet.sSlope <- 23 ##Based on investigating O'Keefe Harvard phenology data
 
   data$fallLength.mu <- 450 ##Based on Richardson et al. (2006)
   data$fallLength.prec <- 1/(150**2) ##Based on Richardson et al. (2006)
@@ -204,7 +206,8 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
 
     fallLength ~ dnorm(fallLength.mu,fallLength.prec)
     MOF ~ dnorm(MOF.mu,MOF.prec)
-    sSlope ~ dunif(-1,0)
+    sSlope ~ dbeta(alp.sSlope,bet.sSlope)
+    #sSlope ~ dunif(-1,0) ##Steepest slope
     #baseTemp ~ dnorm(baseTemp.mu,baseTemp.prec)
 
     ####Knowns based off of priors

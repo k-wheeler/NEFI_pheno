@@ -9,7 +9,7 @@ phenologyForecast_Autumn(forecastType, forecastLength = 14, siteName,
   cValsMN, dValsMN, cValsME, dValsME, GEFS_Files = "", GEFS_Directory,
   station = "", season, baseTemp = NA, index = "all",
   prevOutBurn = NA, baseNum = 10000, iterSize = 5000,
-  effSize = 5000)
+  effSize = 5000, partialFile = FALSE)
 }
 \arguments{
 \item{forecastType}{The type of forecast (randomWalk or logistic)}
