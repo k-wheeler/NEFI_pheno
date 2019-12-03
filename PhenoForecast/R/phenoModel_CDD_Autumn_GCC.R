@@ -206,7 +206,8 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
 
     fallLength ~ dnorm(fallLength.mu,fallLength.prec)
     MOF ~ dnorm(MOF.mu,MOF.prec)
-    sSlope ~ dbeta(alp.sSlope,bet.sSlope)
+    sSlopePos ~ dbeta(alp.sSlope,bet.sSlope)
+    sSlope <- sSlopePos * -1
     #sSlope ~ dunif(-1,0) ##Steepest slope
     #baseTemp ~ dnorm(baseTemp.mu,baseTemp.prec)
 
