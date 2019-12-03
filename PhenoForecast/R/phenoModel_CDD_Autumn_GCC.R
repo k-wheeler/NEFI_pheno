@@ -10,7 +10,7 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
   for(i in 1:nchain){
     inits[[i]] <- list(p.PC=rnorm(1,30,0.2),p.proc=rnorm(1,26,0.2),
                        MOF=rnorm(1,810,15),fallLength=rnorm(1,1000,200),
-                       sSlope=rnorm(1,-0.05,0.05))
+                       sSlope=rnorm(1,0.05,0.05))
   }
   ##Set priors
   data$s1.PC <- 1262.626 ## Very roughly based off of what I think are reasonable and uninformed priors
@@ -206,15 +206,15 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
 
     fallLength ~ dnorm(fallLength.mu,fallLength.prec)
     MOF ~ dnorm(MOF.mu,MOF.prec)
-    sSlopePos ~ dbeta(alp.sSlope,bet.sSlope)
-    sSlope <- sSlopePos * -1
+    sSlope ~ dbeta(alp.sSlope,bet.sSlope)
+    sSlopeNeg <- sSlope * -1
     #sSlope ~ dunif(-1,0) ##Steepest slope
     #baseTemp ~ dnorm(baseTemp.mu,baseTemp.prec)
 
     ####Knowns based off of priors
     SOF <- MOF - fallLength/2
     EOF <- MOF + fallLength/2
-    CDDratio <- (sSlope-0)/(MOF-SOF)
+    CDDratio <- (sSlopeNeg-0)/(MOF-SOF)
     b0_1 <- -1 * CDDratio * SOF
     b0_2 <- -1 * (-1*CDDratio) * EOF
 
