@@ -159,8 +159,8 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
     ml[i,yr] <- ifelse(CDDs[i,yr]<MOF,m1[i,yr],m2[i,yr])
     xl[i,yr] <- x[(i-1),yr] + min(ml[i,yr],0)
     xl2[i,yr] ~ dnorm(xl[i,yr],p.proc)  ## process error
-    xl3[i,yr] <- min(xl[(i-1),yr],xl2[i,yr])
-    x[i,yr] <- max(0, min(1,xl3[i,yr]) )
+    #xl3[i,yr] <- min(xl[(i-1),yr],xl2[i,yr])
+    x[i,yr] <- max(0, min(1,xl2[i,yr]) )
     }
     }
 
@@ -185,8 +185,8 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
     m[i,N] <- min(ml[i,N],0)
     xl[i,N] <- x[(i-1),N] + m[i,N]
     xl2[i,N] ~ dnorm(xl[i,N],p.proc)  ## process error
-    xl3[i,N] <- min(xl[(i-1),N],xl2[i,N])
-    x[i,N] <- max(0, min(1,xl3[i,N]) )
+    #xl3[i,N] <- min(xl[(i-1),N],xl2[i,N])
+    x[i,N] <- max(0, min(1,xl2[i,N]) )
 
     }
 
