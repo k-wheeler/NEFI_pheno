@@ -159,7 +159,7 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
     m[i,yr] <- ifelse(CDDs[i,yr]<MOF,m1[i,yr],m2[i,yr])
     #xl[i,yr] <- x[(i-1),yr] + min(ml[i,yr],0)
     xl[i,yr] <- x[(i-1),yr] + m[i,yr]
-    is_censored[i] ~ dinterval(p[i,yr], c(0,x[(i-1),yr]))
+    is_censored[i,yr] ~ dinterval(p[i,yr], c(0,x[(i-1),yr]))
     xl2[i,yr] ~ dnorm(xl[i,yr],p.proc)  ## process error
     #xl3[i,yr] <- min(xl[(i-1),yr],xl2[i,yr])
     x[i,yr] <- max(0, min(1,xl2[i,yr]) )
