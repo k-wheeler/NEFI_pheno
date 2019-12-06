@@ -77,12 +77,12 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     data$n <- length(data$p)
     data$p[data$p<0] <- 0
     data$p[data$p>1] <- 1
-    data$mn <- rescaleObs(times=days,vals=mn,partialStart=TRUE,cVals=cValsMN,dVals=dValsMN)
-    data$mn[data$mn<0] <- 0
-    data$mn[data$mn>1] <- 1
-    data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
-    data$me[data$me<0] <- 0
-    data$mn[data$mn>1] <- 1
+    #data$mn <- rescaleObs(times=days,vals=mn,partialStart=TRUE,cVals=cValsMN,dVals=dValsMN)
+    #data$mn[data$mn<0] <- 0
+    #data$mn[data$mn>1] <- 1
+    #data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
+    #data$me[data$me<0] <- 0
+    #data$mn[data$mn>1] <- 1
     plot(days,data$p,pch=20,main="PhenoCam Data")
     abline(v=endDate,col="red")
     plot(days,data$mn,pch=20,main="MODIS NDVI Data")
@@ -91,7 +91,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     abline(v=endDate,col="red")
     dev.off()
 
-    j.model <- randomWalkPhenoModel(data=data,nchain=nchain)
+    j.model <- randomWalkPhenoModel_censor(data=data,nchain=nchain)
     print("Done with creating the  random walk model")
     variableNames <- c("p.PC","p.MN","p.ME","p.proc","x")
     out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)

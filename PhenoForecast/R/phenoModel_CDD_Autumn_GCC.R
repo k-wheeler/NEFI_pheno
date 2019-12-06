@@ -156,8 +156,10 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
     m2l[i,yr] <- CDDs[i,yr] * -1* CDDratio + b0_2
     m1[i,yr] <- ifelse(CDDs[i,yr]<SOF,0,m1l[i,yr])
     m2[i,yr] <- ifelse(CDDs[i,yr]<EOF,m2l[i,yr],0)
-    ml[i,yr] <- ifelse(CDDs[i,yr]<MOF,m1[i,yr],m2[i,yr])
-    xl[i,yr] <- x[(i-1),yr] + min(ml[i,yr],0)
+    m[i,yr] <- ifelse(CDDs[i,yr]<MOF,m1[i,yr],m2[i,yr])
+    #xl[i,yr] <- x[(i-1),yr] + min(ml[i,yr],0)
+    xl[i,yr] <- x[(i-1),yr] + m[i,yr]
+    is_censored[i] ~ dinterval(p[i,yr], c(0,x[(i-1),yr]))
     xl2[i,yr] ~ dnorm(xl[i,yr],p.proc)  ## process error
     #xl3[i,yr] <- min(xl[(i-1),yr],xl2[i,yr])
     x[i,yr] <- max(0, min(1,xl2[i,yr]) )
@@ -181,10 +183,11 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
     m2l[i,N] <- CDDs[i,N] * -1 * CDDratio + b0_2
     m1[i,N] <- ifelse(CDDs[i,N]<SOF,0,m1l[i,N])
     m2[i,N] <- ifelse(CDDs[i,N]<EOF,m2l[i,N],0)
-    ml[i,N] <- ifelse(CDDs[i,N]<MOF,m1[i,N],m2[i,N])
-    m[i,N] <- min(ml[i,N],0)
+    m[i,N] <- ifelse(CDDs[i,N]<MOF,m1[i,N],m2[i,N])
+    #m[i,N] <- min(ml[i,N],0)
     xl[i,N] <- x[(i-1),N] + m[i,N]
     xl2[i,N] ~ dnorm(xl[i,N],p.proc)  ## process error
+    is_censored[i,N] ~ dinterval(p[i,N], c(0,x[(i-1),N]))
     #xl3[i,N] <- min(xl[(i-1),N],xl2[i,N])
     x[i,N] <- max(0, min(1,xl2[i,N]) )
 
