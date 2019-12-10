@@ -18,6 +18,34 @@ randomWalkPhenoModel_censor <- function(data,nchain){
   data$s2.proc <- 50.50505
   data$x1.a <- 1 #Done to keep distribution close to 0 (over 75% of the data < 0.05)
   data$x1.b <- 30
+  # for(i in 2:(length(data$p)-3)){
+  #   if(is.na(data$p[i])){
+  #     data$p[i] <- data$p[(i-1)]
+  #   }
+  # }
+  # print(length(data$p))
+  # print(data$n)
+  # censored_inits <- c(data$p[1:4002],rnorm(1,1.2,0.01),rnorm(1,1.5,0.01),rnorm(1,1.5,0.01))
+  #
+  # inits <- list()
+  # for(i in 1:nchain){
+  #   #inits[[i]] <- list('x[4003]'=rnorm(1,1.2,0.01),
+  #    #                  'x[4004]'=rnorm(1,1.2,0.01),
+  #     #                 'x[4005]'=rnorm(1,1.2,0.01))
+  #   inits[[i]] <- list(x=censored_inits)
+  # }
+
+  data$is_censored <- as.integer(is.na(data$p)) #1 for censored
+  print(data$p[110:115])
+  print(data$is_censored[110:115])
+  #print(data$p)
+  #print(data$is_censored)
+  #data$p[3] <- 0
+  #print(data$is_censored[1:5])
+  #print(data$p[1:5])
+  #print(range(na.omit(data$p)))
+  #print(sum(data$is_censored))
+
 
   ###JAGS model
   RandomWalk = "
@@ -32,7 +60,7 @@ randomWalkPhenoModel_censor <- function(data,nchain){
 
   #### Process Model
   for(i in 2:n){
-  is_censored[i] ~ dinterval(p[i], c(0,x[(i-1)])) ##Censor limit at the previous x
+  is_censored[i] ~ dinterval(p[i], c(-0.00001,p[(i-1)])) ##Censor limit at the previous x
   x[i]~dnorm(x[i-1],p.proc) ##process error
   #x[i] <- max(0, min(1,xl[i]))
   }
