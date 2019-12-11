@@ -16,7 +16,7 @@ identifyNOAAstation <- function(lat,long,elev,siteName,startDate="", endDate="")
                            latitude = lat,
                            longitude = long)
   nearby_stations <- meteo_nearby_stations(lat_lon_df = sites_data, station_data = station_data,
-                                           year_min = 2019, year_max = 2019, radius = 100, var = "all")
+                                           year_min = 2019, year_max = 2019, radius = 200, var = "all")
   if(nchar(startDate)==0){
     startDate <- as.Date("2019-08-01")
     endDate <- (Sys.Date()-1)
@@ -34,7 +34,7 @@ identifyNOAAstation <- function(lat,long,elev,siteName,startDate="", endDate="")
           statLong <- as.numeric(nearby_stations[[1]][i,4])
           statElev <- as.numeric(station_data[which(station_data$id==station)[1],]$elevation)
           stationScores <- c(stationScores,calStationScore(siteLat=lat,siteLong=long,
-                                                           siteElev = elev ,
+                                                           siteElev = elev,
                                                            statLat=statLat,
                                                            statLong = statLong ,
                                                            statElev = statElev))
