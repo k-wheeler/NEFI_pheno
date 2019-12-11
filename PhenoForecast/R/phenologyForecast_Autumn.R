@@ -91,7 +91,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     abline(v=endDate,col="red")
     dev.off()
 
-    j.model <- randomWalkPhenoModel_censor(data=data,nchain=nchain)
+    j.model <- randomWalkPhenoModel(data=data,nchain=nchain)
     print("Done with creating the  random walk model")
     variableNames <- c("p.PC","p.MN","p.ME","p.proc","x")
     out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)
