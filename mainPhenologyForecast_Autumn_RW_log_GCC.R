@@ -34,7 +34,8 @@ dates <- seq(as.Date("2019-08-01"),as.Date("2019-12-10"),"week")
 output <- 
   foreach(i=iseq) %dopar% {
     #for(i in iseq){
-    for(endDate in dates){
+    for(d in 1:length(dates)){
+      endDate <- dates[d]
       print(endDate)
       siteName <- as.character(siteData[i,1])
       print(siteName)
