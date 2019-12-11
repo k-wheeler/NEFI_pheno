@@ -91,7 +91,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     abline(v=endDate,col="red")
     dev.off()
 
-    j.model <- randomWalkPhenoModel(data=data,nchain=nchain)
+    j.model <- randomWalkPhenoModel(data=data,nchain=nchain,index = index)
     print("Done with creating the  random walk model")
     variableNames <- c("p.PC","p.MN","p.ME","p.proc","x")
     out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum = 5000,iterSize = 5000)
@@ -159,7 +159,7 @@ phenologyForecast_Autumn <- function(forecastType,forecastLength=14,siteName,
     print("Done with formating data")
     if(forecastType=="log"){
       dev.off()
-      j.model <- logisticPhenoModel(data=dataFinal,nchain=nchain,season=season)
+      j.model <- logisticPhenoModel(data=dataFinal,nchain=nchain,season=season,index=index)
       print("Done creating the basic logistic model")
       variableNames <- c("p.proc","p.PC","p.ME","p.MN","x","r")
       out.burn <- runForecastIter(j.model=j.model,variableNames=variableNames,baseNum=10000,iterSize=5000)
