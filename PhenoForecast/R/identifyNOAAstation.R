@@ -45,6 +45,9 @@ identifyNOAAstation <- function(lat,long,elev,siteName,startDate="", endDate="")
     }
   }
   station <- scoredStations[which.max(stationScores)]
+  if(is.null(station)){
+    station <- NA
+  }
   return(station)
 }
 
