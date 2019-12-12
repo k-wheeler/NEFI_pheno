@@ -15,7 +15,6 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
   }
   dat <- getStationData(station=station, startDate=startDate,endDate=endDate)
   #dat <-  meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"), date_min = startDate, date_max = endDate)
-  print(dat)
   if(sum(is.na(dat$tmax))>0){
   dat[is.na(dat$tmax),]$tmin <- -99990
   dat[is.na(dat$tmax),]$tmax <- -99990
