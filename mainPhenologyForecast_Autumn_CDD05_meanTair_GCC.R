@@ -77,16 +77,16 @@ output <-
       
       ##Create a CDD forecast model
       #outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_NA_meanTair_outBurn_GCC.RData",sep="")
-      outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_10_meanTair_outBurn_GCC.RData",sep="")
+      outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_05_meanTair_outBurn_GCC.RData",sep="")
       
       if(!file.exists(outputFile)){
-        partialFileName <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_10_meanTair_outBurn_GCC_PARTIAL_FILE.RData",sep="")
+        partialFileName <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_05_meanTair_outBurn_GCC_PARTIAL_FILE.RData",sep="")
         outBurn <- phenologyForecast_Autumn(forecastType = "CDD_meanTair",forecastLength = forecastLength,
                                             siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,
                                             as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,
                                             dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,
                                             dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station,
-                                            season="fall",baseTemp=10, index="GCC",
+                                            season="fall",baseTemp=5, index="GCC",
                                             baseNum=20000,
                                             iterSize=10000,
                                             effSize=5000, partialFile=partialFileName)
