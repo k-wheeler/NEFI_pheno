@@ -10,7 +10,7 @@ load_NOAA_met <- function(station,startDate="",endDate="") {
   options(noaakey = "fjVseeIJrOLasppGbfwDrYZVsdQaQoCd")
 
   if(nchar(startDate)==0){
-    startDate <- as.Date("2019-08-01")
+    startDate <- as.Date("2019-07-31")
     endDate <- (Sys.Date()-1)
   }
   dat <- getStationData(station=station, startDate=startDate,endDate=endDate)
