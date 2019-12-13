@@ -31,7 +31,7 @@ for(i in iseq){
 }
 print("Total")
 print(currentFiles/totalFiles)
-
+print("#########################################")
 print("basicLog_GCC")
 totalFiles <- 0
 currentFiles <- 0
@@ -57,6 +57,7 @@ for(i in iseq){
 print("Total")
 print(currentFiles/totalFiles)
 
+print("#########################################")
 print("CDD20_meanTair_GCC")
 totalFiles <- 0
 currentFiles <- 0
@@ -81,7 +82,10 @@ for(i in iseq){
 }
 print("Total")
 print(currentFiles/totalFiles)
+print(currentFiles)
+print(totalFiles)
 
+print("#########################################")
 print("CDD10_meanTair_GCC")
 totalFiles <- 0
 currentFiles <- 0
@@ -106,7 +110,10 @@ for(i in iseq){
 }
 print("Total")
 print(currentFiles/totalFiles)
+print(currentFiles)
+print(totalFiles)
 
+print("#########################################")
 print("CDD05_meanTair_GCC")
 totalFiles <- 0
 currentFiles <- 0
@@ -131,7 +138,10 @@ for(i in iseq){
 }
 print("Total")
 print(currentFiles/totalFiles)
+print(currentFiles)
+print(totalFiles)
 
+print("#########################################")
 print("CDD00_meanTair_GCC")
 totalFiles <- 0
 currentFiles <- 0
