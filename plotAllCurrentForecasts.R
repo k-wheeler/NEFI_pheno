@@ -16,6 +16,7 @@ dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 forecastLength <- 15
 dates <- seq(as.Date("2019-08-01"),as.Date("2019-12-10"),"day")
 iseq <- c(1,2,3,4,6,15,16,20,18,24)
+index <- "GCC"
 outFileName <- paste("PhenologyForecastOutput_allSites_allDays_Autumn.pdf",sep="")
 pdf(outFileName,height=10,width=6)
 par(mfrow=c(5,3))
