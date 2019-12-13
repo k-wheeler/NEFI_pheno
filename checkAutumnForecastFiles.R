@@ -166,6 +166,8 @@ for(i in iseq){
 }
 print("Total")
 print(currentFiles/totalFiles)
+print(currentFiles)
+print(totalFiles)
 
   
 
