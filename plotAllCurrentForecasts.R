@@ -20,7 +20,8 @@ index <- "GCC"
 outFileName <- paste("PhenologyForecastOutput_allSites_allDays_Autumn.pdf",sep="")
 pdf(outFileName,height=10,width=6)
 par(mfrow=c(5,3))
-for(i in iseq){  
+i <- 3
+#for(i in iseq){  
   siteName <- as.character(siteData[i,1])
   print(siteName)
   for(d in 1:length(dates)){
@@ -118,7 +119,7 @@ for(i in iseq){
         print("Loading basicLog")
         load(LFile)
         out.mat.par <- data.frame(as.matrix(outBurnL$params))
-        print(colnames(out.mat.par))
+        #print(colnames(out.mat.par))
         
         ##Plot
         dayNumber <- dim(as.matrix(outBurnL$predict))[2]
