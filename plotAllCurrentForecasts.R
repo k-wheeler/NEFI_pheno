@@ -172,3 +172,4 @@ for(i in iseq){
     }
   }
 }
+dev.off()
