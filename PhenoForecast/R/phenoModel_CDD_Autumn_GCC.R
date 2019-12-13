@@ -13,14 +13,14 @@ phenoModel_CDD_Autumn_GCC <- function(data,nchain,MODIS_index="NDVI",baseTemp=NA
                        sSlope=rnorm(1,0.05,0.002))
   }
   ##Set priors
-  data$s1.PC <- 1262.626 ## Very roughly based off of what I think are reasonable and uninformed priors
-  data$s2.PC <- 50.50505 ##From mean <- 1/(0.2**2) and var = (mean-1/((0.4/1.96)**2))/2
+  data$s1.PC <- 8.4##1262.626 ## Very roughly based off of what I think are reasonable and uninformed priors
+  data$s2.PC <- 0.02##50.50505 ##From mean <- 1/(0.2**2) and var = (mean-1/((0.4/1.96)**2))/2
   #data$s1.MN <- 76880.05 ##From mean = 1/((0.01/1.96)**2) and var = (mean - 1/((0.4/1.96)**2))/2
   #data$s2.MN <- 2.001251
   #data$s1.ME <- 19256.14 ##From mean = 1/((0.02/1.96)**2) and var = (mean - 1/((0.4/1.96)**2))/2
   #data$s2.ME <- 2.005013
-  data$s1.proc <- 1262.626
-  data$s2.proc <- 50.50505
+  data$s1.proc <- 8.4##1262.626
+  data$s2.proc <- 0.02##50.50505
   data$x1.a <- 30 #Done to keep distribution close to 0 (over 75% of the data < 0.05)
   data$x1.b <- 1
   data$alp.sSlope <- 2.5 ##Based on investigating O'Keefe Harvard phenology data
