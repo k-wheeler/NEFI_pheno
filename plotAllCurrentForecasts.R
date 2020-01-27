@@ -14,11 +14,12 @@ siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastD
 dataDirectory="/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/"
 
 forecastLength <- 15
-dates <- seq(as.Date("2019-08-01"),as.Date("2019-12-10"),"day")
+#dates <- seq(as.Date("2019-08-01"),as.Date("2019-12-10"),"day")
+dates <- seq(as.Date("2019-08-01"),as.Date("2019-08-10"),"day")
 iseq <- c(1,2,3,4,6,15,16,20,18,24)
 index <- "GCC"
 outFileName <- paste("PhenologyForecastOutput_allSites_allDays_Autumn.pdf",sep="")
-pdf(outFileName,height=10,width=6)
+pdf(outFileName,height=30,width=20)
 par(mfrow=c(5,3))
 i <- 3
 #for(i in iseq){  
@@ -55,7 +56,7 @@ i <- 3
       rescaleData <- read.csv(rescaleFile,header=TRUE)
       cMeans.me <- rescaleData$cMeans.me
       dMeans.me <- rescaleData$dMeans.me
-      lengthLastYear <- (as.numeric(format(endDate,"%j"))+forecastLength)
+      lengthLastYear <- (as.numeric(format(endDate,"%j"))+forecastLength-2)
       print(lengthLastYear)
       ##Random Walk:
       RWFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_randomWalk_",index,"_outBurn.RData",sep="")
