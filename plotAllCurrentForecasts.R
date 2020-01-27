@@ -21,7 +21,7 @@ index <- "GCC"
 outFileName <- paste("PhenologyForecastOutput_allSites_allDays_Autumn.pdf",sep="")
 pdf(outFileName,height=30,width=20)
 par(mfrow=c(5,3))
-i <- 3
+i <- 1
 #for(i in iseq){  
   siteName <- as.character(siteData[i,1])
   print(siteName)
@@ -78,7 +78,7 @@ i <- 3
         out.mat.lastYear <- out.mat.RW[,lastYearIndices]
         
         plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
-                           out.mat=out.mat.lastYear,forecastType = "randomWalk",
+                           out.mat=out.mat.lastYear,forecastType = paste("randomWalk",endDate),
                            days=seq(1,lengthLastYear,1),endDate=endDate)#,
         abline(v=(lengthLastYear-forecastLength+1),col="purple")
         
