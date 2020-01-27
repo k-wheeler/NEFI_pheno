@@ -144,7 +144,7 @@ i <- 1
         #legend("topleft",c("PC","MODIS NDVI","MODIS EVI"),col=c("red","green","green"),pch=c(20,3,1))
       }
       ##Logistic with covariates model
-      LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_20_meanTair_outBurn_GCC.RData",sep="")
+      LCFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_CDD_20_meanTair_outBurn_GCC2.RData",sep="")
       print(LCFile)
       if(file.exists(LCFile)){
         print("Loading CDD20")
