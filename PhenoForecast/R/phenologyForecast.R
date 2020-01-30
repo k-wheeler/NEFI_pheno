@@ -67,16 +67,16 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,
   if(forecastType=="randomWalk"){
     print(length(p))
     print("length(p)")
-    data$p <- rescaleObs(times=days,vals=p,partialStart=TRUE,cVals=cValsPC,dVals=dValsPC)
+    data$p <- rescaleObs(times=days,vals=p,partialStart=FALSE,cVals=cValsPC,dVals=dValsPC)
     print("data$p")
     print(length(data$p))
     data$n <- length(data$p)
     data$p[data$p<0] <- 0
     data$p[data$p>1] <- 1
-    data$mn <- rescaleObs(times=days,vals=mn,partialStart=TRUE,cVals=cValsMN,dVals=dValsMN)
+    data$mn <- rescaleObs(times=days,vals=mn,partialStart=FALSE,cVals=cValsMN,dVals=dValsMN)
     data$mn[data$mn<0] <- 0
     data$mn[data$mn>1] <- 1
-    data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME)
+    data$me <- rescaleObs(times=days,vals=me,partialStart=FALSE,cVals=cValsME,dVals=dValsME)
     data$me[data$me<0] <- 0
     data$mn[data$mn>1] <- 1
     print("days")
