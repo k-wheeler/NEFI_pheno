@@ -46,9 +46,8 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,
   time.old <-  as.Date(phenoData$date)
 
   days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
-  print(startDate)
-  print(endDate)
-
+  print("length(days)")
+  print(length(days))
   p <- rep(NA,length(days))
 
   for(i in 1:length(p.old)){
