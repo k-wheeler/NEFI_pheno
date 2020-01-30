@@ -65,6 +65,8 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,
   pdf(paste(siteName,"_",endDate,"_DataPlots.pdf",sep=""),width=10,height=8)
 
   if(forecastType=="randomWalk"){
+    print(length(p))
+    print("length(p)")
     data$p <- rescaleObs(times=days,vals=p,partialStart=TRUE,cVals=cValsPC,dVals=dValsPC)
     data$n <- length(data$p)
     data$p[data$p<0] <- 0
