@@ -46,8 +46,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,
   time.old <-  as.Date(phenoData$date)
 
   days <- seq(as.Date(startDate),(as.Date(endDate)+forecastLength),"day")
-  print("length(days)")
-  print(length(days))
+
   p <- rep(NA,length(days))
 
   for(i in 1:length(p.old)){
@@ -65,11 +64,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,
   pdf(paste(siteName,"_",endDate,"_DataPlots.pdf",sep=""),width=10,height=8)
 
   if(forecastType=="randomWalk"){
-    print(length(p))
-    print("length(p)")
     data$p <- rescaleObs(times=days,vals=p,partialStart=TRUE,cVals=cValsPC,dVals=dValsPC,yr=2020)
-    print("data$p")
-    print(length(data$p))
     data$n <- length(data$p)
     data$p[data$p<0] <- 0
     data$p[data$p>1] <- 1
@@ -79,14 +74,7 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,
     data$me <- rescaleObs(times=days,vals=me,partialStart=TRUE,cVals=cValsME,dVals=dValsME,yr=2020)
     data$me[data$me<0] <- 0
     data$mn[data$mn>1] <- 1
-    print("days")
-    print(length(days))
-    print("data$p")
-    print(length(data$p))
-    print("data$mn")
-    print(length(data$mn))
-    print("data$me")
-    print(length(data$me))
+
     plot(days,data$p,pch=20,main="PhenoCam Data")
     abline(v=endDate,col="red")
     plot(days,data$mn,pch=20,main="MODIS NDVI Data")
