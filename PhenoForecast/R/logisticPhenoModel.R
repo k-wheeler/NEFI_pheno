@@ -7,7 +7,7 @@
 ##' @export
 ##' @import rjags
 ##' @import coda
-logisticPhenoModel <- function(data,nchain,season,index){
+logisticPhenoModel <- function(data,nchain,season,index="all"){
   ##Set priors
 
   if(index=="GCC"){
