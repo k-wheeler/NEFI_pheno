@@ -77,9 +77,13 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,
     data$me[data$me<0] <- 0
     data$mn[data$mn>1] <- 1
     print("days")
-    print(days)
+    print(length(days))
     print("data$p")
-    print(data$p)
+    print(length(data$p))
+    print("data$mn")
+    print(length(data$mn))
+    print("data$me")
+    print(length(data$me))
     plot(days,data$p,pch=20,main="PhenoCam Data")
     abline(v=endDate,col="red")
     plot(days,data$mn,pch=20,main="MODIS NDVI Data")
