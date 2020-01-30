@@ -20,7 +20,7 @@ iseq <- c(1,2,3,4,6,15,16,20,18,24)
 index <- "GCC"
 #outFileName <- paste("PhenologyForecastOutput_allSites_allDays_Autumn.pdf",sep="")
 #pdf(outFileName,height=30,width=20)
-par(mfrow=c(3,1))
+
 i <- 1
 #for(i in iseq){  
 siteName <- as.character(siteData[i,1])
@@ -29,6 +29,7 @@ for(d in 1:length(dates)){
   endDate <- dates[d]
   figureFileName <- paste("AutumnForecastFigures/AutumnForecast_",siteName,"_",endDate,".jpeg",sep="")
   jpeg(filename = figureFileName,width = 6, height=5, res=1000,units="in")
+  par(mfrow=c(3,1))
   saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
   URL <- as.character(siteData$URL[i])
   URL2 <- as.character(siteData$URL2[i])
