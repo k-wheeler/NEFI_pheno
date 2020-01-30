@@ -11,11 +11,12 @@ library("MODISTools")
 #season <- "spring"
 #endDate <- (Sys.Date()-1)
 #startDate <- as.Date("2013-01-01")
-endDate <- as.Date("2019-01-27")
+endDate <- as.Date("2020-01-27")
 forecastLength <- 0
 iseq <- c(2,4,5,seq(21,27))
 iseq <- seq(1,27)
 iseq <- 17
+iseq <- c(1,3,6,8,15,16,17,18,19)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 for(i in iseq){
@@ -83,7 +84,7 @@ for(i in iseq){
     p <- matrix(nrow=365,ncol=0)
     mn <- matrix(nrow=365,ncol=0)
     me <- matrix(nrow=365,ncol=0)
-    years <- seq(lubridate::year(startDate),2018)
+    years <- seq(lubridate::year(startDate),2019)
     for(i in years){
       subDat <- data2[lubridate::year(as.Date(dat2$dates))==i,]
       p <- cbind(p,subDat$p)
@@ -193,8 +194,8 @@ for(i in iseq){
       }
     dev.off()
     ##Write files of c, d, and k means
-    write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC.csv",sep=""),sep=",")
-    write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN.csv",sep=""),sep=",")
-    write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME.csv",sep=""),sep=",")
+    write.table(cbind(cMeans.p,dMeans.p,kMeans.p,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_PC2020.csv",sep=""),sep=",")
+    write.table(cbind(cMeans.mn,dMeans.mn,kMeans.mn,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_MN2020.csv",sep=""),sep=",")
+    write.table(cbind(cMeans.me,dMeans.me,kMeans.me,years),row.names = FALSE,col.names = TRUE,file=paste("PhenologyForecastData/",siteName,"_forecast_phenoFits_ME2020.csv",sep=""),sep=",")
   }
 }
