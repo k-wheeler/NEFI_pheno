@@ -24,6 +24,7 @@ endDate <- (Sys.Date()-1)
 iseq <- c(1,10)
 iseq <- c(1,2,3,10,15,16)
 iseq <- c(seq(1,6),8,9,10,seq(15,27))
+iseq <- c(1,3,6,8,15,16,17,18,19)
 #Create Forecast outputs
 output <- 
   foreach(i=iseq) %dopar% {
@@ -54,15 +55,15 @@ output <-
   downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
   
   ##Load rescaling data
-  rescaleFile <- paste(dataDirectory,siteName,"_forecast_phenoFits_PC.csv",sep="")
+  rescaleFile <- paste(dataDirectory,siteName,"_forecast_phenoFits_PC2020.csv",sep="")
   rescaleData <- read.csv(rescaleFile,header=TRUE)
   cMeans.p <- rescaleData$cMeans.p
   dMeans.p <- rescaleData$dMeans.p
-  rescaleFile <- paste(dataDirectory,siteName,"_forecast_phenoFits_MN.csv",sep="")
+  rescaleFile <- paste(dataDirectory,siteName,"_forecast_phenoFits_MN2020.csv",sep="")
   rescaleData <- read.csv(rescaleFile,header=TRUE)
   cMeans.mn <- rescaleData$cMeans.mn
   dMeans.mn <- rescaleData$dMeans.mn
-  rescaleFile <- paste(dataDirectory,siteName,"_forecast_phenoFits_ME.csv",sep="")
+  rescaleFile <- paste(dataDirectory,siteName,"_forecast_phenoFits_ME2020.csv",sep="")
   rescaleData <- read.csv(rescaleFile,header=TRUE)
   cMeans.me <- rescaleData$cMeans.me
   dMeans.me <- rescaleData$dMeans.me
@@ -89,13 +90,6 @@ output <-
   }
   
   ##Create a Logistic with Covariate Model
-  #outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC_outBurn.RData",sep="")
-  #if(!file.exists(outputFile)){
-  #  outBurnLC <- phenologyForecast(forecastType = "logisticCov",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station)
-  #  if(typeof(outBurnLC)!=typeof(FALSE)){
-  #    save(outBurnLC,file=outputFile)
-  #  }
-  # }
   outputFile <- paste(saveDirectory,siteName,"_",startDate,"_",endDate,"_LC2_outBurn.RData",sep="")
   if(!file.exists(outputFile)){
     outBurnLC2 <- phenologyForecast(forecastType = "logisticCov2",forecastLength = forecastLength,siteName=siteName,URLs=URL,lat=lat,long=long,dataDirectory=dataDirectory,as.Date(startDate),as.Date(endDate),GEFS_Files=GEFS_files,cValsPC=cMeans.p,dValsPC=dMeans.p,cValsMN=cMeans.mn,dValsMN=dMeans.mn,cValsME=cMeans.me,dValsME=dMeans.me,GEFS_Directory = GEFS_Directory,station=station)
