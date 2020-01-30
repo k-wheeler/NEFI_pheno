@@ -84,7 +84,7 @@ for(d in 1:length(dates)){
         
         plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
                            out.mat=out.mat.lastYear,forecastType = paste("randomWalk",endDate),
-                           days=seq(1,lengthLastYear,1),endDate=endDate)#,
+                           days=seq(1,lengthLastYear,1),endDate=endDate,xlim=c(1,365))#,
         abline(v=(lengthLastYear-forecastLength+1),col="purple")
         
         ##Add on data:
