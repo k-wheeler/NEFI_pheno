@@ -7,9 +7,9 @@
 #' @param partialStart Whether or not there is a partial year of data included (e.g. with random walk)
 #' @import PhenologyBayesModeling
 #' @export
-rescaleObs <- function(times,vals,cVals,dVals,partialStart=FALSE){
+rescaleObs <- function(times,vals,cVals,dVals,partialStart=FALSE,yr=2019){
   new.ys <- numeric()
-  years <- seq((lubridate::year(times[1])),2019)
+  years <- seq((lubridate::year(times[1])),yr)
   if(partialStart){
     yr <- 1
     year.vals <- vals[(lubridate::year(times)==(years[yr]))] ##The observations for first partial year
