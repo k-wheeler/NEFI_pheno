@@ -12,7 +12,7 @@ library("doParallel")
 #season <- "spring"
 #endDate <- (Sys.Date()-1)
 #startDate <- as.Date("2013-01-01")
-endDate <- as.Date("2019-01-27")
+endDate <- as.Date("2020-01-27")
 forecastLength <- 0
 
 n.cores <- 6
@@ -22,6 +22,7 @@ registerDoParallel(cores=n.cores)
 
 iseq <- c(seq(2,6),8,9,11,seq(15,20))
 iseq <- c(2,4,5,seq(21,27))
+iseq <- c(1,3,6,8,15,16,17,18,19)
 #iseq <- c(10)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
@@ -90,7 +91,7 @@ output <-
     p <- matrix(nrow=365,ncol=0)
     mn <- matrix(nrow=365,ncol=0)
     me <- matrix(nrow=365,ncol=0)
-    years <- seq(lubridate::year(startDate),2018)
+    years <- seq(lubridate::year(startDate),2019)
     for(i in years){
       subDat <- data2[lubridate::year(as.Date(dat2$dates))==i,]
       p <- cbind(p,subDat$p)
