@@ -16,7 +16,7 @@ forecastLength <- 0
 iseq <- c(2,4,5,seq(21,27))
 iseq <- seq(1,27)
 iseq <- 17
-iseq <- c(1,3,6,8,15,16,17,18,19)
+iseq <- c(1,2,3,4,6,15,16,19,20,22)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 for(i in iseq){
