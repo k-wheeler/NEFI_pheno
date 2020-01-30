@@ -140,7 +140,7 @@ for(d in 1:length(dates)){
                            out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(213,(lengthLastYear+212),1),
                            endDate=endDate,xlim=c(1,365))#,
         
-        abline(v=(lengthLastYear-forecastLength+1),col="purple")
+        abline(v=(lengthLastYear+212-forecastLength+1),col="purple")
         
         ##Add on data points
         points(time.p,p,pch=20,col="red")
