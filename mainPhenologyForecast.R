@@ -25,6 +25,7 @@ iseq <- c(1,10)
 iseq <- c(1,2,3,10,15,16)
 iseq <- c(seq(1,6),8,9,10,seq(15,27))
 iseq <- c(1,3,6,8,15,16,17,18,19)
+iseq <- c(1,2,3,4,6,15,16,19,20,22)
 #Create Forecast outputs
 output <- 
   foreach(i=iseq) %dopar% {
