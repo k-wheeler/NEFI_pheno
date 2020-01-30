@@ -138,7 +138,7 @@ for(d in 1:length(dates)){
         
         plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,
                            out.mat=out.mat.lastYear,forecastType = "Logistic",days=seq(213,(lengthLastYear+212),1),
-                           endDate=endDate,xlim=c(215,(lengthLastYear+220)),xlim=c(1,365))#,
+                           endDate=endDate,xlim=c(1,365))#,
         
         abline(v=(lengthLastYear-forecastLength+1),col="purple")
         
@@ -166,7 +166,7 @@ for(d in 1:length(dates)){
         
         plotForecastOutput(siteName=siteName,URL=URL,forecastLength=forecastLength,out.mat=out.mat.lastYear,
                            forecastType = "CDD_20",days=seq(213,(lengthLastYear+212),1),
-                           endDate = endDate,xlim=c(215,(lengthLastYear+220)),xlim=c(1,365))
+                           endDate = endDate,xlim=c(1,365))
         abline(v=(lengthLastYear+212-forecastLength+1),col="purple")
         
         ##Add on data points
