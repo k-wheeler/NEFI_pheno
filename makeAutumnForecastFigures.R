@@ -28,7 +28,7 @@ print(siteName)
 for(d in 1:length(dates)){
   endDate <- dates[d]
   figureFileName <- paste("AutumnForecastFigures/AutumnForecast_",siteName,"_",endDate,".jpeg",sep="")
-  jpeg(filename = figureFileName,width = 4, height=10, res=1000,units="in")
+  jpeg(filename = figureFileName,width = 7, height=10, res=1000,units="in")
   par(mfrow=c(3,1))
   saveDirectory <- paste(dataDirectory,"ForecastOutputs/",siteName,"/",endDate,"/",sep="")
   URL <- as.character(siteData$URL[i])
