@@ -75,10 +75,10 @@ logisticPhenoModel <- function(data,nchain,season,index="all"){
       x[1,yr] ~ dnorm(x_ic,tau_ic)
       color[1,yr] ~ dnorm(x_ic,tau_ic)
     }
-    p.PC ~ dgamma(s1,s2)
-    p.ME ~ dgamma(s1,s2)
-    p.MN ~ dgamma(s2,s2)
-    p.proc ~ dgamma(s1,s2)
+    p.PC ~ dgamma(s1.PC,s2.PC)
+    p.ME ~ dgamma(s1.ME,s2.ME)
+    p.MN ~ dgamma(s2.MN,s2.MN)
+    p.proc ~ dgamma(s1.proc,s2.proc)
     r ~ dexp(0.148) # Exp is the maximum entropy distribution for constraints of positive with given mean
     # 0.148 is from Richardson et al. 2006.
   }"
