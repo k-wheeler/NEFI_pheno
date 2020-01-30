@@ -68,6 +68,8 @@ phenologyForecast <- function(forecastType,forecastLength=14,siteName,
     print(length(p))
     print("length(p)")
     data$p <- rescaleObs(times=days,vals=p,partialStart=TRUE,cVals=cValsPC,dVals=dValsPC)
+    print("data$p")
+    print(length(data$p))
     data$n <- length(data$p)
     data$p[data$p<0] <- 0
     data$p[data$p>1] <- 1
