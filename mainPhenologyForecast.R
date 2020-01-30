@@ -49,11 +49,11 @@ output <-
   station <- as.character(siteData$metStation[i])
   ##Download new MODIS data (not working in separate functions for some reason...)
   ##Download DQF file if there are no previous ones 
-  downloadMODIS(startDate=startDate,endDate=endDate,metric="rel",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
+  #downloadMODIS(startDate=startDate,endDate=endDate,metric="rel",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
   
-  downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
-  downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
-  
+  #downloadMODIS(startDate=startDate,endDate=endDate,metric="NDVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
+  #downloadMODIS(startDate=startDate,endDate=endDate,metric="EVI",dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
+  downloadMODIS(startDate=startDate,endDate=endDate,dataDirectory=dataDirectory,lat=lat,long=long,siteName=siteName)
   ##Load rescaling data
   rescaleFile <- paste(dataDirectory,siteName,"_forecast_phenoFits_PC2020.csv",sep="")
   rescaleData <- read.csv(rescaleFile,header=TRUE)
