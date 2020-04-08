@@ -7,10 +7,11 @@
 #' @param dataPath The directory where all of the GOES data is located
 #' @param TZ_name The name of the time zone (e.g., "America/New_York")
 #' @param savePath The directory where you want to save the output
+#' @param mVersion The mode/version of the ABI (3,4, or 6)
 #' @import suncalc
 #' @import lubridate
 #' @export
-calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePath){
+calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePath,mVersion){
   date.val <- as.Date(as.numeric(day),origin=as.Date(paste(as.character(as.numeric(year)-1),"-12-31",sep="")))
   print(date.val)
   if(year==2017 && day < 321){
@@ -20,7 +21,7 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePa
     orbitVersion <- "NEW"
   }
 
-  filestrACM <- paste("OR_ABI-L2-ACMC-M3_G16_s",year,day,sep="")
+  filestrACM <- paste("OR_ABI-L2-ACMC-M",mVersion,"_G16_s",year,day,sep="")
   ACM.files <- dir(path=dataPath,pattern=filestrACM)
 
   if(!dir.exists((paste(dataPath,dir(path=dataPath,pattern=filestrACM),sep="")))){
@@ -35,7 +36,7 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePa
         mt <- substr(day.time,10,11)
         times <- c(times,(as.numeric(hr)+as.numeric(mt)/60))
         print(paste("Time:",(as.numeric(hr)+as.numeric(mt)/60)))
-        newNDVI <- createNDVI_sub(siteData=siteData,orbitVersion=orbitVersion,day.time=day.time,dataPath=dataPath)
+        newNDVI <- createNDVI_sub(siteData=siteData,orbitVersion=orbitVersion,day.time=day.time,dataPath=dataPath,mVersion=mVersion)
         NDVI.vals <- rbind(NDVI.vals,newNDVI)
       }
       for(i in 1:nrow(siteData)){

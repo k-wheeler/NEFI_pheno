@@ -4,7 +4,8 @@
 \alias{createNDVI_sub}
 \title{Calculate NDVI for a specific day and time}
 \usage{
-createNDVI_sub(siteData, day.time, orbitVersion = NEW, dataPath)
+createNDVI_sub(siteData, day.time, orbitVersion = NEW, dataPath,
+  Mversion)
 }
 \arguments{
 \item{siteData}{matrix of site data where the sites are in individual rows and the columns are siteName, latitude, longitude, timezone}
@@ -14,6 +15,8 @@ createNDVI_sub(siteData, day.time, orbitVersion = NEW, dataPath)
 \item{orbitVersion}{NEW or OLD depending on the position of the satellite (only days before 17 November 2017 are OLD). Default value is NEW}
 
 \item{dataPath}{The directory where all of the GOES data is located}
+
+\item{Mversion}{The mode/version of the ABI (3,4, or 6)}
 }
 \description{
 Calculate NDVI for a specific day and time

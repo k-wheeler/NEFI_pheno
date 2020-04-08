@@ -4,14 +4,15 @@
 #' @param day.time The year,day,time (e.g. 20172001020 for 10:20 on the 200th day of 2017)
 #' @param orbitVersion NEW or OLD depending on the position of the satellite (only days before 17 November 2017 are OLD). Default value is NEW
 #' @param dataPath The directory where all of the GOES data is located
+#' @param Mversion The mode/version of the ABI (3,4, or 6)
 #' @export
 #' @import ncdf4
 #' @import plyr
-createNDVI_sub <- function(siteData,day.time,orbitVersion=NEW,dataPath){
+createNDVI_sub <- function(siteData,day.time,orbitVersion=NEW,dataPath,Mversion){
   ##Create File Paths
-  ACM.path <- paste(dataPath,"/",dir(path=dataPath,pattern=paste("OR_ABI-L2-ACMC-M3_G16_s",day.time,sep="")),sep="")
-  filestrC03 <- paste("OR_ABI-L1b-RadC-M3C03_G16_s",day.time,sep="")
-  filestrC02 <- paste("OR_ABI-L1b-RadC-M3C02_G16_s",day.time,sep="")
+  ACM.path <- paste(dataPath,"/",dir(path=dataPath,pattern=paste("OR_ABI-L2-ACMC-M",Mversion,"_G16_s",day.time,sep="")),sep="")
+  filestrC03 <- paste("OR_ABI-L1b-RadC-M",Mversion,"C03_G16_s",day.time,sep="")
+  filestrC02 <- paste("OR_ABI-L1b-RadC-M",Mversion,"C02_G16_s",day.time,sep="")
   filePathC02 <- paste(dataPath,"/",dir(path=dataPath,pattern=filestrC02),sep="")
   filePathC03 <- paste(dataPath,"/",dir(path=dataPath,pattern=filestrC03),sep="")
   NDVIs <- numeric()

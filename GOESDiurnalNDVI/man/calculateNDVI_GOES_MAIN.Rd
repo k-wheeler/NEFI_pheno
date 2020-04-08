@@ -5,7 +5,7 @@
 \title{Main function to calculate all NDVI values for a day for a list of sites}
 \usage{
 calculateNDVI_GOES_MAIN(day, siteData, year, TZ, dataPath, TZ_name,
-  savePath)
+  savePath, mVersion)
 }
 \arguments{
 \item{day}{The desired day of year}
@@ -21,6 +21,8 @@ calculateNDVI_GOES_MAIN(day, siteData, year, TZ, dataPath, TZ_name,
 \item{TZ_name}{The name of the time zone (e.g., "America/New_York")}
 
 \item{savePath}{The directory where you want to save the output}
+
+\item{mVersion}{The mode/version of the ABI (3,4, or 6)}
 }
 \description{
 Main function to calculate all NDVI values for a day for a list of sites
