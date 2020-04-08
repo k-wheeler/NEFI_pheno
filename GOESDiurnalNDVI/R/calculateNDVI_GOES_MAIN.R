@@ -12,6 +12,7 @@
 #' @import lubridate
 #' @export
 calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePath,mVersion){
+  print("changed")
   date.val <- as.Date(as.numeric(day),origin=as.Date(paste(as.character(as.numeric(year)-1),"-12-31",sep="")))
   print(date.val)
   if(year==2017 && day < 321){
@@ -22,8 +23,9 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePa
   }
 
   filestrACM <- paste("OR_ABI-L2-ACMC-M",mVersion,"_G16_s",year,day,sep="")
+  print(filestrACM)
   ACM.files <- dir(path=dataPath,pattern=filestrACM)
-
+  print(ACM.files)
   #if(!dir.exists((paste(dataPath,dir(path=dataPath,pattern=filestrACM),sep="")))){
   if(length(ACM.files>1)){
     print("ACM.files>1")
