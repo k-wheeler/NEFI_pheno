@@ -27,16 +27,23 @@ createNDVI_sub <- function(siteData,day.time,orbitVersion=NEW,dataPath,mVersion)
       R3.file <- nc_open(filePathC03)
 
       ##Extract Data
-      R3 <- ncvar_get(R3.file,"Rad")
+
       R2 <- ncvar_get(R2.file,"Rad") #the full R2 dataset
-      R3.kappa0 <- ncvar_get(R3.file,"kappa0")
       R2.kappa0 <- ncvar_get(R2.file,"kappa0")
-      R3.DQF <- ncvar_get(R3.file,"DQF") #Data Quality Flags
       R2.DQF <- ncvar_get(R2.file,"DQF")
+
+      nc_close(R2.file)
+      R3 <- ncvar_get(R3.file,"Rad")
+      R3.kappa0 <- ncvar_get(R3.file,"kappa0")
+      R3.DQF <- ncvar_get(R3.file,"DQF") #Data Quality Flags
+      nc_close(R3.file)
+
       R3 <- R3 * R3.kappa0 #done to covert radiance to reflectance
       R2 <- R2 * R2.kappa0
       clouds <- ncvar_get(ACM.file,"BCM")
       clouds.DQF <- ncvar_get(ACM.file,"DQF")
+
+      nc_close(ACM.file)
 
       for(i in 1:nrow(siteData)){
         ##General Site Data
@@ -79,9 +86,6 @@ createNDVI_sub <- function(siteData,day.time,orbitVersion=NEW,dataPath,mVersion)
         }
         print(paste("NDVI:",output))
         NDVIs <- c(NDVIs,output)
-        nc_close(ACM.file)
-        nc_close(R2.file)
-        nc_close(R3.file)
       }
     }
     else{
