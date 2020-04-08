@@ -9,10 +9,11 @@
 #' @import ncdf4
 #' @import plyr
 createNDVI_sub <- function(siteData,day.time,orbitVersion=NEW,dataPath,mVersion){
-  print("Entered createNDVI_sub")
   ##Create File Paths
+  print(day.time)
   ACM.path <- paste(dataPath,"/",dir(path=dataPath,pattern=paste("OR_ABI-L2-ACMC-M",mVersion,"_G16_s",day.time,sep="")),sep="")
   filestrC03 <- paste("OR_ABI-L1b-RadC-M",mVersion,"C03_G16_s",day.time,sep="")
+  print(filestrC03)
   filestrC02 <- paste("OR_ABI-L1b-RadC-M",mVersion,"C02_G16_s",day.time,sep="")
   filePathC02 <- paste(dataPath,"/",dir(path=dataPath,pattern=filestrC02),sep="")
   filePathC03 <- paste(dataPath,"/",dir(path=dataPath,pattern=filestrC03),sep="")
