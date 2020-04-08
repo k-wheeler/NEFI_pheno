@@ -14,9 +14,9 @@
 calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePath,mVersion){
   day <- as.character(day)
   if(as.numeric(day)<10){
-    day <- paste("00",as.character(day))
+    day <- paste("00",as.character(day),sep="")
   }else if(as.numeric(day)<100){
-    day <- paste("0",as.character(day))
+    day <- paste("0",as.character(day),sep="")
   }
   date.val <- as.Date(as.numeric(day),origin=as.Date(paste(as.character(as.numeric(year)-1),"-12-31",sep="")))
   print(date.val)
