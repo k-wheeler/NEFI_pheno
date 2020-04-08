@@ -26,10 +26,12 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePa
 
   #if(!dir.exists((paste(dataPath,dir(path=dataPath,pattern=filestrACM),sep="")))){
   if(length(ACM.files>1)){
+    print("ACM.files>1")
     day.time.vals <- character()
     times <- character()
     NDVI.vals <- matrix(ncol=nrow(siteData),nrow=0)
     for(j in 1:length(ACM.files)){
+      print(j)
       day.time <- substr(ACM.files[j],24,34)
       day.time.vals <- c(day.time.vals,day.time)
       hr <- as.numeric(substr(day.time,8,9))-TZ
