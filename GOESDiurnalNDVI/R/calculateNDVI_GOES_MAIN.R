@@ -12,10 +12,15 @@
 #' @import lubridate
 #' @export
 calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePath,mVersion){
-  print("changed")
+  day <- as.character(day)
+  if(as.numeric(day)<10){
+    day <- paste("00",as.character(day))
+  }else if(as.numeric(day)<100){
+    day <- paste("0",as.character(day))
+  }
   date.val <- as.Date(as.numeric(day),origin=as.Date(paste(as.character(as.numeric(year)-1),"-12-31",sep="")))
   print(date.val)
-  if(year==2017 && day < 321){
+  if(year==2017 && as.numeric(day) < 321){
     orbitVersion <- "OLD"
   }
   else{
@@ -25,15 +30,13 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePa
   filestrACM <- paste("OR_ABI-L2-ACMC-M",mVersion,"_G16_s",year,day,sep="")
   print(filestrACM)
   ACM.files <- dir(path=dataPath,pattern=filestrACM)
-  print(ACM.files)
+
   #if(!dir.exists((paste(dataPath,dir(path=dataPath,pattern=filestrACM),sep="")))){
   if(length(ACM.files>1)){
-    print("ACM.files>1")
     day.time.vals <- character()
     times <- character()
     NDVI.vals <- matrix(ncol=nrow(siteData),nrow=0)
     for(j in 1:length(ACM.files)){
-      print(j)
       day.time <- substr(ACM.files[j],24,34)
       day.time.vals <- c(day.time.vals,day.time)
       hr <- as.numeric(substr(day.time,8,9))-TZ
@@ -57,8 +60,8 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePa
     }
   }
   else{
-    print("No ACM files")
-    #createEmptyFiles(siteData=siteData,day=day,year=year)
+    print("No ACM files; Creating empty file")
+    createEmptyFiles(siteData=siteData,day=day,year=year)
   }
 }
 # else{
