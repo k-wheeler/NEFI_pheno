@@ -12,7 +12,7 @@ allSiteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",heade
 TZ <- 5 #Time zone
 siteData <- allSiteData[allSiteData$TZ==TZ,c(1,2,3,6)]
 #i <- 1
-for(i in length(days)){
+for(i in 1:length(days)){
   mVersion <- mVersions[i]
   day <- days[i]
   print(day)
