@@ -6,7 +6,7 @@ library(doParallel)
 n.cores <- 16
 registerDoParallel(cores=n.cores)
 
-savePath <- "PhenologyForecastData"
+savePath <- "PhenologyForecastData/"
 year <- 2019
 dataPath <- paste("GOES_Data/GOES_Data",year,sep="") #Folder where the data is located
 days <- seq(1,365)
