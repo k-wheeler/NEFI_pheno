@@ -1,6 +1,10 @@
 install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/GOESDiurnalNDVI",
                  repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary")
 library(GOESDiurnalNDVI)
+library(doParallel)
+
+n.cores <- 16
+registerDoParallel(cores=n.cores)
 
 savePath <- "PhenologyForecastData"
 year <- 2019
@@ -12,11 +16,12 @@ allSiteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",heade
 TZ <- 5 #Time zone
 siteData <- allSiteData[allSiteData$TZ==TZ,c(1,2,3,6)]
 #i <- 1
-for(i in 1:length(days)){
-  mVersion <- mVersions[i]
-  day <- days[i]
-  print(day)
-  calculateNDVI_GOES_MAIN(day=day,siteData=siteData,year=year,TZ=TZ,
-                          dataPath=dataPath,TZ_name="America/New_York",
-                          savePath=savePath,mVersion = mVersion)
-}
+output <- 
+  foreach(i=1:length(days)) %dopar% {
+    mVersion <- mVersions[i]
+    day <- days[i]
+    print(day)
+    calculateNDVI_GOES_MAIN(day=day,siteData=siteData,year=year,TZ=TZ,
+                            dataPath=dataPath,TZ_name="America/New_York",
+                            savePath=savePath,mVersion = mVersion)
+  }
