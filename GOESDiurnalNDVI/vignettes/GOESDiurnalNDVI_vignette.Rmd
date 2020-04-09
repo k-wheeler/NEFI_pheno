@@ -138,7 +138,7 @@ print(paste("Midday NDVI Mean Estimate:",as.character(c.mean)))
 -------------------------------
 #Additional notes:
 1. The calculateNDVI_GOES_MAIN() function (step 4) is formatted to allow for the calculation of NDVI at multiple sites if they are listed as rows in a matrix. This significantly decreases the computation time as the netcdf files do not have to be opened and closed multiple times. Currently this only works if the timezone is the same for all sites.
-1. The package relies on the file names being consistent: specifically the GOES data file names, the calculated NDVI file names, and the diurnal fit output file name all should not be changed.
-1. Currently this won't fully work on days that have nautical dawn before timezone (e.g., 5 for eastern USA) number of hours after midnight (e.g., Won't work calculate/include NDVI values before 5am in eastern USA).
-1. Currently, this won't work for the last day of the year yet.
+2. The package relies on the file names being consistent: specifically the GOES data file names, the calculated NDVI file names, and the diurnal fit output file name all should not be changed.
+3. Currently this won't fully work on days that have nautical dawn before timezone (e.g., 5 for eastern USA) number of hours after midnight (e.g., Won't work calculate/include NDVI values before 5am in eastern USA).
+
 

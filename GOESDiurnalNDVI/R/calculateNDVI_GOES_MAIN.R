@@ -56,6 +56,7 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePa
 
       output[2,as.numeric(output[3,])<as.numeric(dawnTime)] <- NA
       output[2,as.numeric(output[3,])>as.numeric(duskTime)] <- NA
+      print(fileName)
       write.table(output,file=fileName,sep=",",col.names=FALSE,row.names=FALSE)
     }
   }
