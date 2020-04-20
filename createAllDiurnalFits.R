@@ -37,7 +37,7 @@ for(i in 1:length(days)){
   if(as.numeric(days[i])<10){
     days[i] <- paste("00",as.character(days[i]),sep="")
   }
-  else if(as.numeric(iseq[i])<100){
+  else if(as.numeric(days[i])<100){
     days[i] <- paste("0",days[i],sep="")
   }
 }
