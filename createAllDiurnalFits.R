@@ -1,8 +1,8 @@
 #!/usr/bin/env Rscript
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",
-                 repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary")
-install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/GOESDiurnalNDVI",
-                 repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary")
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyBayesModeling",
+#                 repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary")
+#install.packages("/projectnb/dietzelab/kiwheel/NEFI_pheno/GOESDiurnalNDVI",
+#                 repo=NULL,lib="/projectnb/dietzelab/kiwheel/Rlibrary")
 
 library("PhenologyBayesModeling")
 library("GOESDiurnalNDVI")
@@ -42,7 +42,7 @@ for(i in 1:length(days)){
   }
 }
 
-output <- foreach(i = days) %dopar% {
+output <- foreach(day = days) %dopar% {
 #for(i in days){
   #fileName <- paste("dailyNDVI_GOES/",siteName,"_GOES_diurnal_",year,i,".csv",sep="")
   fileName <- paste("PhenologyForecastData/GOES_NDVI_Diurnal",siteName,"_",year,day,".csv",sep="")
