@@ -20,7 +20,8 @@ n.cores <- 10
 registerDoParallel(cores=n.cores)
 
 #siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
-siteData <- read.csv("phenologyForecastSites.csv",header=TRUE)
+siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
+savePath <- paste(getwd(),"PhenologyForecastData/GOES_DiurnalFits/",sep="")
 
 ##Site Data: 
 s <- 1
