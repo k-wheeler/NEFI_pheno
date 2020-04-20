@@ -58,7 +58,7 @@ for(day in days){
     if(!file.exists(modelFitFileName)){
       j.model <- createDiurnalModel(siteName=siteName,data=data)
       var.burn <- runMCMC_Model(j.model=j.model,variableNames=c("a","c","k","prec"),
-                                baseNum=20000,iterSize =10000) #The baseNum and iterSize can be increased/decreased to make the code run faster if you know it will converge easier
+                                baseNum=40000,iterSize =30000,maxGBR = 1.80) #The baseNum and iterSize can be increased/decreased to make the code run faster if you know it will converge easier
       ##Thin:
       out.mat <- as.matrix(var.burn)
       thinAmount <- round(nrow(out.mat)/5000,digits=0)
