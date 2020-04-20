@@ -21,7 +21,7 @@ registerDoParallel(cores=n.cores)
 
 #siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
-savePath <- paste(getwd(),"PhenologyForecastData/GOES_DiurnalFits/",sep="")
+savePath <- paste(getwd(),"/PhenologyForecastData/GOES_DiurnalFits/",sep="")
 
 ##Site Data: 
 s <- 1
@@ -59,7 +59,12 @@ for(day in days){
       j.model <- createDiurnalModel(siteName=siteName,data=data)
       var.burn <- runMCMC_Model(j.model=j.model,variableNames=c("a","c","k","prec"),
                                 baseNum=20000,iterSize =10000) #The baseNum and iterSize can be increased/decreased to make the code run faster if you know it will converge easier
+      ##Thin:
+      out.mat <- as.matrix(var.burn)
+      thinAmount <- round(nrow(out.mat)/5000,digits=0)
+      var.burn <- window(var.burn,thin=thinAmount)
       save(var.burn,file=modelFitFileName)
+      
     }
   }
 }
