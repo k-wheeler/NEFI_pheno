@@ -4,7 +4,7 @@
 \alias{createEmptyFiles}
 \title{Creates empty files for days missing cloud mask data or radiance data}
 \usage{
-createEmptyFiles(siteData, year, day)
+createEmptyFiles(siteData, year, day, savePath)
 }
 \arguments{
 \item{siteData}{matrix of site data where the sites are in individual rows and the columns are siteName, latitude, longitude, timezone}
@@ -12,6 +12,8 @@ createEmptyFiles(siteData, year, day)
 \item{year}{The desired year}
 
 \item{day}{The desired day of year}
+
+\item{savePath}{The directory where you want to save the output}
 }
 \description{
 Creates empty files for days missing cloud mask data or radiance data

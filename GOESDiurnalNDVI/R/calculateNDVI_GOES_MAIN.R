@@ -62,7 +62,7 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePa
   }
   else{
     print("No ACM files; Creating empty file")
-    createEmptyFiles(siteData=siteData,day=day,year=year)
+    createEmptyFiles(siteData=siteData,day=day,year=year,savePath=savePath)
   }
 }
 # else{

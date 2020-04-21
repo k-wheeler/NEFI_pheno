@@ -14,9 +14,10 @@ calculateMiddayCI <- function(siteName,year,day,savePath){
   #print(dim(dat))
   xseq <- seq(dat[3,1],dat[3,ncol(dat)],0.001)
   out.mat <- as.matrix(var.burn)
-  a <- out.mat[,1]
-  c <- out.mat[,2]
-  k <- out.mat[,3]
+  rndNums <- sample.int(nrow(out.mat),10000,replace=T)
+  a <- out.mat[rndNums,1]
+  c <- out.mat[rndNums,2]
+  k <- out.mat[rndNums,3]
   ycred <- matrix(0,nrow=10000,ncol=length(xseq))
   for(g in 1:10000){
     Ey <- diurnalExp(a=a[g],c=c[g],k=k[g],xseq=xseq)
