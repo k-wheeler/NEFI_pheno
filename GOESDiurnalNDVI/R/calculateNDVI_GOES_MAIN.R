@@ -11,7 +11,15 @@
 #' @import suncalc
 #' @import lubridate
 #' @export
-calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePath,mVersion){
+calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name="",savePath,mVersion){
+  if(TZ==5){
+    TZ_name <- "America/New_York"
+  }else if(TZ==6){
+    TZ_name <- "America/Chicago"
+  }else if(TZ_name==""){
+    print("TZ_name unknown. Please enter it")
+    return(FALSE)
+  }
   day <- as.character(day)
   if(as.numeric(day)<10){
     day <- paste("00",as.character(day),sep="")
@@ -22,8 +30,7 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePa
   print(date.val)
   if(year==2017 && as.numeric(day) < 321){
     orbitVersion <- "OLD"
-  }
-  else{
+  }else{
     orbitVersion <- "NEW"
   }
 
@@ -59,8 +66,7 @@ calculateNDVI_GOES_MAIN <- function(day,siteData,year,TZ,dataPath,TZ_name,savePa
       print(fileName)
       write.table(output,file=fileName,sep=",",col.names=FALSE,row.names=FALSE)
     }
-  }
-  else{
+  }else{
     print("No ACM files; Creating empty file")
     createEmptyFiles(siteData=siteData,day=day,year=year,savePath=savePath)
   }

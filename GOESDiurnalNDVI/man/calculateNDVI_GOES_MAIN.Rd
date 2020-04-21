@@ -4,7 +4,7 @@
 \alias{calculateNDVI_GOES_MAIN}
 \title{Main function to calculate all NDVI values for a day for a list of sites}
 \usage{
-calculateNDVI_GOES_MAIN(day, siteData, year, TZ, dataPath, TZ_name,
+calculateNDVI_GOES_MAIN(day, siteData, year, TZ, dataPath, TZ_name = "",
   savePath, mVersion)
 }
 \arguments{
