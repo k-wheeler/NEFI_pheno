@@ -20,7 +20,7 @@ n.cores <- 10
 registerDoParallel(cores=n.cores)
 
 #siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
-siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
+siteData <- read.csv("PhenologyForecastData/GOES_Paper_Sites_FINAL.csv",header=TRUE)
 savePath <- paste(getwd(),"/PhenologyForecastData/GOES_DiurnalFits/",sep="")
 
 ##Site Data: 
@@ -53,18 +53,20 @@ for(day in days){
     GOESdat <- read.csv(fileName,header=FALSE)
     plot(as.numeric(GOESdat[3,]),as.numeric(GOESdat[2,]),pch=20,xlim=c(0,20),ylim=c(0,1),
          ylab="NDVI",xlab="Time (Hour)")
-    data <- list(x=as.numeric(GOESdat[3,]),y=as.numeric(GOESdat[2,]))
-    modelFitFileName <- paste(savePath,siteName,"_",year,day,"_varBurn.RData",sep="")
-    if(!file.exists(modelFitFileName)){
-      j.model <- createDiurnalModel(siteName=siteName,data=data)
-      var.burn <- runMCMC_Model(j.model=j.model,variableNames=c("a","c","k","prec"),
-                                baseNum=40000,iterSize =30000,maxGBR = 1.80) #The baseNum and iterSize can be increased/decreased to make the code run faster if you know it will converge easier
-      ##Thin:
-      if(typeof(var.burn)!=typeof(FALSE)){
-        out.mat <- as.matrix(var.burn)
-        thinAmount <- round(nrow(out.mat)/5000,digits=0)
-        var.burn <- window(var.burn,thin=thinAmount)
-        save(var.burn,file=modelFitFileName)
+    if(ncol(GOESdat)>1){ #Need to check that it is not an empty file
+      data <- list(x=as.numeric(GOESdat[3,]),y=as.numeric(GOESdat[2,]))
+      modelFitFileName <- paste(savePath,siteName,"_",year,day,"_varBurn.RData",sep="")
+      if(!file.exists(modelFitFileName)){
+        j.model <- createDiurnalModel(siteName=siteName,data=data)
+        var.burn <- runMCMC_Model(j.model=j.model,variableNames=c("a","c","k","prec"),
+                                  baseNum=40000,iterSize =30000,maxGBR = 1.80) #The baseNum and iterSize can be increased/decreased to make the code run faster if you know it will converge easier
+        ##Thin:
+        if(typeof(var.burn)!=typeof(FALSE)){
+          out.mat <- as.matrix(var.burn)
+          thinAmount <- round(nrow(out.mat)/5000,digits=0)
+          var.burn <- window(var.burn,thin=thinAmount)
+          save(var.burn,file=modelFitFileName)
+        }
       }
     }
   }
