@@ -1,16 +1,33 @@
 siteData <- read.csv("PhenologyForecastData/GOES_Paper_Sites_FINAL.csv",header=TRUE)
 savePath <- paste(getwd(),"/PhenologyForecastData/GOES_DiurnalFits/",sep="")
-finalTotal <- 365+184
+finalTotal <- 0
 allFileCount <- 0
 for(s in 1:nrow(siteData)){
   siteName <- as.character(siteData$siteName[s])
   print(siteName) 
+  numFilesSite <- 0
+  for(d in seq(1,365)){
+    if(as.numeric(d)<10){
+      day <- paste("00",as.character(d),sep="")
+    }
+    else if(as.numeric(d)<100){
+      day <- paste("0",as.character(d),sep="")
+    }
+    fileName <- paste("PhenologyForecastData/GOES_NDVI_Diurnal",siteName,"_",2019,day,".csv",sep="")
+    GOESdat <- read.csv(fileName,header=FALSE)
+    if(ncol(GOESdat)>1){ 
+      numFilesSite <- numFilesSite + 1
+    }
+  }
+  print("Number of NDVI files:")
+  print(numFilesSite)
   diurnal.files <- dir(path=savePath,pattern=siteName)
   print(length(diurnal.files))
-  print(length(diurnal.files)/finalTotal)
+  print(length(diurnal.files)/numFilesSite)
   allFileCount <- allFileCount + length(diurnal.files)
+  finalTotal <- finalTotal + numFilesSite
 }
-print(allFileCount/(finalTotal*15))
+print(allFileCount/(finalTotal))
   
 
 
