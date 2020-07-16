@@ -16,7 +16,7 @@ createBayesModel.DB_Overall <- function(data,niter=100000,seasonOrder="FS") {
   inits <- list()
   inits.mu <- createInits(data=data,PFT="DB")
   for(i in 1:(nchain)){
-    inits[[i]] <- list(TranS=rnorm(1,115,10),bS=rnorm(1,-0.09,0.05),TranF=rnorm(1,280,10),bF=rnorm(1,0.11,0.05),c=rnorm(1,inits.mu$c,0.02),d=rnorm(1,inits.mu$d,0.001),k=rnorm(1,365,10))
+    inits[[i]] <- list(TranS=rnorm(1,115,10),bS=rnorm(1,-0.09,0.05),TranF=rnorm(1,280,10),bF=rnorm(1,0.11,0.05),c=rnorm(1,inits.mu$c,0.02),d=rnorm(1,inits.mu$d,0.001))
   }
   data$mean.c <- 0.4
   data$p.c <- 1/(0.2**2)
