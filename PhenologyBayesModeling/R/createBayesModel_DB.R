@@ -93,7 +93,6 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     "
   }
   else if (seasonOrder=="SF"){
-    print("Inside Changed SF 2")
     data$mean.TranS <- 475-365
     data$k <- 182
     DB_model <- "
