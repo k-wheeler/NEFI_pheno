@@ -16,32 +16,33 @@ MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay
   # }
 
   #fileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
-  fileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_250m_16_days_NDVI",startDate,endDate,".csv",sep="")
+  fileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_250m_16_days_",metric,"_",startDate,endDate,".csv",sep="")
   print(fileName)
-  # if(!file.exists(fileName)){
-  #   print("Downloading MODIS File")
-  #   directory=getwd()
-  #   mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_",metric,sep=""),start=startDate,end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = directory,internal=FALSE)
-  # }
-  # DQFfileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
-  # if(!file.exists(DQFfileName)){
-  #   print("Downloading MODIS DQF File")
-  #   directory=getwd()
-  #   mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=startDate,end=endDate,site_name = paste(siteName,"_","rel",sep=""),out_dir = directory,internal=FALSE)
-  # }
-  # print("MODIS File Downloaded")
-  dat <- read.csv(fileName,header=TRUE,skip=15)
-  print(dat)
-  DQF <- read.csv(DQFfileName,header=TRUE)
+  if(!file.exists(fileName)){
+    print("Downloading MODIS File")
+    directory=getwd()
+    mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_",metric,sep=""),start=startDate,end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = directory,internal=FALSE)
+  }
+  DQFfileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_250m_16_days_pixel_reliability_",startDate,endDate,".csv",sep="")
+  print(DQFfileName)
+  if(!file.exists(DQFfileName)){
+    print("Downloading MODIS DQF File")
+    directory=getwd()
+    mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=startDate,end=endDate,site_name = paste(siteName,"_","rel",sep=""),out_dir = directory,internal=FALSE)
+  }
+  print("MODIS File Downloaded")
+
   dat <- read.csv(fileName,header=TRUE)
+  DQF <- read.csv(DQFfileName,header=TRUE)
+
   x <- numeric()
   y <- numeric()
 
   for(i in 1:nrow(dat)){
     #print(i)
     y <- c(y,dat$value[i]/10000)
-    #DQF.val <- DQF$data[i]
-    DQF.val <- dat$DQFdata[i]
+    DQF.val <- DQF$value[i]
+    #DQF.val <- dat$DQFdata[i]
     #print(DQF.val)
     if(DQF.val!= 0 && DQF.val != 1){
       y[i] <- NA

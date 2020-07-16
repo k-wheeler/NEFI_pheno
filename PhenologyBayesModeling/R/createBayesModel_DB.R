@@ -24,10 +24,11 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     data$p.c <- 1/(0.2**2)
     data$p.d <- 1/(0.2**2)
   }else if(dataSource == "MODIS.NDVI"){
-    data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="NDVI",startDate=startDate,endDate=endDate)
-    print(length(data$x))
+    data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="NDVI",
+                      startDate=startDate,endDate=endDate)
+    #print(length(data$x))
     data$obs.prec <- rep((1/0.01),length(data$x)) ##From Miura et al. (2000)
-    print(data$obs.prec)
+    #print(data$obs.prec)
     data$mean.c <- 0.4
     data$p.c <- 1/(0.2**2)
     data$mean.d <- 0.6
@@ -38,7 +39,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
 
     data$mean.c <- 0.4
     data$obs.prec <- rep((1/0.02),length(data$x)) ##From Miura et al. (2000)
-    print(data$obs.prec)
+    #print(data$obs.prec)
     data$p.c <- 1/(0.2**2)
     data$mean.d <- 0.6
     data$p.d <- 1/(0.2**2)
@@ -63,8 +64,6 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
   data$mean.bF <- 0.10
 
   data$mean.bS <- -0.10
-
-
 
   if(seasonOrder=="FS"){
     data$mean.TranS <- 475
