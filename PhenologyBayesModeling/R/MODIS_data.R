@@ -22,16 +22,16 @@ MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay
   #   directory=getwd()
   #   mt_subset(product = "MOD13Q1",lat=lat,lon=long,band=paste("250m_16_days_",metric,sep=""),start=startDate,end=endDate,site_name = paste(siteName,"_",metric,sep=""),out_dir = directory,internal=FALSE)
   # }
-  #DQFfileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
+  # DQFfileName <- paste(dataDirectory,siteName,"_","rel","_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
   # if(!file.exists(DQFfileName)){
   #   print("Downloading MODIS DQF File")
   #   directory=getwd()
   #   mt_subset(product = "MOD13Q1",lat=lat,lon=long,band="250m_16_days_pixel_reliability",start=startDate,end=endDate,site_name = paste(siteName,"_","rel",sep=""),out_dir = directory,internal=FALSE)
   # }
   # print("MODIS File Downloaded")
-  # dat <- read.csv(fileName,header=TRUE,skip=15)
-  # print(dat)
-  #DQF <- read.csv(DQFfileName,header=TRUE)
+  dat <- read.csv(fileName,header=TRUE,skip=15)
+  print(dat)
+  DQF <- read.csv(DQFfileName,header=TRUE)
   dat <- read.csv(fileName,header=TRUE)
   x <- numeric()
   y <- numeric()

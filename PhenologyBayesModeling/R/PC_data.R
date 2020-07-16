@@ -4,10 +4,16 @@
 ##' @param siteName The site name
 ##' @param startDate The start date
 ##' @param endDate The end date
+##' @param metric The desired metric ("GCC" or "RCC")
 ##' @export
-PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS") {
+PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS",metric="GCC") {
   ##Data
-  fileName <- paste(siteName,"_",startDate,"_",endDate,"PC.RData",sep="")
+  if(metric=="GCC"){
+    fileName <- paste(siteName,"_",startDate,"_",endDate,"PC.RData",sep="")
+  }else if(metric=="RCC"){
+    fileName <- paste(siteName,"_",startDate,"_",endDate,"PC_RCC.RData",sep="")
+  }
+
   years <- seq(lubridate::year(startDate),lubridate::year(endDate))
   if(!file.exists(fileName)){
     ##Download all data for those years
@@ -18,9 +24,16 @@ PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS") {
     ##Subset data for specific date range
     PC.data <- PC.data[PC.startDayIndex:PC.endDayIndex,]
     PC.time <-  as.Date(PC.data$date)
-    y <- PC.data$gcc_mean
+    if(metric=="GCC"){
+      y <- PC.data$gcc_mean
+      obs.prec <- 1/(PC.data$gcc_std**2)
+    }else if(metric=="RCC"){
+      y <- PC.data$rcc_mean
+      obs.prec <- 1/(PC.data$rcc_std**2)
+    }
+
     #print(PC.data$gcc_std)
-    obs.prec <- 1/(PC.data$gcc_std**2)
+
     obs.prec[is.infinite(obs.prec)] <- 1/(0.001**2)
     obs.prec[is.na(obs.prec)] <- 1/(0.001**2)
     x <- lubridate::yday(PC.time)

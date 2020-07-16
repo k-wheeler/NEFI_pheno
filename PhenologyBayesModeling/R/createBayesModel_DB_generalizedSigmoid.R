@@ -12,7 +12,7 @@
 ##' @import rjags
 ##' @import runjags
 ##' @export
-createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,startDay,endDay,lat,long,TZ=5,PFT="DB",maxValue=FALSE,seasonOrder="FS") {
+createBayesModel.DB.generalizedSigmoid <- function(dataSource,siteName="",URL="",niter=100000,startDay,endDay,lat,long,TZ=5,PFT="DB",maxValue=FALSE,seasonOrder="FS") {
   nchain = 5
   inits <- list()
   if(dataSource=="PC.GCC"){
@@ -79,9 +79,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     prec ~ dgamma(s1,s2)
 
     for(i in 1:n){
-      muF[i] <- c/(1+exp(bF*(x[i]-TranF)))+d ##process model for fall
-      muS[i] <- c/(1+exp(bS*(x[i]-TranS)))+d ##process model for Spring
-      mu[i] <- ifelse(x[i]>k,muS[i],muF[i])   #change point process model
+    mu[i] <- (a1*x[i]+b1) + (a2 * (x[i] * x[i]) + b2 * x[i] + c) * ((1/((1+q1*exp(-h1*(x[i]-n1)))**v1))-(1/((1+q2*exp(-h2*(x[i]-n2)))**v2)))
 
     y[i] ~ dnorm(mu[i],prec)
     yobs[i] ~ dnorm(y[i],obs.prec[i])

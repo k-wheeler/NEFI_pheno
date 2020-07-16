@@ -19,7 +19,7 @@ createBayesModel.Diurnal <- function(siteName,data){
   data$s2 <- 0.13
 
   data$mean.a <- 0.0009
-  data$p.a <- 0.0003
+  data$p.a <- 1/(0.0003**2)
   data$alpha.p.cloud <- 1
   data$beta.p.cloud <- 17 #Set to have >90% less than 0.13 (based on a cloud mask accuracy of 0.87%)
 
