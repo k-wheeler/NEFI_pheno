@@ -9,13 +9,14 @@
 ##' @param dataDirectory The data directory
 ##' @import MODISTools
 ##' @export
-MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay=FALSE,endDay=FALSE,lastYear=2018,dataDirectory="") {
-  if(typeof(startDay)!=typeof(FALSE)){
-    startDate <- as.Date(startDay,origin="2016-12-31")
-    endDate <- as.Date(endDay,origin="2016-12-31")
-  }
+MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay=FALSE,endDay=FALSE,seasonOrder="FS",lastYear=2018,dataDirectory="") {
+  # if(typeof(startDay)!=typeof(FALSE)){
+  #   startDate <- as.Date(startDay,origin="2016-12-31")
+  #   endDate <- as.Date(endDay,origin="2016-12-31")
+  # }
 
   fileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_",startDate,"_",endDate,".csv",sep="")
+  #fileName <- paste(dataDirectory,siteName,"_",metric,"_MOD13Q1_250m_16_days_NDVI",startDate,endDate,".csv",sep="")
   print(fileName)
   # if(!file.exists(fileName)){
   #   print("Downloading MODIS File")
@@ -69,8 +70,10 @@ MODIS_data <- function(siteName,lat,long,startDate="",endDate="",metric,startDay
     # tmp <- as.Date(preTmpDate)
     #print(tmp)
     x.val <- as.numeric(format(tmp, "%j"))
-    if(substr(tmp,1,4)==lastYear){
-      x.val <- x.val + 365
+    if(seasonOrder=="FS"){
+      if(substr(tmp,1,4)==lastYear){
+       x.val <- x.val + 365
+      }
     }
     x <- c(x,x.val)
   }

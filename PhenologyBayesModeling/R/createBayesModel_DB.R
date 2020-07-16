@@ -5,26 +5,26 @@
 ##' @param URL PhenoCam network URL
 ##' @param lat latitude of site in degrees
 ##' @param long longitude of site in degrees
-##' @param startDay the day of year since 2017-01-01 to start the model
-##' @param endDay the day of year since 2017-01-01 to end the model
+##' @param startDate The date to start the model
+##' @param endDate The date to end the model
 ##' @param niter the maximum number of iterations you want to give the model to converge within
 ##' @param seasonOrder
 ##' @import rjags
 ##' @import runjags
 ##' @export
-createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,startDay,endDay,lat,long,TZ=5,PFT="DB",maxValue=FALSE,seasonOrder="FS") {
+createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,startDate,endDate,lat,long,TZ=5,PFT="DB",maxValue=FALSE,seasonOrder="FS") {
   nchain = 5
   inits <- list()
+  startDay <- as.numeric(format(startDate,"%j"))
+  endDay <- as.numeric(format(endDate,"%j"))
   if(dataSource=="PC.GCC"){
-    data <- PC_data(siteName=siteName,URL=URL,startDate=as.Date("2017-07-01"),endDate=as.Date("2018-06-30"))
-
+    data <- PC_data(siteName=siteName,URL=URL,startDate=startDate,endDate=endDate,seasonOrder = seasonOrder)
     data$mean.c <- 0.3
     data$mean.d <- 0.35
-    data$p.c <- 1/(0.15**2)
-    data$p.d <- 1/(0.15**2)
-    #print(range(data$x))
+    data$p.c <- 1/(0.2**2)
+    data$p.d <- 1/(0.2**2)
   }else if(dataSource == "MODIS.NDVI"){
-    data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="NDVI")
+    data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="NDVI",startDate=startDate,endDate=endDate)
     print(length(data$x))
     data$obs.prec <- rep((1/0.01),length(data$x)) ##From Miura et al. (2000)
     print(data$obs.prec)
@@ -33,7 +33,8 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     data$mean.d <- 0.6
     data$p.d <- 1/(0.2**2)
   }else if(dataSource == "MODIS.EVI"){
-    data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="EVI")
+    data = MODIS_data(siteName=siteName,lat=lat,long=long,startDay = startDay,endDay = endDay,metric="EVI",
+                      startDate=startDate,endDate=endDate)
 
     data$mean.c <- 0.4
     data$obs.prec <- rep((1/0.02),length(data$x)) ##From Miura et al. (2000)
@@ -60,12 +61,15 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
   data$p.b <- 1/(0.05**2)
   data$mean.TranF <- 300
   data$mean.bF <- 0.10
-  data$mean.TranS <- 475
+
   data$mean.bS <- -0.10
-  data$mean.k <- 365
-  data$p.k <- 1/(1**2)
+
+
 
   if(seasonOrder=="FS"){
+    data$mean.TranS <- 475
+    data$mean.k <- 365
+    data$p.k <- 1/(1**2)
     DB_model <- "
     model{
     ##priors
@@ -90,6 +94,9 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     "
   }
   else if (seasonOrder=="SF"){
+    print("Inside Changed SF 2")
+    data$mean.TranS <- 475-365
+    data$k <- 182
     DB_model <- "
     model{
     ##priors
@@ -99,7 +106,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     bF ~ dnorm(mean.bF,p.b)
     d ~ dnorm(mean.d,p.d)
     c ~ dnorm(mean.c,p.c)
-    k ~ dnorm(mean.k,p.k)
+    #k ~ dnorm(mean.k,p.k)
     prec ~ dgamma(s1,s2)
 
     for(i in 1:n){

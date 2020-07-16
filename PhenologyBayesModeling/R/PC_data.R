@@ -9,11 +9,11 @@
 PC_data <- function(siteName,URL,startDate,endDate,seasonOrder="AS",metric="GCC") {
   ##Data
   if(metric=="GCC"){
-    fileName <- paste(siteName,"_",startDate,"_",endDate,"PC.RData",sep="")
+    fileName <- paste(siteName,"_",startDate,"_",endDate,"_PC.RData",sep="")
   }else if(metric=="RCC"){
-    fileName <- paste(siteName,"_",startDate,"_",endDate,"PC_RCC.RData",sep="")
+    fileName <- paste(siteName,"_",startDate,"_",endDate,"_PC_RCC.RData",sep="")
   }
-
+  print(fileName)
   years <- seq(lubridate::year(startDate),lubridate::year(endDate))
   if(!file.exists(fileName)){
     ##Download all data for those years
