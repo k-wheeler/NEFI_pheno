@@ -3,7 +3,7 @@ library(splines)
 library(rjags)
 library(PhenoForecast)
 library(doParallel)
-siteData <- read.csv("GOES_Paper_Sites_FINAL.csv",header=TRUE)
+siteData <- read.csv("PhenologyForecastData/GOES_Paper_Sites_FINAL.csv",header=TRUE)
 #s <- 1
 #detect cores.
 n.cores <- 15
@@ -54,7 +54,7 @@ output <-
                             data = datFinal,
                             n.chains = nchain)
     outBurn <- runForecastIter(j.model=j.model,variableNames = c("muAvg","prec","taub","x"),
-                               baseNum = 100000,iterSize = 50000,effSize = 50)
+                               baseNum = 100000,iterSize = 50000,effSize = 5000)
     ##Thin
     out.mat <- as.matrix(outBurn)
     thinAmount <- round(nrow(out.mat)/5000,digits=0)
