@@ -21,23 +21,26 @@ diurnalExp <- function(a,c,k,xseq){
 siteName <- "harvard"
 #diurnalFiles <- intersect(dir(path="dailyNDVI_GOES",pattern="varBurn2.RData"),dir(path="dailyNDVI_GOES",pattern=siteName))
 #diurnalFiles <- dir(path="dailyNDVI_GOES",pattern=siteName)
-diurnalFiles <- intersect(dir(path="PhenologyForecastData/",pattern=siteName),dir(path="PhenologyForecastData/",pattern="GOES_NDVI_Diurnal"))
+yr <- 2019
+diurnalFiles <- intersect(dir(path="PhenologyForecastData/GOES_NDVI_DiurnalData",pattern=siteName),dir(path="PhenologyForecastData/GOES_NDVI_DiurnalData",pattern=yr))
+
 xseq <- seq(0,25,0.1)
 #i=1
 outputFileName <- paste(siteName,"_DiurnalFits_withData.pdf",sep="")
-pdf(file=outputFileName,width=45,height=40)
+pdf(file=outputFileName,width=25,height=25)
 par(mfrow=c(5,5))
 for(i in 1:length(diurnalFiles)){
   #dayData <- read.csv(paste("dailyNDVI_GOES/",diurnalFiles[i],sep=""),header=FALSE)
-  dayData <- read.csv(paste("PhenologyForecastData/",diurnalFiles[i],sep=""),header=FALSE)
+  dayData <- read.csv(paste("PhenologyForecastData/GOES_NDVI_DiurnalData/",diurnalFiles[i],sep=""),header=FALSE)
   yearDay <- substr((strsplit(diurnalFiles[i],"_")[[1]][4]),1,7)
   print(diurnalFiles[i])
 
   plot(as.numeric(dayData[3,]),as.numeric(dayData[2,]),main=diurnalFiles[i],ylim=c(0,1),xlim=c(0,25))
   #fitFileName <- paste(siteName,"_",day,"_varBurn2.RData",sep="")
-  fitFileName <- paste("PhenologyForecastData/GOES_DiurnalFits/",siteName,"_",yearDay ,"_varBurn.RData",sep="")
+  fitFileName <- intersect(dir(path="PhenologyForecastData/GOES_DiurnalFits",pattern=siteName),dir(path="PhenologyForecastData/GOES_DiurnalFits",pattern=yearDay))
+  #fitFileName <- paste("PhenologyForecastData/GOES_DiurnalFits/",siteName,"_",yearDay ,"_varBurn.RData",sep="")
   if(file.exists(fitFileName)){
-    load(fitFileName)
+    load(paste("PhenologyForecastData/GOES_DiurnalFits/",fitFileName,sep=""))
     out.mat <- as.matrix(var.burn)
     rndNums <- sample.int(nrow(out.mat),10000,replace=T)
     a <- out.mat[rndNums,1]
@@ -52,7 +55,7 @@ for(i in 1:length(diurnalFiles)){
     ciEnvelope(xseq,ci[1,],ci[3,],col="lightBlue")
     lines(xseq,ci[2,],col="black")
     points(as.numeric(dayData[3,]),as.numeric(dayData[2,]))
-    abline(v=12,col="red")
+    #abline(v=12,col="red")
   }
 }
 dev.off()
