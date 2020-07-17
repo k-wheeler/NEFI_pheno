@@ -29,7 +29,7 @@ xseq <- seq(0,25,0.1)
 outputFileName <- paste(siteName,"_DiurnalFits_withData.pdf",sep="")
 pdf(file=outputFileName,width=25,height=25)
 par(mfrow=c(5,5))
-for(i in 1:length(diurnalFiles):5){
+for(i in seq(1,length(diurnalFiles),5)){
   #dayData <- read.csv(paste("dailyNDVI_GOES/",diurnalFiles[i],sep=""),header=FALSE)
   dayData <- read.csv(paste("PhenologyForecastData/GOES_NDVI_DiurnalData/",diurnalFiles[i],sep=""),header=FALSE)
   yearDay <- substr((strsplit(diurnalFiles[i],"_")[[1]][4]),1,7)
