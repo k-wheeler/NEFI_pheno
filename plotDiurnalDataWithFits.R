@@ -41,6 +41,7 @@ for(i in 1:length(diurnalFiles):5){
   #fitFileName <- paste("PhenologyForecastData/GOES_DiurnalFits/",siteName,"_",yearDay ,"_varBurn.RData",sep="")
   #if(file.exists(fitFileName)){
   print(fitFileName)
+  if(nchar(fitFileName)>0){
     load(paste("PhenologyForecastData/GOES_DiurnalFits/",fitFileName,sep=""))
     out.mat <- as.matrix(var.burn)
     rndNums <- sample.int(nrow(out.mat),10000,replace=T)
@@ -56,6 +57,7 @@ for(i in 1:length(diurnalFiles):5){
     ciEnvelope(xseq,ci[1,],ci[3,],col="lightBlue")
     lines(xseq,ci[2,],col="black")
     points(as.numeric(dayData[3,]),as.numeric(dayData[2,]))
+  }
     #abline(v=12,col="red")
   #}
 }
