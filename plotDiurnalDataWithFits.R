@@ -22,14 +22,14 @@ siteName <- "harvard"
 #diurnalFiles <- intersect(dir(path="dailyNDVI_GOES",pattern="varBurn2.RData"),dir(path="dailyNDVI_GOES",pattern=siteName))
 #diurnalFiles <- dir(path="dailyNDVI_GOES",pattern=siteName)
 yr <- 2019
-diurnalFiles <- intersect(dir(path="PhenologyForecastData/GOES_NDVI_DiurnalData",pattern=siteName),dir(path="PhenologyForecastData/GOES_NDVI_DiurnalData",pattern=yr))
+diurnalFiles <- intersect(dir(path="PhenologyForecastData/GOES_NDVI_DiurnalData",pattern=siteName),dir(path="PhenologyForecastData/GOES_NDVI_DiurnalData",pattern=as.character(yr)))
 
 xseq <- seq(0,25,0.1)
 #i=1
 outputFileName <- paste(siteName,"_DiurnalFits_withData.pdf",sep="")
 pdf(file=outputFileName,width=25,height=25)
 par(mfrow=c(5,5))
-for(i in 1:length(diurnalFiles)){
+for(i in 1:length(diurnalFiles):5){
   #dayData <- read.csv(paste("dailyNDVI_GOES/",diurnalFiles[i],sep=""),header=FALSE)
   dayData <- read.csv(paste("PhenologyForecastData/GOES_NDVI_DiurnalData/",diurnalFiles[i],sep=""),header=FALSE)
   yearDay <- substr((strsplit(diurnalFiles[i],"_")[[1]][4]),1,7)
@@ -39,7 +39,8 @@ for(i in 1:length(diurnalFiles)){
   #fitFileName <- paste(siteName,"_",day,"_varBurn2.RData",sep="")
   fitFileName <- intersect(dir(path="PhenologyForecastData/GOES_DiurnalFits",pattern=siteName),dir(path="PhenologyForecastData/GOES_DiurnalFits",pattern=yearDay))
   #fitFileName <- paste("PhenologyForecastData/GOES_DiurnalFits/",siteName,"_",yearDay ,"_varBurn.RData",sep="")
-  if(file.exists(fitFileName)){
+  #if(file.exists(fitFileName)){
+  print(fitFileName)
     load(paste("PhenologyForecastData/GOES_DiurnalFits/",fitFileName,sep=""))
     out.mat <- as.matrix(var.burn)
     rndNums <- sample.int(nrow(out.mat),10000,replace=T)
@@ -56,6 +57,6 @@ for(i in 1:length(diurnalFiles)){
     lines(xseq,ci[2,],col="black")
     points(as.numeric(dayData[3,]),as.numeric(dayData[2,]))
     #abline(v=12,col="red")
-  }
+  #}
 }
 dev.off()
