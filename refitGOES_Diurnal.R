@@ -113,7 +113,7 @@ n.cores <- 15
 #register the cores.
 registerDoParallel(cores=n.cores)
 
-siteData <- read.csv("GOES_Paper_Sites_FINAL.csv",header=TRUE)
+siteData <- read.csv("PhenologyForecastData/GOES_Paper_Sites_FINAL.csv",header=TRUE)
 savePath <- paste(getwd(),"/PhenologyForecastData/GOES_DiurnalFits/",sep="")
 
 s <- 15
