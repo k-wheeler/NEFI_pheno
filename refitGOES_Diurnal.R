@@ -121,6 +121,14 @@ siteName <- as.character(siteData$siteName[s])
 lat <- as.numeric(siteData$Lat[s])
 long <- as.numeric(siteData$Long[s])
 TZ <- as.character(siteData$TZ[s])
+if(TZ==5){
+  TZ_name <- "America/New_York"
+}else if(TZ==6){
+  TZ_name <- "America/Chicago"
+}else if(TZ_name==""){
+  print("TZ_name unknown. Please enter it")
+  return(FALSE)
+}
 PFT <- as.character(siteData$PFT[s])
 print(siteName)    
 
@@ -149,18 +157,10 @@ for(day in days){
     #year <- substr((strsplit(files[f],"_")[[1]][6]),1,4)
     #day <- substr((strsplit(files[f],"_")[[1]][6]),5,7)
     date.val <- as.Date(as.numeric(day),origin=as.Date(paste(as.character(as.numeric(year)-1),"-12-31",sep="")))
-    siteName <- as.character(siteData$siteName[iseqs[f]])
-    lat <- as.numeric(siteData$Lat[iseqs[f]])
-    long <- as.numeric(siteData$Long[iseqs[f]])
-    TZ <- as.numeric(siteData$TZ[iseqs[f]])
-    if(TZ==5){
-      TZ_name <- "America/New_York"
-    }else if(TZ==6){
-      TZ_name <- "America/Chicago"
-    }else if(TZ_name==""){
-      print("TZ_name unknown. Please enter it")
-      return(FALSE)
-    }
+    #siteName <- as.character(siteData$siteName[iseqs[f]])
+    #lat <- as.numeric(siteData$Lat[iseqs[f]])
+    #long <- as.numeric(siteData$Long[iseqs[f]])
+    #TZ <- as.numeric(siteData$TZ[iseqs[f]])
     
     suntimes <- getSunlightTimes(date=date.val,lat=lat,lon=long,keep=c("nauticalDawn","nauticalDusk"),tz = TZ_name)
     dawnTime <- lubridate::hour(suntimes$nauticalDawn)+(lubridate::minute(suntimes$nauticalDawn)/60)
