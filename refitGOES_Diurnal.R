@@ -28,7 +28,7 @@ createDiurnalModel2 <- function(siteName,data){
       middleSection <- c(middleSection,data$y[i])
     }
   }
-  if(length(middleSection)<1)){
+  if(length(middleSection)<1){
     middleSection <- 0.50
   }
   print(mean(middleSection,na.rm=TRUE))
