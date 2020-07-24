@@ -146,8 +146,8 @@ for(day in days){
   #dayData <- read.csv(files[f],header=FALSE)
   dayData <- read.csv(fileName,header=FALSE)
   if(ncol(dayData)>1){ 
-    year <- substr((strsplit(files[f],"_")[[1]][6]),1,4)
-    day <- substr((strsplit(files[f],"_")[[1]][6]),5,7)
+    #year <- substr((strsplit(files[f],"_")[[1]][6]),1,4)
+    #day <- substr((strsplit(files[f],"_")[[1]][6]),5,7)
     date.val <- as.Date(as.numeric(day),origin=as.Date(paste(as.character(as.numeric(year)-1),"-12-31",sep="")))
     siteName <- as.character(siteData$siteName[iseqs[f]])
     lat <- as.numeric(siteData$Lat[iseqs[f]])
