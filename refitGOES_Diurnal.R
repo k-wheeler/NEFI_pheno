@@ -139,7 +139,7 @@ for(i in 1:length(days)){
 #output <- foreach(day = days) %dopar% {
 for(day in days){
   #fileName <- paste("dailyNDVI_GOES/",siteName,"_GOES_diurnal_",year,i,".csv",sep="")
-  fileName <- paste("PhenologyForecastData/GOES_NDVI_Diurnal",siteName,"_",year,day,".csv",sep="")
+  fileName <- paste("PhenologyForecastData/GOES_NDVI_Diurnal/",siteName,"_",year,day,".csv",sep="")
   print(fileName)
   
   #for (f in 1:length(files)){
