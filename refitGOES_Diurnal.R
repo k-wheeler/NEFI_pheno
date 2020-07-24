@@ -187,7 +187,7 @@ for(day in days){
     
     data <- list(x=as.numeric(dayData[3,]),y=as.numeric(dayData[2,]))
     modelFitFileName <- paste(savePath,siteName,"_",year,day,"_varBurnFilter.RData",sep="")
-    if(!file.exists(modelFitFileName) && filtered){
+    if(!file.exists(modelFitFileName)){
       j.model <- createDiurnalModel2(siteName=siteName,data=data)
       var.burn <- runMCMC_Model(j.model=j.model,variableNames=c("a","c","k","prec"),
                                 baseNum=40000,iterSize =20000,maxGBR = 5)
