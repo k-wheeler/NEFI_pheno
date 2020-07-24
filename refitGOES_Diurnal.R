@@ -28,7 +28,8 @@ createDiurnalModel2 <- function(siteName,data){
       middleSection <- c(middleSection,data$y[i])
     }
   }
-  if(length(middleSection)<1){
+  #print(length(middleSection))
+  if(length(na.omit(middleSection))<1){
     middleSection <- 0.50
   }
   print(mean(middleSection,na.rm=TRUE))
@@ -186,7 +187,7 @@ for(day in days){
     #dayData[2,as.numeric(dayData[2,])>1] <- NA
     #dayData[2,(round(dayData[2,],digits=4)==0.6040)] <- NA
     
-    plot(as.numeric(dayData[3,]),as.numeric(dayData[2,]),ylim=c(0,1),xlim=c(0,25),pch=20,ylab="",xlab="")
+    #plot(as.numeric(dayData[3,]),as.numeric(dayData[2,]),ylim=c(0,1),xlim=c(0,25),pch=20,ylab="",xlab="")
     
     data <- list(x=as.numeric(dayData[3,]),y=as.numeric(dayData[2,]))
     modelFitFileName <- paste(savePath,siteName,"_",year,day,"_varBurnFilter.RData",sep="")
