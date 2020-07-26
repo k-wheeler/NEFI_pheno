@@ -18,22 +18,24 @@ registerDoParallel(cores=n.cores)
 #siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
 siteData <- read.csv("PhenologyForecastData/GOES_Paper_Sites_FINAL.csv",header=TRUE)
 savePath <- paste(getwd(),"/PhenologyForecastData/GOES_DiurnalFits/",sep="")
-startDate=as.Date("2018-01-01")
-endDate=as.Date("2018-12-31")
-yr <- 2018
+startDate=as.Date("2019-01-01")
+endDate=as.Date("2019-12-31")
+yr <- 2019
+iseq <- c(seq(1,10),seq(11,13),15)
 output <- 
-foreach(s = 1:nrow(siteData)) %dopar% {
-#for(s in 1:nrow(siteData)){
-  siteName <- as.character(siteData[s,1])
-  print(siteName)
-  outDataFile <- paste(siteName,"_",yr,"_diurnalFitDataModel.RData",sep="")
-  if(!file.exists(outDataFile)){
+  foreach(s = iseq) %dopar% {
+    #for(s in iseq){
+    siteName <- as.character(siteData[s,1])
+    print(siteName)
+    outDataFile <- paste(siteName,"_",yr,"_diurnalFitDataModel.RData",sep="")
+    #if(!file.exists(outDataFile)){
     diurnalFits <- intersect(dir(path="PhenologyForecastData/GOES_DiurnalFits",pattern="varBurn"),
                              dir(path="PhenologyForecastData/GOES_DiurnalFits",
                                  pattern=paste(siteName,"_",yr,sep="")))
     c.vals <- numeric()
     prec.vals <- numeric()
     days <- numeric()
+    cts <- numeric()
     for(i in 1:length(diurnalFits)){
       print(diurnalFits[i])
       load(paste("PhenologyForecastData/GOES_DiurnalFits/",diurnalFits[i],sep=""))
@@ -42,7 +44,7 @@ foreach(s = 1:nrow(siteData)) %dopar% {
         print(colnames(out.mat))
         c <- mean(out.mat$c)
         prec <- 1/var(out.mat$c)
-
+        
         dy <- strsplit(diurnalFits[i],"_")[[1]][2]
         
         dayDataFile <- intersect(dir(path="PhenologyForecastData/GOES_NDVI_DiurnalData",pattern=siteName),
@@ -54,34 +56,25 @@ foreach(s = 1:nrow(siteData)) %dopar% {
         if(ct>1){
           c.vals <- c(c.vals,c)
           prec.vals <- c(prec.vals,prec)
-          #counts <- c(counts,ct)
-          days <- c(days,dy)
+          days <- c(days,substr(dy,5,7))
+          cts <- c(cts,ct)
         }
       }
     }
     data <- list()
-    # for(i in 1:length(days)){
-    #   if(days[i]<182){
-    #     days[i] <- as.numeric(days[i]) + 365
-    #   }
-    # }
     data$x <- as.numeric(days)
     data$y <- as.numeric(c.vals)
     data$obs.prec <- as.numeric(prec.vals)
     data$n <- length(data$x)
-    #data$size <- as.numeric(counts)
-    #print(dim(data$x))
-    #print(dim(data$y))
-    #print(data$x)
     save(data,file=outDataFile)
+    save(cts, file=paste(siteName,"_",yr,"_counts.RData",sep=""))
     print("Done with creating Data")
+    varBurnFileName <- paste(siteName,"_",yr,"_GOES_NDVI_overall_varBurn.RData",sep="")
+    if(!file.exists(varBurnFileName)){
+      load(outDataFile)
+      j.model <- createBayesModel.DB_Overall(data=data,seasonOrder="SF")
+      var.burn <- runMCMC_Model(j.model=j.model,variableNames = c("TranS","bS","TranF","bF","d","c","prec"),baseNum=20000,iterSize=10000)
+      save(var.burn,file=varBurnFileName)
+    }
   }
-  varBurnFileName <- paste(siteName,"_",yr,"_GOES_NDVI_overall_varBurn.RData",sep="")
-  if(!file.exists(varBurnFileName)){
-    load(outDataFile)
-    j.model <- createBayesModel.DB_Overall(data=data,seasonOrder="SF")
-    var.burn <- runMCMC_Model(j.model=j.model,variableNames = c("TranS","bS","TranF","bF","d","c","prec"),baseNum=20000,iterSize=10000)
-    save(var.burn,file=varBurnFileName)
-  }
-}
 
