@@ -94,7 +94,9 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
   }
   else if (seasonOrder=="SF"){
     data$mean.TranS <- 475-365
-    data$k <- 182
+    !data$k <- 182
+    data$mean.k <- 182
+    data$p.k <- 1/(40**2)
     DB_model <- "
     model{
     ##priors
@@ -104,7 +106,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     bF ~ dnorm(mean.bF,p.b)
     d ~ dnorm(mean.d,p.d)
     c ~ dnorm(mean.c,p.c)
-    #k ~ dnorm(mean.k,p.k)
+    k ~ dnorm(mean.k,p.k)
     prec ~ dgamma(s1,s2)
 
     for(i in 1:n){

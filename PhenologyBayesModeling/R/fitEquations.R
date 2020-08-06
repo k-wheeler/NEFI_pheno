@@ -61,10 +61,9 @@ deciduousYvals <- function(TranF,bF,TranS,bS,c,d,k,xseq,seasonOrder="FS"){
     gu.xseq <- xseq[(bk+1):length(xseq)]
     greenup <- pheno.logistic(Tran=TranS,b=bS,c=c,d=d,gu.xseq)
     return(c(greendown,greenup))
-  }
-  else if(seasonOrder=="SF"){
-    greenup <- pheno.logistic(Tran=TranS,b=bS,c=c,d=d,xseq[1:bk])
-    gd.xseq <- xseq[(bk+1):length(xseq)]
+  }else if(seasonOrder=="SF"){
+    greenup <- pheno.logistic(Tran=TranS,b=bS,c=c,d=d,xseq[1:(bk-1)])
+    gd.xseq <- xseq[(bk):length(xseq)]
     greendown <- pheno.logistic(Tran=TranF,b=bF,c=c,d=d,gd.xseq)
     return(c(greenup,greendown))
   }
