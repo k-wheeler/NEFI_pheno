@@ -25,21 +25,18 @@ createCI <- function(PFT,var.mat,xseq,doRescale=TRUE,seasonOrder="FS"){
       }else{
         k <- rep(365,length(rndNums))
       }
-    }
-    else{
+    }else{
       k <- k[rndNums]
     }
     for(g in 1:10000){
       if(doRescale){
-        Ey <- rescale(c=c[g],d=d[g],yseq=deciduousYvals(TranS=TranS[g],bS=bS[g],TranF=TranF[g],bF=bF[g],c=c[g],d=d[g],k=k[g],xseq=xseq,seasonOrder = seasonOrder))
-      }
-      else{
+        Ey <- deciduousYvalsRescale(TranS=TranS[g],bS=bS[g],TranF=TranF[g],bF=bF[g],c=c[g],d=d[g],k=k[g],xseq=xseq,seasonOrder = seasonOrder)
+      }else{
       Ey <- deciduousYvals(TranS=TranS[g],bS=bS[g],TranF=TranF[g],bF=bF[g],c=c[g],d=d[g],k=k[g],xseq=xseq,seasonOrder=seasonOrder)
       }
       ycred[g,] <- Ey
     }
-  }
-  else if(PFT=="SH"){
+  }else if(PFT=="SH"){
     Tran<-var.mat[,1]
     rndNums <- sample(1:length(Tran),10000,replace=T)
     Tran <- Tran[rndNums]
@@ -52,8 +49,7 @@ createCI <- function(PFT,var.mat,xseq,doRescale=TRUE,seasonOrder="FS"){
     for(g in 1:10000){
       if(doRescale){
       Ey <- rescale(c=c[g],d=d[g],yseq=shrublandYvals(Tran=Tran[g],b=b[g],c=c[g],d=d[g],k=k[g],r=r[g],xseq=xseq))
-      }
-      else{
+      }else{
         Ey <- shrublandYvals(Tran=Tran[g],b=b[g],c=c[g],d=d[g],k=k[g],r=r[g],xseq=xseq)
       }
       ycred[g,] <- Ey

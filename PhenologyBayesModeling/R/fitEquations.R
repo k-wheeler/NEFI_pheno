@@ -81,3 +81,17 @@ deciduousYvals <- function(TranF,bF,TranS,bS,c,d,k,xseq,seasonOrder="FS"){
 gaussianCurve <- function(a,b,c,d,xseq){
   return(a*exp((-1*(xseq-b)**2)/(2*c**2))+d)
 }
+
+deciduousYvalsRescale <- function(TranF,bF,TranS,bS,c,d,k,xseq,seasonOrder="FS"){
+  bk <- which(xseq==round(k,digits=0))
+  greenup <- pheno.logistic(Tran=TranS,b=bS,c=c,d=d,xseq[1:(bk)])
+  d2 <- min(greenup)
+  c2 <- max(greenup)-d2
+  greenup2 <- rescale(yseq=greenup,c = c2,d=d2)
+  gd.xseq <- xseq[(bk+1):length(xseq)]
+  greendown <- pheno.logistic(Tran=TranF,b=bF,c=c,d=d,gd.xseq)
+  d2 <- min(greendown)
+  c2 <- max(greendown)-d2
+  greendown2 <- rescale(yseq=greendown,c = c2,d=d2)
+  return(c(greenup2,greendown2))
+}
