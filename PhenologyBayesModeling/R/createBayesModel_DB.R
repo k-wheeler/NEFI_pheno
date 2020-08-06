@@ -96,7 +96,7 @@ createBayesModel.DB <- function(dataSource,siteName="",URL="",niter=100000,start
     data$mean.TranS <- 475-365
     #data$k <- 182
     data$mean.k <- 182
-    data$p.k <- 1/(40**2)
+    data$p.k <- 1/(5**2)
     DB_model <- "
     model{
     ##priors
