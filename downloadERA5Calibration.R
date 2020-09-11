@@ -4,7 +4,7 @@ n.cores <- 16
 
 #register the cores.
 registerDoParallel(cores=n.cores)
-
+setwd("/projectnb/dietzelab/kiwheel/ERA5")
 siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
 
 cdsapi <- reticulate::import("cdsapi")
