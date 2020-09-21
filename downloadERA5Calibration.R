@@ -11,7 +11,7 @@ cdsapi <- reticulate::import("cdsapi")
 cclient <- cdsapi$Client()
 
 # all_products <- c("reanalysis", "ensemble_members",
-#                   "ensemble mean", "ensemble_spread")
+#                   "ensemble_mean", "ensemble_spread")
 
 end_date=as.Date("2019-12-31")
 
@@ -40,14 +40,14 @@ foreach(i=2:nrow(siteData)) %dopar% {
   
   area <- rep(round(c(lat, long) * 4) / 4, 2)
   ##Mean
-  fname <- file.path(outfolder, paste(siteName,"_",start_date,"_",end_date,"_era5AirTemperatureMean.nc", sep =""))
+  fname <- file.path(outfolder, paste(siteName,"_",start_date,"_",end_date,"_era5AirTemperatureMembers.nc", sep =""))
 
   do_next <- tryCatch({
     cclient$retrieve(
       "reanalysis-era5-single-levels",
       list(
         variable = var,
-        product_type = 'ensemble_mean',
+        product_type = 'ensemble_members',
         date = paste(start_date, end_date, sep = "/"),
         time = "00/to/23/by/1",
         area = area,
@@ -61,29 +61,29 @@ foreach(i=2:nrow(siteData)) %dopar% {
     print("Failed to download variable Mean")
     TRUE
   })
-  
-  fname <- file.path(outfolder, paste(siteName,"_",start_date,"_",end_date,"_era5AirTemperatureSpread.nc", sep =""))
-
-  ##Spread
-  do_next <- tryCatch({
-    cclient$retrieve(
-      "reanalysis-era5-single-levels",
-      list(
-        variable = var,
-        product_type = 'ensemble_spread',
-        date = paste(start_date, end_date, sep = "/"),
-        time = "00/to/23/by/1",
-        area = area,
-        grid = c(0.25, 0.25),
-        format = "netcdf"
-      ),
-      fname
-    )
-    FALSE
-  }, error = function(e) {
-    print("Failed to download variable Mean")
-    TRUE
-  })
+  # 
+  # fname <- file.path(outfolder, paste(siteName,"_",start_date,"_",end_date,"_era5AirTemperatureSpread.nc", sep =""))
+  # 
+  # ##Spread
+  # do_next <- tryCatch({
+  #   cclient$retrieve(
+  #     "reanalysis-era5-single-levels",
+  #     list(
+  #       variable = var,
+  #       product_type = 'ensemble_spread',
+  #       date = paste(start_date, end_date, sep = "/"),
+  #       time = "00/to/23/by/1",
+  #       area = area,
+  #       grid = c(0.25, 0.25),
+  #       format = "netcdf"
+  #     ),
+  #     fname
+  #   )
+  #   FALSE
+  # }, error = function(e) {
+  #   print("Failed to download variable Mean")
+  #   TRUE
+  # })
 }
 
 
@@ -98,3 +98,6 @@ foreach(i=2:nrow(siteData)) %dopar% {
 # times <- as.POSIXct(timeHours*3600, origin = "1900-01-01",tz = "GMT")
 # attributes(times)$tzone <- "America/New_York"
 # plot(times,Tairs)
+
+
+
