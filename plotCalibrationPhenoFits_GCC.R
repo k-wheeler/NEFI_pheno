@@ -24,7 +24,7 @@ foreach(i=1:nrow(siteData)) %dopar% {
   lat <- as.numeric(siteData[i,2])
   long <- as.numeric(siteData[i,3])
   startDate <- (as.Date(siteData[i,7]))
-  startDate <- as.Date("2017-01-01")
+  #startDate <- as.Date("2017-01-01")
   URL <- as.character(siteData$URL[i])
   URL2 <- as.character(siteData$URL2[i])
   URL3 <- as.character(siteData$URL3[i])
@@ -57,8 +57,8 @@ foreach(i=1:nrow(siteData)) %dopar% {
   time.old <-  as.Date(phenoData$date)
   p <- rep(NA,length(days))
 
-  for(i in 1:length(p.old)){
-    p[which(days==time.old[i])] <- p.old[i]
+  for(j in 1:length(p.old)){
+    p[which(days==time.old[j])] <- p.old[j]
 
   }
   dat2 <- data.frame(dates=days,years=newYears,months=newMonths,p=p)
@@ -67,9 +67,9 @@ foreach(i=1:nrow(siteData)) %dopar% {
   p <- matrix(nrow=365,ncol=0)
   
   years <- seq(lubridate::year(startDate),2019)
-  for(i in years){
-    subDat <- data2[lubridate::year(as.Date(dat2$dates))==i,]
-    p <- cbind(p,subDat$p)
+  for(j in years){
+    subDat <- data2[lubridate::year(as.Date(dat2$dates))==j,]
+    p <- cbind(p,subDat)
     
   }
   #dataFinal <- list(p=p,mn=mn,me=me)
