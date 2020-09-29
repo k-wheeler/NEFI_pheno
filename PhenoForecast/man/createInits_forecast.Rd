@@ -9,6 +9,9 @@ createInits_forecast(out.burn, variableNames)
 \arguments{
 \item{variableNames}{}
 }
+\value{
+
+}
 \description{
 Create inits based on previous out.burn
 }

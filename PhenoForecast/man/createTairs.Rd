@@ -4,9 +4,20 @@
 \alias{createTairs}
 \title{Creates data object with the desired Sf means and variances}
 \usage{
-createTairs(lat = "", long = "", dates, siteName, dataDirectory,
-  endDate, GEFS_Files, GEFS_Directory, forecastLength, station,
-  calDatesT = TRUE)
+createTairs(
+  lat = "",
+  long = "",
+  dates,
+  siteName,
+  dataDirectory,
+  endDate,
+  GEFS_Files,
+  GEFS_Directory,
+  forecastLength,
+  station,
+  calDatesT = TRUE,
+  TZ_name = ""
+)
 }
 \arguments{
 \item{lat}{The desired latitude if not willowCreek}

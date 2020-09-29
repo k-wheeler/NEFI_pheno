@@ -4,8 +4,16 @@
 \alias{prepareMODIS}
 \title{Function to prepare MODIS data for input into forecast model}
 \usage{
-prepareMODIS(startDate, endDate, metric, timeForecast, dataDirectory,
-  lat = "", long = "", siteName)
+prepareMODIS(
+  startDate,
+  endDate,
+  metric,
+  timeForecast,
+  dataDirectory,
+  lat = "",
+  long = "",
+  siteName
+)
 }
 \arguments{
 \item{startDate}{The start date of data in date format}

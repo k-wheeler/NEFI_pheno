@@ -4,8 +4,7 @@
 \alias{identifyNOAAstation}
 \title{Identifies the best NOAA station}
 \usage{
-identifyNOAAstation(lat, long, elev, siteName, startDate = "",
-  endDate = "")
+identifyNOAAstation(lat, long, elev, siteName, startDate = "", endDate = "")
 }
 \arguments{
 \item{lat}{Site latitude}

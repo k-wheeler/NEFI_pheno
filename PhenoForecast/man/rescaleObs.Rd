@@ -4,7 +4,7 @@
 \alias{rescaleObs}
 \title{Function to rescale phenology measurements to percent canopy cover for that calendar year}
 \usage{
-rescaleObs(times, vals, cVals, dVals, partialStart = FALSE)
+rescaleObs(times, vals, cVals, dVals, partialStart = FALSE, yr = 2019)
 }
 \arguments{
 \item{times}{A vector of days (x-values)}

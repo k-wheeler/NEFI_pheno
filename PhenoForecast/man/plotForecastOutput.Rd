@@ -4,8 +4,18 @@
 \alias{plotForecastOutput}
 \title{Function to plot phenology forecast output}
 \usage{
-plotForecastOutput(siteName, forecastType, URL, forecastLength, out.mat,
-  days, xlim = FALSE, plotTitle = FALSE, endDate, dates = FALSE)
+plotForecastOutput(
+  siteName,
+  forecastType,
+  URL,
+  forecastLength,
+  out.mat,
+  days,
+  xlim = FALSE,
+  plotTitle = FALSE,
+  endDate,
+  dates = FALSE
+)
 }
 \arguments{
 \item{siteName}{The site name to be printed on the graph}

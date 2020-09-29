@@ -6,6 +6,9 @@
 \usage{
 getStationData(station, startDate, endDate)
 }
+\value{
+
+}
 \description{
 Gets data for a specific station with a tryCatch
 }

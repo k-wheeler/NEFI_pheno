@@ -9,7 +9,8 @@
 ##' @import tidyverse
 ##' @export
 identifyNOAAstation <- function(lat,long,elev,siteName,startDate="", endDate=""){
-  options(noaakey = "fjVseeIJrOLasppGbfwDrYZVsdQaQoCd")
+  #options(noaakey = "fjVseeIJrOLasppGbfwDrYZVsdQaQoCd")
+  options(noaakey = "RjtyiLudyeOuOpHOyRnGJnfKVFTFGrTP")
   station_data <- ghcnd_stations()
 
   sites_data <- data.frame(id = siteName,

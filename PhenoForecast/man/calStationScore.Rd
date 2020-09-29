@@ -9,6 +9,9 @@ calStationScore(siteLat, siteLong, siteElev, statLat, statLong, statElev)
 \arguments{
 \item{statElev}{}
 }
+\value{
+
+}
 \description{
 Calculates a met station score based on Hopkin's Bioclimatic Law
 }

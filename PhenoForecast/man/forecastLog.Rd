@@ -17,6 +17,9 @@ forecastLog(IC, r, Q = 0, n, NT)
 
 \item{NT}{number of days for forecast}
 }
+\value{
+
+}
 \description{
 Basic logistic forecast step
 }

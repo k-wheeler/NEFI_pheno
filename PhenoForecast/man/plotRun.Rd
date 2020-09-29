@@ -6,6 +6,9 @@
 \usage{
 plotRun(out.mat, forecastType, endDate)
 }
+\value{
+
+}
 \description{
 plotRun
 }

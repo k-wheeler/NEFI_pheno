@@ -4,8 +4,19 @@
 \alias{createSf}
 \title{Creates data object with the desired Sf means and variances}
 \usage{
-createSf(lat = "", long = "", dates, siteName, dataDirectory, endDate,
-  GEFS_Files, GEFS_Directory, forecastLength, station, calDatesT = TRUE)
+createSf(
+  lat = "",
+  long = "",
+  dates,
+  siteName,
+  dataDirectory,
+  endDate,
+  GEFS_Files,
+  GEFS_Directory,
+  forecastLength,
+  station,
+  calDatesT = TRUE
+)
 }
 \arguments{
 \item{lat}{The desired latitude if not willowCreek}

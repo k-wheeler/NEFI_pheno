@@ -4,11 +4,13 @@
 \alias{identifyPrevOutBurn}
 \title{Identifies the most recent previous forecast file}
 \usage{
-identifyPrevOutBurn(siteName, forecastStr, startDate, endDate,
-  dataDirectory)
+identifyPrevOutBurn(siteName, forecastStr, startDate, endDate, dataDirectory)
 }
 \arguments{
 \item{dataDirectory}{}
+}
+\value{
+
 }
 \description{
 Identifies the most recent previous forecast file

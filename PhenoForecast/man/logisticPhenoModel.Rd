@@ -4,7 +4,7 @@
 \alias{logisticPhenoModel}
 \title{Creates a logistic phenology forecast model based on PhenoCam and MODIS data}
 \usage{
-logisticPhenoModel(data, nchain, season)
+logisticPhenoModel(data, nchain, season, index = "all")
 }
 \arguments{
 \item{data}{The data in the form of a list with data$p, data$mn, data$me, data$n, data$x_ic, and data$tau_ic}
@@ -12,6 +12,8 @@ logisticPhenoModel(data, nchain, season)
 \item{nchain}{The desired number of chains in the MCMC}
 
 \item{season}{Season: spring or fall}
+
+\item{index}{The desired index (all, GCC, NDVI, or EVI)}
 }
 \description{
 Creates a logistic phenology forecast model based on PhenoCam and MODIS data

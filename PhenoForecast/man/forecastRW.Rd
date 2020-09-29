@@ -15,6 +15,9 @@ forecastRW(IC, Q = 0, n, NT)
 
 \item{NT}{number of days for forecast}
 }
+\value{
+
+}
 \description{
 Random walk forecast step
 }

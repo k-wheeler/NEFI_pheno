@@ -11,7 +11,8 @@
 #'
 #' @examples
 getStationData <- function(station,startDate,endDate){
-  options(noaakey = "fjVseeIJrOLasppGbfwDrYZVsdQaQoCd")
+  #options(noaakey = "fjVseeIJrOLasppGbfwDrYZVsdQaQoCd")
+  options(noaakey = "RjtyiLudyeOuOpHOyRnGJnfKVFTFGrTP")
   out <- tryCatch(
     { meteo_tidy_ghcnd(stationid = station,var = c("TAVG","tmin","tmax"),
                        date_min = startDate, date_max = endDate)

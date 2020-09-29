@@ -21,6 +21,9 @@ forecastLogCov2(IC, trans, b1, Sf, Q = 0, n, NT)
 
 \item{NT}{number of days for forecast}
 }
+\value{
+
+}
 \description{
 Logistic with covariates forecast step
 }

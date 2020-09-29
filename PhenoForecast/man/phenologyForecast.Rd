@@ -4,10 +4,27 @@
 \alias{phenologyForecast}
 \title{General phenology forecast function}
 \usage{
-phenologyForecast(forecastType, forecastLength = 14, siteName, URLs, lat,
-  long, dataDirectory, startDate, endDate, cValsPC, dValsPC, cValsMN,
-  dValsMN, cValsME, dValsME, GEFS_Files = "", GEFS_Directory,
-  station = "", season)
+phenologyForecast(
+  forecastType,
+  forecastLength = 14,
+  siteName,
+  URLs,
+  lat,
+  long,
+  dataDirectory,
+  startDate,
+  endDate,
+  cValsPC,
+  dValsPC,
+  cValsMN,
+  dValsMN,
+  cValsME,
+  dValsME,
+  GEFS_Files = "",
+  GEFS_Directory,
+  station = "",
+  season = "spring"
+)
 }
 \arguments{
 \item{forecastType}{The type of forecast (randomWalk or logistic)}
