@@ -8,18 +8,29 @@
 ##' @param ID A identification string to paste with the message of non-convergence (optional)
 ##' @param effSize The desired necessary effective sample size (default is 5000 samples)
 ##' @param partialFile The desired name to save partial output (non-converged) to
+##' @param startFileName The file name of a previous jags output that you want to add to (used to combine new runs with previous samples) (Note that this variable must be "partialOutput")
 ##' @export
 ##' @import rjags
 ##' @import runjags
 ##' @import ecoforecastR
 ##' @import coda
-runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,iterSize =5000,ID="",effSize=5000,partialFile=FALSE){
+runForecastIter <- function(j.model,variableNames,maxIter=10**9,baseNum=5000,iterSize =5000,ID="",effSize=5000,partialFile=FALSE,startFileName=FALSE){
+  if(typeof(startFileName)==typeof(FALSE)){
   jags.out   <- coda.samples (model = j.model,
                               variable.names = variableNames,
                               n.iter = baseNum)
 
-  ###Check for Model Convergence and keep adding to MCMC chains if it hasn't converged and/or effective sample size is not large enough
   numb <- baseNum #The current number of iterations at this step
+  }else{
+    load(startFileName)
+    #loaded as partialOutput
+    baseNum <- nrow(partialOutput)
+    partialOutputCombined <- cbind(as.matrix(partialOutput$params),as.matrix(partialOutput$predict,chains=TRUE))
+    jags.out <- ecoforecastR::mat2mcmc.list(partialOutputCombined)
+  }
+
+  ###Check for Model Convergence and keep adding to MCMC chains if it hasn't converged and/or effective sample size is not large enough
+
   continue <- TRUE #Flag that signals that the coda.samples should be rerun to produce more iterations because the model hasn't converged yet/doesnt have a large enough sample size
   GBR.bad <- TRUE #Flag that signals that it hasn't converged yet
   burnin <- 0
