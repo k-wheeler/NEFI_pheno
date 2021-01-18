@@ -1,0 +1,152 @@
+---
+title: "GOES Phenology Paper Code"
+author: "Kathryn Wheeler (kiwheel@bu.edu)"
+date: "1/15/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this document we lay out the locations for the R scripts used to run the analysis in the paper ```K.I. Wheeler, M.C. Dietze. "Improving the monitoring of deciduous broadleaf phenology using the Geostationary Operational Environmental Satellite (GOES) 16 and 17." In review at Biogeosciences. ``` R version 3.4.1 was used for the analysis. 
+
+In order to estimate daily NDVI values from GOES data, we relied on the methodology presented in the paper: ```Wheeler, K.I.; Dietze, M.C. A Statistical Model for Estimating Midday NDVI from the Geostationary Operational Environmental Satellite (GOES) 16 and 17. Remote Sens. 2019, 11, 2507. ``` 
+
+The daily GOES data estimation methodology was performed using the R package GOESDiurnalNDVI (available at: ). Additional general functions for this manuscript are provided in the package PhenologyBayesModeling (available at: ). 
+
+Note: The analysis in the manuscript was not done by running this one document as it required hundreds of hours of computation time. This document is provided as an outline for where the different parts of the cleaned-up code are located. I attempted to check to make sure most of the cleaned up code will still run, but there are potentially still some inconsistencies that arose when organizing and combining the code into this one document. 
+
+#Step 1: Define file locations and names
+```{r}
+#setwd("GOES_PhenologyPaper_Code/")
+savePath <- paste("GOES_PhenologyPaper_Data/",sep="")
+siteData <- read.csv(paste(savePath,"/GOES_Paper_Sites_FINAL.csv",sep=""),header=TRUE)
+GOESdataPath <- paste(savePath,"GOES_Data/",sep="")
+calculatedNDVIGOESpath <- paste(savePath,"GOES_NDVI_DiurnalData/",sep="")
+DiurnalFitSavePath <- paste(savePath,"GOES_DiurnalFits/",sep="")
+
+#File naming conventions (used and assumed in R scripts):
+##Downloaded MODIS Metric(NDVI/EVI): paste(siteName,"_",metric,"_MOD13Q1_250m_16_days_",metric,"_",startDate,endDate,".csv",sep="")
+##Downloaded MODIS DWF: paste(siteName,"_","rel","_MOD13Q1_250m_16_days_pixel_reliability_",startDate,endDate,".csv",sep="")
+##GOES NDVI calculation: paste(calculatedNDVIGOESpath,"GOES_NDVI_Diurnal",siteName,"_",year,day,".csv",sep="")
+##GOES diurnal fit: paste(DiurnalFitSavePath,siteName,"_",year,day,"_varBurn.RData",sep="")
+##GOES count data (used for filtering): paste(savePath,siteName,"_",yr,"_counts.RData",sep="")
+##GOES filtered and combined daily estimates: paste(savePath,siteName,"_",yr,"_diurnalFitDataFiltered.RData",sep="") #OLD: paste(siteName,"_",yr,"_diurnalFitDataModelFilterFilter.RData",sep="")
+
+##GOES phenology fit: paste(siteName,"_",startDate,"_",endDate,"_GOES_varBurn.RData",sep="") #OLD: paste(siteName,"_",yr,"_GOES_NDVI_overallFilter_varBurn.RData",sep="")
+##MODIS NDVI phenology fit: paste(siteName,"_",startDate,"_",endDate,"_MODIS_NDVI_varBurn.RData",sep="") #OLD: paste(siteName,"_",startDate,"_",endDate,"_MODIS_DQF_NDVI_EIV_varBurn.RData",sep="")
+##MODIS EVI phenology fit: paste(siteName,"_",startDate,"_",endDate,"_MODIS_EVI_varBurn.RData",sep="") #OLD: paste(siteName,"_",startDate,"_",endDate,"_MODIS_DQF_EVI_EIV_varBurn.RData",sep="")
+##PhenoCam phenology fit: paste(siteName,"_",startDate,"_",endDate,"_PC_varBurn.RData",sep="") #OLD: paste(siteName,"_",startDate,"_",endDate,"_PC_EIV_varBurn_SF.RData",sep="")
+
+##Bias: paste("PhenologyBias_",name,".csv",sep="")
+```
+
+##Step 2: Install and load libraries
+```{r}
+library(devtools)
+# install_github("k-wheeler/NEFI_pheno/GOESDiurnalNDVI")
+# install_github("k-wheeler/NEFI_pheno/PhenologyBayesModeling")
+# install_github(**********/ecoforecastR)
+
+library("PhenologyBayesModeling")
+library("GOESDiurnalNDVI")
+library("rjags")
+library("runjags")
+library("MODISTools")
+library("ncdf4")
+library("plyr")
+library("suncalc")
+library("ncdf4")
+
+##Used for Plotting:
+library("ecoforecastR")
+library("grDevices")
+# library("doParallel") #Optional for running in parallel on different cores
+```
+
+#Step 3: Requesting the data from NOAA's Comprehensive Large Array-Data Stewardship System (CLASS)
+3.1 Go to the website and create an account: https://www.avl.class.noaa.gov/saa/products/search?datatype_family=GRABIPRD
+
+3.1 Fill in the desired fields (note: you can only request so much data at a time)
+3.1.1 Radiance channel 2 (red): 
+      Datatype: "ABI L1b Radiances Data"
+      Satellite: G16 (This package has been specifically built for G16 satellite data and has yet to be tested on G17)
+      ABI Mode: M3 (though it depends on which is the desired ABI mode; as of April 2019 the default is now M6)
+      Product Type: Radiances
+      ABI Channel: CO2
+      ABI Scan Sector: CONUS (This package has been specifically built for the continental US and has yet to be tested on other scan sectors)
+      
+3.1.2 Radiance channel 3 (near-infrared): 
+      Datatype: "ABI L1b Radiances Data"
+      Satellite: G16 (This package has been specifically built for G16 satellite data and has yet to be tested on G17)
+      ABI Mode: M3 (See note above)
+      Product Type: Radiances
+      ABI Channel: CO3
+      ABI Scan Sector: CONUS (This package has been specifically built for the continental US and has yet to be tested on other scan sectors)
+      
+3.1.3 Clear Sky Mask (ACM): 
+      Datatype: "ABI L2+ Cloud and Moisture Imagery Data""
+      Satellite: G16 (This package has been specifically built for G16 satellite data and has yet to be tested on G17)
+      ABI Mode: M3 (See note above)
+      Product Type: Clear Sky Mask
+      ABI Channel: <Leave blank>
+      ABI Scan Sector: CONUS (This package has been specifically built for the continental US and has yet to be tested on other scan sectors)
+
+#Step 4: Wait for confirmation email and ftp and copy the data into GOES data directory
+
+#Step 5: Calculate NDVI from GOES radiances
+```{r,eval=FALSE}
+source("calculateDiurnalGOES_NDVI.R")
+calculateDiurnalGOES_NDVI(savePath=savePath,allSiteData=siteData,GOESdataPath=GOESdataPath,calculatedNDVIGOESpath=calculatedNDVIGOESpath,TZ=5,year=2018,TZ_name="America/New_York") #Saves NDVI values for each day/site in individual files
+calculateDiurnalGOES_NDVI(savePath=savePath,allSiteData=siteData,GOESdataPath=GOESdataPath,calculatedNDVIGOESpath=calculatedNDVIGOESpath,TZ=6,year=2018,TZ_name="America/Chicago")
+calculateDiurnalGOES_NDVI(savePath=savePath,allSiteData=siteData,GOESdataPath=GOESdataPath,calculatedNDVIGOESpath=calculatedNDVIGOESpath,TZ=5,year=2019,TZ_name="America/New_York")
+calculateDiurnalGOES_NDVI(savePath=savePatg,allSiteData=siteData,GOESdataPath=GOESdataPath,calculatedNDVIGOESpath=calculatedNDVIGOESpath,TZ=6,year=2019,TZ_name="America/Chicago")
+```
+
+#Step 6: Fit Diurnal Curves to GOES Data
+```{r,eval=FALSE}
+source('createAllDiurnalFits.R')
+createAllDiurnalFits(calculatedNDVIGOESpath=calculatedNDVIGOESpath,DiurnalFitSavePath=DiurnalFitSavePath,
+                     siteData=siteData) #Saves rjags MCMC output for diurnal fit runs in location specified in function
+
+source('plotDiurnalDataWithFits.R') #Optional check to plot the diurnal fits with the calculated NDVI data
+plotDiurnalDataWithFits(calculatedNDVIGOESpath=calculatedNDVIGOESpath,
+                        DiurnalFitSavePath=DiurnalFitSavePath,siteName="harvard",yr=2019) #Example for one year at one site
+
+source('createFilteredGOESData.R')#createOverallMode.R
+createFilteredGOESData(DiurnalFitSavePath=DiurnalFitSavePath,siteData=siteData,savePath=savePath,calculatedNDVIGOESpath=calculatedNDVIGOESpath,year=2018,startDate=as.Date("2018-01-01"),endDate=as.Date("2018-12-31"))
+createFilteredGOESData(DiurnalFitSavePath=DiurnalFitSavePath,siteData=siteData,savePath=savePath,calculatedNDVIGOESpath=calculatedNDVIGOESpath,year=2019,startDate=as.Date("2019-01-01"),endDate=as.Date("2019-12-31"))
+
+```
+
+#Step 7: Download PhenoCam and MODIS data and create all yearly phenology fits
+```{r,eval=FALSE}
+#source('mainComparingPhenoRS.R')
+source('createAllPhenoFits.R')
+createAllPhenoFits(startDate=as.Date("2018-01-01"),endDate=as.Date("2018-12-31"),siteData=siteData)
+createAllPhenoFits(startDate=as.Date("2019-01-01"),endDate=as.Date("2019-12-31"),siteData=siteData)
+
+source('plotAllPhenologyFits.R')
+plotAllPhenologyFits(year=2018,startDate=as.Date("2018-01-01"),endDate=as.Date("2018-12-31"),siteData=siteData)
+plotAllPhenologyFits(year=2019,startDate=as.Date("2019-01-01"),endDate=as.Date("2019-12-31"),siteData=siteData)
+
+```
+
+#Step 8: Analyses
+```{r,eval=FALSE}
+source('calculateCompareStats.R')
+calculateCompareStats(siteData=siteData)
+```
+
+#Step 9: Figures
+  Final figures and tables were created with processing outside of the R code given
+```{r,eval=FALSE}
+source('GOES_PhenologyPaper_Figures.R')
+createFigure1(siteData = siteData)
+createFigure2()
+createFigure3(siteData=siteData)
+createFigure4()
+createFigure5() #Note: Won't run by itself because it uses file options created in calculateCompareStats()
+createFigure6()
+```

@@ -1,0 +1,16 @@
+siteName,Lat,Long,URL,PFT,TZ
+harvard,42.5378,-72.1715,http://phenocam.sr.unh.edu/data/archive/harvard/ROI/harvard_DB_0001_1day.csv,DB,5
+hubbardbrooksfws,43.9269,-71.7407,https://phenocam.sr.unh.edu/data/archive/hubbardbrooksfws/ROI/hubbardbrooksfws_DB_3000_1day.csv,DB,5
+umichbiological,45.55984,-84.71382,http://phenocam.sr.unh.edu/data/archive/umichbiological/ROI/umichbiological_DB_2000_1day.csv,DB,5
+coweeta,35.05959,-83.42798,http://phenocam.sr.unh.edu/data/archive/coweeta/ROI/coweeta_DB_2000_1day.csv,DB,5
+bartlettir,44.0646,-71.2881,http://phenocam.sr.unh.edu/data/archive/bartlettir/ROI/bartlettir_DB_2000_1day.csv,DB,5
+missouriozarks,38.7441,-92.2,https://phenocam.sr.unh.edu/data/archive/missouriozarks/ROI/missouriozarks_DB_1000_1day.csv,DB,6
+morganmonroe,39.3231,-86.4131,https://phenocam.sr.unh.edu/data/archive/morganmonroe/ROI/morganmonroe_DB_1000_1day.csv,DB,5
+russellsage,32.457,-91.9743,https://phenocam.sr.unh.edu/data/archive/russellsage/ROI/russellsage_DB_1000_1day.csv,DB,6
+willowcreek,45.805986,-90.0791,https://phenocam.sr.unh.edu/data/archive/willowcreek/ROI/willowcreek_DB_1000_1day.csv,DB,6
+bullshoals,36.5628,-93.0666,https://phenocam.sr.unh.edu/data/archive/bullshoals/ROI/bullshoals_DB_1000_1day.csv,DB,6
+dukehw,35.9736,-79.1004,https://phenocam.sr.unh.edu/data/archive/dukehw/ROI/dukehw_DB_1000_1day.csv,DB,5
+greenridge1,39.6905,-78.4067,https://phenocam.sr.unh.edu/data/archive/greenridge1/ROI/greenridge1_DB_1000_1day.csv,DB,5
+shenandoah,38.6167,-78.35,https://phenocam.sr.unh.edu/data/archive/shenandoah/ROI/shenandoah_DB_1000_1day.csv,DB,5
+marcell,47.5139,-93.46925,https://phenocam.sr.unh.edu/data/archive/marcell/ROI/marcell_DB_1000_1day.csv,DB,5
+shiningrock,35.390159,-82.774967,https://phenocam.sr.unh.edu/data/archive/shiningrock/ROI/shiningrock_DB_3000_1day.csv,DB,5
