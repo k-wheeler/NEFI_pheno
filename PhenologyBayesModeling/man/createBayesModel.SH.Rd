@@ -4,8 +4,16 @@
 \alias{createBayesModel.SH}
 \title{Create a Bayes Model for a shrubland site}
 \usage{
-createBayesModel.SH(dataSource, siteName = "", URL = "", startDay, endDay,
-  lat, long, TZ = 5)
+createBayesModel.SH(
+  dataSource,
+  siteName = "",
+  URL = "",
+  startDay,
+  endDay,
+  lat,
+  long,
+  TZ = 5
+)
 }
 \arguments{
 \item{dataSource}{data source (GOES.NDVI, MODIS.NDVI, PC.GCC)}

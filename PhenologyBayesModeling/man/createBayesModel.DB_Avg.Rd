@@ -4,8 +4,17 @@
 \alias{createBayesModel.DB_Avg}
 \title{Create a Bayes Model for a deciduous broadleaf site using the window average GOES values}
 \usage{
-createBayesModel.DB_Avg(dataSource = "GOES.NDVI", siteName = "", URL = "",
-  niter = 1e+05, startDay, endDay, lat, long, TZ = 5)
+createBayesModel.DB_Avg(
+  dataSource = "GOES.NDVI",
+  siteName = "",
+  URL = "",
+  niter = 1e+05,
+  startDay,
+  endDay,
+  lat,
+  long,
+  TZ = 5
+)
 }
 \arguments{
 \item{dataSource}{data source (GOES.NDVI, MODIS.NDVI, PC.GCC)}

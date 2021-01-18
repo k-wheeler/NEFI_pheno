@@ -4,8 +4,16 @@
 \alias{runMCMC_Model}
 \title{Continues to run MCMC until convergence and large enough effective sample size}
 \usage{
-runMCMC_Model(j.model, variableNames, maxIter = 1e+09, baseNum = 80000,
-  iterSize = 40000, maxGBR = 10, ID = "", sampleCutoff = 5000)
+runMCMC_Model(
+  j.model,
+  variableNames,
+  maxIter = 1e+09,
+  baseNum = 80000,
+  iterSize = 40000,
+  maxGBR = 10,
+  ID = "",
+  sampleCutoff = 5000
+)
 }
 \arguments{
 \item{j.model}{The jags model}

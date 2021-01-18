@@ -4,8 +4,18 @@
 \alias{createDBModel_ALL}
 \title{Create a Bayes Model for a deciduous broadleaf site using all data sources}
 \usage{
-createDBModel_ALL(siteName = "", URL = "", niter = 1e+05, startDay,
-  endDay, lat, long, TZ = 5, seasonOrder = "FS", dataDirectory)
+createDBModel_ALL(
+  siteName = "",
+  URL = "",
+  niter = 1e+05,
+  startDay,
+  endDay,
+  lat,
+  long,
+  TZ = 5,
+  seasonOrder = "FS",
+  dataDirectory
+)
 }
 \arguments{
 \item{siteName}{Site Name}

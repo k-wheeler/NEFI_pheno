@@ -3,7 +3,6 @@
 %   R/createModelDB_springFall.R
 \name{createModelDB_springFall}
 \alias{createModelDB_springFall}
-\alias{createModelDB_springFall}
 \title{Create a spring Bayes Model for a deciduous broadleaf site}
 \usage{
 createModelDB_springFall(data, dataSource)
@@ -11,10 +10,6 @@ createModelDB_springFall(data, dataSource)
 createModelDB_springFall(data, dataSource)
 }
 \arguments{
-\item{data}{Data in the form of list that has data$y, data$x, and data$n defined}
-
-\item{dataSource}{data source (GOES.NDVI, MODIS.NDVI, PC.GCC, MODIS.EVI)}
-
 \item{data}{Data in the form of list that has data$y, data$x, and data$n defined}
 
 \item{dataSource}{data source (GOES.NDVI, MODIS.NDVI, PC.GCC, MODIS.EVI)}

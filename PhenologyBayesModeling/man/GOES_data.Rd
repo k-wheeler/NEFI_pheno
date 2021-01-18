@@ -4,8 +4,16 @@
 \alias{GOES_data}
 \title{For GOES NDVI data, construct the data object for input into MCMC}
 \usage{
-GOES_data(siteName, lat, long, startDay, endDay, TZ, window = FALSE,
-  maxValue = FALSE)
+GOES_data(
+  siteName,
+  lat,
+  long,
+  startDay,
+  endDay,
+  TZ,
+  window = FALSE,
+  maxValue = FALSE
+)
 }
 \arguments{
 \item{siteName}{Site Name}

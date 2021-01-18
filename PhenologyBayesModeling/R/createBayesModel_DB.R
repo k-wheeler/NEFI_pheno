@@ -8,7 +8,7 @@
 ##' @param startDate The date to start the model
 ##' @param endDate The date to end the model
 ##' @param niter the maximum number of iterations you want to give the model to converge within
-##' @param seasonOrder
+##' @param seasonOrder "FS" or "SF"
 ##' @import rjags
 ##' @import runjags
 ##' @export

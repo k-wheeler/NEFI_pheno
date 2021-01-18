@@ -4,8 +4,16 @@
 \alias{createBayesModel.SH_Avg}
 \title{Create a Bayes Model for a shrubland site based on the window average data}
 \usage{
-createBayesModel.SH_Avg(dataSource, siteName = "", URL = "", startDay,
-  endDay, lat, long, TZ = 5)
+createBayesModel.SH_Avg(
+  dataSource,
+  siteName = "",
+  URL = "",
+  startDay,
+  endDay,
+  lat,
+  long,
+  TZ = 5
+)
 }
 \arguments{
 \item{dataSource}{data source (GOES.NDVI, MODIS.NDVI, PC.GCC)}

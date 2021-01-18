@@ -4,7 +4,7 @@
 \alias{PC_data}
 \title{For PhenoCam data, construct the data object for input into MCMC}
 \usage{
-PC_data(siteName, URL, startDate, endDate, seasonOrder = "AS")
+PC_data(siteName, URL, startDate, endDate, seasonOrder = "AS", metric = "GCC")
 }
 \arguments{
 \item{siteName}{The site name}
@@ -14,6 +14,8 @@ PC_data(siteName, URL, startDate, endDate, seasonOrder = "AS")
 \item{startDate}{The start date}
 
 \item{endDate}{The end date}
+
+\item{metric}{The desired metric ("GCC" or "RCC")}
 }
 \description{
 For PhenoCam data, construct the data object for input into MCMC

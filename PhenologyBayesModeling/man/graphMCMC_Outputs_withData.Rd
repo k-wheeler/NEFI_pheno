@@ -4,8 +4,15 @@
 \alias{graphMCMC_Outputs_withData}
 \title{Plot the MCMC outputs with data (rough and not generalized)}
 \usage{
-graphMCMC_Outputs_withData(outputFileName, siteFileName, iseq, startDaySH,
-  endDaySH, startDayDB, endDayDB)
+graphMCMC_Outputs_withData(
+  outputFileName,
+  siteFileName,
+  iseq,
+  startDaySH,
+  endDaySH,
+  startDayDB,
+  endDayDB
+)
 }
 \arguments{
 \item{outputFileName}{The filename for the graphs}

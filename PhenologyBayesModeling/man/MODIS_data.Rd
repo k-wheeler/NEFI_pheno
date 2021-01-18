@@ -4,8 +4,19 @@
 \alias{MODIS_data}
 \title{For MODIS EVI data, construct the data object for input into MCMC}
 \usage{
-MODIS_data(siteName, lat, long, startDate = "", endDate = "", metric,
-  startDay = FALSE, endDay = FALSE, lastYear = 2018, dataDirectory = "")
+MODIS_data(
+  siteName,
+  lat,
+  long,
+  startDate = "",
+  endDate = "",
+  metric,
+  startDay = FALSE,
+  endDay = FALSE,
+  seasonOrder = "FS",
+  lastYear = 2018,
+  dataDirectory = ""
+)
 }
 \arguments{
 \item{siteName}{Site Name}

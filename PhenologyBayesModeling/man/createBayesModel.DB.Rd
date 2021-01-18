@@ -4,9 +4,20 @@
 \alias{createBayesModel.DB}
 \title{Create a Bayes Model for a deciduous broadleaf site}
 \usage{
-createBayesModel.DB(dataSource, siteName = "", URL = "", niter = 1e+05,
-  startDay, endDay, lat, long, TZ = 5, PFT = "DB", maxValue = FALSE,
-  seasonOrder = "FS")
+createBayesModel.DB(
+  dataSource,
+  siteName = "",
+  URL = "",
+  niter = 1e+05,
+  startDate,
+  endDate,
+  lat,
+  long,
+  TZ = 5,
+  PFT = "DB",
+  maxValue = FALSE,
+  seasonOrder = "FS"
+)
 }
 \arguments{
 \item{dataSource}{data source (GOES.NDVI, MODIS.NDVI, PC.GCC)}
@@ -17,13 +28,15 @@ createBayesModel.DB(dataSource, siteName = "", URL = "", niter = 1e+05,
 
 \item{niter}{the maximum number of iterations you want to give the model to converge within}
 
-\item{startDay}{the day of year since 2017-01-01 to start the model}
+\item{startDate}{The date to start the model}
 
-\item{endDay}{the day of year since 2017-01-01 to end the model}
+\item{endDate}{The date to end the model}
 
 \item{lat}{latitude of site in degrees}
 
 \item{long}{longitude of site in degrees}
+
+\item{seasonOrder}{"FS" or "SF"}
 }
 \description{
 Create a Bayes Model for a deciduous broadleaf site

@@ -4,7 +4,7 @@
 \alias{createBayesModel.DB_Overall}
 \title{Create a Bayes Model for a deciduous broadleaf site based on the diurnal-fit NDVI data}
 \usage{
-createBayesModel.DB_Overall(data, niter = 1e+05)
+createBayesModel.DB_Overall(data, niter = 1e+05, seasonOrder = "FS")
 }
 \arguments{
 \item{niter}{the maximum number of iterations you want to give the model to converge within}
