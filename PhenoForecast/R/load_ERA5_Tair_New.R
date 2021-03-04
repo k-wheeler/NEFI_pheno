@@ -33,6 +33,8 @@ load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5data
 
     ##Convert times to actual times
     times <- as.POSIXct(timeHours*3600, origin = "1900-01-01",tz = "GMT")
+    print(length(times))
+    print(times[1])
     attributes(times)$tzone <- TZ_name
     #Daily average
     allDates <- lubridate::date(times)
