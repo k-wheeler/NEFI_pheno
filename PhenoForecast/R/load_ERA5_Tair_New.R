@@ -17,7 +17,7 @@ load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5data
       downloadERA5Calibration(var="ensemble_members") ##***Need to add this function***
       calFileName <- dir(path=ERA5dataFolder,pattern=paste(endDate,"_era5AirTemperatureMembers",sep=""))
     }
-
+    print(calFileName)
     #Load data
     ensembleFile <- nc_open(paste(ERA5dataFolder,calFileName,sep=""))
 
