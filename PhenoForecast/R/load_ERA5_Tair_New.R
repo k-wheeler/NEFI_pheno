@@ -22,7 +22,9 @@ load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5data
     ensembleFile <- nc_open(paste(ERA5dataFolder,calFileName,sep=""))
 
     Tairs <- ncvar_get(ensembleFile)-273 #Convert from Kelvin to C
-
+    if(endDate==as.Date("2020-12-31")){
+      Tairs <- Tairs[,1,]
+    }
 
     timeHours <- ensembleFile$dim$time$vals #Hours since 1900-01-01 00:00:00.0
 
@@ -33,12 +35,6 @@ load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5data
     allDates <- lubridate::date(times)
     dates <- seq(lubridate::date(times[5]),lubridate::date(times[length(times)]),"day")
     TairsDaily <- matrix(nrow=10,ncol=length(dates))
-    print(length(dates))
-    print(dim(Tairs))
-    #print(colnames(Tairs))
-    print(Tairs[1:5,1,1:5])
-    print("Break")
-    print(Tairs[1:5,2,1:5])
     for(d in 1:length(dates)){
       subTairs <- Tairs[,allDates==dates[d]]
       TairsDaily[,d] <- apply(subTairs,MARGIN=1,mean)
