@@ -17,7 +17,7 @@ load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5data
       downloadERA5Calibration(var="ensemble_members") ##***Need to add this function***
       calFileName <- dir(path=ERA5dataFolder,pattern=paste(endDate,"_era5AirTemperatureMembers",sep=""))
     }
-    print(calFileName)
+    #print(calFileName)
     #Load data
     ensembleFile <- nc_open(paste(ERA5dataFolder,calFileName,sep=""))
 
@@ -33,7 +33,8 @@ load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5data
     allDates <- lubridate::date(times)
     dates <- seq(lubridate::date(times[5]),lubridate::date(times[length(times)]),"day")
     TairsDaily <- matrix(nrow=10,ncol=length(dates))
-
+    print(length(dates))
+    print(dim(Tairs))
     for(d in 1:length(dates)){
       subTairs <- Tairs[,allDates==dates[d]]
       TairsDaily[,d] <- apply(subTairs,MARGIN=1,mean)
