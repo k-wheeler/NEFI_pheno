@@ -36,8 +36,9 @@ load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5data
     print(length(dates))
     print(dim(Tairs))
     #print(colnames(Tairs))
-    print(head(Tairs[,1,]))
-    print(head(Tairs[,2,]))
+    print(Tairs[1:5,1,1:5])
+    print("Break")
+    print(Tairs[1:5,2,1:5])
     for(d in 1:length(dates)){
       subTairs <- Tairs[,allDates==dates[d]]
       TairsDaily[,d] <- apply(subTairs,MARGIN=1,mean)
