@@ -23,7 +23,7 @@ load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5data
 
     Tairs <- ncvar_get(ensembleFile)-273 #Convert from Kelvin to C
     if(endDate==as.Date("2020-12-31")){
-      Tairs <- Tairs[,1,]
+      Tairs <- Tairs[,2,]
     }
 
     timeHours <- ensembleFile$dim$time$vals #Hours since 1900-01-01 00:00:00.0
