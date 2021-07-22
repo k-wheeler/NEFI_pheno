@@ -9,7 +9,7 @@
 ##' @import xts
 ##' @import ncdf4
 ##' @export
-load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5dataFolder,TZ_name="America/New_York") {
+load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5dataFolder,TZ_name="America/New_York",stacked=TRUE) {
   if(calDatesT){ #Need to include calibration data
     calFileName <- dir(path=ERA5dataFolder,pattern=paste(endDate,"_era5AirTemperatureMembers",sep=""))
 
@@ -23,7 +23,7 @@ load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5data
 
     Tairs <- ncvar_get(ensembleFile)-273 #Convert from Kelvin to C
 
-    if(endDate==as.Date("2020-12-31")){
+    if(endDate==as.Date("2020-12-31") && stacked){
       Tairs <- Tairs[,1,]
     }
 
