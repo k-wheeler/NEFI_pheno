@@ -6,6 +6,7 @@
 ##' @param calDatesT
 ##' @param ERA5dataFolder
 ##' @param TZ_name
+##' @param stacked
 ##' @import xts
 ##' @import ncdf4
 ##' @export
