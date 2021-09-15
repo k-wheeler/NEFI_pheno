@@ -1,19 +1,21 @@
 library("reticulate")
 library(doParallel)
-n.cores <- 16
+n.cores <- 20
 
 #register the cores.
 registerDoParallel(cores=n.cores)
 setwd("/projectnb/dietzelab/kiwheel/ERA5")
-siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
-
+#siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
+siteData <- read.csv("/projectnb/dietzelab/kiwheel/NEFI_pheno/EFI_ForecastChallenge/phenologyForecastSites2.csv",header=TRUE)
+#siteData <- siteData[1,]
 cdsapi <- reticulate::import("cdsapi")
 cclient <- cdsapi$Client()
 
 # all_products <- c("reanalysis", "ensemble_members",
 #                   "ensemble_mean", "ensemble_spread")
 
-end_date=as.Date("2019-12-31")
+#end_date=as.Date("2019-12-31")
+end_date=as.Date("2020-12-31")
 
 variables <- tibble::tribble(
   ~cf_name, ~units, ~api_name, ~ncdf_name,
@@ -27,20 +29,22 @@ variables <- tibble::tribble(
   "surface_downwelling_longwave_flux_in_air", "W/m2", "surface_thermal_radiation_downwards", NA_character_
 )
 
-var <- variables[["api_name"]][[1]]
+var <- variables[["api_name"]][[4]]
 foreach(i=2:nrow(siteData)) %dopar% {
 #for(i in 1:nrow(siteData)){
+#i <- 1
   siteName <- as.character(siteData$siteName[i])
   print(siteName)
   outfolder <- paste("Data/",siteName,sep="")
-  dir.create(outfolder)
+  # dir.create(outfolder)
+  # print(paste("Created Folder:",outfolder))
   lat <- as.numeric(siteData$Lat[i])
   long <- as.numeric(siteData$Long[i])
   start_date <- as.Date(siteData$startDate[i])
   
   area <- rep(round(c(lat, long) * 4) / 4, 2)
   ##Mean
-  fname <- file.path(outfolder, paste(siteName,"_",start_date,"_",end_date,"_era5AirTemperatureMembers.nc", sep =""))
+  fname <- file.path(outfolder, paste(siteName,"_",start_date,"_",end_date,"_era5PrecipitationMembers.nc", sep =""))
 
   do_next <- tryCatch({
     cclient$retrieve(
