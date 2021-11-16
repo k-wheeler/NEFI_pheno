@@ -81,7 +81,7 @@ s <- 1
   ERA5dataFolder <- paste("/projectnb/dietzelab/kiwheel/ERA5/Data/",siteName,"/",sep="")
 
   #for(d in 1:length(hindcastDays)){
-  foreach(d=1:length(hindcastDays)) %dopar%
+  foreach(d=1:length(hindcastDays)) %dopar%{
     hindcastEnd <- hindcastDays[d]
     outputFileName <- paste0("SOBOL_Hindcasts/",siteName,"NEFI_SOBOL_Hindcast_",hindcastEnd,"_varBurn.RData")
     if(!file.exists(outputFileName)){
