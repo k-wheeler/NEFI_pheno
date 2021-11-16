@@ -10,7 +10,8 @@ load_ERA5_Tair_New(
   endDate = "",
   calDatesT = TRUE,
   ERA5dataFolder,
-  TZ_name = "America/New_York"
+  TZ_name = "America/New_York",
+  stacked = TRUE
 )
 }
 \arguments{

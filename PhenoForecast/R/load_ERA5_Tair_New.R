@@ -10,10 +10,11 @@
 ##' @import xts
 ##' @import ncdf4
 ##' @export
-load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5dataFolder,TZ_name="America/New_York",stacked=TRUE) {
+load_ERA5_Tair_New <- function(lat="",long="",endDate="",calDatesT=TRUE,ERA5dataFolder,TZ_name="America/New_York",stacked=TRUE,calFileName="") {
   if(calDatesT){ #Need to include calibration data
-    calFileName <- dir(path=ERA5dataFolder,pattern=paste(endDate,"_era5AirTemperatureMembers",sep=""))
-
+    if(nchar(calFileName)==0){
+      calFileName <- dir(path=ERA5dataFolder,pattern=paste(endDate,"_era5AirTemperatureMembers",sep=""))
+    }
     if(length(calFileName)==0){
       downloadERA5Calibration(var="ensemble_members") ##***Need to add this function***
       calFileName <- dir(path=ERA5dataFolder,pattern=paste(endDate,"_era5AirTemperatureMembers",sep=""))
