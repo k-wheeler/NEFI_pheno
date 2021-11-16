@@ -7,7 +7,7 @@ library(suncalc)
 library(rnoaa)
 library(doParallel)
 
-n.cores <- 16
+n.cores <- 28
 registerDoParallel(cores=n.cores)
 
 siteData <- read.csv("PhenologyForecastData/phenologyForecastSites.csv",header=TRUE)
