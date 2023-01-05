@@ -49,7 +49,7 @@ In this document, we will lay out the general steps to fit the model to one exam
       ABI Scan Sector: CONUS (This package has been specifically built for the continental US and has yet to be tested on other scan sectors)
       
 1.1.3 Clear Sky Mask (ACM): 
-      Datatype: "ABI L2+ Cloud and Moisture Imagery Data""
+      Datatype: "ABI L2+ Product Data (Select Product Type)"
       Satellite: G16 (This package has been specifically built for G16 satellite data and has yet to be tested on G17)
       ABI Mode: M3 (See note above)
       Product Type: Clear Sky Mask
