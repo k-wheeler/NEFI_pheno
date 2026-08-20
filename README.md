@@ -58,7 +58,7 @@ Raw GOES ABI files (~30 TB), fitted model objects, and forecast outputs are not 
 
 ## Note
 
-This is archival research code. For current work, see [chlorophyllCycling](https://github.com/k-wheeler/chlorophyllCycling) and [PNW_LULC](https://github.com/k-wheeler/PNW_LULC).
+This is archival research code.
 
 ## License
 
