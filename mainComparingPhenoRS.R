@@ -15,7 +15,7 @@ library(plyr)
 library(doParallel)
 
 #siteData <- read.csv("GOES_Paper_Sites.csv",header=TRUE)
-siteData <- read.csv("PhenologyForecastData/GOES_Paper_Sites_FINAL.csv",header=TRUE)
+siteData <- read.csv("GOES_PhenologyPaper_Code/GOES_PhenologyPaper_Data/GOES_Paper_Sites_FINAL.csv",header=TRUE)
 
 
 #detect cores.
@@ -73,3 +73,13 @@ createAllPhenoFits <- function(startDate,endDate,siteData){
 }
 createAllPhenoFits(startDate=as.Date("2018-01-01"),endDate=as.Date("2018-12-31"),siteData=siteData)
 createAllPhenoFits(startDate=as.Date("2019-01-01"),endDate=as.Date("2019-12-31"),siteData=siteData)
+
+##**Should have 29 of each
+#fileName <- paste(siteName,"_",startDate,"_",endDate,"_PC_EIV_varBurn_SF.RData",sep="") Done
+#fileName <- paste(siteName,"_",startDate,"_",endDate,"_MODIS_DQF_NDVI_EIV_varBurn.RData",sep="") #Need russellSage
+#fileName <- paste(siteName,"_",startDate,"_",endDate,"_MODIS_DQF_EVI_EIV_varBurn.RData",sep="") Done
+#varBurnFileName <- paste(siteName,"_",yr,"_GOES_NDVI_overall_varBurn.RData",sep="")
+
+
+#Want miss*GOES_diurnal*
+
